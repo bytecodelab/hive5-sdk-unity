@@ -60,6 +60,7 @@
      <Compile Include="Assets\SharpUnit\Unity3D_TestReporter.cs" />
      <Compile Include="Assets\SharpUnit\Unity3D_TestRunner.cs" />
      <Compile Include="Assets\Util.cs" />
+     <None Include="Assets\UnTest\license.txt" />
  <Reference Include="Library\ScriptAssemblies\Assembly-UnityScript-firstpass">
  <HintPath>Library\ScriptAssemblies\Assembly-UnityScript-firstpass.dll</HintPath>
  </Reference>

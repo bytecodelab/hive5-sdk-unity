@@ -60,6 +60,7 @@
      <Compile Include="Assets\SharpUnit\Unity3D_TestReporter.cs" />
      <Compile Include="Assets\SharpUnit\Unity3D_TestRunner.cs" />
      <Compile Include="Assets\Util.cs" />
+     <None Include="Assets\UnTest\license.txt" />
  <Reference Include="Assets\Plugins\LitJson">
  <HintPath>Assets\Plugins\LitJson.dll</HintPath>
  </Reference>

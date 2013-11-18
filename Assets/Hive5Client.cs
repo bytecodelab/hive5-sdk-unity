@@ -23,15 +23,18 @@ namespace Hive5
 		private const string httpHeaderAppKey = "X-APP-KEY";
 		private const string httpHeaderUuid = "X-AUTH-UUID";
 		private const string httpHeaderToken = "X-AUTH-TOKEN";
+
+		private MonoBehaviour monoBehaviour = null;
 		
-		public Hive5Client(string appKey, string uuid)
+		public Hive5Client(MonoBehaviour monoBehaviour, string appKey, string uuid)
 		{
+			this.monoBehaviour = monoBehaviour;
 			this.appKey = appKey;
 			this.uuid = uuid;
 		}
 		
-		public Hive5Client(string appKey, string uuid, string accessToken)
-			: this(appKey, uuid)
+		public Hive5Client(MonoBehaviour monoBehaviour, string appKey, string uuid, string accessToken)
+			: this(monoBehaviour, appKey, uuid)
 		{
 			this.accessToken = accessToken;
 		}
@@ -49,6 +52,11 @@ namespace Hive5
 			return result;
 		}
 
+//		public Dictionary<string, Item> GetItemsSync(string [] keys) 
+//		{
+//			monoBehaviour.StartCoroutine(GetItems);
+//		}
+
 		public IEnumerator GetItems(string[] keys, Action<Dictionary<string, Item>> result)
 		{
 			var path = "items";
@@ -59,19 +67,23 @@ namespace Hive5
 			{
 				parameters.Add("key", k);
 			}
-			
 
-			return httpGet(url, Headers(), parameters, x => {
-				var responseText = x;
-				var responseJson = JsonMapper.ToObject(responseText);
-				
-				result(Item.Load(responseJson["items"]));
+			var responseText = "";
+			return httpGet (url, Headers (), parameters, x => {
+				responseText = x;
+
 			});
+
+			Debug.Log("responseText: " + responseText);
+
+			var responseJson = JsonMapper.ToObject(responseText);
+			
+			result (Item.Load (responseJson ["items"]));
 
 		}
 		
 		
-		private IEnumerator httpGet(string url, Dictionary<string, string> headers, Dictionary<string, string> parameters, System.Action<string> result)
+		private IEnumerator httpGet(string url, Dictionary<string, string> headers, Dictionary<string, string> parameters, Action<string> result)
 		{
 			string queryString = "";
 			
@@ -97,12 +109,34 @@ namespace Hive5
 			if (queryString.Length > 0)
 				newUrl = url + "?" + queryString;
 			
+			#if VS_UNIT_TEST
+			var request = (HttpWebRequest)WebRequest.Create(newUrl);
+			request.Method = "GET";
+			
+			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+			
+			Stream responseStream = response.GetResponseStream();
+			StreamReader streamReader = new StreamReader(responseStream, Encoding.Default);
+			
+			return streamReader.ReadToEnd();
+			#else
 
 			WWW www = new WWW(newUrl);
-			
+
 			yield return www;
-			
+
+			Debug.Log(www.text);
 			result(www.text);
+
+			#endif
 		}
+		
+		#if VS_UNIT_TEST == false
+		private IEnumerator WaitForRequest(WWW www)
+		{
+			yield return www;
+		}
+		#endif
 	}
+	
 }

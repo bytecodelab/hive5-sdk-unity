@@ -25,7 +25,13 @@ public class Unity3D_TestRunner : MonoBehaviour
 
         // Example: Add tests to suite
         //suite.AddAll(new Dummy_Test());
-		suite.AddAll (new SampleTestCase ());
+//		suite.AddAll (new SampleTestCase ());
+		var result = false;
+		Hive5Client client = new Hive5Client (this, "a4b9dff4-3a9a-402b-bc2b-00d144ebacad", "0f607264fc6318a92b9e13c65db7cd3c", "e7c30d94-126a-440c-9ea6-40e5ebe37ae5");
+		StartCoroutine(client.GetItems(new string[] {"items."}, x => {
+			result = true;
+			Debug.Log("============End");
+		}));
 
 //		StartCoroutine(TestItems ());
 
@@ -37,29 +43,6 @@ public class Unity3D_TestRunner : MonoBehaviour
         reporter.LogResults(res);
 	}
 
-	IEnumerator TestItems() 
-	{
-		Hive5Client client = new Hive5Client ("a4b9dff4-3a9a-402b-bc2b-00d144ebacad", "0f607264fc6318a92b9e13c65db7cd3c", "e7c30d94-126a-440c-9ea6-40e5ebe37ae5");
-		
-//		Dictionary<string, Item> result = null;
-//		var a = 0;
-		return client.GetItems (new string[] { "items." }, x => Debug.Log("end"));
 
-//		return TestItemsImpl (x => Debug.Log(x));
-	}
-
-	IEnumerator TestItemsImpl(System.Action<string> result)
-	{
-		return TestItemsImpl2(x => result("good" + x));
-
-	}
-
-	IEnumerator TestItemsImpl2(System.Action<string> result)
-	{
-		WWW www = new WWW ("http://google.com");
-		yield return www;
-		
-		result (www.text);
-	}
 
 }

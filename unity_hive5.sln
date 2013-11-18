@@ -5,6 +5,8 @@ Project("{BF45A30E-55D7-323D-59CB-1E344D6C5040}") = "unity_hive5", "Assembly-CSh
 EndProject
 Project("{BF45A30E-55D7-323D-59CB-1E344D6C5040}") = "unity_hive5", "Assembly-CSharp.csproj", "{E671CB67-813B-5057-70E3-12C73CF23A2B}"
 EndProject
+Project("{BF45A30E-55D7-323D-59CB-1E344D6C5040}") = "unity_hive5", "Assembly-CSharp-Editor.csproj", "{8A911080-18EE-320B-E833-4E38840B22A4}"
+EndProject
 Project("{BF45A30E-55D7-323D-59CB-1E344D6C5040}") = "unity_hive5", "Assembly-UnityScript-firstpass.unityproj", "{DA287CEB-ED11-E7D8-964A-5CF508399149}"
 EndProject
 Global
@@ -21,6 +23,10 @@ Global
 		{E671CB67-813B-5057-70E3-12C73CF23A2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E671CB67-813B-5057-70E3-12C73CF23A2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E671CB67-813B-5057-70E3-12C73CF23A2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A911080-18EE-320B-E833-4E38840B22A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A911080-18EE-320B-E833-4E38840B22A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A911080-18EE-320B-E833-4E38840B22A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A911080-18EE-320B-E833-4E38840B22A4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DA287CEB-ED11-E7D8-964A-5CF508399149}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DA287CEB-ED11-E7D8-964A-5CF508399149}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA287CEB-ED11-E7D8-964A-5CF508399149}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -29,7 +35,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-									GlobalSection(MonoDevelopProperties) = preSolution
+																								GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1

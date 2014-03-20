@@ -131,10 +131,12 @@
      <Compile Include="Assets\Scripts\Hive5\Enum.cs" />
      <Compile Include="Assets\Scripts\Hive5\Exceptions.cs" />
      <Compile Include="Assets\Scripts\Hive5\Hive5Client.cs" />
-     <Compile Include="Assets\Scripts\Hive5\Hive5Model.cs" />
+     <Compile Include="Assets\Scripts\Hive5\Model\Hive5Model.cs" />
      <Compile Include="Assets\Scripts\Hive5\MonoSingleton.cs" />
      <Compile Include="Assets\Scripts\Hive5\Util\Util.cs" />
+     <Compile Include="Assets\Scripts\Hive5SampleUI\Items.cs" />
      <Compile Include="Assets\Scripts\Hive5SampleUI\Login.cs" />
+     <Compile Include="Assets\Scripts\Hive5SampleUI\Rounds.cs" />
      <Compile Include="Assets\Scripts\Hive5SampleUI\UserData.cs" />
      <Compile Include="Assets\Scripts\ItemManager.cs" />
      <Compile Include="Assets\Scripts\ItemMove.cs" />

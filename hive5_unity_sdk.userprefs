@@ -1,31 +1,12 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Hive5SampleUI/UserData.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Hive5SampleUI/Rounds.cs">
     <Files>
-      <File FileName="Assets/Scripts/Hive5SampleUI/Login.cs" Line="44" Column="5" />
-      <File FileName="Assets/Scripts/Hive5SampleUI/UserData.cs" Line="61" Column="5" />
-      <File FileName="Assets/Scripts/Hive5/Hive5Client.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Hive5SampleUI/UserData.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Hive5SampleUI/Login.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Hive5/MonoSingleton.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Hive5/Exceptions.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Hive5/Util/Util.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Hive5/Hive5Model.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Hive5/Const.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Hive5/Enum.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/PlayerShoot.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/NGUISpriteAnim.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/NGUIHelper.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/NetworkManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/MoveScene.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/MissileTrigger.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/MissileMove.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/ItemTrigger.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/ItemMove.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/ItemManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/EnemyTrigger.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/DragGameObject.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/BgScroller.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/SoundManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/SpawnManager.cs" Line="12" Column="35" />
+      <File FileName="Assets/Scripts/Hive5SampleUI/Rounds.cs" Line="9" Column="7" />
+      <File FileName="Assets/Scripts/Hive5/Hive5Client.cs" Line="170" Column="56" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -33,7 +14,7 @@
           <Node name="Assembly-CSharp" expanded="True">
             <Node name="Scripts" expanded="True">
               <Node name="Hive5SampleUI" expanded="True">
-                <Node name="Login.cs" selected="True" />
+                <Node name="Item.cs" selected="True" />
               </Node>
             </Node>
           </Node>

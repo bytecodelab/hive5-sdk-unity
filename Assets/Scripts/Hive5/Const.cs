@@ -5,7 +5,7 @@ namespace Hive5
 	/// <summary>
 	/// Hive5 header key.
 	/// </summary>
-	public class Hive5HeaderKey
+	public class HeaderKey
 	{
 		public static string appKey 		= "X-APP-KEY";		// 게임에 발급된 app key. 모든 API 호출에 필요. ex) a40e4122-XXXX-44a6-b916-68ed756f7XXX
 		public static string uuid 			= "X-AUTH-UUID";	// 디바이스 고유의 UUID. 모든 API 호출에 필요.
@@ -16,7 +16,7 @@ namespace Hive5
 	/// <summary>
 	/// Hive5 header value.
 	/// </summary>
-	public class Hive5HeaderValue
+	public class HeaderValue
 	{
 		public static string contentType	= "application/json";	// 요청 ContentType 값
 	}
@@ -24,7 +24,7 @@ namespace Hive5
 	/// <summary>
 	/// Hive5 API path.
 	/// </summary>
-	public class Hive5APIPath
+	public class APIPath
 	{
 		public static string kakaoLogin 	= "auth/kakao";
 		public static string anonymousLogin = "auth/anonymous";
@@ -38,7 +38,7 @@ namespace Hive5
 	/// <summary>
 	/// Hive5 API server.
 	/// </summary>
-	public class Hive5APIServer
+	public class APIServer
 	{
 		public static string realHost		= "https://api.hive5.io";
 		public static string betaHost 		= "https://beta.api.hive5.io";
@@ -49,7 +49,7 @@ namespace Hive5
 	/// <summary>
 	/// Hive5 parameter key.
 	/// </summary>
-	public class Hive5ParameterKey
+	public class ParameterKey
 	{
 		public static string userId 		= "user_id";
 		public static string accessToken 	= "access_token";
@@ -65,7 +65,7 @@ namespace Hive5
 	/// <summary>
 	/// Hive5 response key.
 	/// </summary>
-	public class Hive5ResponseKey
+	public class ResponseKey
 	{
 		public static string resultCode 	= "result_code";
 		public static string accessToken 	= "access_token";
@@ -74,10 +74,10 @@ namespace Hive5
 	/// <summary>
 	/// Hive5 platform type.
 	/// </summary>
-	public class Hive5PlatformType
+	public class PlatformType
 	{
-		public static string android = "android";
-		public static string ios = "ios";
+		public static string android= "android";
+		public static string ios 	= "ios";
 	}
 }
 

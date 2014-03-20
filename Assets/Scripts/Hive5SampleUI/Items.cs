@@ -33,5 +33,40 @@ public class Items : MonoBehaviour {
 		});
 		
 	}
+	
+	
+	/// <summary>
+	/// Consumes the item.
+	/// </summary>
+	public void consumeItem()
+	{
+		H5 = Hive5Client.Instance;	// Hive5Client 호출
+		
+		var requestBody = new {
+			items = new []{
+				new {
+					key = "money.gold",	// 골드사용
+					count = 3	
+				}
+			}
+		};
+		
+		H5.consumeItem (requestBody,(resultCode, response) => {
+			Debug.Log ("onConsumeItem");
+			
+			// 성공
+			if (resultCode == Hive5ResultCode.Success) {
+				Debug.Log ("resultCode =" + resultCode);
+				Debug.Log ("resultData = "+ JsonMapper.ToJson(response));	// 응답 데이터 전체 정보
+			} 
+			// 실패
+			else {
+				Debug.Log ("resultCode =" + resultCode);
+				Debug.Log ("resultMessage =" + response ["result_message"]);	// 상세 에러 메시지
+			}	
+			
+		});
+		
+	}
 
 }

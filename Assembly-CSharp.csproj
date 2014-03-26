@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{EC0BB6BA-4843-1BA9-2F27-ED8B6C27FBDA}</ProjectGuid>
+	<ProjectGuid>{29B91E10-D0E6-73B9-A265-FAEF72D31B26}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -134,8 +134,11 @@
      <Compile Include="Assets\Scripts\Hive5\Model\Hive5Model.cs" />
      <Compile Include="Assets\Scripts\Hive5\MonoSingleton.cs" />
      <Compile Include="Assets\Scripts\Hive5\Util\Util.cs" />
+     <Compile Include="Assets\Scripts\Hive5SampleUI\Agreements.cs" />
+     <Compile Include="Assets\Scripts\Hive5SampleUI\Friends.cs" />
      <Compile Include="Assets\Scripts\Hive5SampleUI\Items.cs" />
      <Compile Include="Assets\Scripts\Hive5SampleUI\Login.cs" />
+     <Compile Include="Assets\Scripts\Hive5SampleUI\Mails.cs" />
      <Compile Include="Assets\Scripts\Hive5SampleUI\Rounds.cs" />
      <Compile Include="Assets\Scripts\Hive5SampleUI\UserData.cs" />
      <Compile Include="Assets\Scripts\ItemManager.cs" />

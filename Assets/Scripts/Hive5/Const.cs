@@ -33,6 +33,11 @@ namespace Hive5
 		public static string userData 		= "data";	// user data API
 		public static string userItem 		= "item";	// user item
 
+		public static string getMails		= "mails";
+		public static string postMail		= "mails";
+
+		public static string consumeItem	= "items/consume";
+
 	}
 
 	/// <summary>
@@ -42,7 +47,7 @@ namespace Hive5
 	{
 		public static string realHost		= "https://api.hive5.io";
 		public static string betaHost 		= "https://beta.api.hive5.io";
-		public static string version 		= "v3";
+		public static string version 		= "v4";
 
 	}
 	
@@ -72,12 +77,26 @@ namespace Hive5
 	}
 
 	/// <summary>
-	/// Hive5 platform type.
+	/// OS type.
+	/// </summary>
+	public class OSType
+	{
+		public static string android	= "android";
+		public static string ios 		= "ios";
+	}
+
+	/// <summary>
+	/// Platform type.
 	/// </summary>
 	public class PlatformType
 	{
-		public static string android= "android";
-		public static string ios 	= "ios";
+		public static string kakao 		= "kakao";
+		public static string naver 		= "naver";
+		public static string facebook 	= "facebook";
+		public static string google 	= "google";
+		public static string none 		= "none";
 	}
+
+
 }
 

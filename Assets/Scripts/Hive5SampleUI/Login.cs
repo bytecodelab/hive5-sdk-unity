@@ -5,8 +5,31 @@ using Hive5;
 
 public class Login : MonoBehaviour {
 
-	Hive5Client _hive5;
+	Hive5Client H5;
 	
+
+	/// <summary>
+	/// Login
+	/// </summary>
+	public void login()
+	{
+		string userId 		= "88197948207226176";			// 카카오 user id
+		string accessToken 	= "bcl_token";					// 카카오 로그인 후 발급 받은 access token
+		string sdkVersion 	= "3";							// 클라이언트에서 사용하고 있는 카카오 sdk의 버전
+		string os 			= OSType.android;				// 'android' 또는 'ios'
+		string platform 	= PlatformType.facebook;		// Platform 
+		
+		string[] userDataKeys	= new string[] {"player."};		// 로그인 후 가져와야할 사용자 user data의 key 목록
+		string[] itemKeys 		= new string[] {"heart"};		// 로그인 후 가져와야할 사용자 item의 key 목록
+		string[] configKeys 	= new string[] {"time_event1"};	// 로그인 후 가져와야할 사용자 configuration의 key
+		
+		Hive5Client.apiCallBack callBack = onLogin;		// 로그인 후 호출 받을 콜백함수 지정
+		
+		H5 = Hive5Client.Instance;	// Hive5Client 호출
+		H5.setZone (Hive5APIZone.Beta);
+		H5.login( platform, userId, accessToken, sdkVersion, os, userDataKeys, itemKeys, configKeys, callBack );	//카카오 로그인 API 호출
+	}
+
 	/// <summary>
 	/// Kakao the login.
 	/// </summary>
@@ -15,16 +38,17 @@ public class Login : MonoBehaviour {
 		string userId 		= "88197948207226176";			// 카카오 user id
 		string accessToken 	= "bcl_token";					// 카카오 로그인 후 발급 받은 access token
 		string sdkVersion 	= "3";							// 클라이언트에서 사용하고 있는 카카오 sdk의 버전
-		string os 			= PlatformType.android;			// 'android' 또는 'ios'
+		string os 			= OSType.android;			// 'android' 또는 'ios'
 
-		string[] userDataKeys	= new string[] {"player."};	// 로그인 후 가져와야할 사용자 user data의 key 목록
+		string[] userDataKeys	= new string[] {"player."};		// 로그인 후 가져와야할 사용자 user data의 key 목록
 		string[] itemKeys 		= new string[] {"heart"};		// 로그인 후 가져와야할 사용자 item의 key 목록
-		string[] configKeys 	= new string[] {"sample", "event"};		// 로그인 후 가져와야할 사용자 configuration의 key
+		string[] configKeys 	= new string[] {"time_event1"};	// 로그인 후 가져와야할 사용자 configuration의 key
 
-		Hive5Client.apiCallBack callBack = onLoginKakao;	// 로그인 후 호출 받을 콜백함수 지정
+		Hive5Client.apiCallBack callBack = onLoginKakao;		// 로그인 후 호출 받을 콜백함수 지정
 		
-		_hive5 = Hive5Client.Instance;	// Hive5Client 호출
-		_hive5.loginKakao( userId, accessToken, sdkVersion, os, userDataKeys, itemKeys, configKeys, callBack );	//카카오 로그인 API 호출
+		H5 = Hive5Client.Instance;	// Hive5Client 호출
+		H5.setZone (Hive5APIZone.Beta);
+		H5.loginKakao( userId, accessToken, sdkVersion, os, userDataKeys, itemKeys, configKeys, callBack );	//카카오 로그인 API 호출
 	}
 
 	/// <summary>
@@ -32,7 +56,7 @@ public class Login : MonoBehaviour {
 	/// </summary>
 	public void loginAnonymous()
 	{
-		string os = PlatformType.android;	// 'android' 또는 'ios'
+		string os = OSType.android;	// 'android' 또는 'ios'
 
 		string[] userDataKeys	= new string[] {"player.nickname"};	// 로그인 후 가져와야할 사용자 user data의 key 목록
 		string[] itemKeys 		= new string[] {"moneyinfo.ruby"};	// 로그인 후 가져와야할 사용자 item의 key 목록
@@ -40,8 +64,40 @@ public class Login : MonoBehaviour {
 
 		Hive5Client.apiCallBack callBack = onLoginAnonymous;	// 로그인 후 호출 받을 콜백함수 지정
 		
-		_hive5 = Hive5Client.Instance;	// Hive5Client 호출
-		_hive5.loginAnonymous( os, userDataKeys, itemKeys, configKeys, callBack );	//익명 로그인 API 호출
+		H5 = Hive5Client.Instance;	// Hive5Client 호출
+		H5.setZone (Hive5APIZone.Beta);
+		H5.loginAnonymous( os, userDataKeys, itemKeys, configKeys, callBack );	//익명 로그인 API 호출
+	}
+
+
+	/// <summary>
+	/// Ons the login.
+	/// </summary>
+	/// <param name="resultCode">Result code.</param>
+	/// <param name="response">Response.</param>
+	private static void onLogin(Hive5ResultCode resultCode, JsonData response)
+	{
+		Debug.Log ("onLogin V4");
+		
+		// 성공
+		if (resultCode == Hive5ResultCode.Success) {
+			
+			Debug.Log ("resultCode =" + resultCode);
+			Debug.Log ("resultData = "+ JsonMapper.ToJson(response));	// 응답 데이터 전체 정보
+			Debug.Log ("key 'user_id' =" + response["user_id"]);		// 특정 키 참조
+			Debug.Log ("config = "+ JsonMapper.ToJson (response["configs"]));
+			var time_event1 = JsonMapper.ToObject(((string)response["configs"]["time_event1"]));
+			
+			Debug.Log ("json="+JsonMapper.ToJson(time_event1));
+			Debug.Log ("event_title = "+time_event1[0]["event_title"]);
+		} 
+		// 실패
+		else {
+			
+			Debug.Log ("resultCode =" + resultCode);
+			Debug.Log ("resultMessage =" + response ["result_message"]);	// 상세 에러 메시지
+			
+		}	
 	}
 
 
@@ -86,7 +142,11 @@ public class Login : MonoBehaviour {
 			Debug.Log ("resultCode =" + resultCode);
 			Debug.Log ("resultData = "+ JsonMapper.ToJson(response));	// 응답 데이터 전체 정보
 			Debug.Log ("key 'user_id' =" + response["user_id"]);		// 특정 키 참조
-			
+			Debug.Log ("config = "+ JsonMapper.ToJson (response["configs"]));
+			var time_event1 = JsonMapper.ToObject(((string)response["configs"]["time_event1"]));
+
+			Debug.Log ("json="+JsonMapper.ToJson(time_event1));
+			Debug.Log ("event_title = "+time_event1[0]["event_title"]);
 		} 
 		// 실패
 		else {

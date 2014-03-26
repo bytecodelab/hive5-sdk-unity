@@ -1,0 +1,23 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Hive5SampleUI/Items.cs">
+    <Files>
+      <File FileName="Assets/Scripts/Hive5SampleUI/Rounds.cs" Line="20" Column="28" />
+      <File FileName="Assets/Scripts/Hive5SampleUI/Login.cs" Line="32" Column="16" />
+      <File FileName="Assets/Scripts/Hive5/Hive5Client.cs" Line="335" Column="55" />
+      <File FileName="Assets/Scripts/Hive5SampleUI/UserData.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Hive5SampleUI/Mails.cs" Line="51" Column="3" />
+      <File FileName="Assets/Scripts/Hive5/Const.cs" Line="39" Column="35" />
+      <File FileName="Assets/Scripts/Hive5SampleUI/Items.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Hive5SampleUI/Agreements.cs" Line="10" Column="2" />
+      <File FileName="Assets/Scripts/Hive5/Util/Util.cs" Line="42" Column="5" />
+      <File FileName="Assets/Scripts/Hive5/Exceptions.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Hive5/Enum.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Hive5/MonoSingleton.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

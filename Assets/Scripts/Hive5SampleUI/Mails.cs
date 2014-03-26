@@ -3,62 +3,29 @@ using System.Collections;
 using LitJson;
 using Hive5;
 
-public class UserData : MonoBehaviour {
+public class Mails : MonoBehaviour {
 
 	Hive5Client H5;
 
-
-
+	
 	/// <summary>
 	/// Gets the user data.
 	/// </summary>
-	public void getUserData()
+	public void getMails()
 	{
-		string[] dataKeys = new string[] {"Player.nickname"};		// user data keys
-		Hive5Client.apiCallBack callBack = onGetUserData;	// api callback
-		
+		Hive5Client.apiCallBack callBack = onGetMails;	// api callback
 		H5 = Hive5Client.Instance;						// Hive5Client 호출
-		H5.getUserData( dataKeys, callBack );			//Get UserData API 호출
+
 	}
 
 	/// <summary>
 	/// Sets the user data.
 	/// </summary>
-	public void setUserData()
+	public void postMail()
 	{
 		H5 = Hive5Client.Instance;	// Hive5Client 호출
 
-		var requestBody = new {
-			data = new []{
-				new {
-					key 	= "player.nickname",	// 플레이어 닉네임 
-					value 	= "nickname3"					
-				},
-				new {
-					key 	= "player.level",		// 플레이어 레벨
-					value 	= "3"							 
-				},
-				new {
-					key 	= "invitefriends.count",	// 친구 초대 횟수
-					value 	= "5"								 
-				},
-				new {
-					key 	= "invitefriends.list-48793",	// 친구 48793 초대
-					value 	= "5"								 
-				},
-				new {
-					key 	= "invitefriends.list-48777",	// 친구 48777 초대
-					value 	= "5"								 
-				},
-				new {
-					key 	= "invitefriends.list-48932",	// 친구 48932 초대
-					value 	= "5"								 
-				},
-			}
-		};
-
-		Hive5Client.apiCallBack callBack = onSetUserData;
-		H5.setUserData (requestBody, callBack);
+		Hive5Client.apiCallBack callBack = onPostMail;
 
 	}
 
@@ -67,7 +34,7 @@ public class UserData : MonoBehaviour {
 	/// </summary>
 	/// <param name="resultCode">Result code.</param>
 	/// <param name="response">Response.</param>
-	private static void onGetUserData(Hive5ResultCode resultCode, JsonData response)
+	private static void onGetMails(Hive5ResultCode resultCode, JsonData response)
 	{
 		Debug.Log ("onGetUserData");
 		
@@ -88,9 +55,9 @@ public class UserData : MonoBehaviour {
 	/// </summary>
 	/// <param name="resultCode">Result code.</param>
 	/// <param name="response">Response.</param>
-	private static void onSetUserData(Hive5ResultCode resultCode, JsonData response)
+	private static void onPostMail(Hive5ResultCode resultCode, JsonData response)
 	{
-		Debug.Log ("onSetUserData");
+		Debug.Log ("onPostMail");
 		
 		// 성공
 		if (resultCode == Hive5ResultCode.Success) {

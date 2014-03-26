@@ -36,7 +36,11 @@ namespace Hive5.Util
 		/// <param name="value">Value.</param>
 		public void Add(TKey key, TValue value)
 		{
-			data.Add (new KeyValuePair<TKey, TValue> (key, value));
+			if(value != null)
+			{
+				data.Add (new KeyValuePair<TKey, TValue> (key, value));
+			}
+
 		}
 	}
 }

@@ -2,3 +2,5 @@ TestResults
 obj
 bin
 *.suo
+temp
+library

@@ -6,7 +6,6 @@ using Hive5;
 public class Friends : MonoBehaviour {
 
 	Hive5Client H5;
-	
 
 	/// <summary>
 	/// Updates the friends.

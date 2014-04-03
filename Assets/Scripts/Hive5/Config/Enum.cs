@@ -2,7 +2,6 @@ using System;
 
 namespace Hive5
 {
-
 	/// <summary>
 	/// Hive5 result code.
 	/// </summary>
@@ -35,7 +34,7 @@ namespace Hive5
 		TheUserHasBeenDisabled 		= 8001,
 		UnknownError 				= 9999
 	}
-
+	
 	/// <summary>
 	/// Hive5 API zone.
 	/// </summary>
@@ -44,6 +43,13 @@ namespace Hive5
 		Beta = 0,
 		Real = 1
 	}
+
+	public enum Hive5TimeZone
+	{
+		UTC = 0,
+		KST = 9
+	}
+
 
 }
 

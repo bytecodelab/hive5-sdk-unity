@@ -6,7 +6,8 @@ using System.Net;
 using System.IO;
 using System.Collections;
 using LitJson;
-using Hive5.Modle;
+using Hive5;
+using Hive5.Model;
 using Hive5.Util;
 
 
@@ -21,9 +22,9 @@ namespace Hive5
 
 		public string host 			= APIServer.betaHost;
 		public string version 		= APIServer.version;
-		public string appKey 		= "a40e4122-99d9-44a6-b916-68ed756f79d6";
+		public string appKey 		= Hive5Config.appKey;
 
-		private string uuid 		= "88197948207226176";
+		private string uuid 		= "uuid";
 		private string accessToken 	= "";
 
 		private bool isDebug 		= false;

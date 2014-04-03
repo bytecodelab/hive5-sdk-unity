@@ -1,0 +1,41 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Hive5\Hive5Core.cs">
+    <Files>
+      <File FileName="Assets\Scripts\Hive5\Model\AgreementData.cs" Line="31" Column="41" />
+      <File FileName="Assets\Scripts\Hive5\Model\ConfigData.cs" Line="17" Column="52" />
+      <File FileName="Assets\Scripts\Hive5\Hive5Core.cs" Line="43" Column="4" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="Assembly-CSharp" expanded="True">
+            <Node name="Scripts" expanded="True">
+              <Node name="Hive5" expanded="True">
+                <Node name="Hive5Core.cs" selected="True" />
+              </Node>
+              <Node name="Hive5SampleUI" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State>
+          <Value>json.inst_array.</Value>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="C:\Projects\maui\sdk\Assets\Scripts\Hive5\Hive5Response.cs" line="22" />
+      <Breakpoint file="C:\Projects\maui\sdk\Assets\Scripts\Hive5\Model\UserData.cs" line="15" />
+      <Breakpoint file="C:\Projects\maui\sdk\Assets\Scripts\Hive5\Model\PromotionData.cs" line="34" />
+      <Breakpoint file="C:\Projects\maui\sdk\Assets\Scripts\Hive5\Model\PromotionData.cs" line="51" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

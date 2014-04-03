@@ -15,7 +15,7 @@ public class Friends : MonoBehaviour {
 		H5 = Hive5Client.Instance;    // Hive5Client 호출
 		
 		var friend_ids = new string[] {"881979482072261763"};
-		
+
 		Hive5Client.apiCallBack callBack = onUpdateFriends;
 		H5.setZone (Hive5APIZone.Beta);
 		H5.setDebug ();

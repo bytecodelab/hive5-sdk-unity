@@ -11,29 +11,53 @@ using Hive5.Model;
 using Hive5.Util;
 
 
-namespace Hive5
+namespace Hive5.Core
 {
 	/// <summary>
 	/// Hive5 client.
 	/// </summary>
 	public class Hive5Core : MonoSingleton<Hive5Core> {
 
-		public delegate void apiCallBack (Hive5Response hive5Response);
+		private string appKey		= "";
+		private string uuid			= "";
+		private string accessToken 	= "";
 
-		public string host 			= APIServer.betaHost;
-		public string version 		= APIServer.version;
-		public string appKey 		= Hive5Config.appKey;
+		private bool initState 	= false;
+		private bool loginState = false; 
+		private bool isDebug 	= false;
 
-		private string uuid 		= "uuid";
-		private string accessToken 	= null;
-
-		private bool isDebug 		= false;
-		private bool loginState		= false;
+		public bool InitState { 
+			get { return initState;} 
+		}
+		public bool LoginState { 
+			get { return loginState;} 
+		}
 
 		private Hive5TimeZone timezone 	= Hive5TimeZone.UTC;
 		private Hive5APIZone zone		= Hive5APIZone.Beta;
+		private string host 	= APIServer.betaHost;
+		private string version 	= APIServer.version;
+
 
 		protected Hive5Core () {}
+
+
+		/// <summary>
+		/// Init the specified appKey and uuid.
+		/// </summary>
+		/// <param name="appKey">App key.</param>
+		/// <param name="uuid">UUID.</param>
+		public void Init(string appKey, string uuid)
+		{
+			this.appKey = appKey;
+			this.uuid 	= uuid;
+			this.initState = true;
+		}
+
+		public void Login()
+		{
+			this.loginState = true;
+		}
 
 		/// <summary>
 		/// Sets the debug.
@@ -65,51 +89,15 @@ namespace Hive5
 
 		}
 
+		/// <summary>
+		/// Asyncs the routine.
+		/// </summary>
+		/// <param name="routine">Routine.</param>
 		public void asyncRoutine(IEnumerator routine)
 		{
 			// 코루틴 WWW 호출
 			StartCoroutine(routine);
 		}
-
-
-
-		/// <summary>
-		/// Kakao Login API
-		/// </summary>
-		/// <param name="userId">카카오 user id</param>
-		/// <param name="accessToken">카카오 로그인 후 발급 받은 access token</param>
-		/// <param name="sdkVersion">클라이언트에서 사용하고 있는 카카오 sdk의 버전</param>
-		/// <param name="os">OS 구분자 'android' 또는 'ios'</param>
-		/// <param name="userDataKey">로그인 후 가져와야할 사용자 user data의 key 목록</param>
-		/// <param name="itemKey">로그인 후 가져와야할 사용자 item의 key 목록</param>
-		/// <param name="configKey">로그인 후 가져와야할 사용자 configuration의 key 목록</param>
-		/// <param name="completedMissions">로그인 후 가져와야 할 사용자 완료 Mission의 Key 목록</param>
-		/// <param name="callback">콜백 함수</param>
-		public void loginKakao(string userId, string accessToken, string sdkVersion, string os, string[] userDataKeys, string[] itemKeys, string[] configKeys, apiCallBack callback)
-		{
-			// Hive5 API URL 초기화
-			var url = initializeUrl(APIPath.kakaoLogin);
-
-			// Hive5 API 파라미터 셋팅
-			TupleList<string, string> parameters = new TupleList<string, string> ();
-			parameters.Add( ParameterKey.userId, userId );
-			parameters.Add( ParameterKey.accessToken, accessToken );
-			parameters.Add( ParameterKey.sdkVersion, sdkVersion );
-			parameters.Add( ParameterKey.OS, os );
-
-			Array.ForEach ( userDataKeys, key => { parameters.Add( ParameterKey.userDataKey, key ); } );
-			Array.ForEach ( itemKeys, key => { parameters.Add( ParameterKey.itemKey, key ); } );
-			Array.ForEach ( configKeys, key => { parameters.Add( ParameterKey.configKey, key ); } );
-			
-			// 코루틴 WWW 호출
-			StartCoroutine(getHTTP(url, parameters.data, ( response ) => { 
-				if ( response.resultCode == Hive5ResultCode.Success)
-					setAccessToken(((LoginData)response.resultData).accessToken); 
-
-				callback(response);
-			}));
-		}
-
 
 		/// <summary>
 		/// Https the get.
@@ -118,7 +106,7 @@ namespace Hive5
 		/// <param name="url">URL.</param>
 		/// <param name="parameters">Parameters.</param>
 		/// <param name="callback">Callback.</param>
-		public IEnumerator getHTTP(string url, List<KeyValuePair<string, string>> parameters,  apiCallBack callBack)
+		public IEnumerator getHTTP(string url, List<KeyValuePair<string, string>> parameters, Hive5Response.dataLoader loader, Hive5API.CallBack callBack)
 		{
 			// Hive5 API Header 설정
 			var headers = new Hashtable();
@@ -151,7 +139,7 @@ namespace Hive5
 			if(this.isDebug) Debug.Log ("www reuqest URL = " + newUrl);
 			if(this.isDebug) Debug.Log ("www response = " + www.text);
 
-			callBack (Hive5Response.Load (www.text));
+			callBack (Hive5Response.Load (loader, www.text));
 		}
 
 		/// <summary>
@@ -160,7 +148,7 @@ namespace Hive5
 		/// <returns>The post.</returns>
 		/// <param name="url">URL.</param>
 		/// <param name="parameters">Parameters.</param>
-		public IEnumerator postHTTP(string url, object requestBody, apiCallBack callBack)
+		public IEnumerator postHTTP(string url, object requestBody, Hive5Response.dataLoader loader, Hive5API.CallBack callBack)
 		{	
 			// Hive5 API Header 설정
 			var headers = new Hashtable();
@@ -182,7 +170,7 @@ namespace Hive5
 			if(this.isDebug) Debug.Log ("www request jsonBody= " + jsonString);
 			if(this.isDebug) Debug.Log ("www response = " + www.text);
 			
-			callBack (Hive5Response.Load (www.text));
+			callBack (Hive5Response.Load (loader, www.text));
 		}
 		
 		/// <summary>

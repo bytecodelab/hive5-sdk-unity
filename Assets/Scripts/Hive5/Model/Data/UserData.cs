@@ -7,9 +7,14 @@ using Hive5.Util;
 
 namespace Hive5.Model
 {
-	
+	/// <summary>
+	/// User data.
+	/// </summary>
 	public class UserData
 	{
+		public string key { set; get; }
+		public string value { set; get; }
+
 		public static Dictionary<string, string> Load(JsonData json)
 		{
 			var userData = new Dictionary<string, string>();

@@ -14,6 +14,11 @@ namespace Hive5
 		public Hive5ResultCode 	resultCode { set; get; }
 		public IResponseBody	resultData { set; get; }
 
+		/// <summary>
+		/// Load the specified loader and json.
+		/// </summary>
+		/// <param name="loader">Loader.</param>
+		/// <param name="json">Json.</param>
 		public static Hive5Response Load(dataLoader loader, string json)
 		{
 			JsonData response = JsonMapper.ToObject (json);

@@ -54,7 +54,6 @@ namespace Hive5
 			Array.ForEach ( itemKeys, key => { parameters.Add( ParameterKey.itemKey, key ); } );
 			Array.ForEach ( configKeys, key => { parameters.Add( ParameterKey.configKey, key ); } );
 
-			hive5.setDebug ();
 			hive5.asyncRoutine (
 				hive5.getHTTP(url, parameters.data, LoginDataResponseBody.Load, ( response ) => { 
 				if ( response.resultCode == Hive5ResultCode.Success)

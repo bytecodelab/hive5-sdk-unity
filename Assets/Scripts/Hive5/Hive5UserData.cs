@@ -41,7 +41,7 @@ namespace Hive5
 			requestBody.condition = new List<Condition> ();
 			requestBody.data = data;
 
-			hive5.setDebug ();
+			// WWW 호출
 			hive5.asyncRoutine (
 				hive5.postHTTP(url, requestBody, SetUserDataResponseBody.Load, callback)
 			);
@@ -61,7 +61,8 @@ namespace Hive5
 			// Hive5 API 파라미터 셋팅
 			TupleList<string, string> parameters = new TupleList<string, string>();
 			Array.ForEach ( dataKeys, key => { parameters.Add( ParameterKey.key, key ); } );
-			
+
+			// WWW 호출
 			hive5.asyncRoutine ( 
 				hive5.getHTTP (url, parameters.data, GetUserDataResponseBody.Load, callback) 
 			);

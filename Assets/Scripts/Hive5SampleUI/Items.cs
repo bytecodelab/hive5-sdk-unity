@@ -7,16 +7,39 @@ public class Items : MonoBehaviour {
 
 	Hive5Client H5;
 
+
+
+	public void getItems()
+	{
+		var hive5 = Hive5Client.Instance;
+		var itemKeys = new string[] {"money.gold", "money.heart"};
+		hive5.getItems (itemKeys, response => {
+			Debug.Log ("onGetItems");
+
+			// 성공
+			if (response.resultCode == Hive5ResultCode.Success) {
+				Debug.Log ("resultCode =" + response.resultCode);
+				Debug.Log ("resultData = "+ JsonMapper.ToJson(response));	// 응답 데이터 전체 정보
+			} 
+			// 실패
+			else {
+				Debug.Log ("resultCode =" + response.resultCode);
+				Debug.Log ("resultMessage =" + response.resultMessage);	// 상세 에러 메시지
+			}	
+
+		});
+
+	}
+
 	/// <summary>
 	/// Sets the item convert.
 	/// </summary>
 	public void convertItem()
 	{
-		H5 = Hive5Client.Instance;	// Hive5Client 호출
-		
+		var hive5 = Hive5Client.Instance;	// Hive5Client 호출
 		string itemConvertKey = "buy_gameItem.doubleShot";
 		
-		H5.convertItem(itemConvertKey,(response) => {
+		hive5.convertItem(itemConvertKey,(response) => {
 			Debug.Log ("onSetUserData");
 
 			// 성공
@@ -40,7 +63,7 @@ public class Items : MonoBehaviour {
 	/// </summary>
 	public void consumeItem()
 	{
-		H5 = Hive5Client.Instance;	// Hive5Client 호출
+		var hive5 = Hive5Client.Instance;	// Hive5Client 호출
 		
 		var requestBody = new {
 			items = new []{
@@ -51,7 +74,7 @@ public class Items : MonoBehaviour {
 			}
 		};
 		
-		H5.consumeItem (requestBody,(response) => {
+		hive5.consumeItem (requestBody,(response) => {
 			Debug.Log ("onConsumeItem");
 
 			// 성공

@@ -20,18 +20,12 @@ namespace Hive5.Model
 
 		public static Promotion Load(JsonData json)
 		{
-			var id 			= (int)json["id"];
-			var name 		= (string)json["name"];
-			var applyUrl 	= (string)json["apply_url"];
-			var displayUrl 	= (string)json["display_url"];
-			var order 		= (int)json["order"];
-
 			return new Promotion () {
-				id = id,
-				name = name,
-				applyUrl = applyUrl,
-				displayUrl = displayUrl,
-				order = order
+				id = (int)json["id"],
+				name = (string)json["name"],
+				applyUrl = (string)json["apply_url"],
+				displayUrl = (string)json["display_url"],
+				order = (int)json["order"]
 			};
 		}
 
@@ -49,12 +43,6 @@ namespace Hive5.Model
 			var promotionCount = json.Count;
 			for (int currentCount = 0; currentCount < promotionCount; currentCount++) 
 			{
-				var id 			= (int)json[currentCount]["id"];
-				var name 		= (string)json[currentCount]["name"];
-				var applyUrl 	= (string)json[currentCount]["apply_url"];
-				var displayUrl 	= (string)json[currentCount]["display_url"];
-				var order 		= (int)json[currentCount]["order"];
-
 				promotions.Add(Promotion.Load(json[currentCount]));
 			}
 

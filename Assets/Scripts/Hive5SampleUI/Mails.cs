@@ -2,68 +2,66 @@
 using System.Collections;
 using LitJson;
 using Hive5;
+using Hive5.Model;
 
 public class Mails : MonoBehaviour {
-
-	Hive5Client H5;
-
-	
+		
 	/// <summary>
 	/// Gets the user data.
 	/// </summary>
 	public void getMails()
 	{
-		Hive5Client.CallBack callback = onGetMails;
-		H5 = Hive5Client.Instance;
+		var hive5 = Hive5Client.Instance;
+
+		hive5.getMails (10, "dec", 0, "", response => {
+			Debug.Log ("onGetMails");
+			
+			// 성공
+			if (response.resultCode == Hive5ResultCode.Success) {
+				Debug.Log ("resultCode =" + response.resultCode);
+				Debug.Log ("resultData = "+ JsonMapper.ToJson(response.resultData));	// 응답 데이터 전체 정보
+				
+				var mailInfo = (GetMailsResponseBody)response.resultData;
+
+				foreach(Mail mail in mailInfo.mails)
+				{
+					Debug.Log ("mail = "+ mail.content);
+				}
+
+			} 
+			// 실패
+			else {
+				Debug.Log ("resultCode =" + response.resultCode);
+				Debug.Log ("resultMessage =" + response.resultMessage);	// 상세 에러 메시지
+			}
+
+		});
 	}
 
 	/// <summary>
 	/// Sets the user data.
 	/// </summary>
-	public void postMail()
+	public void createMail()
 	{
-		Hive5Client.CallBack callback = onPostMail;
-		H5 = Hive5Client.Instance;
+		var hive5 = Hive5Client.Instance;
+		hive5.createMail("test mail", null, null, response => {
+			Debug.Log ("onCreateMail");
+			
+			// 성공
+			if (response.resultCode == Hive5ResultCode.Success) {
+				Debug.Log ("resultCode =" + response.resultCode);
+				Debug.Log ("resultData = "+ JsonMapper.ToJson(response.resultData));	// 응답 데이터 전체 정보
+				
+				var mailInfo = (CreateMailResponseBody)response.resultData;
+				
+			} 
+			// 실패
+			else {
+				Debug.Log ("resultCode =" + response.resultCode);
+				Debug.Log ("resultMessage =" + response.resultMessage);	// 상세 에러 메시지
+			}
+		});
 	}
-
-	/// <summary>
-	/// Ons the get mails.
-	/// </summary>
-	/// <param name="response">Response.</param>
-	private static void onGetMails(Hive5Response response)
-	{
-		Debug.Log ("onGetMails");
-		
-		// 성공
-		if (response.resultCode == Hive5ResultCode.Success) {
-			Debug.Log ("resultCode =" + response.resultCode);
-			Debug.Log ("resultData = "+ response.resultData);	// 응답 데이터 전체 정보
-		} 
-		// 실패
-		else {
-			Debug.Log ("resultCode =" + response.resultCode);
-			Debug.Log ("resultMessage =" + response.resultMessage);	// 상세 에러 메시지
-		}		
-	}
-
-	/// <summary>
-	/// Ons the post mail.
-	/// </summary>
-	/// <param name="response">Response.</param>
-	private static void onPostMail(Hive5Response response)
-	{
-		Debug.Log ("onPostMail");
-		
-		// 성공
-		if (response.resultCode == Hive5ResultCode.Success) {
-			Debug.Log ("resultCode =" + response.resultCode);
-			Debug.Log ("resultData = "+ JsonMapper.ToJson(response));	// 응답 데이터 전체 정보
-		} 
-		// 실패
-		else {
-			Debug.Log ("resultCode =" + response.resultCode);
-			Debug.Log ("resultMessage =" + response.resultMessage);	// 상세 에러 메시지
-		}		
-	}
+	
 
 }

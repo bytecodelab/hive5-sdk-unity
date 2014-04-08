@@ -5,19 +5,19 @@ using Hive5;
 
 public class Push : MonoBehaviour {
 
-	Hive5Client H5;
+	Hive5Client hive5;
 
 	/// <summary>
 	/// Rounds the start.
 	/// </summary>
-	public void setToken()
+	public void updatePushToken()
 	{
 
-		H5 = Hive5Client.Instance;	// Hive5Client 호출
+		var hive5 = Hive5Client.Instance;	// Hive5Client 호출
 
-		H5.setZone (Hive5APIZone.Real);
-		H5.setDebug ();
-		H5.updatePushToken ("android", "test_token", (response) => {
+		hive5.setZone (Hive5APIZone.Real);
+		hive5.setDebug ();
+		hive5.updatePushToken ("android", "test_token", response => {
 			Debug.Log ("onregisterPushToken");
 			// 성공
 			if (response.resultCode == Hive5ResultCode.Success) {

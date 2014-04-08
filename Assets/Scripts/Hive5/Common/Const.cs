@@ -44,7 +44,7 @@ namespace Hive5
 		public static string key 			= "key";
 		
 		public static string userDataKey 	= "user_data_key";
-		public static string itemKey 		= "item_key";
+		public static string itemKey 		= "key";
 		public static string configKey 		= "config_key";
 	}
 

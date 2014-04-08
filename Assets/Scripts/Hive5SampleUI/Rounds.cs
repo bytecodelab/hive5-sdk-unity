@@ -2,6 +2,7 @@
 using System.Collections;
 using LitJson;
 using Hive5;
+using Hive5.Model;
 
 public class Rounds : MonoBehaviour {
 
@@ -25,9 +26,8 @@ public class Rounds : MonoBehaviour {
 				Debug.Log ("resultCode =" + response.resultCode);
 				Debug.Log ("resultData = "+ response.resultData);	// 응답 데이터 전체 정보
 
-
-				
-				//this.roundId = ((long)response.resultData);	// round End 호출을 위한 roundId 저장
+				var roundInfo = (StartRoundResponseBody)response.resultData;
+				this.roundId = roundInfo.id;	// round End 호출을 위한 roundId 저장
 			} 
 			// 실패
 			else {
@@ -43,7 +43,7 @@ public class Rounds : MonoBehaviour {
 	/// </summary>
 	public void endRounds()
 	{
-		H5 = Hive5Client.Instance;	// Hive5Client 호출
+		var hive5 = Hive5Client.Instance;	// Hive5Client 호출
 		
 		long roundId = this.roundId;
 		
@@ -71,7 +71,7 @@ public class Rounds : MonoBehaviour {
 			
 		};
 		
-		H5.endRound(roundId, requestBody, (response) => {
+		hive5.endRound(roundId, requestBody, response => {
 			Debug.Log ("onRoundEnd = "+roundId);
 			
 			// 성공

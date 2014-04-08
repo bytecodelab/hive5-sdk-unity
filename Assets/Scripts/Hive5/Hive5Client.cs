@@ -99,10 +99,10 @@ namespace Hive5
 			Array.ForEach ( configKeys, key => { parameters.Add( ParameterKey.configKey, key ); } );
 			
 			StartCoroutine (
-				getHTTP(url, parameters.data, LoginDataResponseBody.Load, ( response ) => { 
+				getHTTP(url, parameters.data, LoginResponseBody.Load, ( response ) => { 
 				if ( response.resultCode == Hive5ResultCode.Success)
 				{
-					setAccessToken(((LoginDataResponseBody)response.resultData).accessToken);
+					setAccessToken(((LoginResponseBody)response.resultData).accessToken);
 				}
 				this.loginState = true;
 				callback(response);
@@ -129,10 +129,51 @@ namespace Hive5
 		/// <param name="userId">User identifier.</param>
 		/// <param name="accessToken">Access token.</param>
 		/// <param name="callback">Callback.</param>
-		public void unregister(string userId, string accessToken, CallBack callback)
+		public void unregister(CallBack callback)
 		{
-			
+			var url = initializeUrl ("auth/delete");
+
+			// WWW 호출
+			StartCoroutine (
+				postHTTP (url, new {}, CommonResponseBody.Load, callback)
+			);				
 		}
+
+		/// <summary>
+		/// Agreements the specified generalVersion, partnershipVersion and callback.
+		/// </summary>
+		/// <param name="generalVersion">General version.</param>
+		/// <param name="partnershipVersion">Partnership version.</param>
+		/// <param name="callback">Callback.</param>
+		public void submitAgreements(string generalVersion, string partnershipVersion, CallBack callback)
+		{
+			var url = initializeUrl ("agreements");
+
+			var requestBody = new {
+				general_agreement = generalVersion,
+				partnership_agreement	= partnershipVersion
+			};
+			
+			// WWW 호출
+			StartCoroutine (
+				postHTTP (url, requestBody, CommonResponseBody.Load, callback)
+			);	
+		}
+
+		public void getAgreements(CallBack callback)
+		{
+			var url = initializeUrl ("agreements");
+
+			// Hive5 API 파라미터 셋팅
+			TupleList<string, string> parameters = new TupleList<string, string>();
+			
+			// WWW 호출
+			StartCoroutine (
+				getHTTP (url, parameters.data, GetAgreementsResponseBody.Load, callback)
+			);	
+		}
+
+
 
 		/********************************************************************************
 			Item API Group
@@ -150,11 +191,13 @@ namespace Hive5
 			
 			// Hive5 API 파라미터 셋팅
 			TupleList<string, string> parameters = new TupleList<string, string>();
+			List<string> st = new List<string> ();
+
 			Array.ForEach ( itemKeys, key => { parameters.Add( ParameterKey.itemKey, key ); });
 			
 			// WWW 호출
 			StartCoroutine (
-				getHTTP (url, parameters.data, CommonResponseBody.Load, callback)
+				getHTTP (url, parameters.data, GetItemsResponseBody.Load, callback)
 			);
 		}
 		
@@ -170,7 +213,7 @@ namespace Hive5
 			
 			// WWW 호출
 			StartCoroutine (
-				postHTTP(url, new {}, CommonResponseBody.Load, callBack)
+				postHTTP(url, new {}, ConvertItemResponseBody.Load, callBack)
 			);
 		}
 		
@@ -186,7 +229,7 @@ namespace Hive5
 			
 			// WWW 호출
 			StartCoroutine (
-				postHTTP (url, requestBody, CommonResponseBody.Load, callBack)
+				postHTTP (url, requestBody, ConsumeItemResponseBody.Load, callBack)
 			);
 		}
 		
@@ -328,6 +371,29 @@ namespace Hive5
 		*********************************************************************************/
 
 		/// <summary>
+		/// Update the specified mailId, content and callback.
+		/// </summary>
+		/// <param name="mailId">Mail identifier.</param>
+		/// <param name="content">Content.</param>
+		/// <param name="callback">Callback.</param>
+		public void createMail(string content, string friendPlatformUserId, string[] tags,  CallBack callback)
+		{
+			// Hive5 API URL 초기화
+			var url = initializeUrl(string.Format("mails"));
+			
+			var requestBody = new {
+				content	= content,
+				platform_user_id = friendPlatformUserId,
+				tags = tags
+			};
+			
+			// WWW 호출
+			StartCoroutine (
+				postHTTP(url, requestBody, CreateMailResponseBody.Load, callback)
+			);
+		}
+
+		/// <summary>
 		/// Get the specified limit, order, afterMailId, tag and callback.
 		/// </summary>
 		/// <param name="limit">Limit.</param>
@@ -343,12 +409,14 @@ namespace Hive5
 			TupleList<string, string> parameters = new TupleList<string, string> ();
 			parameters.Add ("limit", limit.ToString());
 			parameters.Add ("order", order);
-			parameters.Add ("after_mail_id", afterMailId.ToString());
-			parameters.Add ("tag", tag);
+			if( afterMailId > 0 )
+				parameters.Add ("after_mail_id", afterMailId.ToString());
+			if( tag.Length > 0 )
+				parameters.Add ("tag", tag);
 			
 			// WWW 호출
 			StartCoroutine ( 
-            	getHTTP (url, parameters.data, CommonResponseBody.Load, callback) 
+            	getHTTP (url, parameters.data, GetMailsResponseBody.Load, callback) 
             );
 		}
 		
@@ -366,8 +434,10 @@ namespace Hive5
 			
 			TupleList<string, string> parameters = new TupleList<string, string> ();
 			parameters.Add ("order", order);
-			parameters.Add ("after_mail_id", afterMailId.ToString());
-			parameters.Add ("tag", tag);
+			if(afterMailId > 0)
+				parameters.Add ("after_mail_id", afterMailId.ToString());
+			if(tag.Length > 0)
+				parameters.Add ("tag", tag);
 			
 			// WWW 호출
 			StartCoroutine ( 
@@ -394,6 +464,91 @@ namespace Hive5
 			StartCoroutine (
 				postHTTP(url, requestBody, CommonResponseBody.Load, callback)
 			);
+		}
+
+		/// <summary>
+		/// Update the specified mailId, content and callback.
+		/// </summary>
+		/// <param name="mailId">Mail identifier.</param>
+		/// <param name="content">Content.</param>
+		/// <param name="callback">Callback.</param>
+		public void deleteMail(long mailId, string content, CallBack callback)
+		{
+			// Hive5 API URL 초기화
+			var url = initializeUrl(string.Format("mails/delete/{0}", mailId));
+			
+			var requestBody = new {
+				content	= content
+			};
+			
+			// WWW 호출
+			StartCoroutine (
+				postHTTP(url, requestBody, CommonResponseBody.Load, callback)
+			);
+		}
+
+		/// <summary>
+		/// Update the specified mailId, content and callback.
+		/// </summary>
+		/// <param name="mailId">Mail identifier.</param>
+		/// <param name="content">Content.</param>
+		/// <param name="callback">Callback.</param>
+		public void deleteAllMail(long fromMailId, long toMailId, CallBack callback)
+		{
+			// Hive5 API URL 초기화
+			var url = initializeUrl(string.Format("mails/delete_all"));
+			
+			var requestBody = new {
+				from_mail_id	= fromMailId,
+				to_mail_id		= toMailId
+			};
+			
+			// WWW 호출
+			StartCoroutine (
+				postHTTP(url, requestBody, CommonResponseBody.Load, callback)
+			);
+		}
+
+		/// <summary>
+		/// Attachs the mail tags.
+		/// </summary>
+		/// <param name="mailId">Mail identifier.</param>
+		/// <param name="tags">Tags.</param>
+		/// <param name="callback">Callback.</param>
+		public void attachMailTags(long mailId, string[] tags, CallBack callback)
+		{
+			// Hive5 API URL 초기화
+			var url = initializeUrl(string.Format("mails/{0}/add_tags", mailId));
+			
+			var requestBody = new {
+				tags = tags
+			};
+			
+			// WWW 호출
+			StartCoroutine (
+				postHTTP(url, requestBody, AttachMailTagsResponseBody.Load, callback)
+			);
+		}
+
+		/// <summary>
+		/// Attachs the mail tags.
+		/// </summary>
+		/// <param name="mailId">Mail identifier.</param>
+		/// <param name="tags">Tags.</param>
+		/// <param name="callback">Callback.</param>
+		public void detachMailTags(long mailId, string[] tags, CallBack callback)
+		{
+			// Hive5 API URL 초기화
+			var url = initializeUrl(string.Format("mails/{0}/add_tags", mailId));
+			
+			var requestBody = new {
+				tags = tags
+			};
+			
+			// WWW 호출
+			StartCoroutine (
+				postHTTP(url, requestBody, DetachMailTagsResponseBody.Load, callback)
+				);
 		}
 
 		/********************************************************************************
@@ -585,7 +740,7 @@ namespace Hive5
 			
 			// WWW 호출
 			StartCoroutine (
-				postHTTP(url, requestBody, SetUserDataResponseBody.Load, callback)
+				postHTTP(url, requestBody, UpdatePushTokenResponseBody.Load, callback)
 			);
 			
 		}
@@ -691,7 +846,7 @@ namespace Hive5
 			
 			// WWW 호출
 			StartCoroutine (
-				postHTTP(url, new {}, SetUserDataResponseBody.Load, callback)
+				postHTTP(url, new {}, StartRoundResponseBody.Load, callback)
 			);
 		}
 		
@@ -708,7 +863,7 @@ namespace Hive5
 			
 			// WWW 호출
 			StartCoroutine (
-				postHTTP(url, requestBody, SetUserDataResponseBody.Load, callback)
+				postHTTP(url, requestBody, EndRoundResponseBody.Load, callback)
 			);
 		}
 
@@ -733,7 +888,7 @@ namespace Hive5
 			
 			// WWW 호출
 			StartCoroutine (
-				postHTTP(url, requestBody, SetUserDataResponseBody.Load, callback)
+				postHTTP(url, requestBody, UpdateFriendsResponseBody.Load, callback)
 			);
 		}
 		

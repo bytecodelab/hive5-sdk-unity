@@ -13,14 +13,14 @@ namespace Hive5.Model
 	public class Item
 	{
 		public string key { set; get; }
-		public string value  { set; get; }
+		public int value  { set; get; }
 		public bool? locked  { set; get; }
 		public Recharge recharge  { set; get; }
 
 		public static Item Load(JsonData json)
 		{
 			var key = (string)json ["key"];
-			var value 	= (string)json["value"];
+			var value 	= (int)json["value"];
 			bool? locked = null;
 			
 			try
@@ -63,35 +63,8 @@ namespace Hive5.Model
 			
 			foreach (string key in (json as System.Collections.IDictionary).Keys)
 			{
-				var value = (string)json[key]["value"];
-				bool? locked = null;
-				
-				try
-				{
-					locked = (bool)json[key]["locked"];
-				}
-				catch (KeyNotFoundException )
-				{
-					locked = null;
-				}
-				
-				Recharge recharge = null;
-
-				try
-				{
-					recharge = Recharge.Load((JsonData)json[key]["recharge_info"]);
-				}
-				catch (KeyNotFoundException )
-				{
-					recharge = null;
-				}
-
-				items.Add ( new Item() {
-					key = key,
-					value = value,
-					locked = locked,
-					recharge = recharge
-				});
+				json[key]["key"] = key;
+				items.Add ( Item.Load(json[key]));
 			}
 
 			return items;

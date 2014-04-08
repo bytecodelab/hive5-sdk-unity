@@ -12,8 +12,6 @@ namespace Hive5.Model
 	/// </summary>
 	public class GetUserDataResponseBody : IResponseBody
 	{
-		public int 		resultCode { set; get; }
-		public string 	resultMessage { set; get; }
 		public List<UserData> userData { set; get; }			
 
 		/// <summary>
@@ -24,19 +22,8 @@ namespace Hive5.Model
 		{
 			if (json == null)
 				return null;
-			
-			var resultCode 	= (int)json["result_code"];
-			string resultMessage;
-			List<UserData> userData;
 
-			try
-			{
-				resultMessage	= (string)json["result_message"];
-			}
-			catch (KeyNotFoundException )
-			{
-				resultMessage	= null;
-			}
+			List<UserData> userData;
 
 			try
 			{
@@ -48,8 +35,6 @@ namespace Hive5.Model
 			}
 
 			return new GetUserDataResponseBody() {
-				resultCode 		= resultCode,
-				resultMessage 	= resultMessage,
 				userData		= userData
 			};
 		}

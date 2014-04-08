@@ -12,8 +12,6 @@ namespace Hive5.Model
 	/// </summary>
 	public class CreateGooglePurchaseResponseBody : IResponseBody
 	{
-		public int 		resultCode { set; get; }
-		public string 	resultMessage { set; get; }
 		public long		id { set; get; }
 
 		/// <summary>
@@ -24,19 +22,8 @@ namespace Hive5.Model
 		{
 			if (json == null)
 				return null;
-			
-			var resultCode 	= (int)json["result_code"];
-			string resultMessage;
-			long id;
 
-			try
-			{
-				resultMessage	= (string)json["result_message"];
-			}
-			catch (KeyNotFoundException )
-			{
-				resultMessage	= null;
-			}
+			long id;
 
 			try
 			{
@@ -48,8 +35,6 @@ namespace Hive5.Model
 			}
 
 			return new CreateGooglePurchaseResponseBody() {
-				resultCode 		= resultCode,
-				resultMessage 	= resultMessage,
 				id = id
 			};
 		}

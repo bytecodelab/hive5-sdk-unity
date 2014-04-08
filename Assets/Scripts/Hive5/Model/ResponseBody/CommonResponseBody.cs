@@ -12,8 +12,6 @@ namespace Hive5.Model
 	/// </summary>
 	public class CommonResponseBody : IResponseBody
 	{
-		public int 		resultCode { set; get; }
-		public string 	resultMessage { set; get; }
 
 		/// <summary>
 		/// Load the specified json.
@@ -27,18 +25,8 @@ namespace Hive5.Model
 			var resultCode 	= (int)json["result_code"];
 			string resultMessage;
 
-			try
-			{
-				resultMessage	= (string)json["result_message"];
-			}
-			catch (KeyNotFoundException )
-			{
-				resultMessage	= null;
-			}
-
 			return new CommonResponseBody() {
-				resultCode 		= resultCode,
-				resultMessage 	= resultMessage
+
 			};
 		}
 

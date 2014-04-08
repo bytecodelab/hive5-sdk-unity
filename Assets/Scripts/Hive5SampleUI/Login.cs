@@ -27,6 +27,7 @@ public class Login : MonoBehaviour {
 
 		Hive5Client hive5 = Hive5Client.Instance;
 		hive5.Init ("a40e4122-99d9-44a6-b916-68ed756f79d6", "747474747");
+		hive5.setDebug ();
 		hive5.login( userId, accessToken, sdkVersion, os, userDataKeys, itemKeys, configKeys, callBack );	//카카오 로그인 API 호출
 	}
 
@@ -43,8 +44,14 @@ public class Login : MonoBehaviour {
 		if (response.resultCode == Hive5ResultCode.Success) {
 			
 			Debug.Log ("resultCode =" + response.resultCode);
-			var loginInfo = (LoginDataResponseBody)response.resultData;
-			
+			var loginInfo = (LoginResponseBody)response.resultData;
+	
+
+			foreach(var item in loginInfo.items)
+			{
+				Debug.Log (string.Format("item key : {0} , value : {1}", item.key, item.value));
+			}
+
 			foreach(var userData in loginInfo.userData)
 			{
 				Debug.Log (string.Format("userData key : {0} , value : {1}", userData.key, userData.value));

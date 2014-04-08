@@ -10,9 +10,8 @@ namespace Hive5.Model
 	/// <summary>
 	/// Login data.
 	/// </summary>
-	public class LoginDataResponseBody : IResponseBody
+	public class LoginResponseBody : IResponseBody
 	{
-		public int 		resultCode;
 		public long 	userId;
 		public string 	accessToken;
 		public int 		mailboxNewItemCount;
@@ -28,7 +27,7 @@ namespace Hive5.Model
 		/// Load the specified json.
 		/// </summary>
 		/// <param name="json">Json.</param>
-		public static IResponseBody Load(JsonData json)
+		public static LoginResponseBody Load(JsonData json)
 		{
 
 			if (json == null)
@@ -38,7 +37,6 @@ namespace Hive5.Model
 			var userId 				= (int)json["user_id"];
 			var mailboxNewItemCount = (int)json["mailbox_new_item_count"];
 			var accessToken 		= (string)json["access_token"];
-
 			var items 				= Item.LoadList( json ["items"] );
 			var userData			= UserData.LoadList( json["user_data"] );
 			var completedMissions	= Mission.LoadList( json["completed_missions"] );
@@ -46,9 +44,9 @@ namespace Hive5.Model
 			var promotions			= Promotion.LoadList ( json ["promotions"] );
 			var agreements 			= Agreement.LoadList ( json ["agreements"] );
 
-			return new LoginDataResponseBody ()
+
+			return new LoginResponseBody ()
 			{
-				resultCode = resultCode, 
 				accessToken = accessToken, 
 				mailboxNewItemCount = mailboxNewItemCount, 
 				userId = userId, 

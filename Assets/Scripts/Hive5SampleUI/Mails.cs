@@ -13,7 +13,7 @@ public class Mails : MonoBehaviour {
 	/// </summary>
 	public void getMails()
 	{
-		Hive5Client.CallBack = onGetMails;
+		Hive5Client.CallBack callback = onGetMails;
 		H5 = Hive5Client.Instance;
 	}
 
@@ -22,7 +22,7 @@ public class Mails : MonoBehaviour {
 	/// </summary>
 	public void postMail()
 	{
-		Hive5Client.CallBack = onPostMail;
+		Hive5Client.CallBack callback = onPostMail;
 		H5 = Hive5Client.Instance;
 	}
 

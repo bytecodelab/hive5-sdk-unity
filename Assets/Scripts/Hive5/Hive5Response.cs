@@ -41,6 +41,7 @@ namespace Hive5
 
 			return new Hive5Response () {
 				resultCode = resultCode,
+				resultMessage = resultMessage,
 				resultData = resultData
 			};
 		}

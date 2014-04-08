@@ -14,7 +14,7 @@ namespace Hive5.Model
 	{
 		public int 		resultCode { set; get; }
 		public string 	resultMessage { set; get; }
-		public Dictionary<string, string> userData { set; get; }			
+		public List<UserData> userData { set; get; }			
 
 		/// <summary>
 		/// Load the specified json.
@@ -27,7 +27,7 @@ namespace Hive5.Model
 			
 			var resultCode 	= (int)json["result_code"];
 			string resultMessage;
-			Dictionary<string, string> userData;
+			List<UserData> userData;
 
 			try
 			{
@@ -40,7 +40,7 @@ namespace Hive5.Model
 
 			try
 			{
-				userData = UserData.Load( json["data"] );
+				userData = UserData.LoadList( json["data"] );
 			}
 			catch (KeyNotFoundException)
 			{

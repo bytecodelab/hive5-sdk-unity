@@ -47,7 +47,7 @@ public class Login : MonoBehaviour {
 			
 			foreach(var userData in loginInfo.userData)
 			{
-				Debug.Log (string.Format("userData key : {0} , value : {1}", userData.Key, userData.Value));
+				Debug.Log (string.Format("userData key : {0} , value : {1}", userData.key, userData.value));
 			}
 			
 			foreach(var promotion in loginInfo.promotions)
@@ -55,10 +55,10 @@ public class Login : MonoBehaviour {
 				Debug.Log (string.Format("userData key : {0} , value : {1}", promotion.id, promotion.applyUrl));
 			}
 			
-			foreach(KeyValuePair<string, AgreementData> agreement in loginInfo.agreements)
+			foreach(Agreement agreement in loginInfo.agreements)
 			{
 				
-				Debug.Log (string.Format("agreements key : {0}, version : {1} , agreedAt : {2}", agreement.Key, agreement.Value.version, agreement.Value.agreedAt));
+				Debug.Log (string.Format("agreements key : {0}, version : {1} , agreedAt : {2}", agreement.key, agreement.version, agreement.agreedAt));
 			}
 			
 		} 

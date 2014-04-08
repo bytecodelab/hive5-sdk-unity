@@ -43,4 +43,29 @@ namespace Hive5.Util
 
 		}
 	}
+
+	public class Util
+	{
+		public static string getStringByCommandType(CommandType command)
+		{
+			string commandString = "";
+
+			switch(command)
+			{
+				case CommandType.SET:
+					commandString = "set";
+					break;
+				case CommandType.INC:
+					commandString = "inc";
+					break;
+				case CommandType.DEC:
+					commandString = "dec";
+					break;
+			}
+
+			return commandString;
+		}
+
+	}
+	
 }

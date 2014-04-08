@@ -17,6 +17,13 @@ namespace Hive5
 		KST = 9
 	}
 
+	public enum CommandType
+	{
+		SET = 0,
+		INC = 1,
+		DEC = -1
+	}
+
 
 }
 

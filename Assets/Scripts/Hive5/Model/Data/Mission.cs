@@ -8,45 +8,47 @@ using Hive5.Util;
 namespace Hive5.Model
 {
 	/// <summary>
-	/// User data.
+	/// Mission data.
 	/// </summary>
-	public class UserData
+	public class Mission
 	{
 		public string key { set; get; }
-		public string value { set; get; }
+		public DateTime completedTime { set; get; }
 
 		/// <summary>
 		/// Load the specified json.
 		/// </summary>
 		/// <param name="json">Json.</param>
-		public static UserData Load(JsonData json)
+		public static Mission Load(JsonData json)
 		{
-			return new UserData () {
+			return new Mission () {
 				key = (string)json["key"],
-				value = (string)json["value"]
+				completedTime = Date.ParseDateTime((string)json["completed_at"])
 			};
 		}
 
 		/// <summary>
-		/// Load the specified json.
+		/// Loads the list.
 		/// </summary>
+		/// <returns>The list.</returns>
 		/// <param name="json">Json.</param>
-		public static List<UserData> LoadList(JsonData json)
+		public static List<Mission> LoadList(JsonData json)
 		{
-			var userData = new List<UserData>();
+			var missions = new List<Mission>();
 			
 			if (json == null || json.IsObject == false)
-				return userData;
+				return missions;
 			
 			foreach (string key in (json as System.Collections.IDictionary).Keys)
 			{
 				JsonData jsonObj = new JsonData();
-				jsonObj["key"] 		= key;
-				jsonObj["value"] 	= (string)json[key]; 
-				userData.Add (UserData.Load (jsonObj));
+				jsonObj["key"] = key;
+				jsonObj["completed_at"] = (string)json[key];
+
+				missions.Add (Mission.Load(jsonObj));
 			}
 			
-			return userData;
+			return missions;
 		}
 	}
 }

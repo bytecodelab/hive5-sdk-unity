@@ -770,7 +770,7 @@ namespace Hive5
 		/// <param name="key">Key.</param>
 		/// <param name="value">Value.</param>
 		/// <param name="callback">Callback.</param>
-		public void setUserData(string key, string value, string command, CallBack callback)
+		public void setUserData(string key, string value, CommandType command, CallBack callback)
 		{
 			Debug.Log ("set LoginState=" + LoginState);
 			
@@ -779,7 +779,7 @@ namespace Hive5
 			
 			var requestBody = new SetUserDataRequest ();
 			var data = new List<KeyValueCommand> ();
-			var userData = new KeyValueCommand () { key = key, value = value, command = command };
+			var userData = new KeyValueCommand () { key = key, value = value, command = Util.Util.getStringByCommandType(command) };
 			data.Add (userData);
 			requestBody.condition = new List<Condition> ();
 			requestBody.data = data;

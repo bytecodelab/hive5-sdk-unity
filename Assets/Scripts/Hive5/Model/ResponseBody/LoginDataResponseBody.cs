@@ -17,12 +17,12 @@ namespace Hive5.Model
 		public string 	accessToken;
 		public int 		mailboxNewItemCount;
 
-		public Dictionary<string, string> userData;				
-		public Dictionary<string, ItemData> items;				
-		public Dictionary<string, string> configs;				
-		public Dictionary<string, DateTime> completedMissions;	
-		public Dictionary<string, AgreementData> agreements;			
-		public List<PromotionData> promotions;					
+		public List<UserData>	userData;				
+		public List<Item> 		items;				
+		public List<Config> 	configs;				
+		public List<Mission> 	completedMissions;	
+		public List<Agreement> 	agreements;			
+		public List<Promotion> 	promotions;			
 
 		/// <summary>
 		/// Load the specified json.
@@ -30,6 +30,7 @@ namespace Hive5.Model
 		/// <param name="json">Json.</param>
 		public static IResponseBody Load(JsonData json)
 		{
+
 			if (json == null)
 				return null;
 			
@@ -38,12 +39,12 @@ namespace Hive5.Model
 			var mailboxNewItemCount = (int)json["mailbox_new_item_count"];
 			var accessToken 		= (string)json["access_token"];
 
-			var items 				= ItemData.Load( json ["items"] );
-			var userData			= UserData.Load( json["user_data"] );
-			var completedMissions	= MissionData.Load( json["completed_missions"] );
-			var configs 			= ConfigData.Load( json ["configs"] );
-			var promotions			= PromotionData.Load ( json ["promotions"] );
-			var agreements 			= AgreementData.Load ( json ["agreements"] );
+			var items 				= Item.LoadList( json ["items"] );
+			var userData			= UserData.LoadList( json["user_data"] );
+			var completedMissions	= Mission.LoadList( json["completed_missions"] );
+			var configs 			= Config.LoadList( json ["configs"] );
+			var promotions			= Promotion.LoadList ( json ["promotions"] );
+			var agreements 			= Agreement.LoadList ( json ["agreements"] );
 
 			return new LoginDataResponseBody ()
 			{

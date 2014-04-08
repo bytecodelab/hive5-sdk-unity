@@ -134,11 +134,12 @@
      <Compile Include="Assets\Scripts\Hive5\Hive5Client.cs" />
      <Compile Include="Assets\Scripts\Hive5\Hive5Response.cs" />
      <Compile Include="Assets\Scripts\Hive5\Hive5ResultCode.cs" />
-     <Compile Include="Assets\Scripts\Hive5\Model\Data\AgreementData.cs" />
-     <Compile Include="Assets\Scripts\Hive5\Model\Data\ConfigData.cs" />
-     <Compile Include="Assets\Scripts\Hive5\Model\Data\ItemData.cs" />
-     <Compile Include="Assets\Scripts\Hive5\Model\Data\MissionData.cs" />
-     <Compile Include="Assets\Scripts\Hive5\Model\Data\PromotionData.cs" />
+     <Compile Include="Assets\Scripts\Hive5\Model\Data\Agreement.cs" />
+     <Compile Include="Assets\Scripts\Hive5\Model\Data\Config.cs" />
+     <Compile Include="Assets\Scripts\Hive5\Model\Data\Item.cs" />
+     <Compile Include="Assets\Scripts\Hive5\Model\Data\Mission.cs" />
+     <Compile Include="Assets\Scripts\Hive5\Model\Data\Promotion.cs" />
+     <Compile Include="Assets\Scripts\Hive5\Model\Data\Score.cs" />
      <Compile Include="Assets\Scripts\Hive5\Model\Data\UserData.cs" />
      <Compile Include="Assets\Scripts\Hive5\Model\RequestBody\SetUserDataRequestBody.cs" />
      <Compile Include="Assets\Scripts\Hive5\Model\ResponseBody\CommonResponseBody.cs" />

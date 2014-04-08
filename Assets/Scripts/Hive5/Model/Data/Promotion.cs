@@ -10,7 +10,7 @@ namespace Hive5.Model
 	/// <summary>
 	/// Promotion data.
 	/// </summary>
-	public class PromotionData
+	public class Promotion
 	{
 		public int id { set; get; }
 		public string name { set; get; }
@@ -18,13 +18,30 @@ namespace Hive5.Model
 		public string displayUrl { set; get; }
 		public int order { set; get; }
 
+		public static Promotion Load(JsonData json)
+		{
+			var id 			= (int)json["id"];
+			var name 		= (string)json["name"];
+			var applyUrl 	= (string)json["apply_url"];
+			var displayUrl 	= (string)json["display_url"];
+			var order 		= (int)json["order"];
+
+			return new Promotion () {
+				id = id,
+				name = name,
+				applyUrl = applyUrl,
+				displayUrl = displayUrl,
+				order = order
+			};
+		}
+
 		/// <summary>
 		/// Load the specified json.
 		/// </summary>
 		/// <param name="json">Json.</param>
-		public static List<PromotionData> Load(JsonData json)
+		public static List<Promotion> LoadList(JsonData json)
 		{
-			var promotions = new List<PromotionData>();
+			var promotions = new List<Promotion>();
 			
 			if (json == null || json.IsArray == false)
 				return promotions;
@@ -38,13 +55,7 @@ namespace Hive5.Model
 				var displayUrl 	= (string)json[currentCount]["display_url"];
 				var order 		= (int)json[currentCount]["order"];
 
-				promotions.Add( new PromotionData() {
-					id = id,
-					name = name,
-					applyUrl = applyUrl,
-					displayUrl = displayUrl,
-					order = order
-				});
+				promotions.Add(Promotion.Load(json[currentCount]));
 			}
 
 			return promotions;

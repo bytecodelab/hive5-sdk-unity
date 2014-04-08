@@ -17,20 +17,22 @@ public class Rounds : MonoBehaviour {
 		
 		long roundRuleId = 5;
 		
-		H5.startRound(roundRuleId, (resultCode, response) => {
+		H5.startRound(roundRuleId, (response) => {
 			Debug.Log ("onRoundStart");
 			
 			// 성공
-			if (resultCode == Hive5ResultCode.Success) {
-				Debug.Log ("resultCode =" + resultCode);
-				Debug.Log ("resultData = "+ JsonMapper.ToJson(response));	// 응답 데이터 전체 정보
+			if (response.resultCode == Hive5ResultCode.Success) {
+				Debug.Log ("resultCode =" + response.resultCode);
+				Debug.Log ("resultData = "+ response.resultData);	// 응답 데이터 전체 정보
+
+
 				
-				this.roundId = ((long)response["id"]);	// round End 호출을 위한 roundId 저장
+				//this.roundId = ((long)response.resultData);	// round End 호출을 위한 roundId 저장
 			} 
 			// 실패
 			else {
-				Debug.Log ("resultCode =" + resultCode);
-				Debug.Log ("resultMessage =" + response ["result_message"]);	// 상세 에러 메시지
+				Debug.Log ("resultCode =" + response.resultCode);
+				Debug.Log ("resultMessage =" + response.resultMessage);	// 상세 에러 메시지
 			}	
 			
 		});
@@ -69,18 +71,18 @@ public class Rounds : MonoBehaviour {
 			
 		};
 		
-		H5.endRounds(roundId, requestBody, (resultCode, response) => {
+		H5.endRound(roundId, requestBody, (response) => {
 			Debug.Log ("onRoundEnd = "+roundId);
 			
 			// 성공
-			if (resultCode == Hive5ResultCode.Success) {
-				Debug.Log ("resultCode =" + resultCode);
+			if (response.resultCode == Hive5ResultCode.Success) {
+				Debug.Log ("resultCode =" + response.resultCode);
 				Debug.Log ("resultData = "+ JsonMapper.ToJson(response));	// 응답 데이터 전체 정보
 			} 
 			// 실패
 			else {
-				Debug.Log ("resultCode =" + resultCode);
-				Debug.Log ("resultMessage =" + response ["result_message"]);	// 상세 에러 메시지
+				Debug.Log ("resultCode =" + response.resultCode);
+				Debug.Log ("resultMessage =" + response.resultMessage);	// 상세 에러 메시지
 			}	
 			
 		});

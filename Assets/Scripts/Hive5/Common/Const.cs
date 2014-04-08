@@ -98,5 +98,5 @@ namespace Hive5
 		public static string google 	= "google";
 		public static string none 		= "none";
 	}
-	
+
 }

@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{85B0D527-F44B-6654-A442-758886FF1D59}</ProjectGuid>
+	<ProjectGuid>{29B91E10-D0E6-73B9-A265-FAEF72D31B26}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -19,7 +19,7 @@
 	<DebugType>full</DebugType>
 	<Optimize>false</Optimize>
 	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_GENERICS;ENABLE_SUBSTANCE;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;UNITY_4_3_4;UNITY_4_3;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
+	<DefineConstants>DEBUG;TRACE;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_GENERICS;ENABLE_SUBSTANCE;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;UNITY_4_3_4;UNITY_4_3;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_OSX</DefineConstants>
 	<ErrorReport>prompt</ErrorReport>
 	<WarningLevel>4</WarningLevel>
 	<NoWarn>0169</NoWarn>
@@ -39,10 +39,10 @@
 	<Reference Include="System.Core" />
 	<Reference Include="System.Xml.Linq" />
 	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
@@ -131,21 +131,9 @@
      <Compile Include="Assets\Scripts\Hive5\Common\Enum.cs" />
      <Compile Include="Assets\Scripts\Hive5\Common\Exceptions.cs" />
      <Compile Include="Assets\Scripts\Hive5\Common\Hive5Config.cs" />
-     <Compile Include="Assets\Scripts\Hive5\Core\Hive5Core.cs" />
-     <Compile Include="Assets\Scripts\Hive5\Hive5API.cs" />
-     <Compile Include="Assets\Scripts\Hive5\Hive5Auth.cs" />
-     <Compile Include="Assets\Scripts\Hive5\Hive5Item.cs" />
-     <Compile Include="Assets\Scripts\Hive5\Hive5Leaderboard.cs" />
-     <Compile Include="Assets\Scripts\Hive5\Hive5Mail.cs" />
-     <Compile Include="Assets\Scripts\Hive5\Hive5Mission.cs" />
-     <Compile Include="Assets\Scripts\Hive5\Hive5Purchase.cs" />
-     <Compile Include="Assets\Scripts\Hive5\Hive5Push.cs" />
+     <Compile Include="Assets\Scripts\Hive5\Hive5Client.cs" />
      <Compile Include="Assets\Scripts\Hive5\Hive5Response.cs" />
      <Compile Include="Assets\Scripts\Hive5\Hive5ResultCode.cs" />
-     <Compile Include="Assets\Scripts\Hive5\Hive5Reward.cs" />
-     <Compile Include="Assets\Scripts\Hive5\Hive5Round.cs" />
-     <Compile Include="Assets\Scripts\Hive5\Hive5SocialGraph.cs" />
-     <Compile Include="Assets\Scripts\Hive5\Hive5UserData.cs" />
      <Compile Include="Assets\Scripts\Hive5\Model\Data\AgreementData.cs" />
      <Compile Include="Assets\Scripts\Hive5\Model\Data\ConfigData.cs" />
      <Compile Include="Assets\Scripts\Hive5\Model\Data\ItemData.cs" />
@@ -154,18 +142,20 @@
      <Compile Include="Assets\Scripts\Hive5\Model\Data\UserData.cs" />
      <Compile Include="Assets\Scripts\Hive5\Model\RequestBody\SetUserDataRequestBody.cs" />
      <Compile Include="Assets\Scripts\Hive5\Model\ResponseBody\CommonResponseBody.cs" />
+     <Compile Include="Assets\Scripts\Hive5\Model\ResponseBody\CreateGooglePurchaseResponseBody.cs" />
      <Compile Include="Assets\Scripts\Hive5\Model\ResponseBody\GetUserDataResponseBody.cs" />
      <Compile Include="Assets\Scripts\Hive5\Model\ResponseBody\IResponseBody.cs" />
      <Compile Include="Assets\Scripts\Hive5\Model\ResponseBody\LoginDataResponseBody.cs" />
      <Compile Include="Assets\Scripts\Hive5\Model\ResponseBody\SetUserDataResponseBody.cs" />
-     <Compile Include="Assets\Scripts\Hive5\Temp\Hive5Client.cs" />
      <Compile Include="Assets\Scripts\Hive5\Util\Util.cs" />
      <Compile Include="Assets\Scripts\Hive5\lib\MonoSingleton.cs" />
+     <Compile Include="Assets\Scripts\Hive5\libs\MonoSingleton.cs" />
      <Compile Include="Assets\Scripts\Hive5SampleUI\Agreements.cs" />
      <Compile Include="Assets\Scripts\Hive5SampleUI\Friends.cs" />
      <Compile Include="Assets\Scripts\Hive5SampleUI\Items.cs" />
      <Compile Include="Assets\Scripts\Hive5SampleUI\Login.cs" />
      <Compile Include="Assets\Scripts\Hive5SampleUI\Mails.cs" />
+     <Compile Include="Assets\Scripts\Hive5SampleUI\Purchases.cs" />
      <Compile Include="Assets\Scripts\Hive5SampleUI\Push.cs" />
      <Compile Include="Assets\Scripts\Hive5SampleUI\Rounds.cs" />
      <Compile Include="Assets\Scripts\Hive5SampleUI\UserData.cs" />
@@ -204,10 +194,10 @@
      <None Include="Assets\NGUI\Examples\Shaders\Refractive.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Normal.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (SoftClip).shader" />
- <Reference Include="NGUI">
+ <Reference Include="Assets\NGUI\DLLs\NGUI">
  <HintPath>Assets\NGUI\DLLs\NGUI.dll</HintPath>
  </Reference>
- <Reference Include="LitJson">
+ <Reference Include="Assets\Plugins\LitJson">
  <HintPath>Assets\Plugins\LitJson.dll</HintPath>
  </Reference>
   </ItemGroup>

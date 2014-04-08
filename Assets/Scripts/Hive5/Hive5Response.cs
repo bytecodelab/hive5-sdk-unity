@@ -1,5 +1,6 @@
 using System;
 using LitJson;
+using Hive5;
 using Hive5.Model;
 
 namespace Hive5
@@ -12,6 +13,7 @@ namespace Hive5
 		public delegate IResponseBody dataLoader (JsonData response);
 
 		public Hive5ResultCode 	resultCode { set; get; }
+		public string 			resultMessage { set; get; }
 		public IResponseBody	resultData { set; get; }
 
 		/// <summary>
@@ -24,6 +26,17 @@ namespace Hive5
 			JsonData response = JsonMapper.ToObject (json);
 
 			Hive5ResultCode resultCode 	= (Hive5ResultCode) ((int)response[ResponseKey.resultCode]);
+			string resultMessage;
+
+			try
+			{
+				resultMessage = (string)response[ResponseKey.resultMessage];
+			}
+			catch(Exception)
+			{
+				resultMessage = "";
+			}
+
 			IResponseBody resultData = loader(response);
 
 			return new Hive5Response () {

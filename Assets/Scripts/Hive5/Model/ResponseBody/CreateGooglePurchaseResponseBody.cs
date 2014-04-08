@@ -10,10 +10,11 @@ namespace Hive5.Model
 	/// <summary>
 	/// Login data.
 	/// </summary>
-	public class CommonResponseBody : IResponseBody
+	public class CreateGooglePurchaseResponseBody : IResponseBody
 	{
 		public int 		resultCode { set; get; }
 		public string 	resultMessage { set; get; }
+		public long		id { set; get; }
 
 		/// <summary>
 		/// Load the specified json.
@@ -23,9 +24,10 @@ namespace Hive5.Model
 		{
 			if (json == null)
 				return null;
-
+			
 			var resultCode 	= (int)json["result_code"];
 			string resultMessage;
+			long id;
 
 			try
 			{
@@ -36,9 +38,19 @@ namespace Hive5.Model
 				resultMessage	= null;
 			}
 
-			return new CommonResponseBody() {
+			try
+			{
+				id = (long)json["id"];
+			}
+			catch(Exception)
+			{
+				id = 0;
+			}
+
+			return new CreateGooglePurchaseResponseBody() {
 				resultCode 		= resultCode,
-				resultMessage 	= resultMessage
+				resultMessage 	= resultMessage,
+				id = id
 			};
 		}
 

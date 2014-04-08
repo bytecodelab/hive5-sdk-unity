@@ -9,7 +9,7 @@ namespace Hive5
 	{
 		public static string realHost		= "https://api.hive5.io";
 		public static string betaHost 		= "https://beta.api.hive5.io";
-		public static string version 		= "v3";
+		public static string version 		= "v4";
 		
 	}
 
@@ -54,6 +54,7 @@ namespace Hive5
 	public class ResponseKey
 	{
 		public static string resultCode 	= "result_code";
+		public static string resultMessage 	= "result_message";
 		public static string accessToken 	= "access_token";
 	}
 

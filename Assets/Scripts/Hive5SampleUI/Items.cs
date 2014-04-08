@@ -16,18 +16,18 @@ public class Items : MonoBehaviour {
 		
 		string itemConvertKey = "buy_gameItem.doubleShot";
 		
-		H5.convertItem(itemConvertKey,(resultCode, response) => {
+		H5.convertItem(itemConvertKey,(response) => {
 			Debug.Log ("onSetUserData");
-			
+
 			// 성공
-			if (resultCode == Hive5ResultCode.Success) {
-				Debug.Log ("resultCode =" + resultCode);
+			if (response.resultCode == Hive5ResultCode.Success) {
+				Debug.Log ("resultCode =" + response.resultCode);
 				Debug.Log ("resultData = "+ JsonMapper.ToJson(response));	// 응답 데이터 전체 정보
 			} 
 			// 실패
 			else {
-				Debug.Log ("resultCode =" + resultCode);
-				Debug.Log ("resultMessage =" + response ["result_message"]);	// 상세 에러 메시지
+				Debug.Log ("resultCode =" + response.resultCode);
+				Debug.Log ("resultMessage =" + response.resultMessage);	// 상세 에러 메시지
 			}	
 			
 		});
@@ -51,18 +51,18 @@ public class Items : MonoBehaviour {
 			}
 		};
 		
-		H5.consumeItem (requestBody,(resultCode, response) => {
+		H5.consumeItem (requestBody,(response) => {
 			Debug.Log ("onConsumeItem");
-			
+
 			// 성공
-			if (resultCode == Hive5ResultCode.Success) {
-				Debug.Log ("resultCode =" + resultCode);
+			if (response.resultCode == Hive5ResultCode.Success) {
+				Debug.Log ("resultCode =" + response.resultCode);
 				Debug.Log ("resultData = "+ JsonMapper.ToJson(response));	// 응답 데이터 전체 정보
 			} 
 			// 실패
 			else {
-				Debug.Log ("resultCode =" + resultCode);
-				Debug.Log ("resultMessage =" + response ["result_message"]);	// 상세 에러 메시지
+				Debug.Log ("resultCode =" + response.resultCode);
+				Debug.Log ("resultMessage =" + response.resultMessage);	// 상세 에러 메시지
 			}	
 			
 		});

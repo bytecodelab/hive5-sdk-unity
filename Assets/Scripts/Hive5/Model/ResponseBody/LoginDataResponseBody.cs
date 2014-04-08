@@ -24,20 +24,6 @@ namespace Hive5.Model
 		public Dictionary<string, AgreementData> agreements;			
 		public List<PromotionData> promotions;					
 
-
-		public LoginDataResponseBody(int resultCode, string accessToken, int mailboxNewItemCount, long userId, Dictionary<string, ItemData> items, Dictionary<string, string> userData, Dictionary<string, DateTime> completedMissions, List<PromotionData> promotions, Dictionary<string, AgreementData> agreements)
-		{
-			this.resultCode 			= resultCode;
-			this.accessToken 			= accessToken;
-			this.mailboxNewItemCount	= mailboxNewItemCount;
-			this.userId 				= userId;
-			this.items 					= items;
-			this.userData 				= userData;
-			this.completedMissions 		= completedMissions;
-			this.promotions				= promotions;
-			this.agreements 			= agreements;
-		}
-
 		/// <summary>
 		/// Load the specified json.
 		/// </summary>
@@ -59,7 +45,18 @@ namespace Hive5.Model
 			var promotions			= PromotionData.Load ( json ["promotions"] );
 			var agreements 			= AgreementData.Load ( json ["agreements"] );
 
-			return new LoginDataResponseBody(resultCode, accessToken, mailboxNewItemCount, userId, items, userData, completedMissions, promotions, agreements);
+			return new LoginDataResponseBody ()
+			{
+				resultCode = resultCode, 
+				accessToken = accessToken, 
+				mailboxNewItemCount = mailboxNewItemCount, 
+				userId = userId, 
+				items = items, 
+				userData = userData, 
+				completedMissions = completedMissions, 
+				promotions = promotions, 
+				agreements = agreements
+			};
 		}
 
 	}

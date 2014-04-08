@@ -22,12 +22,12 @@ public class Login : MonoBehaviour {
 		string[] itemKeys 		= new string[] {"heart"};		// 로그인 후 가져와야할 사용자 item의 key 목록
 		string[] configKeys 	= new string[] {"time_event1"};	// 로그인 후 가져와야할 사용자 configuration의 key
 		
-		Hive5API.CallBack callBack = onLoginKakao2;		// 로그인 후 호출 받을 콜백함수 지정
+		Hive5Client.CallBack callBack = onLoginKakao2;		// 로그인 후 호출 받을 콜백함수 지정
 
 
-		Hive5API.Init ("a40e4122-99d9-44a6-b916-68ed756f79d6", "747474747");
-		Hive5Auth auth = new Hive5Auth();
-		auth.login( userId, accessToken, sdkVersion, os, userDataKeys, itemKeys, configKeys, callBack );	//카카오 로그인 API 호출
+		Hive5Client hive5 = Hive5Client.Instance;
+		hive5.Init ("a40e4122-99d9-44a6-b916-68ed756f79d6", "747474747");
+		hive5.login( userId, accessToken, sdkVersion, os, userDataKeys, itemKeys, configKeys, callBack );	//카카오 로그인 API 호출
 	}
 
 

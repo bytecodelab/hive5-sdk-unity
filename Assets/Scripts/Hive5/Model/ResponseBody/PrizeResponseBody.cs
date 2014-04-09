@@ -12,7 +12,7 @@ namespace Hive5.Model
 	/// </summary>
 	public class PrizeResponseBody : IResponseBody
 	{
-		public List<UserData> userData { set; get; }			
+		public Prize prized { set; get; }
 
 		/// <summary>
 		/// Load the specified json.
@@ -23,19 +23,19 @@ namespace Hive5.Model
 			if (json == null)
 				return null;
 
-			List<UserData> userData;
+			Prize prized;
 
 			try
 			{
-				userData = UserData.LoadList( json["data"] );
+				prized = Prize.Load (json ["prized"]);
 			}
 			catch (KeyNotFoundException)
 			{
-				userData = null;
+				prized = null;
 			}
 
 			return new PrizeResponseBody() {
-				userData		= userData
+				prized = prized
 			};
 		}
 

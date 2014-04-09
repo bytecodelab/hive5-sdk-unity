@@ -10,39 +10,32 @@ namespace Hive5.Model
 	/// <summary>
 	/// Config data.
 	/// </summary>
-	public class Score
+	public class MyScore
 	{
-		public string platformUserId { set; get; }
-		public DateTime scoredAt { set; get; }
 		public long value { set; get; }
-		public long rank { set; get; }
-		public List<UserData> userData { set; get; }
-		public List<Item> items { set; get; }
+		public DateTime scoredAt { set; get; }
 
 		/// <summary>
 		/// Load the specified json.
 		/// </summary>
 		/// <param name="json">Json.</param>
-		public static Score Load(JsonData json)
+		public static MyScore Load(JsonData json)
 		{
-			return new Score () {
-				platformUserId = (string)json["platform_user_id"],
+			return new MyScore () {
 				value = (long)json["value"],
-				rank = (long)json["rank"],
-				userData = UserData.LoadList(json["user_data"]),
 				scoredAt = Date.ParseDateTime((string)json["scored_at"])
 			};
 		
 		}
 
-		public static List<Score> LoadList(JsonData json)
+		public static List<MyScore> LoadList(JsonData json)
 		{
-			var scores = new List<Score> ();
+			var scores = new List<MyScore> ();
 
 			var scoresCount = json.Count;
 			for (int currentCount = 0; currentCount < scoresCount; currentCount++) 
 			{
-				scores.Add(Score.Load(json[currentCount]));
+				scores.Add(MyScore.Load(json[currentCount]));
 			}
 
 			return scores;

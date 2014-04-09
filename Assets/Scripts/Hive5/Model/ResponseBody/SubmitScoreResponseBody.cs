@@ -12,7 +12,7 @@ namespace Hive5.Model
 	/// </summary>
 	public class SubmitScoreResponseBody : IResponseBody
 	{
-		public List<UserData> userData { set; get; }			
+		public DateTime updateAt { set; get; }	
 
 		/// <summary>
 		/// Load the specified json.
@@ -23,19 +23,8 @@ namespace Hive5.Model
 			if (json == null)
 				return null;
 
-			List<UserData> userData;
-
-			try
-			{
-				userData = UserData.LoadList( json["data"] );
-			}
-			catch (KeyNotFoundException)
-			{
-				userData = null;
-			}
-
 			return new SubmitScoreResponseBody() {
-				userData		= userData
+				updateAt = Date.ParseDateTime((string)json["update_at"])
 			};
 		}
 

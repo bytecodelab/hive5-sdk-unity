@@ -12,7 +12,7 @@ namespace Hive5.Model
 	/// </summary>
 	public class GiftItemResponseBody : IResponseBody
 	{
-		public List<UserData> userData { set; get; }			
+		public DateTime canGiftAfter { set; get; }		
 
 		/// <summary>
 		/// Load the specified json.
@@ -23,19 +23,8 @@ namespace Hive5.Model
 			if (json == null)
 				return null;
 
-			List<UserData> userData;
-
-			try
-			{
-				userData = UserData.LoadList( json["data"] );
-			}
-			catch (KeyNotFoundException)
-			{
-				userData = null;
-			}
-
 			return new GiftItemResponseBody() {
-				userData		= userData
+				canGiftAfter = Date.ParseDateTime((string)json["can_gift_after"])
 			};
 		}
 

@@ -23,16 +23,7 @@ namespace Hive5.Model
 			if (json == null)
 				return null;
 
-			long id;
-
-			try
-			{
-				id = (long)json["id"];
-			}
-			catch(Exception)
-			{
-				id = 0;
-			}
+			long id = (long)json["id"];
 
 			return new CreateGooglePurchaseResponseBody() {
 				id = id

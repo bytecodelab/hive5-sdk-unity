@@ -247,7 +247,7 @@ namespace Hive5
 			
 			// WWW 호출
 			StartCoroutine (
-				postHTTP (url, requestBody, CommonResponseBody.Load, callback)
+				postHTTP (url, requestBody, GiftItemResponseBody.Load, callback)
 			);	
 		}
 
@@ -273,7 +273,7 @@ namespace Hive5
 			
 			// WWW 호출
 			StartCoroutine (
-				postHTTP(url, requestBody, CommonResponseBody.Load, callback)
+				postHTTP(url, requestBody, SubmitScoreResponseBody.Load, callback)
 			);
 		}
 		
@@ -300,7 +300,7 @@ namespace Hive5
 			
 			// WWW 호출
 			StartCoroutine ( 
-            	getHTTP (url, parameters.data, CommonResponseBody.Load, callback) 
+            	getHTTP (url, parameters.data, GetScoresResponseBody.Load, callback) 
             );
 		}
 		
@@ -323,7 +323,7 @@ namespace Hive5
 			
 			// WWW 호출
 			StartCoroutine ( 
-            	getHTTP (url, parameters.data, CommonResponseBody.Load, callback) 
+            	getHTTP (url, parameters.data, GetMyScoreResponseBody.Load, callback) 
             );
 		}
 		
@@ -346,7 +346,7 @@ namespace Hive5
 			
 			// WWW 호출
 			StartCoroutine ( 
-		    	getHTTP (url, parameters.data, CommonResponseBody.Load, callback) 
+		    	getHTTP (url, parameters.data, GetSocialScoresResponseBody.Load, callback) 
 		    );
 		}
 		
@@ -362,7 +362,7 @@ namespace Hive5
 			
 			// WWW 호출
 			StartCoroutine (
-				postHTTP(url, new {}, CommonResponseBody.Load, callback)
+				postHTTP(url, new {}, PrizeResponseBody.Load, callback)
 			);
 		}
 
@@ -427,13 +427,13 @@ namespace Hive5
 		/// <param name="afterMailId">After mail identifier.</param>
 		/// <param name="tag">Tag.</param>
 		/// <param name="callback">Callback.</param>
-		public void getMailCount(string order, long afterMailId, string tag, CallBack callback)
+		public void getMailCount(OrderType order, long afterMailId, string tag, CallBack callback)
 		{
 			// Hive5 API URL 초기화
 			var url = initializeUrl("mails/count");
 			
 			TupleList<string, string> parameters = new TupleList<string, string> ();
-			parameters.Add ("order", order);
+			parameters.Add ("order", Tool.OrderToString(order));
 			if(afterMailId > 0)
 				parameters.Add ("after_mail_id", afterMailId.ToString());
 			if(tag.Length > 0)
@@ -441,7 +441,7 @@ namespace Hive5
 			
 			// WWW 호출
 			StartCoroutine ( 
-		    	getHTTP (url, parameters.data, CommonResponseBody.Load, callback) 
+		    	getHTTP (url, parameters.data, GetMailCountResponseBody.Load, callback) 
 		    );
 		}
 		
@@ -472,18 +472,14 @@ namespace Hive5
 		/// <param name="mailId">Mail identifier.</param>
 		/// <param name="content">Content.</param>
 		/// <param name="callback">Callback.</param>
-		public void deleteMail(long mailId, string content, CallBack callback)
+		public void deleteMail(long mailId, CallBack callback)
 		{
 			// Hive5 API URL 초기화
 			var url = initializeUrl(string.Format("mails/delete/{0}", mailId));
 			
-			var requestBody = new {
-				content	= content
-			};
-			
 			// WWW 호출
 			StartCoroutine (
-				postHTTP(url, requestBody, CommonResponseBody.Load, callback)
+				postHTTP(url, new {}, CommonResponseBody.Load, callback)
 			);
 		}
 
@@ -566,7 +562,7 @@ namespace Hive5
 			
 			// WWW 호출
 			StartCoroutine (
-				postHTTP(url, new {}, CommonResponseBody.Load, callback)
+				postHTTP(url, new {}, CompleteMissionResponseBody.Load, callback)
 			);
 		}
 		
@@ -585,7 +581,7 @@ namespace Hive5
 			
 			// WWW 호출
 			StartCoroutine (
-				postHTTP(url, requestBody, CommonResponseBody.Load, callback)
+				postHTTP(url, requestBody, BatchCompleteMissionResponseBody.Load, callback)
 			);
 		}
 		
@@ -602,7 +598,7 @@ namespace Hive5
 			
 			// WWW 호출
 			StartCoroutine ( 
-            	getHTTP (url, parameters.data, CommonResponseBody.Load, callback) 
+            	getHTTP (url, parameters.data, GetCompletedMissionsResponseBody.Load, callback) 
             );
 		}
 
@@ -610,6 +606,56 @@ namespace Hive5
 		/********************************************************************************
 			Purchase API Group
 		*********************************************************************************/
+
+		/// <summary>
+		/// Creates the google purchase.
+		/// </summary>
+		/// <param name="productCode">Product code.</param>
+		/// <param name="receiverKakaoUserId">Receiver kakao user identifier.</param>
+		/// <param name="mailForReceiver">Mail for receiver.</param>
+		/// <param name="callBack">Call back.</param>
+		public void createNaverPurchase(string productCode, string paymentSequence, CallBack callback)
+		{
+			// Hive5 API URL 초기화
+			var url = initializeUrl("naver_purchases");
+			
+			var requestBody = new {
+				product_code 		= productCode,
+				payment_sequence	= paymentSequence
+			};
+			
+			// WWW 호출
+			StartCoroutine (
+				postHTTP(url, requestBody, CreateNaverPurchaseResponseBody.Load, callback)
+				);
+		}
+		
+		/// <summary>
+		/// Completes the google purchase.
+		/// </summary>
+		/// <param name="id">Identifier.</param>
+		/// <param name="listPrice">List price.</param>
+		/// <param name="purchasedPrice">Purchased price.</param>
+		/// <param name="currency">Currency.</param>
+		/// <param name="purchaseData">Purchase data.</param>
+		/// <param name="signature">Signature.</param>
+		/// <param name="callBack">Call back.</param>
+		public void completeNaverPurchase(long id, long listPrice, long purchasedPrice, string currency, CallBack callback)
+		{
+			// Hive5 API URL 초기화
+			var url = initializeUrl(string.Format("naver_purchases/complete/{0}", id));
+			
+			var requestBody = new {
+				list_price 		= listPrice,
+				purchased_price	= purchasedPrice,
+				currency		= currency
+			};
+			
+			// WWW 호출
+			StartCoroutine (
+				postHTTP(url, requestBody, CompleteNaverPurchaseResponseBody.Load, callback)
+				);	
+		}
 
 		/// <summary>
 		/// Creates the google purchase.
@@ -660,7 +706,7 @@ namespace Hive5
 			
 			// WWW 호출
 			StartCoroutine (
-				postHTTP(url, requestBody, CommonResponseBody.Load, callback)
+				postHTTP(url, requestBody, CompleteGooglePurchaseResponseBody.Load, callback)
 			);	
 		}
 		
@@ -672,20 +718,20 @@ namespace Hive5
 		/// <param name="receiverKakaoUserId">Receiver kakao user identifier.</param>
 		/// <param name="mailForReceiver">Mail for receiver.</param>
 		/// <param name="callBack">Call back.</param>
-		public void createApplePurchase(string productCode, string receiverKakaoUserId, string mailForReceiver, CallBack callback)
+		public void createApplePurchase(string productCode, string receiverPlatformUserId, string mailForReceiver, CallBack callback)
 		{
 			// Hive5 API URL 초기화
 			var url = initializeUrl("apple_purchases");
 			
 			var requestBody = new {
-				product_code 			= productCode,
-				receiver_kakao_user_id	= receiverKakaoUserId,
-				mail_for_receiver		= mailForReceiver
+				product_code 				= productCode,
+				receiver_platform_user_id	= receiverPlatformUserId,
+				mail_for_receiver			= mailForReceiver
 			};
 			
 			// WWW 호출
 			StartCoroutine (
-				postHTTP(url, requestBody, CommonResponseBody.Load, callback)
+				postHTTP(url, requestBody, CreateApplePurchaseResponseBody.Load, callback)
 			);
 		}
 		
@@ -714,7 +760,7 @@ namespace Hive5
 			
 			// WWW 호출
 			StartCoroutine (
-				postHTTP(url, requestBody, CommonResponseBody.Load, callback)
+				postHTTP(url, requestBody, CompleteApplePurchaseResponseBody.Load, callback)
 			);
 		}
 
@@ -764,7 +810,7 @@ namespace Hive5
 			
 			// WWW 호출
 			StartCoroutine ( 
-            	getHTTP (url, parameters.data, GetUserDataResponseBody.Load, callback) 
+            	getHTTP (url, parameters.data, GetRewardInfoResponseBody.Load, callback) 
             );
 		}
 		
@@ -785,7 +831,7 @@ namespace Hive5
 			
 			// WWW 호출
 			StartCoroutine (
-				postHTTP(url, requestBody, SetUserDataResponseBody.Load, callback)
+				postHTTP(url, requestBody, ApplyRewardResponseBody.Load, callback)
 			);
 		}
 		
@@ -805,7 +851,7 @@ namespace Hive5
 			
 			// WWW 호출
 			StartCoroutine (
-				postHTTP(url, requestBody, SetUserDataResponseBody.Load, callback)
+				postHTTP(url, requestBody, ApplyAllRewardsResponseBody.Load, callback)
 			);
 		}
 		
@@ -826,7 +872,7 @@ namespace Hive5
 			
 			// WWW 호출
 			StartCoroutine (
-				postHTTP(url, requestBody, SetUserDataResponseBody.Load, callback)
+				postHTTP(url, requestBody, InvalidateRewardResponseBody.Load, callback)
 			);
 		}
 
@@ -911,7 +957,7 @@ namespace Hive5
 			
 			// WWW 호출
 			StartCoroutine ( 
-            	getHTTP (url, parameters.data, GetUserDataResponseBody.Load, callback) 
+            	getHTTP (url, parameters.data, GetFriendsInfoResponseBody.Load, callback) 
             );
 		}
 
@@ -934,7 +980,7 @@ namespace Hive5
 			
 			var requestBody = new SetUserDataRequest ();
 			var data = new List<KeyValueCommand> ();
-			var userData = new KeyValueCommand () { key = key, value = value, command = Util.Util.getStringByCommandType(command) };
+			var userData = new KeyValueCommand () { key = key, value = value, command = Tool.CommandToString(command) };
 			data.Add (userData);
 			requestBody.condition = new List<Condition> ();
 			requestBody.data = data;

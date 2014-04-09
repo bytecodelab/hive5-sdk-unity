@@ -12,8 +12,6 @@ namespace Hive5.Model
 	/// </summary>
 	public class ApplyAllRewardsResponseBody : IResponseBody
 	{
-		public List<UserData> userData { set; get; }			
-
 		/// <summary>
 		/// Load the specified json.
 		/// </summary>
@@ -23,19 +21,7 @@ namespace Hive5.Model
 			if (json == null)
 				return null;
 
-			var userData = new List<UserData> ();
-
-			try
-			{
-				userData = UserData.LoadList( json["data"] );
-			}
-			catch (KeyNotFoundException)
-			{
-				userData = null;
-			}
-
 			return new ApplyAllRewardsResponseBody() {
-				userData		= userData
 			};
 		}
 

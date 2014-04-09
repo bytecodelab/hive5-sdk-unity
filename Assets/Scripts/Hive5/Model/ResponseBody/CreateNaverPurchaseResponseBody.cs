@@ -10,9 +10,9 @@ namespace Hive5.Model
 	/// <summary>
 	/// Login data.
 	/// </summary>
-	public class GetMailCountResponseBody : IResponseBody
+	public class CreateNaverPurchaseResponseBody : IResponseBody
 	{
-		public int count { set; get; }		
+		public long		id { set; get; }
 
 		/// <summary>
 		/// Load the specified json.
@@ -23,10 +23,10 @@ namespace Hive5.Model
 			if (json == null)
 				return null;
 
-			var count = (int)json ["count"];
+			long id = (long)json["id"];
 
-			return new GetMailCountResponseBody() {
-				count = count
+			return new CreateNaverPurchaseResponseBody() {
+				id = id
 			};
 		}
 

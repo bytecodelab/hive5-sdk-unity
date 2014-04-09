@@ -11,8 +11,7 @@ namespace Hive5.Model
 	/// Login data.
 	/// </summary>
 	public class UpdateFriendsResponseBody : IResponseBody
-	{
-		public List<UserData> userData { set; get; }			
+	{	
 
 		/// <summary>
 		/// Load the specified json.
@@ -23,19 +22,9 @@ namespace Hive5.Model
 			if (json == null)
 				return null;
 
-			List<UserData> userData;
-
-			try
-			{
-				userData = UserData.LoadList( json["data"] );
-			}
-			catch (KeyNotFoundException)
-			{
-				userData = null;
-			}
 
 			return new UpdateFriendsResponseBody() {
-				userData		= userData
+
 			};
 		}
 

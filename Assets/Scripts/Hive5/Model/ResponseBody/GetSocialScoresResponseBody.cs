@@ -12,7 +12,11 @@ namespace Hive5.Model
 	/// </summary>
 	public class GetSocialScoresResponseBody : IResponseBody
 	{
-		public List<UserData> userData { set; get; }			
+		public string lastPrizedAt { set; get; }
+		public ResetInfo resetInfo { set; get; }
+		public MyScore myLastScore { set; get; }
+		public List<Score> scores { set; get; }
+		public long scoresCount { set; get; }
 
 		/// <summary>
 		/// Load the specified json.
@@ -23,19 +27,12 @@ namespace Hive5.Model
 			if (json == null)
 				return null;
 
-			List<UserData> userData;
-
-			try
-			{
-				userData = UserData.LoadList( json["data"] );
-			}
-			catch (KeyNotFoundException)
-			{
-				userData = null;
-			}
-
 			return new GetSocialScoresResponseBody() {
-				userData		= userData
+				lastPrizedAt	= (string)json["last_prized_at"],
+				resetInfo 		= ResetInfo.Load (json["reset_info"]),
+				myLastScore 	= MyScore.Load(json["my_last_score"]),
+				scores 			= Score.LoadList(json["scores"]),
+				scoresCount 	= (long)json["scores_count"]
 			};
 		}
 

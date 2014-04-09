@@ -12,7 +12,9 @@ namespace Hive5.Model
 	/// </summary>
 	public class CompleteMissionResponseBody : IResponseBody
 	{
-		public List<UserData> userData { set; get; }			
+		public long rewardId { set; get; }
+		public long mailId { set; get; }
+		public List<Item> items { set; get; }
 
 		/// <summary>
 		/// Load the specified json.
@@ -23,19 +25,24 @@ namespace Hive5.Model
 			if (json == null)
 				return null;
 
-			List<UserData> userData;
+			var rewardId = (long)json ["reward_id"];
+			var mailId = (long)json ["mail_id"];
+
+			List<Item> items;
 
 			try
 			{
-				userData = UserData.LoadList( json["data"] );
+				items = Item.LoadList( json["items"] );
 			}
 			catch (KeyNotFoundException)
 			{
-				userData = null;
+				items = null;
 			}
 
 			return new CompleteMissionResponseBody() {
-				userData		= userData
+				rewardId = rewardId,
+				mailId = mailId,
+				items = items
 			};
 		}
 

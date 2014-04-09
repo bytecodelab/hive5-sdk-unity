@@ -12,7 +12,7 @@ namespace Hive5.Model
 	/// </summary>
 	public class GetCompletedMissionsResponseBody : IResponseBody
 	{
-		public List<UserData> userData { set; get; }			
+		public List<Mission> missions { set; get; }
 
 		/// <summary>
 		/// Load the specified json.
@@ -23,19 +23,19 @@ namespace Hive5.Model
 			if (json == null)
 				return null;
 
-			List<UserData> userData;
+			List<Mission> missions;
 
 			try
 			{
-				userData = UserData.LoadList( json["data"] );
+				missions = Mission.LoadList( json["completed_missions"] );
 			}
 			catch (KeyNotFoundException)
 			{
-				userData = null;
+				missions = null;
 			}
 
 			return new GetCompletedMissionsResponseBody() {
-				userData		= userData
+				missions = missions
 			};
 		}
 

@@ -12,8 +12,8 @@ namespace Hive5.Model
 	/// </summary>
 	public class CompleteApplePurchaseResponseBody : IResponseBody
 	{
-		public List<UserData> userData { set; get; }			
-
+		public List<Item> items { set; get; }		
+		
 		/// <summary>
 		/// Load the specified json.
 		/// </summary>
@@ -23,22 +23,21 @@ namespace Hive5.Model
 			if (json == null)
 				return null;
 			
-			List<UserData> userData;
-
+			var items = new List<Item> ();
 			try
 			{
-				userData = UserData.LoadList( json["data"] );
+				items = Item.LoadList( json["items"] );
 			}
 			catch (KeyNotFoundException)
 			{
-				userData = null;
+				items = null;
 			}
-
+			
 			return new CompleteApplePurchaseResponseBody() {
-				userData		= userData
+				items = items
 			};
 		}
-
+		
 	}
 }
 

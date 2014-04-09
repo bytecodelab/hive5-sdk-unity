@@ -12,7 +12,8 @@ namespace Hive5.Model
 	/// </summary>
 	public class BatchCompleteMissionResponseBody : IResponseBody
 	{
-		public List<UserData> userData { set; get; }			
+		public List<CompletedMission> complatedMissions { set; get; }
+		public List<Item> items { set; get; }
 
 		/// <summary>
 		/// Load the specified json.
@@ -23,19 +24,31 @@ namespace Hive5.Model
 			if (json == null)
 				return null;
 
-			List<UserData> userData;
+			List<CompletedMission> completedMissions;
+			List<Item> items;
+
 
 			try
 			{
-				userData = UserData.LoadList( json["data"] );
+				completedMissions = CompletedMission.LoadList( json["completed"] );
 			}
 			catch (KeyNotFoundException)
 			{
-				userData = null;
+				completedMissions = null;
+			}
+
+			try
+			{
+				items = Item.LoadList( json["items"] );
+			}
+			catch (KeyNotFoundException)
+			{
+				items = null;
 			}
 
 			return new BatchCompleteMissionResponseBody() {
-				userData		= userData
+				complatedMissions = completedMissions,
+				items = items
 			};
 		}
 

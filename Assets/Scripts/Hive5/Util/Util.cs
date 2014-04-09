@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Globalization;
+using Hive5.Util;
 
 namespace Hive5.Util
 {
@@ -44,9 +45,17 @@ namespace Hive5.Util
 		}
 	}
 
-	public class Util
+	/// <summary>
+	/// Util.
+	/// </summary>
+	public class Tool
 	{
-		public static string getStringByCommandType(CommandType command)
+		/// <summary>
+		/// Commands to string.
+		/// </summary>
+		/// <returns>The to string.</returns>
+		/// <param name="command">Command.</param>
+		public static string CommandToString(CommandType command)
 		{
 			string commandString = "";
 
@@ -64,6 +73,77 @@ namespace Hive5.Util
 			}
 
 			return commandString;
+		}
+
+		/// <summary>
+		/// Strings to command.
+		/// </summary>
+		/// <returns>The to command.</returns>
+		/// <param name="command">Command.</param>
+		public static CommandType StringToCommand(string command)
+		{
+			CommandType returnCommand = CommandType.SET;
+
+			switch(command)
+			{
+				case "sec":
+					returnCommand = CommandType.SET;
+					break;
+				case "inc":
+					returnCommand = CommandType.INC;
+					break;
+				case "dec":
+					returnCommand = CommandType.DEC;
+					break;
+			}
+
+			return returnCommand;
+
+		}
+
+		/// <summary>
+		/// Orders to string.
+		/// </summary>
+		/// <returns>The to string.</returns>
+		/// <param name="order">Order.</param>
+		public static string OrderToString(OrderType order)
+		{
+			string orderString = "";
+			
+			switch(order)
+			{
+			case OrderType.ASC:
+				orderString = "asc";
+				break;
+			case OrderType.DESC:
+				orderString = "dec";
+				break;
+			}
+			
+			return orderString;
+		}
+
+		/// <summary>
+		/// Strings to order.
+		/// </summary>
+		/// <returns>The to order.</returns>
+		/// <param name="order">Order.</param>
+		public static OrderType StringToOrder(string order)
+		{
+			OrderType returnOrder = OrderType.DESC;
+			
+			switch(order)
+			{
+				case "dec":
+					returnOrder = OrderType.DESC;
+					break;
+				case "asc":
+					returnOrder = OrderType.ASC;
+					break;
+			}
+			
+			return returnOrder;
+			
 		}
 
 	}

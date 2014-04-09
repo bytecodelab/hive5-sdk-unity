@@ -12,7 +12,8 @@ namespace Hive5.Model
 	/// </summary>
 	public class GetRewardInfoResponseBody : IResponseBody
 	{
-		public List<UserData> userData { set; get; }			
+		public List<Reward> rewards { set; get; }
+		public bool valid { set; get; }
 
 		/// <summary>
 		/// Load the specified json.
@@ -23,19 +24,21 @@ namespace Hive5.Model
 			if (json == null)
 				return null;
 
-			List<UserData> userData;
+			List<Reward> rewards;
+			var valid = (bool)json ["valid"];
 
 			try
 			{
-				userData = UserData.LoadList( json["data"] );
+				rewards = Reward.LoadList( json["changes"] );
 			}
 			catch (KeyNotFoundException)
 			{
-				userData = null;
+				rewards = null;
 			}
 
 			return new GetRewardInfoResponseBody() {
-				userData		= userData
+				valid = valid,
+				rewards = rewards
 			};
 		}
 

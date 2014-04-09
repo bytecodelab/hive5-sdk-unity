@@ -10,10 +10,10 @@ namespace Hive5.Model
 	/// <summary>
 	/// Login data.
 	/// </summary>
-	public class GetMailCountResponseBody : IResponseBody
+	public class CompleteNaverPurchaseResponseBody : IResponseBody
 	{
-		public int count { set; get; }		
-
+		public List<Item> items { set; get; }		
+		
 		/// <summary>
 		/// Load the specified json.
 		/// </summary>
@@ -22,14 +22,22 @@ namespace Hive5.Model
 		{
 			if (json == null)
 				return null;
-
-			var count = (int)json ["count"];
-
-			return new GetMailCountResponseBody() {
-				count = count
+			
+			var items = new List<Item> ();
+			try
+			{
+				items = Item.LoadList( json["items"] );
+			}
+			catch (KeyNotFoundException)
+			{
+				items = null;
+			}
+			
+			return new CompleteNaverPurchaseResponseBody() {
+				items = items
 			};
 		}
-
+		
 	}
 }
 

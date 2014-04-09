@@ -37,11 +37,11 @@ public class Purchases : MonoBehaviour {
 	public void completeGooglePurchase()
 	{
 		long id = purchaseId;
-		long listPrice = 100;
-		long purchasePrice = 70;
+		long listPrice = 1100;
+		long purchasePrice = 1100;
 		string currency = null;
-		string purchaseData = @"{""orderId"":""12999763169054705758.1303259400480486"",""packageName"":""com.vespainteractive.BeatMonster"",""productId"":""com.vespainteractive.beatmonster.android.ruby100"",""purchaseTime"":1386754096514,""purchaseState"":0,""developerPayload"":""+id+"",""purchaseToken"":""ydtyoxiavuqzsnpbvstbwgff.AO-J1OwWVF4JhHJju_E2EacgXeYMMTyFwqU8hRiFlvFkNmbQc8ziTSCh1MUv2dgnCzf0I9kQmeftOFvb1zEOeedI-69ux1Wx-4oV7IY93_lVPNWLL8cupg-vNqp_D6pypUttKMx--heNmJYPzhMtAqSmEQLlD3g4EGi44Iid9z4L9kpEhuJcjH9GlIxEE8HXTdmD-se5P4EI""}";
-		string signature = "NfhVWI+Gs+ksgw/YivvVvwnisTffSC1ea107THLenWF/9yYpdZTmaSi4/ge9CagSMgknQgFxG0+JDUm5cvYJBcOZP0Gw3c1A7PyILBe1COJu3Gxz/r65bNcL3gdRVOUxXKPDM3bNKhjwsRSvQGiEHNb0z8f4zPWqKV1m3QiofDhKMkDkTNXxo7QfrC710vS9e570mAMLk8Bmu+nK2+lFLbarA/dJ54k8bb597NZnqyBAHdLjIHkWjubBqP7T1zRW5LD/fvj9jg0+b39Os8l8WLsHq5OmKlkt2oZ328OyXcpAqqsmaYbGZiXgnp7HubiGAYLWVc912+uhakNnlX127w==";
+		string purchaseData = "{\"purchaseToken\":\"ehonnhlnnimhgjdmaeofmbfg.AO-J1Ow_-bdUf8Q5NHNOylWiApwwbg1-kRy5H5ev8MYTKFK3xAjaG5gZoRhEWuwqXdkQm8S_JSEGzoJvGPQqQi8GNJ9TfM5_W3eVwmoxfM4XM6nZ_Bah8VwwbH3r6nwSurEyNgDRsyv9\",\"developerPayload\":\"3159449026239529\",\"packageName\":\"net.mediacanvas.brainbreaker\",\"purchaseState\":0,\"orderId\":\"12999763169054705758.1372533416296071\",\"purchaseTime\":1397006164211,\"productId\":\"google_product_20\"}";
+		string signature = "OooXMdywOxkcCRyU7A3NxOsTQJqNz2ZFr7W6k/5tpBGR58bw2bJbJAnv5MAj21YkXGzeFS/FTAFtR7gKOZTKIgffJC7jcqwjMVmX8ulYJ54XCFnw9P2ln3fIHPv/+lT/pgJutQGGVKo878N/VNe4qts8laoZa4xl3MGCRhSR8fqm68EhZemDu2ztvy74IIDD2f1lDMnyGAQ5/B6g+O+AdSxFf2LUGDbVtEiKZGWOSGv9H8azNo4H/79khiq5RqSUJ67I+dmOYviwtv0txkx2udj23nT14sFguukecvpOpSeWztz6nGA51+d46XcXl/XqAPDFZbE0adOyZwOzWD+Yng==";
 		
 		Hive5Client hive5 = Hive5Client.Instance;
 		hive5.setDebug ();

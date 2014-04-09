@@ -24,6 +24,12 @@ namespace Hive5
 		DEC = -1
 	}
 
+	public enum OrderType
+	{
+		ASC = 0,
+		DESC = 1,
+	}
+
 
 }
 

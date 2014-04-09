@@ -38,8 +38,8 @@ namespace Hive5
 
 		private Hive5TimeZone timezone 	= Hive5TimeZone.UTC;
 		private Hive5APIZone zone		= Hive5APIZone.Beta;
-		private string host 	= APIServer.betaHost;
-		private string version 	= APIServer.version;
+		private string host 	= APIServer.BetaHost;
+		private string version 	= APIServer.Version;
 
 
 		protected Hive5Client () {}
@@ -83,20 +83,20 @@ namespace Hive5
 				return;
 			
 			// Hive5 API URL 초기화
-			var url = initializeUrl(APIPath.kakaoLogin);
+			var url = initializeUrl(APIPath.KakaoLogin);
 			
 			Debug.Log ("login LoginState=" + LoginState);
 			
 			// Hive5 API 파라미터 셋팅
 			TupleList<string, string> parameters = new TupleList<string, string> ();
-			parameters.Add( ParameterKey.userId, userId );
-			parameters.Add( ParameterKey.accessToken, accessToken );
-			parameters.Add( ParameterKey.sdkVersion, sdkVersion );
+			parameters.Add( ParameterKey.UserId, userId );
+			parameters.Add( ParameterKey.AccessToken, accessToken );
+			parameters.Add( ParameterKey.SdkVersion, sdkVersion );
 			parameters.Add( ParameterKey.OS, os );
 			
-			Array.ForEach ( userDataKeys, key => { parameters.Add( ParameterKey.userDataKey, key ); } );
-			Array.ForEach ( itemKeys, key => { parameters.Add( ParameterKey.itemKey, key ); } );
-			Array.ForEach ( configKeys, key => { parameters.Add( ParameterKey.configKey, key ); } );
+			Array.ForEach ( userDataKeys, key => { parameters.Add( ParameterKey.UserDataKey, key ); } );
+			Array.ForEach ( itemKeys, key => { parameters.Add( ParameterKey.ItemKey, key ); } );
+			Array.ForEach ( configKeys, key => { parameters.Add( ParameterKey.ConfigKey, key ); } );
 			
 			StartCoroutine (
 				getHTTP(url, parameters.data, LoginResponseBody.Load, ( response ) => { 
@@ -131,7 +131,7 @@ namespace Hive5
 		/// <param name="callback">Callback.</param>
 		public void unregister(CallBack callback)
 		{
-			var url = initializeUrl ("auth/delete");
+			var url = initializeUrl (APIPath.Unregister);
 
 			// WWW 호출
 			StartCoroutine (
@@ -147,7 +147,7 @@ namespace Hive5
 		/// <param name="callback">Callback.</param>
 		public void submitAgreements(string generalVersion, string partnershipVersion, CallBack callback)
 		{
-			var url = initializeUrl ("agreements");
+			var url = initializeUrl (APIPath.Agreement);
 
 			var requestBody = new {
 				general_agreement = generalVersion,
@@ -162,7 +162,7 @@ namespace Hive5
 
 		public void getAgreements(CallBack callback)
 		{
-			var url = initializeUrl ("agreements");
+			var url = initializeUrl (APIPath.Agreement);
 
 			// Hive5 API 파라미터 셋팅
 			TupleList<string, string> parameters = new TupleList<string, string>();
@@ -187,13 +187,13 @@ namespace Hive5
 		public void getItems(string[] itemKeys, CallBack callback)
 		{
 			// Hive5 API URL 초기화
-			var url = initializeUrl("items");
+			var url = initializeUrl(APIPath.Item);
 			
 			// Hive5 API 파라미터 셋팅
 			TupleList<string, string> parameters = new TupleList<string, string>();
 			List<string> st = new List<string> ();
 
-			Array.ForEach ( itemKeys, key => { parameters.Add( ParameterKey.itemKey, key ); });
+			Array.ForEach ( itemKeys, key => { parameters.Add( ParameterKey.ItemKey, key ); });
 			
 			// WWW 호출
 			StartCoroutine (
@@ -209,7 +209,7 @@ namespace Hive5
 		public void convertItem(string itemConvertKey, CallBack callBack)
 		{
 			// Hive5 API URL 초기화
-			var url = initializeUrl(String.Format("items/convert/{0}",itemConvertKey));
+			var url = initializeUrl(String.Format(APIPath.ConvertItem,itemConvertKey));
 			
 			// WWW 호출
 			StartCoroutine (
@@ -225,7 +225,7 @@ namespace Hive5
 		public void consumeItem(object requestBody, CallBack callBack)
 		{
 			// Hive5 API URL 초기화
-			var url = initializeUrl(APIPath.consumeItem);
+			var url = initializeUrl(APIPath.ConsumeItem);
 			
 			// WWW 호출
 			StartCoroutine (
@@ -236,7 +236,7 @@ namespace Hive5
 		public void giftItem(string platformUserId, string itemKey, int count, string mail, CallBack callback)
 		{
 			// Hive5 API URL 초기화
-			var url = initializeUrl("items/gift");
+			var url = initializeUrl(APIPath.GiftItem);
 			
 			var requestBody = new {
 				platform_user_id = platformUserId,
@@ -263,7 +263,7 @@ namespace Hive5
 		/// <param name="callback">Callback.</param>
 		public void submitScore(long leaderboardId, long score, CallBack callback)
 		{
-			var url = initializeUrl (string.Format ("leaderboards/{0}/scores/{1}", leaderboardId, score));
+			var url = initializeUrl (string.Format (APIPath.LeaderboardSubmitScores, leaderboardId, score));
 			
 			// Hive5 API 파라미터 셋팅
 			var requestBody = new {
@@ -290,7 +290,7 @@ namespace Hive5
 		/// <param name="callback">Callback.</param>
 		public void getScores(long leaderboardId, string[] itemKeys, string[] userDataKeys, long rankMin, long rankMax, long rangeMin, long rangeMax, CallBack callback)
 		{
-			var url = initializeUrl (string.Format ("leaderboards/{0}/my_score", leaderboardId));
+			var url = initializeUrl (string.Format (APIPath.LeaderboardScores, leaderboardId));
 			
 			// Hive5 API 파라미터 셋팅
 			TupleList<string, string> parameters = new TupleList<string, string>();
@@ -313,7 +313,7 @@ namespace Hive5
 		/// <param name="callback">Callback.</param>
 		public void getMyScore(long leaderboardId, long rangeMin, long rangeMax, CallBack callback)
 		{
-			var url = initializeUrl (string.Format ("leaderboards/{0}/my_score", leaderboardId));
+			var url = initializeUrl (string.Format (APIPath.LeaderboardMyScore, leaderboardId));
 			
 			// Hive5 API 파라미터 셋팅
 			TupleList<string, string> parameters = new TupleList<string, string>();
@@ -336,13 +336,13 @@ namespace Hive5
 		/// <param name="callback">Callback.</param>
 		public void getSocialScores(long leaderboardId, string[] itemKeys, string[] userDataKeys, CallBack callback)
 		{
-			var url = initializeUrl (string.Format ("leaderboards/{0}/social_scores", leaderboardId));
+			var url = initializeUrl (string.Format (APIPath.LeaderboardSocialScores, leaderboardId));
 			
 			// Hive5 API 파라미터 셋팅
 			TupleList<string, string> parameters = new TupleList<string, string>();
 			parameters.Add ("leaderboard_id", leaderboardId.ToString());
-			Array.ForEach ( itemKeys, key => { parameters.Add( ParameterKey.itemKey, key ); });
-			Array.ForEach ( userDataKeys, key => { parameters.Add( ParameterKey.userDataKey, key ); });
+			Array.ForEach ( itemKeys, key => { parameters.Add( ParameterKey.ItemKey, key ); });
+			Array.ForEach ( userDataKeys, key => { parameters.Add( ParameterKey.UserDataKey, key ); });
 			
 			// WWW 호출
 			StartCoroutine ( 
@@ -358,7 +358,7 @@ namespace Hive5
 		public void prize(string leaderboardId, CallBack callback)
 		{
 			// Hive5 API URL 초기화
-			var url = initializeUrl(string.Format("leaderboards/prize/{0}", leaderboardId));
+			var url = initializeUrl(string.Format(APIPath.LeaderboardPrize, leaderboardId));
 			
 			// WWW 호출
 			StartCoroutine (
@@ -379,7 +379,7 @@ namespace Hive5
 		public void createMail(string content, string friendPlatformUserId, string[] tags,  CallBack callback)
 		{
 			// Hive5 API URL 초기화
-			var url = initializeUrl(string.Format("mails"));
+			var url = initializeUrl(string.Format(APIPath.SubmitMail));
 			
 			var requestBody = new {
 				content	= content,
@@ -404,7 +404,7 @@ namespace Hive5
 		public void getMails(int limit, string order, long afterMailId, string tag, CallBack callback)
 		{
 			// Hive5 API URL 초기화
-			var url = initializeUrl(APIPath.getMails);
+			var url = initializeUrl(APIPath.GetMails);
 			
 			TupleList<string, string> parameters = new TupleList<string, string> ();
 			parameters.Add ("limit", limit.ToString());
@@ -430,7 +430,7 @@ namespace Hive5
 		public void getMailCount(OrderType order, long afterMailId, string tag, CallBack callback)
 		{
 			// Hive5 API URL 초기화
-			var url = initializeUrl("mails/count");
+			var url = initializeUrl(APIPath.MailCount);
 			
 			TupleList<string, string> parameters = new TupleList<string, string> ();
 			parameters.Add ("order", Tool.OrderToString(order));
@@ -454,7 +454,7 @@ namespace Hive5
 		public void updateMail(long mailId, string content, CallBack callback)
 		{
 			// Hive5 API URL 초기화
-			var url = initializeUrl(string.Format("mails/update/{0}", mailId));
+			var url = initializeUrl(string.Format(APIPath.UpdateMail, mailId));
 			
 			var requestBody = new {
 				content	= content
@@ -475,7 +475,7 @@ namespace Hive5
 		public void deleteMail(long mailId, CallBack callback)
 		{
 			// Hive5 API URL 초기화
-			var url = initializeUrl(string.Format("mails/delete/{0}", mailId));
+			var url = initializeUrl(string.Format(APIPath.DeleteMail, mailId));
 			
 			// WWW 호출
 			StartCoroutine (
@@ -492,7 +492,7 @@ namespace Hive5
 		public void deleteAllMail(long fromMailId, long toMailId, CallBack callback)
 		{
 			// Hive5 API URL 초기화
-			var url = initializeUrl(string.Format("mails/delete_all"));
+			var url = initializeUrl(string.Format(APIPath.DeleteAllMail));
 			
 			var requestBody = new {
 				from_mail_id	= fromMailId,
@@ -514,7 +514,7 @@ namespace Hive5
 		public void attachMailTags(long mailId, string[] tags, CallBack callback)
 		{
 			// Hive5 API URL 초기화
-			var url = initializeUrl(string.Format("mails/{0}/add_tags", mailId));
+			var url = initializeUrl(string.Format(APIPath.AttachMailTag, mailId));
 			
 			var requestBody = new {
 				tags = tags
@@ -535,7 +535,7 @@ namespace Hive5
 		public void detachMailTags(long mailId, string[] tags, CallBack callback)
 		{
 			// Hive5 API URL 초기화
-			var url = initializeUrl(string.Format("mails/{0}/add_tags", mailId));
+			var url = initializeUrl(string.Format(APIPath.DetachMailTag, mailId));
 			
 			var requestBody = new {
 				tags = tags
@@ -558,7 +558,7 @@ namespace Hive5
 		/// <param name="callback">Callback.</param>
 		public void completeMission(string missionKey, CallBack callback)
 		{
-			var url = initializeUrl (string.Format("missions/complete/{0}", missionKey));
+			var url = initializeUrl (string.Format(APIPath.CompleteMission, missionKey));
 			
 			// WWW 호출
 			StartCoroutine (
@@ -573,7 +573,7 @@ namespace Hive5
 		/// <param name="callback">Callback.</param>
 		public void batchCompleteMission(string[] missionKeys, CallBack callback)
 		{
-			var url = initializeUrl ("missions/batch_complete");
+			var url = initializeUrl (APIPath.BatchCompleteMission);
 			
 			var requestBody = new {
 				keys 	= missionKeys
@@ -591,7 +591,7 @@ namespace Hive5
 		/// <param name="callback">Callback.</param>
 		public void getCompletedMissions(CallBack callback)
 		{
-			var url = initializeUrl ("missions/completed");
+			var url = initializeUrl (APIPath.GetCompletedMissions);
 			
 			// Hive5 API 파라미터 셋팅
 			TupleList<string, string> parameters = new TupleList<string, string>();
@@ -617,7 +617,7 @@ namespace Hive5
 		public void createNaverPurchase(string productCode, string paymentSequence, CallBack callback)
 		{
 			// Hive5 API URL 초기화
-			var url = initializeUrl("naver_purchases");
+			var url = initializeUrl(APIPath.CreateNaverPurchase);
 			
 			var requestBody = new {
 				product_code 		= productCode,
@@ -643,7 +643,7 @@ namespace Hive5
 		public void completeNaverPurchase(long id, long listPrice, long purchasedPrice, string currency, CallBack callback)
 		{
 			// Hive5 API URL 초기화
-			var url = initializeUrl(string.Format("naver_purchases/complete/{0}", id));
+			var url = initializeUrl(string.Format(APIPath.CompleteNaverPurchase, id));
 			
 			var requestBody = new {
 				list_price 		= listPrice,
@@ -667,7 +667,7 @@ namespace Hive5
 		public void createGooglePurchase(string productCode, string receiverPlatformUserId, string mailForReceiver, CallBack callback)
 		{
 			// Hive5 API URL 초기화
-			var url = initializeUrl("google_purchases");
+			var url = initializeUrl(APIPath.CreateGooglePurchase);
 			
 			var requestBody = new {
 				product_code 				= productCode,
@@ -694,7 +694,7 @@ namespace Hive5
 		public void completeGooglePurchase(long id, long listPrice, long purchasedPrice, string currency, string purchaseData, string signature, CallBack callback)
 		{
 			// Hive5 API URL 초기화
-			var url = initializeUrl(string.Format("google_purchases/complete/{0}", id));
+			var url = initializeUrl(string.Format(APIPath.CompleteGooglePurchase, id));
 			
 			var requestBody = new {
 				list_price 		= listPrice,
@@ -721,7 +721,7 @@ namespace Hive5
 		public void createApplePurchase(string productCode, string receiverPlatformUserId, string mailForReceiver, CallBack callback)
 		{
 			// Hive5 API URL 초기화
-			var url = initializeUrl("apple_purchases");
+			var url = initializeUrl(APIPath.CreateApplePurchase);
 			
 			var requestBody = new {
 				product_code 				= productCode,
@@ -748,7 +748,7 @@ namespace Hive5
 		public void completeApplePurchase(long id, long listPrice, long purchasedPrice, string currency, string receipt, bool isSandbox, CallBack callback)
 		{
 			// Hive5 API URL 초기화
-			var url = initializeUrl(string.Format("apple_purchases/complete/{0}", id));
+			var url = initializeUrl(string.Format(APIPath.CompleteApplePurchase, id));
 			
 			var requestBody = new {
 				list_price 		= listPrice,
@@ -777,7 +777,7 @@ namespace Hive5
 		public void updatePushToken(string platform, string token, CallBack callback)
 		{
 			// Hive5 API URL 초기화
-			var url = initializeUrl("push_tokens");
+			var url = initializeUrl(APIPath.UpdatePushToken);
 			
 			var requestBody = new {
 				push_platform 	= platform,
@@ -803,7 +803,7 @@ namespace Hive5
 		/// <param name="callback">Callback.</param>
 		public void getRewardInfo(long rewardId, CallBack callback)
 		{
-			var url = initializeUrl (string.Format ("rewards/{0}", rewardId));
+			var url = initializeUrl (string.Format (APIPath.Reward, rewardId));
 			
 			// Hive5 API 파라미터 셋팅
 			TupleList<string, string> parameters = new TupleList<string, string>();
@@ -822,7 +822,7 @@ namespace Hive5
 		/// <param name="callback">Callback.</param>
 		public void applyReward(long rewardId, bool deleteMail, CallBack callback)
 		{
-			var url = initializeUrl (string.Format ("rewards/apply/{0}", rewardId));
+			var url = initializeUrl (string.Format (APIPath.ApplyReward, rewardId));
 			
 			// Hive5 API 파라미터 셋팅
 			var requestBody = new {
@@ -842,7 +842,7 @@ namespace Hive5
 		/// <param name="callback">Callback.</param>
 		public void applyAllRewards(bool deleteMail, CallBack callback)
 		{
-			var url = initializeUrl ("rewards/apply_all");
+			var url = initializeUrl (APIPath.ApplyAllReward);
 			
 			// Hive5 API 파라미터 셋팅
 			var requestBody = new {
@@ -863,7 +863,7 @@ namespace Hive5
 		/// <param name="callback">Callback.</param>
 		public void invalidateReward(long rewardId, bool deleteMail, CallBack callback)
 		{
-			var url = initializeUrl (string.Format ("rewards/invalidate/{0}", rewardId));
+			var url = initializeUrl (string.Format (APIPath.InvalidateReward, rewardId));
 			
 			// Hive5 API 파라미터 셋팅
 			var requestBody = new {
@@ -888,7 +888,7 @@ namespace Hive5
 		public void startRound(long roundRuleId,  CallBack callback)
 		{
 			// Hive5 API URL 초기화
-			var url = initializeUrl(String.Format("rounds/start?rule_id={0}", roundRuleId));
+			var url = initializeUrl(String.Format(APIPath.StartRound, roundRuleId));
 			
 			// WWW 호출
 			StartCoroutine (
@@ -905,7 +905,7 @@ namespace Hive5
 		public void endRound(long roundId, object requestBody, CallBack callback)
 		{
 			// Hive5 API URL 초기화
-			var url = initializeUrl(String.Format("rounds/end/{0}", roundId));
+			var url = initializeUrl(String.Format(APIPath.EndRound, roundId));
 			
 			// WWW 호출
 			StartCoroutine (
@@ -925,7 +925,7 @@ namespace Hive5
 		public void updateFriends(string[] friend_ids, CallBack callback)
 		{
 			// Hive5 API URL 초기화	
-			var url = initializeUrl("friends/update");
+			var url = initializeUrl(APIPath.UpdateFriends);
 			
 			// Request Body
 			var requestBody = new {
@@ -947,13 +947,13 @@ namespace Hive5
 		/// <param name="callback">Callback.</param>
 		public void getFriendsInfo(string[] platformUserIds, string[] itemKeys, string[] userDataKeys, CallBack callback)
 		{
-			var url = initializeUrl ("friends/info");
+			var url = initializeUrl (APIPath.GetFriendsInfo);
 			
 			// Hive5 API 파라미터 셋팅
 			TupleList<string, string> parameters = new TupleList<string, string>();
 			Array.ForEach ( platformUserIds, key => { parameters.Add( "platform_user_id", key ); }); 
-			Array.ForEach ( itemKeys, key => { parameters.Add( ParameterKey.itemKey, key ); });
-			Array.ForEach ( userDataKeys, key => { parameters.Add( ParameterKey.userDataKey, key ); });
+			Array.ForEach ( itemKeys, key => { parameters.Add( ParameterKey.ItemKey, key ); });
+			Array.ForEach ( userDataKeys, key => { parameters.Add( ParameterKey.UserDataKey, key ); });
 			
 			// WWW 호출
 			StartCoroutine ( 
@@ -976,7 +976,7 @@ namespace Hive5
 			Debug.Log ("set LoginState=" + LoginState);
 			
 			// Hive5 API URL 초기화
-			var url = initializeUrl(APIPath.userData);
+			var url = initializeUrl(APIPath.UserData);
 			
 			var requestBody = new SetUserDataRequest ();
 			var data = new List<KeyValueCommand> ();
@@ -1000,11 +1000,11 @@ namespace Hive5
 		public void getUserData(string[] dataKeys, CallBack callback)
 		{
 			// Hive5 API URL 초기화
-			var url = initializeUrl(APIPath.userData);
+			var url = initializeUrl(APIPath.UserData);
 			
 			// Hive5 API 파라미터 셋팅
 			TupleList<string, string> parameters = new TupleList<string, string>();
-			Array.ForEach ( dataKeys, key => { parameters.Add( ParameterKey.key, key ); } );
+			Array.ForEach ( dataKeys, key => { parameters.Add( ParameterKey.Key, key ); } );
 			
 			// WWW 호출
 			StartCoroutine ( 
@@ -1072,12 +1072,12 @@ namespace Hive5
 			{
 				// Beta Server
 				case Hive5APIZone.Beta:
-					host = APIServer.betaHost;
+					host = APIServer.BetaHost;
 				break;
 
 				// Real Server
 				case Hive5APIZone.Real:
-					host = APIServer.realHost;
+					host = APIServer.BetaHost;
 				break;
 			}
 
@@ -1104,10 +1104,10 @@ namespace Hive5
 		{
 			// Hive5 API Header 설정
 			var headers = new Hashtable();
-			headers.Add(HeaderKey.appKey, this.appKey);
-			headers.Add(HeaderKey.uuid, this.uuid);
-			headers.Add(HeaderKey.token, this.accessToken);
-			headers.Add(HeaderKey.contentType, HeaderValue.contentType);
+			headers.Add(HeaderKey.AppKey, this.appKey);
+			headers.Add(HeaderKey.Uuid, this.uuid);
+			headers.Add(HeaderKey.Token, this.accessToken);
+			headers.Add(HeaderKey.ContentType, HeaderValue.ContentType);
 
 			string queryString = "";		
 			foreach (KeyValuePair<string, string> parameter in parameters)
@@ -1146,10 +1146,10 @@ namespace Hive5
 		{	
 			// Hive5 API Header 설정
 			var headers = new Hashtable();
-			headers.Add(HeaderKey.appKey, this.appKey);
-			headers.Add(HeaderKey.uuid, this.uuid);
-			headers.Add(HeaderKey.token, this.accessToken);
-			headers.Add(HeaderKey.contentType, HeaderValue.contentType);
+			headers.Add(HeaderKey.AppKey, this.appKey);
+			headers.Add(HeaderKey.Uuid, this.uuid);
+			headers.Add(HeaderKey.Token, this.accessToken);
+			headers.Add(HeaderKey.ContentType, HeaderValue.ContentType);
 
 			// Hive5 API json body 변환
 			string jsonString = JsonMapper.ToJson (requestBody);						
@@ -1185,11 +1185,11 @@ namespace Hive5
 		{
 			Dictionary<string, string> result = new Dictionary<string, string>();
 			
-			result.Add(HeaderKey.appKey, this.appKey);
-			result.Add(HeaderKey.uuid, this.uuid);
+			result.Add(HeaderKey.AppKey, this.appKey);
+			result.Add(HeaderKey.Uuid, this.uuid);
 
 			if (this.accessToken.Length > 0)
-				result.Add(HeaderKey.token, this.accessToken);
+				result.Add(HeaderKey.Token, this.accessToken);
 			
 			return result;
 		}

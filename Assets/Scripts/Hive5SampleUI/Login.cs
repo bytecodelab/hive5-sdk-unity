@@ -16,7 +16,7 @@ public class Login : MonoBehaviour {
 		string userId 		= "88197948207226176";			// 카카오 user id
 		string accessToken 	= "bcl_token";					// 카카오 로그인 후 발급 받은 access token
 		string sdkVersion 	= "3";							// 클라이언트에서 사용하고 있는 카카오 sdk의 버전
-		string os 			= OSType.android;			// 'android' 또는 'ios'
+		string os 			= OSType.Android;				// 'android' 또는 'ios'
 		
 		string[] userDataKeys	= new string[] {"player."};		// 로그인 후 가져와야할 사용자 user data의 key 목록
 		string[] itemKeys 		= new string[] {"heart"};		// 로그인 후 가져와야할 사용자 item의 key 목록

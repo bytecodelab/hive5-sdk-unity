@@ -25,12 +25,12 @@ namespace Hive5
 		{
 			JsonData response = JsonMapper.ToObject (json);
 
-			Hive5ResultCode resultCode 	= (Hive5ResultCode) ((int)response[ResponseKey.resultCode]);
+			Hive5ResultCode resultCode 	= (Hive5ResultCode) ((int)response[ResponseKey.ResultCode]);
 			string resultMessage;
 
 			try
 			{
-				resultMessage = (string)response[ResponseKey.resultMessage];
+				resultMessage = (string)response[ResponseKey.ResultMessage];
 			}
 			catch(Exception)
 			{

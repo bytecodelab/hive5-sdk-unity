@@ -8,9 +8,9 @@ using Hive5.Model;
 public class Login : MonoBehaviour {
 
 	/// <summary>
-	/// Kakao the login.
+	/// Login this instance.
 	/// </summary>
-	public void loginKakao2()
+	public void login()
 	{
 
 		string userId 		= "88197948207226176";			// 카카오 user id
@@ -22,8 +22,7 @@ public class Login : MonoBehaviour {
 		string[] itemKeys 		= new string[] {"heart"};		// 로그인 후 가져와야할 사용자 item의 key 목록
 		string[] configKeys 	= new string[] {"time_event1"};	// 로그인 후 가져와야할 사용자 configuration의 key
 		
-		Hive5Client.CallBack callBack = onLoginKakao2;		// 로그인 후 호출 받을 콜백함수 지정
-
+		Hive5Client.CallBack callBack = onLogin;		// 로그인 후 호출 받을 콜백함수 지정
 
 		Hive5Client hive5 = Hive5Client.Instance;
 		hive5.Init ("a40e4122-99d9-44a6-b916-68ed756f79d6", "747474747");
@@ -33,12 +32,12 @@ public class Login : MonoBehaviour {
 
 
 	/// <summary>
-	/// Ons the login kakao2.
+	/// Ons the login.
 	/// </summary>
 	/// <param name="response">Response.</param>
-	private static void onLoginKakao2(Hive5Response response)
+	private static void onLogin(Hive5Response response)
 	{
-		Debug.Log ("onLoginKakao2");
+		Debug.Log ("onLogin");
 		
 		// 성공
 		if (response.resultCode == Hive5ResultCode.Success) {

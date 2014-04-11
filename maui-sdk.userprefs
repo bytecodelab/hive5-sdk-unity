@@ -1,29 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Hive5/Model/Data/Agreement.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Hive5SampleUI/Purchases.cs">
     <Files>
-      <File FileName="Assets/Scripts/Hive5/Hive5Client.cs" Line="32" Column="27" />
-      <File FileName="Assets/Scripts/Hive5/Common/Const.cs" Line="21" Column="4" />
-      <File FileName="Assets/Scripts/Hive5/Hive5Response.cs" Line="31" Column="7" />
       <File FileName="Assets/Scripts/Hive5SampleUI/Login.cs" Line="16" Column="42" />
       <File FileName="Assets/Scripts/Hive5SampleUI/Items.cs" Line="71" Column="34" />
       <File FileName="Assets/Scripts/Hive5SampleUI/Friends.cs" Line="17" Column="32" />
       <File FileName="Assets/Scripts/Hive5SampleUI/Scores.cs" Line="36" Column="16" />
       <File FileName="Assets/Scripts/Hive5SampleUI/UserData.cs" Line="54" Column="10" />
-      <File FileName="Assets/Scripts/Hive5/Model/Data/ResetInfo.cs" Line="28" Column="30" />
-      <File FileName="Assets/Scripts/Hive5/Model/Data/MyScore.cs" Line="26" Column="4" />
-      <File FileName="Assets/Scripts/Hive5/Model/ResponseBody/GetScoresResponseBody.cs" Line="43" Column="31" />
-      <File FileName="Assets/Scripts/Hive5/Model/ResponseBody/GetSocialScoresResponseBody.cs" Line="34" Column="17" />
-      <File FileName="Assets/Scripts/Hive5/Model/Data/Score.cs" Line="30" Column="3" />
-      <File FileName="Assets/Scripts/Hive5/Util/Util.cs" Line="111" Column="28" />
-      <File FileName="Assets/Scripts/Hive5/Hive5ResultCode.cs" Line="16" Column="43" />
-      <File FileName="Assets/Scripts/Hive5/Common/Enum.cs" Line="30" Column="12" />
-      <File FileName="Assets/Scripts/Hive5/Common/Exceptions.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Hive5/Common/Hive5Config.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Hive5/Common/Hive5Extensions.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Hive5/Model/Data/Agreement.cs" Line="7" Column="1" />
-      <File FileName="Assets/Scripts/Hive5/Model/Data/CompletedMission.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Hive5/Model/Data/Config.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Hive5SampleUI/Purchases.cs" Line="44" Column="144" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

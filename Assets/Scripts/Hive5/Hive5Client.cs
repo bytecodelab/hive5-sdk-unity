@@ -288,15 +288,19 @@ namespace Hive5
 		/// <param name="rangeMin">Range minimum.</param>
 		/// <param name="rangeMax">Range max.</param>
 		/// <param name="callback">Callback.</param>
-		public void getScores(long leaderboardId, string[] itemKeys, string[] userDataKeys, long rankMin, long rankMax, long rangeMin, long rangeMax, CallBack callback)
+		public void getScores(long leaderboardId, string[] itemKeys, string[] userDataKeys, long rankMin, long rankMax, long? rangeMin, long? rangeMax, CallBack callback)
 		{
 			var url = initializeUrl (string.Format (APIPath.LeaderboardScores, leaderboardId));
 			
 			// Hive5 API 파라미터 셋팅
 			TupleList<string, string> parameters = new TupleList<string, string>();
 			parameters.Add ("leaderboard_id", leaderboardId.ToString());
-			parameters.Add ("range_min", rangeMin.ToString());
-			parameters.Add ("range_max", rangeMax.ToString());
+			parameters.Add ("rank_min", rankMin.ToString());
+			parameters.Add ("rank_max", rankMax.ToString());
+			if (rangeMin != null)
+				parameters.Add ("range_min", rangeMin.ToString());
+			if (rangeMax != null)
+				parameters.Add ("range_max", rangeMax.ToString());
 			
 			// WWW 호출
 			StartCoroutine ( 

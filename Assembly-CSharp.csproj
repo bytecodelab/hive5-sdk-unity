@@ -204,6 +204,7 @@
      <Compile Include="Assets\Scripts\Hive5SampleUI\Purchases.cs" />
      <Compile Include="Assets\Scripts\Hive5SampleUI\Push.cs" />
      <Compile Include="Assets\Scripts\Hive5SampleUI\Rounds.cs" />
+     <Compile Include="Assets\Scripts\Hive5SampleUI\Scores.cs" />
      <Compile Include="Assets\Scripts\Hive5SampleUI\UserData.cs" />
      <Compile Include="Assets\Scripts\ItemManager.cs" />
      <Compile Include="Assets\Scripts\ItemMove.cs" />

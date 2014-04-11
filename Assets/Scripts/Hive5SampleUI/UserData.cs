@@ -13,7 +13,7 @@ public class UserData : MonoBehaviour {
 	/// </summary>
 	public void getUserData()
 	{
-		string[] dataKeys = new string[] {"player.city"};		// user data keys
+		string[] dataKeys = new string[] {"player.nickname"};		// user data keys
 		Hive5Client.CallBack callBack = onGetUserData;	// api callback
 		
 		hive5 = Hive5Client.Instance;
@@ -28,7 +28,7 @@ public class UserData : MonoBehaviour {
 		Hive5Client.CallBack callback = onSetUserData;
 
 		hive5 = Hive5Client.Instance;
-		hive5.setUserData ("player.city", "SEOUL", CommandType.SET, callback);
+		hive5.setUserData ("player.nickname", "hive5", CommandType.SET, callback);
 	}
 
 	private static void onGetUserData(Hive5Response response)

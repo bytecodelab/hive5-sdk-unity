@@ -25,7 +25,7 @@ namespace Hive5.Model
 		{
 			return new ResetInfo () {
 				period 	= (string)json["period"],
-				weekday	= (string)json["keekday"],
+				weekday	= (string)json["weekday"],
 				hour	= (int)json["hour"],
 				minute	= (int)json["minute"]
 			};

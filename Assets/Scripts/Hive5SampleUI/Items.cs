@@ -68,8 +68,8 @@ public class Items : MonoBehaviour {
 		var requestBody = new {
 			items = new []{
 				new {
-					key = "money.gold",	// 골드사용
-					count = 3	
+					key = "gameItem.doubleShot",
+					count = 1	
 				}
 			}
 		};

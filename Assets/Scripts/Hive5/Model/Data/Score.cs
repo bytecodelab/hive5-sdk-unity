@@ -27,8 +27,8 @@ namespace Hive5.Model
 		{
 			return new Score () {
 				platformUserId = (string)json["platform_user_id"],
-				value = (long)json["value"],
-				rank = (long)json["rank"],
+				value = ((int)json["value"]),
+				rank = ((int)json["rank"]),
 				userData = UserData.LoadList(json["user_data"]),
 				scoredAt = Date.ParseDateTime((string)json["scored_at"])
 			};

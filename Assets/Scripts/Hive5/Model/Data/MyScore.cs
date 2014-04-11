@@ -21,8 +21,11 @@ namespace Hive5.Model
 		/// <param name="json">Json.</param>
 		public static MyScore Load(JsonData json)
 		{
+			if (!json.IsObject)
+				return new MyScore ();
+
 			return new MyScore () {
-				value = (long)json["value"],
+				value = ((int)json["value"]),
 				scoredAt = Date.ParseDateTime((string)json["scored_at"])
 			};
 		

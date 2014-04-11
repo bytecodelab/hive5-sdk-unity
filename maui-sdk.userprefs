@@ -1,30 +1,37 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Hive5/Model/ResponseBody/CompleteApplePurchaseResponseBody.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Hive5/Model/Data/Agreement.cs">
     <Files>
-      <File FileName="Assets/Scripts/Hive5/Model/Data/Friend.cs" Line="42" Column="23" />
-      <File FileName="Assets/Scripts/Hive5/Hive5Client.cs" Line="684" Column="63" />
-      <File FileName="Assets/Scripts/Hive5/Model/ResponseBody/GetSocialScoresResponseBody.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Hive5/Model/ResponseBody/GetFriendsInfoResponseBody.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Hive5/Model/Data/Promotion.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Hive5/Model/Data/Prize.cs" Line="21" Column="3" />
-      <File FileName="Assets/Scripts/Hive5/Model/Data/MyScore.cs" Line="20" Column="17" />
-      <File FileName="Assets/Scripts/Hive5/Model/Data/Score.cs" Line="20" Column="40" />
-      <File FileName="Assets/Scripts/Hive5/Model/Data/Reward.cs" Line="28" Column="12" />
-      <File FileName="Assets/Scripts/Hive5/Model/Data/Item.cs" Line="15" Column="1" />
-      <File FileName="Assets/Scripts/Hive5/Model/Data/Mission.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Hive5/Model/Data/PrizedReward.cs" Line="29" Column="3" />
-      <File FileName="Assets/Scripts/Hive5/Model/ResponseBody/PrizeResponseBody.cs" Line="38" Column="20" />
-      <File FileName="Assets/Scripts/Hive5/Model/ResponseBody/CreateGooglePurchaseResponseBody.cs" Line="15" Column="1" />
-      <File FileName="Assets/Scripts/Hive5/Model/ResponseBody/CompleteGooglePurchaseResponseBody.cs" Line="15" Column="1" />
-      <File FileName="Assets/Scripts/Hive5/Model/ResponseBody/CreateApplePurchaseResponseBody.cs" Line="17" Column="1" />
-      <File FileName="Assets/Scripts/Hive5/Model/ResponseBody/CompleteApplePurchaseResponseBody.cs" Line="36" Column="48" />
+      <File FileName="Assets/Scripts/Hive5/Hive5Client.cs" Line="32" Column="27" />
+      <File FileName="Assets/Scripts/Hive5/Common/Const.cs" Line="21" Column="4" />
+      <File FileName="Assets/Scripts/Hive5/Hive5Response.cs" Line="31" Column="7" />
+      <File FileName="Assets/Scripts/Hive5SampleUI/Login.cs" Line="16" Column="42" />
+      <File FileName="Assets/Scripts/Hive5SampleUI/Items.cs" Line="71" Column="34" />
+      <File FileName="Assets/Scripts/Hive5SampleUI/Friends.cs" Line="17" Column="32" />
+      <File FileName="Assets/Scripts/Hive5SampleUI/Scores.cs" Line="36" Column="16" />
+      <File FileName="Assets/Scripts/Hive5SampleUI/UserData.cs" Line="54" Column="10" />
+      <File FileName="Assets/Scripts/Hive5/Model/Data/ResetInfo.cs" Line="28" Column="30" />
+      <File FileName="Assets/Scripts/Hive5/Model/Data/MyScore.cs" Line="26" Column="4" />
+      <File FileName="Assets/Scripts/Hive5/Model/ResponseBody/GetScoresResponseBody.cs" Line="43" Column="31" />
+      <File FileName="Assets/Scripts/Hive5/Model/ResponseBody/GetSocialScoresResponseBody.cs" Line="34" Column="17" />
+      <File FileName="Assets/Scripts/Hive5/Model/Data/Score.cs" Line="30" Column="3" />
+      <File FileName="Assets/Scripts/Hive5/Util/Util.cs" Line="111" Column="28" />
+      <File FileName="Assets/Scripts/Hive5/Hive5ResultCode.cs" Line="16" Column="43" />
+      <File FileName="Assets/Scripts/Hive5/Common/Enum.cs" Line="30" Column="12" />
+      <File FileName="Assets/Scripts/Hive5/Common/Exceptions.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Hive5/Common/Hive5Config.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Hive5/Common/Hive5Extensions.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Hive5/Model/Data/Agreement.cs" Line="7" Column="1" />
+      <File FileName="Assets/Scripts/Hive5/Model/Data/CompletedMission.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Hive5/Model/Data/Config.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/jhs486/Projects/maui/maui-sdk/Assets/Scripts/Hive5/Model/ResponseBody/LoginDataResponseBody.cs" line="50" />
       <Breakpoint file="/Users/jhs486/Projects/maui/maui-sdk/Assets/Scripts/Hive5/Model/Data/Mail.cs" line="41" />
+      <Breakpoint file="/Users/jhs486/Projects/maui/maui-sdk/Assets/Scripts/Hive5/Model/Data/Score.cs" line="30" />
+      <Breakpoint file="/Users/jhs486/Projects/maui/maui-sdk/Assets/Scripts/Hive5/Model/Data/Score.cs" line="45" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

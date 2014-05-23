@@ -37,8 +37,6 @@ namespace Hive5.Model
 			var userId 				= (int)json["user_id"];
 			var mailboxNewItemCount = (int)json["mailbox_new_item_count"];
 			var accessToken 		= (string)json["access_token"];
-			var items 				= Item.LoadList( json ["items"] );
-			var userData			= UserData.LoadList( json["user_data"] );
 			var completedMissions	= Mission.LoadList( json["completed_missions"] );
 			var configs 			= Config.LoadList( json ["configs"] );
 			var promotions			= Promotion.LoadList ( json ["promotions"] );
@@ -50,8 +48,6 @@ namespace Hive5.Model
 				accessToken = accessToken, 
 				mailboxNewItemCount = mailboxNewItemCount, 
 				userId = userId, 
-				items = items, 
-				userData = userData, 
 				completedMissions = completedMissions, 
 				promotions = promotions, 
 				agreements = agreements

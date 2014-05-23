@@ -198,11 +198,11 @@
      <Compile Include="Assets\Scripts\Hive5SampleUI\Items.cs" />
      <Compile Include="Assets\Scripts\Hive5SampleUI\Login.cs" />
      <Compile Include="Assets\Scripts\Hive5SampleUI\Mails.cs" />
+     <Compile Include="Assets\Scripts\Hive5SampleUI\Procedure.cs" />
      <Compile Include="Assets\Scripts\Hive5SampleUI\Purchases.cs" />
      <Compile Include="Assets\Scripts\Hive5SampleUI\Push.cs" />
      <Compile Include="Assets\Scripts\Hive5SampleUI\Rounds.cs" />
      <Compile Include="Assets\Scripts\Hive5SampleUI\Scores.cs" />
-     <Compile Include="Assets\Scripts\Hive5SampleUI\UserData.cs" />
      <None Include="Assets\NGUI\Resources\Shaders\Depth.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo20.txt" />
      <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo14.txt" />

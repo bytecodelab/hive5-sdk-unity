@@ -77,25 +77,24 @@ namespace Hive5
 		/// <param name="itemKeys">Item keys.</param>
 		/// <param name="configKeys">Config keys.</param>
 		/// <param name="callback">Callback.</param>
-		public void login(string userId, string accessToken, string sdkVersion, string os, string[] userDataKeys, string[] itemKeys, string[] configKeys, CallBack callback)
+		public void login(string os, string[] objectKeys, string[] configKeys, string platform, string platformUserId, string platformSDKVersion, CallBack callback)
 		{
 			if (!InitState)
 				return;
 			
 			// Hive5 API URL 초기화
-			var url = initializeUrl(APIPath.KakaoLogin);
+			var url = initializeUrl(APIPath.PlatformLogin);
 			
 			Debug.Log ("login LoginState=" + LoginState);
 			
 			// Hive5 API 파라미터 셋팅
 			TupleList<string, string> parameters = new TupleList<string, string> ();
-			parameters.Add( ParameterKey.UserId, userId );
-			parameters.Add( ParameterKey.AccessToken, accessToken );
-			parameters.Add( ParameterKey.SdkVersion, sdkVersion );
+			parameters.Add( ParameterKey.PlatformUserId, platformUserId );
+			parameters.Add( ParameterKey.PlatformSdkVersion, platformSDKVersion );
+			parameters.Add (ParameterKey.Platform, platform);
 			parameters.Add( ParameterKey.OS, os );
-			
-			Array.ForEach ( userDataKeys, key => { parameters.Add( ParameterKey.UserDataKey, key ); } );
-			Array.ForEach ( itemKeys, key => { parameters.Add( ParameterKey.ItemKey, key ); } );
+
+			Array.ForEach ( objectKeys, key => { parameters.Add( ParameterKey.ObjectKey, key ); } );
 			Array.ForEach ( configKeys, key => { parameters.Add( ParameterKey.ConfigKey, key ); } );
 			
 			StartCoroutine (
@@ -108,6 +107,29 @@ namespace Hive5
 				callback(response);
 			}
 			));
+			
+		}
+
+		/// <summary>
+		/// Calls the procedure.
+		/// </summary>
+		/// <param name="procedureName">Procedure name.</param>
+		/// <param name="parameters">Parameters.</param>
+		/// <param name="callback">Callback.</param>
+		public void callProcedure(string procedureName, TupleList<string, string> parameters,  CallBack callback)
+		{
+			if (!InitState)
+				return;
+			
+			// Hive5 API URL 초기화
+			var url = initializeUrl(String.Format(APIPath.CallProcedure,procedureName));
+			
+			Debug.Log ("call Procedure =" + LoginState);
+
+			// WWW 호출
+			StartCoroutine (
+				postHTTP (url, parameters.data, new {}, CommonResponseBody.Load, callback)
+			);	
 			
 		}
 		
@@ -1137,6 +1159,56 @@ namespace Hive5
 			if(this.isDebug) Debug.Log ("www reuqest URL = " + newUrl);
 			if(this.isDebug) Debug.Log ("www response = " + www.text);
 
+			callBack (Hive5Response.Load (loader, www.text));
+		}
+
+		/// <summary>
+		/// Https the post.
+		/// </summary>
+		/// <returns>The post.</returns>
+		/// <param name="url">URL.</param>
+		/// <param name="parameters">Parameters.</param>
+		public IEnumerator postHTTP(string url, List<KeyValuePair<string, string>> parameters, object requestBody, Hive5Response.dataLoader loader, CallBack callBack)
+		{	
+			// Hive5 API Header 설정
+			var headers = new Hashtable();
+			headers.Add(HeaderKey.AppKey, this.appKey);
+			headers.Add(HeaderKey.Uuid, this.uuid);
+			headers.Add(HeaderKey.Token, this.accessToken);
+			headers.Add(HeaderKey.ContentType, HeaderValue.ContentType);
+			
+			// Hive5 API json body 변환
+			string jsonString = JsonMapper.ToJson (requestBody);						
+			
+			var encoding	= new System.Text.UTF8Encoding();
+
+
+			string queryString = "";		
+			foreach (KeyValuePair<string, string> parameter in parameters)
+			{
+				if (queryString.Length > 0)	
+				{
+					queryString += "&";
+				}
+				
+				queryString += parameter.Key + "=" + parameter.Value;
+			}
+			
+			string newUrl = url;
+			
+			if (queryString.Length > 0)
+			{
+				newUrl = url + "?" + queryString;
+			}
+			
+			// Hive5 API Request
+			WWW www = new WWW(newUrl, encoding.GetBytes(jsonString), headers); 
+			yield return www;
+			
+			if(this.isDebug) Debug.Log ("www reuqest URL = " + url);
+			if(this.isDebug) Debug.Log ("www request jsonBody= " + jsonString);
+			if(this.isDebug) Debug.Log ("www response = " + www.text);
+			
 			callBack (Hive5Response.Load (loader, www.text));
 		}
 

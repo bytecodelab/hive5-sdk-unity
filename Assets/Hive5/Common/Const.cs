@@ -7,9 +7,9 @@ namespace Hive5
 	/// </summary>
 	public class APIServer
 	{
-		public static string RealHost		= "https://api.hive5.io";
-		public static string BetaHost 		= "https://beta.api.hive5.io";
-		public static string Version 		= "v4";
+		public static string RealHost		= "https://hornet.hive5.io";
+		public static string BetaHost 		= "https://hornet.hive5.io";
+		public static string Version 		= "v5";
 		
 	}
 
@@ -19,6 +19,7 @@ namespace Hive5
 	public class APIPath
 	{
 		public static string KakaoLogin 		= "auth/kakao";
+		public static string PlatformLogin 		= "auth/login";
 		public static string AnonymousLogin 	= "auth/anonymous";
 		public static string NaverLogin 		= "auth/naver";
 		public static string UserData 			= "data";		// user data API
@@ -59,6 +60,7 @@ namespace Hive5
 		public static string EndRound 				= "rounds/end/{0}";
 		public static string UpdateFriends 			= "friends/update";
 	 	public static string GetFriendsInfo 		= "friends/info";
+		public static string CallProcedure			= "procedures/call/{0}";
 	}
 
 	/// <summary>
@@ -67,14 +69,18 @@ namespace Hive5
 	public class ParameterKey
 	{
 		public static string UserId 		= "user_id";
+		public static string PlatformUserId	= "platform_user_id";
+		public static string PlatformSdkVersion = "platform_sdk_version";
 		public static string AccessToken 	= "access_token";
 		public static string SdkVersion 	= "sdk_version";
 		public static string OS 			= "os";
 		public static string Key 			= "key";
+		public static string Platform		= "platform";
 		
 		public static string UserDataKey 	= "user_data_key";
 		public static string ItemKey 		= "key";
 		public static string ConfigKey 		= "config_key";
+		public static string ObjectKey		= "object_key";
 	}
 
 	/// <summary>

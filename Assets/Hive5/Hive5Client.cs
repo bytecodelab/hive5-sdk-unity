@@ -38,12 +38,10 @@ namespace Hive5
 
 		private Hive5TimeZone timezone 	= Hive5TimeZone.UTC;
 		private Hive5APIZone zone		= Hive5APIZone.Beta;
-		private string host 	= APIServer.BetaHost;
-		private string version 	= APIServer.Version;
-
+		private string host;
+		private string version;
 
 		protected Hive5Client () {}
-
 	
 		/********************************************************************************
 			Init API Group
@@ -54,11 +52,18 @@ namespace Hive5
 		/// </summary>
 		/// <param name="appKey">App key.</param>
 		/// <param name="uuid">UUID.</param>
-		public void Init(string appKey, string uuid)
+		public void Init(string appKey, string uuid, Hive5APIZone zone)
 		{
-			this.appKey = appKey;
-			this.uuid 	= uuid;
-			this.initState = true;
+			this.appKey 	= appKey;
+			this.uuid 		= uuid;
+
+			if (Hive5APIZone.Beta == zone)
+				this.host 	= APIServer.BetaHost;
+			else if (Hive5APIZone.Real == zone)
+				this.host 	= APIServer.RealHost;
+
+			this.version 	= APIServer.Version;
+			this.initState 	= true;
 		}
 
 
@@ -77,25 +82,24 @@ namespace Hive5
 		/// <param name="itemKeys">Item keys.</param>
 		/// <param name="configKeys">Config keys.</param>
 		/// <param name="callback">Callback.</param>
-		public void login(string userId, string accessToken, string sdkVersion, string os, string[] userDataKeys, string[] itemKeys, string[] configKeys, CallBack callback)
+		public void login(string os, string[] objectKeys, string[] configKeys, string platform, string platformUserId, string platformSDKVersion, CallBack callback)
 		{
 			if (!InitState)
 				return;
 			
 			// Hive5 API URL 초기화
-			var url = initializeUrl(APIPath.KakaoLogin);
+			var url = initializeUrl(APIPath.PlatformLogin);
 			
 			Debug.Log ("login LoginState=" + LoginState);
 			
 			// Hive5 API 파라미터 셋팅
 			TupleList<string, string> parameters = new TupleList<string, string> ();
-			parameters.Add( ParameterKey.UserId, userId );
-			parameters.Add( ParameterKey.AccessToken, accessToken );
-			parameters.Add( ParameterKey.SdkVersion, sdkVersion );
+			parameters.Add( ParameterKey.PlatformUserId, platformUserId );
+			parameters.Add( ParameterKey.PlatformSdkVersion, platformSDKVersion );
+			parameters.Add (ParameterKey.Platform, platform);
 			parameters.Add( ParameterKey.OS, os );
 			
-			Array.ForEach ( userDataKeys, key => { parameters.Add( ParameterKey.UserDataKey, key ); } );
-			Array.ForEach ( itemKeys, key => { parameters.Add( ParameterKey.ItemKey, key ); } );
+			Array.ForEach ( objectKeys, key => { parameters.Add( ParameterKey.ObjectKey, key ); } );
 			Array.ForEach ( configKeys, key => { parameters.Add( ParameterKey.ConfigKey, key ); } );
 			
 			StartCoroutine (
@@ -1016,40 +1020,126 @@ namespace Hive5
             );
 		}
 		
-		
 		/// <summary>
-		/// Sets the batch.
+		/// Calls the procedure.
 		/// </summary>
-		/// <param name="userData">User data.</param>
+		/// <param name="procedureName">Procedure name.</param>
+		/// <param name="parameters">Parameters.</param>
 		/// <param name="callback">Callback.</param>
-		/// 
-		/// 
-		/*
-		public void setBatch(Dictionary<string, string> userData, Hive5Client.apiCallBack callback)
+		public void callProcedure(string procedureName, TupleList<string, string> parameters,  CallBack callback)
 		{
-			Debug.Log ("LoginState=" + LoginState);
+			if (!InitState)
+				return;
 			
 			// Hive5 API URL 초기화
-			var url = initializeUrl(APIPath.userData);
-
-			var dataList = new List<UserData>();
-			foreach (KeyValuePair<string, string> rowData in userData) 
-			{
-				dataList.Add (new UserData(rowData.Key, rowData.Value));
-			}
-
-			Array data = dataList.ToArray ();
-
-			var requestBody = new {
-				data = dataList;
-			};
+			var url = initializeUrl(String.Format(APIPath.CallProcedure,procedureName));
 			
+			// WWW 호출
 			StartCoroutine (
-				postHTTP(url, requestBody, callback)
-			);
+				postHTTP (url, parameters.data, new {}, CommonResponseBody.Load, callback)
+			);	
 			
 		}
-		*/
+
+		/// <summary>
+		/// Gets the objects.
+		/// </summary>
+		/// <param name="objectKeys">Object keys.</param>
+		/// <param name="callback">Callback.</param>
+		public void getObjects(string[] objectKeys, CallBack callback)
+		{
+			// Hive5 API URL 초기화
+			var url = initializeUrl(APIPath.UserData);
+			
+			// Hive5 API 파라미터 셋팅
+			TupleList<string, string> parameters = new TupleList<string, string>();
+			Array.ForEach ( objectKeys, key => { parameters.Add( ParameterKey.Key, key ); } );
+			
+			// WWW 호출
+			StartCoroutine ( 
+                getHTTP (url, parameters.data, CommonResponseBody.Load, callback) 
+        	);
+		}
+
+
+		/// <summary>
+		/// Creates the object.
+		/// </summary>
+		/// <param name="procedureName">Procedure name.</param>
+		/// <param name="objectKeys">Object keys.</param>
+		/// <param name="callback">Callback.</param>
+		public void createObjects(string procedureName, string[] objectKeys,  CallBack callback)
+		{
+			if (!InitState)
+				return;
+			
+			// Hive5 API URL 초기화
+			var url = initializeUrl(String.Format(APIPath.CreateObjects,procedureName));
+
+			var objects = new List<object>();
+			Array.ForEach ( objectKeys, key => { objects.Add( new { @class = key } ); } );
+
+			var requestBody = new {
+				objects = objects
+			};
+			
+			// WWW 호출
+			StartCoroutine (
+				postHTTP (url, new {}, CommonResponseBody.Load, callback)
+			);	
+			
+		}
+			
+		/// <summary>
+		/// Sets the objects.
+		/// </summary>
+		/// <param name="procedureName">Procedure name.</param>
+		/// <param name="objects">Objects.</param>
+		/// <param name="callback">Callback.</param>
+		public void setObjects(string procedureName, List<Hobject> objects,  CallBack callback)
+		{
+			if (!InitState)
+				return;
+			
+			// Hive5 API URL 초기화
+			var url = initializeUrl(String.Format(APIPath.SetObjects,procedureName));
+
+			var requestBody = new {
+				objects = objects
+			};
+
+			// WWW 호출
+			StartCoroutine (
+				postHTTP (url, new {}, CommonResponseBody.Load, callback)
+			);	
+			
+		}
+
+		/// <summary>
+		/// Destroies the objects.
+		/// </summary>
+		/// <param name="procedureName">Procedure name.</param>
+		/// <param name="objects">Objects.</param>
+		/// <param name="callback">Callback.</param>
+		public void destroyObjects(string procedureName, List<Hobject> objects,  CallBack callback)
+		{
+			if (!InitState)
+				return;
+			
+			// Hive5 API URL 초기화
+			var url = initializeUrl(String.Format(APIPath.DestoryObjects,procedureName));
+			
+			var requestBody = new {
+				objects = objects
+			};
+
+			// WWW 호출
+			StartCoroutine (
+				postHTTP (url, new {}, CommonResponseBody.Load, callback)
+				);	
+			
+		}
+
 
 
 		/********************************************************************************
@@ -1137,6 +1227,57 @@ namespace Hive5
 			if(this.isDebug) Debug.Log ("www reuqest URL = " + newUrl);
 			if(this.isDebug) Debug.Log ("www response = " + www.text);
 
+			callBack (Hive5Response.Load (loader, www.text));
+		}
+
+
+		/// <summary>
+		/// Https the post.
+		/// </summary>
+		/// <returns>The post.</returns>
+		/// <param name="url">URL.</param>
+		/// <param name="parameters">Parameters.</param>
+		public IEnumerator postHTTP(string url, List<KeyValuePair<string, string>> parameters, object requestBody, Hive5Response.dataLoader loader, CallBack callBack)
+		{	
+			// Hive5 API Header 설정
+			var headers = new Hashtable();
+			headers.Add(HeaderKey.AppKey, this.appKey);
+			headers.Add(HeaderKey.Uuid, this.uuid);
+			headers.Add(HeaderKey.Token, this.accessToken);
+			headers.Add(HeaderKey.ContentType, HeaderValue.ContentType);
+			
+			// Hive5 API json body 변환
+			string jsonString = JsonMapper.ToJson (requestBody);						
+			
+			var encoding	= new System.Text.UTF8Encoding();
+			
+			
+			string queryString = "";		
+			foreach (KeyValuePair<string, string> parameter in parameters)
+			{
+				if (queryString.Length > 0)	
+				{
+					queryString += "&";
+				}
+				
+				queryString += parameter.Key + "=" + parameter.Value;
+			}
+			
+			string newUrl = url;
+			
+			if (queryString.Length > 0)
+			{
+				newUrl = url + "?" + queryString;
+			}
+			
+			// Hive5 API Request
+			WWW www = new WWW(newUrl, encoding.GetBytes(jsonString), headers); 
+			yield return www;
+			
+			if(this.isDebug) Debug.Log ("www reuqest URL = " + url);
+			if(this.isDebug) Debug.Log ("www request jsonBody= " + jsonString);
+			if(this.isDebug) Debug.Log ("www response = " + www.text);
+			
 			callBack (Hive5Response.Load (loader, www.text));
 		}
 

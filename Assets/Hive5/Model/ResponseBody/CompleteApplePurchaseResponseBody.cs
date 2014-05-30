@@ -12,7 +12,6 @@ namespace Hive5.Model
 	/// </summary>
 	public class CompleteApplePurchaseResponseBody : IResponseBody
 	{
-		public List<Item> items { set; get; }		
 		
 		/// <summary>
 		/// Load the specified json.
@@ -34,7 +33,7 @@ namespace Hive5.Model
 			}
 			
 			return new CompleteApplePurchaseResponseBody() {
-				items = items
+
 			};
 		}
 		

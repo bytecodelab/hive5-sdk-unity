@@ -17,8 +17,8 @@ public class Purchases : MonoBehaviour {
 		string mailForReceiver = null;
 
 		Hive5Client hive5 = Hive5Client.Instance;
-		hive5.setDebug ();
-		hive5.createGooglePurchase(productCode, receiverPlatformUserId, mailForReceiver, (response) => {
+		hive5.SetDebug ();
+		hive5.CreateGooglePurchase(productCode, receiverPlatformUserId, mailForReceiver, (response) => {
 			
 			// 성공
 			if (response.resultCode == Hive5ResultCode.Success) {
@@ -44,8 +44,8 @@ public class Purchases : MonoBehaviour {
 		string signature = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx==";
 		
 		Hive5Client hive5 = Hive5Client.Instance;
-		hive5.setDebug ();
-		hive5.completeGooglePurchase(id, listPrice, purchasePrice, currency, purchaseData, signature, (response) => {
+		hive5.SetDebug ();
+		hive5.CompleteGooglePurchase(id, listPrice, purchasePrice, currency, purchaseData, signature, (response) => {
 			
 			// 성공
 			if (response.resultCode == Hive5ResultCode.Success) {

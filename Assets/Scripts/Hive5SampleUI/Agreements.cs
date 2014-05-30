@@ -8,7 +8,7 @@ public class Agreements : MonoBehaviour {
 	public void submitAgreements()
 	{
 		var hive5 = Hive5Client.Instance;	// Hive5Client 호출
-		hive5.submitAgreements ("1.1.1", "0.1", response => {
+		hive5.SubmitAgreements ("1.1.1", "0.1", response => {
 			Debug.Log ("onSubmitAgreements");
 			// 성공
 			if (response.resultCode == Hive5ResultCode.Success) {
@@ -27,7 +27,7 @@ public class Agreements : MonoBehaviour {
 	public void getAgreements()
 	{
 		var hive5 = Hive5Client.Instance;	// Hive5Client 호출
-		hive5.getAgreements ( response => {
+		hive5.GetAgreements ( response => {
 			Debug.Log ("onSubmitAgreements");
 			// 성공
 			if (response.resultCode == Hive5ResultCode.Success) {
@@ -45,7 +45,7 @@ public class Agreements : MonoBehaviour {
 	public void unregister()
 	{
 		var hive5 = Hive5Client.Instance;	// Hive5Client 호출
-		hive5.unregister ( response => {
+		hive5.Unregister ( response => {
 			Debug.Log ("onSubmitAgreements");
 			// 성공
 			if (response.resultCode == Hive5ResultCode.Success) {

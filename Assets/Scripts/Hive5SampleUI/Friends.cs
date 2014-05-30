@@ -17,9 +17,9 @@ public class Friends : MonoBehaviour {
 		var friend_ids = new string[] {"881979482072261763"};
 
 		Hive5Client.CallBack callback = onUpdateFriends;
-		H5.setZone (Hive5APIZone.Beta);
-		H5.setDebug ();
-		H5.updateFriends (friend_ids, callback);
+		H5.SetZone (Hive5APIZone.Beta);
+		H5.SetDebug ();
+		H5.UpdateFriends (friend_ids, callback);
 	}
 	
 	/// <summary>

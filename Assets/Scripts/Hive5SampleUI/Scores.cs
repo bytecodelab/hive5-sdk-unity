@@ -14,9 +14,9 @@ public class Scores : MonoBehaviour {
 	{
 		hive5 = Hive5Client.Instance;    // Hive5Client 호출
 
-		hive5.setZone (Hive5APIZone.Beta);
-		hive5.setDebug ();
-		hive5.getScores (3, new string[]{}, new string[]{}, 1, 10, null, null, response => {
+		hive5.SetZone (Hive5APIZone.Beta);
+		hive5.SetDebug ();
+		hive5.GetScores (3, new string[]{}, new string[]{}, 1, 10, null, null, response => {
 			Debug.Log ("onGetScores");
 			
 			// 성공
@@ -37,10 +37,10 @@ public class Scores : MonoBehaviour {
 	public void getSocialScores()
 	{
 		hive5 = Hive5Client.Instance;    // Hive5Client 호출
-		
-		hive5.setZone (Hive5APIZone.Beta);
-		hive5.setDebug ();
-		hive5.getSocialScores(3, new string[]{}, new string[]{}, response => {
+
+		hive5.SetZone (Hive5APIZone.Beta);
+		hive5.SetDebug ();
+		hive5.GetSocialScores(3, new string[]{}, new string[]{}, response => {
 			Debug.Log ("onGetSocialScores");
 			
 			// 성공

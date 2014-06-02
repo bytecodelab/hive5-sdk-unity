@@ -16,7 +16,7 @@ public class Scores : MonoBehaviour {
 
 		hive5.SetZone (Hive5APIZone.Beta);
 		hive5.SetDebug ();
-		hive5.GetScores (3, new string[]{}, new string[]{}, 1, 10, null, null, response => {
+		hive5.GetScores (3, 1, 10, null, null, response => {
 			Debug.Log ("onGetScores");
 			
 			// 성공
@@ -40,7 +40,7 @@ public class Scores : MonoBehaviour {
 
 		hive5.SetZone (Hive5APIZone.Beta);
 		hive5.SetDebug ();
-		hive5.GetSocialScores(3, new string[]{}, new string[]{}, response => {
+		hive5.GetSocialScores(3, response => {
 			Debug.Log ("onGetSocialScores");
 			
 			// 성공

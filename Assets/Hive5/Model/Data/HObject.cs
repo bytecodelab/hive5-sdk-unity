@@ -21,13 +21,13 @@ namespace Hive5.Model
 		/// Load the specified json.
 		/// </summary>
 		/// <param name="json">Json.</param>
-		public static HObject Load(JsonData json)
+		public static Hobject Load(JsonData json)
 		{
 			var id 		= (long)json["id"];
 			var @class 	= (string)json["class"];
 			var changes = (object)json["changes"];
 
-			return new HObject () {
+			return new Hobject () {
 				id 		= id,
 				@class 	= @class,
 				changes = changes
@@ -39,9 +39,9 @@ namespace Hive5.Model
 		/// </summary>
 		/// <returns>The list.</returns>
 		/// <param name="json">Json.</param>
-		public static List<HObject> LoadList(JsonData json)
+		public static List<Hobject> LoadList(JsonData json)
 		{
-			var hobjects = new List<HObject>();
+			var hobjects = new List<Hobject>();
 			
 			if (json == null || json.IsArray == false)
 				return hobjects;
@@ -49,7 +49,7 @@ namespace Hive5.Model
 			var listCount = json.Count;
 			for (int currentCount = 0; currentCount < listCount; currentCount++) 
 			{
-				hobjects.Add(HObject.Load(json[currentCount]));
+				hobjects.Add(Hobject.Load(json[currentCount]));
 			}
 
 			return hobjects;

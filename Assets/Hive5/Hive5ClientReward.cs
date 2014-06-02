@@ -22,11 +22,22 @@ namespace Hive5
 			Reward API Group
 		*********************************************************************************/
 		
-		/// <summary>
-		/// Get the specified rewardId and callback.
-		/// </summary>
-		/// <param name="rewardId">Reward identifier.</param>
-		/// <param name="callback">Callback.</param>
+
+		/** 
+		* @api {POST} GetRewardInfo 보상 정보
+		* @apiVersion 1.0.0
+		* @apiName void GetRewardInfo(long rewardId, CallBack callback)
+		* @apiGroup Hive5Client
+		*
+		* @apiParam {long) rewardId 상품 코드
+		* @apiParam {CallBack) callback 콜백 함수
+		*
+		* @apiSuccess {String} resultCode Error Code 참고
+		* @apiSuccess {String} resultMessage 요청 실패시 메시지
+		* @apiExample Example usage:
+		* Hive5Client hive5 = Hive5Client.Instance;
+		* hive5.GetRewardInfo(rewardId, callback);
+		*/
 		public void GetRewardInfo(long rewardId, CallBack callback)
 		{
 			var url = InitializeUrl (string.Format (APIPath.Reward, rewardId));
@@ -36,16 +47,26 @@ namespace Hive5
 			
 			// WWW 호출
 			StartCoroutine ( 
-			                GetHttp (url, parameters.data, GetRewardInfoResponseBody.Load, callback) 
-			                );
+	        	GetHttp (url, parameters.data, GetRewardInfoResponseBody.Load, callback) 
+	        );
 		}
 		
-		/// <summary>
-		/// Apply the specified rewardId, deleteMail and callback.
-		/// </summary>
-		/// <param name="rewardId">Reward identifier.</param>
-		/// <param name="deleteMail">If set to <c>true</c> delete mail.</param>
-		/// <param name="callback">Callback.</param>
+		/** 
+		* @api {POST} ApplyReward 보상 받기
+		* @apiVersion 1.0.0
+		* @apiName void ApplyReward(long rewardId, bool deleteMail, CallBack callback)
+		* @apiGroup Hive5Client
+		*
+		* @apiParam {long) rewardId 상품 코드
+		* @apiParam {bool) deleteMail 보상 받을 시 메일 함께 삭제 여부
+		* @apiParam {CallBack) callback 콜백 함수
+		*
+		* @apiSuccess {String} resultCode Error Code 참고
+		* @apiSuccess {String} resultMessage 요청 실패시 메시지
+		* @apiExample Example usage:
+		* Hive5Client hive5 = Hive5Client.Instance;
+		* hive5.ApplyReward(rewardId, deleteMail, callback);
+		*/
 		public void ApplyReward(long rewardId, bool deleteMail, CallBack callback)
 		{
 			var url = InitializeUrl (string.Format (APIPath.ApplyReward, rewardId));
@@ -58,14 +79,24 @@ namespace Hive5
 			// WWW 호출
 			StartCoroutine (
 				PostHttp(url, requestBody, ApplyRewardResponseBody.Load, callback)
-				);
+			);
 		}
 		
-		/// <summary>
-		/// Applies all.
-		/// </summary>
-		/// <param name="deleteMail">If set to <c>true</c> delete mail.</param>
-		/// <param name="callback">Callback.</param>
+		/** 
+		* @api {POST} ApplyReward 보상 전체 받기
+		* @apiVersion 1.0.0
+		* @apiName void ApplyAllRewards(bool deleteMail, CallBack callback)
+		* @apiGroup Hive5Client
+		*
+		* @apiParam {bool) deleteMail 보상 받을 시 메일 함께 삭제 여부
+		* @apiParam {CallBack) callback 콜백 함수
+		*
+		* @apiSuccess {String} resultCode Error Code 참고
+		* @apiSuccess {String} resultMessage 요청 실패시 메시지
+		* @apiExample Example usage:
+		* Hive5Client hive5 = Hive5Client.Instance;
+		* hive5.ApplyAllRewards(deleteMail, callback);
+		*/
 		public void ApplyAllRewards(bool deleteMail, CallBack callback)
 		{
 			var url = InitializeUrl (APIPath.ApplyAllReward);
@@ -81,12 +112,21 @@ namespace Hive5
 				);
 		}
 		
-		/// <summary>
-		/// Invalidate the specified rewardId, deleteMail and callback.
-		/// </summary>
-		/// <param name="rewardId">Reward identifier.</param>
-		/// <param name="deleteMail">If set to <c>true</c> delete mail.</param>
-		/// <param name="callback">Callback.</param>
+		/** 
+		* @api {POST} InvalidateReward 보상 무효화
+		* @apiVersion 1.0.0
+		* @apiName void InvalidateReward(long rewardId, bool deleteMail, CallBack callback)
+		* @apiGroup Hive5Client
+		*
+		* @apiParam {bool) deleteMail 보상 받을 시 메일 함께 삭제 여부
+		* @apiParam {CallBack) callback 콜백 함수
+		*
+		* @apiSuccess {String} resultCode Error Code 참고
+		* @apiSuccess {String} resultMessage 요청 실패시 메시지
+		* @apiExample Example usage:
+		* Hive5Client hive5 = Hive5Client.Instance;
+		* hive5.InvalidateReward(rewardId, deleteMail, callback);
+		*/
 		public void InvalidateReward(long rewardId, bool deleteMail, CallBack callback)
 		{
 			var url = InitializeUrl (string.Format (APIPath.InvalidateReward, rewardId));
@@ -99,7 +139,7 @@ namespace Hive5
 			// WWW 호출
 			StartCoroutine (
 				PostHttp(url, requestBody, InvalidateRewardResponseBody.Load, callback)
-				);
+			);
 		}
 
 

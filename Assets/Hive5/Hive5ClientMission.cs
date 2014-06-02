@@ -22,11 +22,21 @@ namespace Hive5
 			Mission API Group
 		*********************************************************************************/
 		
-		/// <summary>
-		/// Complete the specified missionKey and callback.
-		/// </summary>
-		/// <param name="missionKey">Mission key.</param>
-		/// <param name="callback">Callback.</param>
+		/** 
+		* @api {public Method} CompleteMission 미션 완료
+		* @apiVersion 1.0.0
+		* @apiName void CompleteMission(string missionKey, CallBack callback)
+		* @apiGroup Hive5Client
+		*
+		* @apiParam {string} missionKey 완료할 미션 키
+		* @apiParam {CallBack) callback 콜백 함수
+		*
+		* @apiSuccess {String} resultCode Error Code 참고
+		* @apiSuccess {String} resultMessage 요청 실패시 메시지
+		* @apiExample Example usage:
+		* Hive5Client hive5 = Hive5Client.Instance;
+		* hive5.CompleteMission(missionKey, callback);
+		*/
 		public void CompleteMission(string missionKey, CallBack callback)
 		{
 			var url = InitializeUrl (string.Format(APIPath.CompleteMission, missionKey));
@@ -37,11 +47,21 @@ namespace Hive5
 				);
 		}
 		
-		/// <summary>
-		/// Batchs the complete.
-		/// </summary>
-		/// <param name="missionKeys">Mission keys.</param>
-		/// <param name="callback">Callback.</param>
+		/** 
+		* @api {public Method} BatchCompleteMission 미션 일괄 완료
+		* @apiVersion 1.0.0
+		* @apiName void BatchCompleteMission(string[] missionKeys, CallBack callback)
+		* @apiGroup Hive5Client
+		*
+		* @apiParam {string[]} missionKeys 완료할 미션 키 리스트
+		* @apiParam {CallBack) callback 콜백 함수
+		*
+		* @apiSuccess {String} resultCode Error Code 참고
+		* @apiSuccess {String} resultMessage 요청 실패시 메시지
+		* @apiExample Example usage:
+		* Hive5Client hive5 = Hive5Client.Instance;
+		* hive5.BatchCompleteMission(missionKeys, callback);
+		*/
 		public void BatchCompleteMission(string[] missionKeys, CallBack callback)
 		{
 			var url = InitializeUrl (APIPath.BatchCompleteMission);
@@ -56,10 +76,20 @@ namespace Hive5
 				);
 		}
 		
-		/// <summary>
-		/// Gets the completed.
-		/// </summary>
-		/// <param name="callback">Callback.</param>
+		/** 
+		* @api {public Method} GetCompletedMissions 완료 미션 리스트 가져오기
+		* @apiVersion 1.0.0
+		* @apiName void BatchCompleteMission(string[] missionKeys, CallBack callback)
+		* @apiGroup Hive5Client
+		*
+		* @apiParam {CallBack) callback 콜백 함수
+		*
+		* @apiSuccess {String} resultCode Error Code 참고
+		* @apiSuccess {String} resultMessage 요청 실패시 메시지
+		* @apiExample Example usage:
+		* Hive5Client hive5 = Hive5Client.Instance;
+		* hive5.GetCompletedMissions(callback);
+		*/
 		public void GetCompletedMissions(CallBack callback)
 		{
 			var url = InitializeUrl (APIPath.GetCompletedMissions);
@@ -69,8 +99,8 @@ namespace Hive5
 			
 			// WWW 호출
 			StartCoroutine ( 
-			                GetHttp (url, parameters.data, GetCompletedMissionsResponseBody.Load, callback) 
-			                );
+                GetHttp (url, parameters.data, GetCompletedMissionsResponseBody.Load, callback) 
+           	);
 		}
 
 

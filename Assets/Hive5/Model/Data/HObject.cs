@@ -39,9 +39,9 @@ namespace Hive5.Model
 		/// </summary>
 		/// <returns>The list.</returns>
 		/// <param name="json">Json.</param>
-		public static List<Hobject> LoadList(JsonData json)
+		public static List<HObject> LoadList(JsonData json)
 		{
-			var hobjects = new List<Hobject>();
+			var hobjects = new List<HObject>();
 			
 			if (json == null || json.IsArray == false)
 				return hobjects;

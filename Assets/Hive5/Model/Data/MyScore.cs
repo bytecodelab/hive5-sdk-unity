@@ -21,7 +21,7 @@ namespace Hive5.Model
 		/// <param name="json">Json.</param>
 		public static MyScore Load(JsonData json)
 		{
-			if (!json.IsObject)
+			if (json == null)
 				return new MyScore ();
 
 			return new MyScore () {

@@ -28,11 +28,10 @@ namespace Hive5.Model
 				return null;
 
 			return new GetSocialScoresResponseBody() {
-				lastPrizedAt	= (string)json["last_prized_at"],
 				resetInfo 		= ResetInfo.Load (json["reset_info"]),
 				myLastScore 	= MyScore.Load(json["my_last_score"]),
 				scores 			= Score.LoadList(json["scores"]),
-				scoresCount 	= (long)json["scores_count"]
+				scoresCount 	= (int)json["scores_count"]
 			};
 		}
 

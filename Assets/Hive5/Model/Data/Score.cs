@@ -13,9 +13,9 @@ namespace Hive5.Model
 	public class Score
 	{
 		public string platformUserId { set; get; }
-		public DateTime scoredAt { set; get; }
-		public long value { set; get; }
-		public long rank { set; get; }
+		public DateTime? scoredAt { set; get; }
+		public long? value { set; get; }
+		public long? rank { set; get; }
 		public List<UserData> userData { set; get; }
 		public List<Item> items { set; get; }
 
@@ -25,13 +25,18 @@ namespace Hive5.Model
 		/// <param name="json">Json.</param>
 		public static Score Load(JsonData json)
 		{
-			return new Score () {
-				platformUserId = (string)json["platform_user_id"],
-				value = ((int)json["value"]),
-				rank = ((int)json["rank"]),
-				userData = UserData.LoadList(json["user_data"]),
-				scoredAt = Date.ParseDateTime((string)json["scored_at"])
-			};
+			if (json ["scored_at"] != null) {
+				return new Score () {
+					platformUserId = (string)json["platform_user_id"],
+					value = ((long?)json["value"]),
+					rank = ((long?)json["rank"]),
+					scoredAt = Date.ParseDateTime((string)json["scored_at"])
+				};
+			} 
+			else 
+			{
+				return new Score();
+			}
 		
 		}
 

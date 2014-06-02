@@ -25,7 +25,7 @@ namespace Hive5.Model
 			if (json == null)
 				return null;
 
-			var scoresCount = (long)json ["scores_count"];
+			var scoresCount = (int)json ["scores_count"];
 			var myLastScore = MyScore.Load (json ["my_last_score"]);
 			List<Score> scores;
 

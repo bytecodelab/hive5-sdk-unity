@@ -114,10 +114,15 @@ namespace Hive5
 			var url = InitializeUrl(String.Format(APIPath.CallProcedure,procedureName));
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp (url, parameters.data, new {}, CommonResponseBody.Load, callback)
-			);	
-			
+
+		    if (parameters == null)
+			{
+			    StartCoroutine(PostHttp(url, null, new {}, CommonResponseBody.Load, callback));	
+			}
+			else
+			{
+				StartCoroutine(PostHttp(url, parameters.data, new {}, CommonResponseBody.Load, callback));
+			}
 		}
 
 
@@ -209,6 +214,30 @@ namespace Hive5
 			callBack (Hive5Response.Load (loader, www.text));
 		}
 
+		/// <summary>
+		/// Build QueryString
+		/// </summary>
+		/// <returns>The query string.</returns>
+		/// <param name="parameters">Parameters.</param>
+		private string GetQueryString(List<KeyValuePair<string, string>> parameters)
+		{
+			if (parameters == null)
+			    return string.Empty;
+
+			// Using StringBuilder is faster than concating string by + operator repeatly 
+			StringBuilder sb = new StringBuilder ();
+			foreach (KeyValuePair<string, string> parameter in parameters)
+			{
+				if (sb.Length > 0)	
+				{
+					sb.Append("&");
+				}
+				
+				sb.Append(parameter.Key + "=" + parameter.Value);
+			}
+
+			return sb.ToString ();
+		}
 
 		/// <summary>
 		/// Https the post.
@@ -226,21 +255,12 @@ namespace Hive5
 			headers.Add(HeaderKey.ContentType, HeaderValue.ContentType);
 			
 			// Hive5 API json body 변환
-			string jsonString = JsonMapper.ToJson (requestBody);						
+			string jsonString = JsonMapper.ToJson (requestBody);
 			
 			var encoding	= new System.Text.UTF8Encoding();
 			
 			
-			string queryString = "";		
-			foreach (KeyValuePair<string, string> parameter in parameters)
-			{
-				if (queryString.Length > 0)	
-				{
-					queryString += "&";
-				}
-				
-				queryString += parameter.Key + "=" + parameter.Value;
-			}
+			string queryString = GetQueryString(parameters);		
 			
 			string newUrl = url;
 			
@@ -305,7 +325,7 @@ namespace Hive5
 		/// Gets the headers.
 		/// </summary>
 		/// <returns>The headers.</returns>
-		private Dictionary<string, string> getHeaders()
+		private Dictionary<string, string> GetHeaders()
 		{
 			Dictionary<string, string> result = new Dictionary<string, string>();
 			

@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using LitJson;
@@ -21,13 +21,13 @@ namespace Hive5.Model
 		/// Load the specified json.
 		/// </summary>
 		/// <param name="json">Json.</param>
-		public static Hobject Load(JsonData json)
+		public static HObject Load(JsonData json)
 		{
 			var id         = (long)json["id"];
 			var @class     = (string)json["class"];
 			var changes = (object)json["changes"];
 			
-			return new Hobject () {
+			return new HObject () {
 				id         = id,
 				@class     = @class,
 				changes = changes
@@ -49,7 +49,7 @@ namespace Hive5.Model
 			var listCount = json.Count;
 			for (int currentCount = 0; currentCount < listCount; currentCount++) 
 			{
-				hobjects.Add(Hobject.Load(json[currentCount]));
+				hobjects.Add(HObject.Load(json[currentCount]));
 			}
 			
 			return hobjects;

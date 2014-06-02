@@ -7,7 +7,7 @@ namespace Hive5
 	/// </summary>
 	public class APIServer
 	{
-		public static string RealHost		= "https://hornet.hive5.io";
+		public static string ProductionHost	= "https://hornet.hive5.io";
 		public static string BetaHost 		= "https://beta.hornet.hive5.io";
 		public static string Version 		= "v5";
 	}

@@ -8,7 +8,7 @@ namespace Hive5
 	public enum Hive5APIZone
 	{
 		Beta = 0,
-		Real = 1
+		Production = 1
 	}
 
 	public enum Hive5TimeZone

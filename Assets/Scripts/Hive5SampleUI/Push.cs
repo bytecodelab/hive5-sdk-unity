@@ -15,7 +15,7 @@ public class Push : MonoBehaviour {
 
 		var hive5 = Hive5Client.Instance;	// Hive5Client 호출
 
-		hive5.SetZone (Hive5APIZone.Real);
+		hive5.SetZone (Hive5APIZone.Production);
 		hive5.SetDebug ();
 		hive5.UpdatePushToken ("android", "test_token", response => {
 			Debug.Log ("onregisterPushToken");

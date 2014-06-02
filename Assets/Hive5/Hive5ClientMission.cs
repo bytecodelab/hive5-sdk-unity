@@ -23,13 +23,13 @@ namespace Hive5
 		*********************************************************************************/
 		
 		/** 
-		* @api {public Method} CompleteMission 미션 완료
+		* @api {POST} CompleteMission 미션 완료
 		* @apiVersion 1.0.0
-		* @apiName void CompleteMission(string missionKey, CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName CompleteMission
+		* @apiGroup Mission
 		*
 		* @apiParam {string} missionKey 완료할 미션 키
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -48,13 +48,13 @@ namespace Hive5
 		}
 		
 		/** 
-		* @api {public Method} BatchCompleteMission 미션 일괄 완료
+		* @api {POST} BatchCompleteMission 미션 일괄 완료
 		* @apiVersion 1.0.0
-		* @apiName void BatchCompleteMission(string[] missionKeys, CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName BatchCompleteMission
+		* @apiGroup Mission
 		*
 		* @apiParam {string[]} missionKeys 완료할 미션 키 리스트
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -77,12 +77,12 @@ namespace Hive5
 		}
 		
 		/** 
-		* @api {public Method} GetCompletedMissions 완료 미션 리스트 가져오기
+		* @api {POST} GetCompletedMissions 완료 미션 리스트 가져오기
 		* @apiVersion 1.0.0
-		* @apiName void BatchCompleteMission(string[] missionKeys, CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName BatchCompleteMission
+		* @apiGroup Mission
 		*
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지

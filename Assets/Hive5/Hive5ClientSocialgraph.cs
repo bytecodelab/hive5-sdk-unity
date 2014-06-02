@@ -25,11 +25,11 @@ namespace Hive5
 		/** 
 		* @api {POST} UpdateFriends 친구 리스트 업데이트
 		* @apiVersion 1.0.0
-		* @apiName void UpdateFriends(string[] friend_ids, CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName UpdateFriends
+		* @apiGroup SocialGraph
 		*
-		* @apiParam {string[]) friend_ids 친구 ID 리스트
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {string[]} friend_ids 친구 ID 리스트
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -56,11 +56,11 @@ namespace Hive5
 		/** 
 		* @api {GET} GetFriendsInfo 친구 리스트 가져오기
 		* @apiVersion 1.0.0
-		* @apiName void GetFriendsInfo(string[] platformUserIds, string[] itemKeys, string[] userDataKeys, CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName GetFriendsInfo
+		* @apiGroup SocialGraph
 		*
-		* @apiParam {string[]) friend_ids 친구 ID 리스트
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {string[]} friend_ids 친구 ID 리스트
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지

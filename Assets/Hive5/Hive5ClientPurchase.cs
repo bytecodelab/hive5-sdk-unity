@@ -25,12 +25,12 @@ namespace Hive5
 		/** 
 		* @api {POST} CreateNaverPurchase 네이버 결제 시작
 		* @apiVersion 1.0.0
-		* @apiName void CreateNaverPurchase(string productCode, string paymentSequence, CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName CreateNaverPurchase
+		* @apiGroup Purchase
 		*
-		* @apiParam {string) productCode 상품 코드
-		* @apiParam {string) paymentSequence 결제 시퀀스
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {string} productCode 상품 코드
+		* @apiParam {string} paymentSequence 결제 시퀀스
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -57,14 +57,14 @@ namespace Hive5
 		/** 
 		* @api {POST} CompleteNaverPurchase 네이버 결제 완료
 		* @apiVersion 1.0.0
-		* @apiName void CompleteNaverPurchase(long id, long listPrice, long purchasedPrice, string currency, CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName CompleteNaverPurchase
+		* @apiGroup Purchase
 		*
-		* @apiParam {long) id 결제 ID(결제 시작 SDK 호출하여 응답 받은 ID)
-		* @apiParam {long) listPrice 표시 가격
-		* @apiParam {long) purchasedPrice 결제 가격
-		* @apiParam {string) currency 화폐
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {long} id 결제 ID(결제 시작 SDK 호출하여 응답 받은 ID)
+		* @apiParam {long} listPrice 표시 가격
+		* @apiParam {long} purchasedPrice 결제 가격
+		* @apiParam {string} currency 화폐
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -92,13 +92,13 @@ namespace Hive5
 		/** 
 		* @api {POST} CreateGooglePurchase 구글 결제 시작
 		* @apiVersion 1.0.0
-		* @apiName void CreateGooglePurchase(string productCode, string receiverPlatformUserId, string mailForReceiver, CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName CreateGooglePurchase
+		* @apiGroup Purchase
 		*
-		* @apiParam {string) productCode 상품 코드
-		* @apiParam {string) receiverPlatformUserId 선물 받을 플랫폼 User ID
-		* @apiParam {string) mailForReceiver 메일로 받을 경우
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {string} productCode 상품 코드
+		* @apiParam {string} receiverPlatformUserId 선물 받을 플랫폼 User ID
+		* @apiParam {string} mailForReceiver 메일로 받을 경우
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -126,16 +126,16 @@ namespace Hive5
 		/** 
 		* @api {POST} CompleteGooglePurchase 구글 결제 완료
 		* @apiVersion 1.0.0
-		* @apiName void CompleteGooglePurchase(long id, long listPrice, long purchasedPrice, string currency, string purchaseData, string signature, CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName CompleteGooglePurchase
+		* @apiGroup Purchase
 		*
-		* @apiParam {long) id 결제 ID(결제 시작 SDK 호출하여 응답 받은 ID)
-		* @apiParam {long) listPrice 표시 가격
-		* @apiParam {long) purchasedPrice 결제 가격
-		* @apiParam {string) currency 화폐
-		* @apiParam {string) purchaseData 결제 데이터 
-		* @apiParam {string) signature 결제 데이터 검증용 sign
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {long} id 결제 ID(결제 시작 SDK 호출하여 응답 받은 ID)
+		* @apiParam {long} listPrice 표시 가격
+		* @apiParam {long} purchasedPrice 결제 가격
+		* @apiParam {string} currency 화폐
+		* @apiParam {string} purchaseData 결제 데이터 
+		* @apiParam {string} signature 결제 데이터 검증용 sign
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -166,13 +166,13 @@ namespace Hive5
 		/** 
 		* @api {POST} CreateApplePurchase 애플 결제 시작
 		* @apiVersion 1.0.0
-		* @apiName void CreateApplePurchase(string productCode, string receiverPlatformUserId, string mailForReceiver, CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName CreateApplePurchase
+		* @apiGroup Purchase
 		*
-		* @apiParam {string) productCode 상품 코드
-		* @apiParam {string) receiverPlatformUserId 선물 받을 플랫폼 User ID
-		* @apiParam {string) mailForReceiver 메일로 받을 경우
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {string} productCode 상품 코드
+		* @apiParam {string} receiverPlatformUserId 선물 받을 플랫폼 User ID
+		* @apiParam {string} mailForReceiver 메일로 받을 경우
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -200,16 +200,16 @@ namespace Hive5
 		/** 
 		* @api {POST} CompleteApplePurchase 애플 결제 완료
 		* @apiVersion 1.0.0
-		* @apiName void CompleteApplePurchase(long id, long listPrice, long purchasedPrice, string currency, string receipt, bool isSandbox, CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName CompleteApplePurchase
+		* @apiGroup Purchase
 		*
-		* @apiParam {long) id 결제 ID(결제 시작 SDK 호출하여 응답 받은 ID)
-		* @apiParam {long) listPrice 표시 가격
-		* @apiParam {long) purchasedPrice 결제 가격
-		* @apiParam {string) currency 화폐
-		* @apiParam {string) receipt 영수증 데이터
-		* @apiParam {bool) isSandbox sandbox 여부
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {long} id 결제 ID(결제 시작 SDK 호출하여 응답 받은 ID)
+		* @apiParam {long} listPrice 표시 가격
+		* @apiParam {long} purchasedPrice 결제 가격
+		* @apiParam {string} currency 화폐
+		* @apiParam {string} receipt 영수증 데이터
+		* @apiParam {bool} isSandbox sandbox 여부
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지

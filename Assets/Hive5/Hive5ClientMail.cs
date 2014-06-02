@@ -23,15 +23,15 @@ namespace Hive5
 		*********************************************************************************/
 
 		/** 
-		* @api {public Method} CreateMail 메일 생성하기
+		* @api {POST} CreateMail 메일 생성하기
 		* @apiVersion 1.0.0
-		* @apiName void CreateMail(string content, string friendPlatformUserId, string[] tags,  CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName CreateMail
+		* @apiGroup Mail
 		*
 		* @apiParam {string} content 메일 본문
 		* @apiParam {string} friendPlatformUserId 받는사람 플랫폼 UserId
 		* @apiParam {string[]} tags 메일 Tags
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -57,16 +57,16 @@ namespace Hive5
 		}
 
 		/** 
-		* @api {public Method} GetMails 메일 리스트 가져오기
+		* @api {GET} GetMails 메일 리스트 가져오기
 		* @apiVersion 1.0.0
-		* @apiName void GetMails(int limit, string order, long afterMailId, string tag, CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName GetMails
+		* @apiGroup Mail
 		*
 		* @apiParam {int} limit 받을 메일 갯수
 		* @apiParam {string} order 메일 순서
 		* @apiParam {long} afterMailId 특정 메일 이후의 리스트 받기 위한 mail id
 		* @apiParam {string} tags 메일 Tag
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -94,15 +94,15 @@ namespace Hive5
 		}
 		
 		/** 
-		* @api {public Method} GetMailCount 메일 갯수 확인
+		* @api {GET} GetMailCount 메일 갯수 확인
 		* @apiVersion 1.0.0
-		* @apiName void GetMailCount(OrderType order, long afterMailId, string tag, CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName GetMailCount
+		* @apiGroup Mail
 		*
 		* @apiParam {OrderType} order 메일 순서
 		* @apiParam {long} afterMailId 특정 메일 이후의 리스트 받기 위한 mail id
 		* @apiParam {string} tags 메일 Tag
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -129,14 +129,14 @@ namespace Hive5
 		}
 		
 		/** 
-		* @api {public Method} UpdateMail 메일 수정
+		* @api {POST} UpdateMail 메일 수정
 		* @apiVersion 1.0.0
-		* @apiName void UpdateMail(long mailId, string content, CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName UpdateMail
+		* @apiGroup Mail
 		*
 		* @apiParam {long} mailId 특정 메일 이후의 리스트 받기 위한 mail id
 		* @apiParam {string} content 메일 본문
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -160,14 +160,14 @@ namespace Hive5
 		}
 
 		/** 
-		* @api {public Method} DeleteMail 메일 삭제
+		* @api {POST} DeleteMail 메일 삭제
 		* @apiVersion 1.0.0
-		* @apiName void DeleteMail(long mailId, CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName DeleteMail
+		* @apiGroup Mail
 		*
 		* @apiParam {long} mailId 특정 메일 이후의 리스트 받기 위한 mail id
 		* @apiParam {string} content 메일 본문
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -187,14 +187,14 @@ namespace Hive5
 		}
 
 		/** 
-		* @api {public Method} DeleteAllMail 메일 전체(특정범위) 삭제
+		* @api {POST} DeleteAllMail 메일 전체(특정범위) 삭제
 		* @apiVersion 1.0.0
-		* @apiName void DeleteAllMail(long fromMailId, long toMailId, CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName DeleteAllMail
+		* @apiGroup Mail
 		*
 		* @apiParam {long} fromMailId 삭제 메일 시작점 ID
 		* @apiParam {long} toMailId 삭제 메일 끝점 ID
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -219,14 +219,14 @@ namespace Hive5
 		}
 
 		/** 
-		* @api {public Method} AttachMailTags 메일 TAG 추가
+		* @api {POST} AttachMailTags 메일 TAG 추가
 		* @apiVersion 1.0.0
-		* @apiName void AttachMailTags(long mailId, string[] tags, CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName AttachMailTags
+		* @apiGroup Mail
 		*
 		* @apiParam {long} mailId 메일 ID
 		* @apiParam {string[]} tags 추가할 TAG
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -250,14 +250,14 @@ namespace Hive5
 		}
 
 		/** 
-		* @api {public Method} DetachMailTags 메일 TAG 제거
+		* @api {POST} DetachMailTags 메일 TAG 제거
 		* @apiVersion 1.0.0
-		* @apiName void DetachMailTags(long mailId, string[] tags, CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName DetachMailTags
+		* @apiGroup Mail
 		*
 		* @apiParam {long} mailId 메일 ID
 		* @apiParam {string[]} tags 제거할 TAGS
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지

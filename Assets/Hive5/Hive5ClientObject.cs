@@ -25,11 +25,11 @@ namespace Hive5
 		/** 
 		* @api {GET} GetObjects 오브젝트 리스트
 		* @apiVersion 1.0.0
-		* @apiName void GetObjects(List<HObject> objects, CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName GetObjects
+		* @apiGroup Object
 		*
-		* @apiParam {List<HObject>) objects 오브젝트 리스트(class 프로퍼티만 셋팅)
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {List&#60HObject&#62} objects 오브젝트 리스트(class 프로퍼티만 셋팅)
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -56,11 +56,11 @@ namespace Hive5
 		/** 
 		* @api {POST} CreateObjects 오브젝트 생성
 		* @apiVersion 1.0.0
-		* @apiName void CreateObjects(List<HObject> objects,  CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName CreateObjects
+		* @apiGroup Object
 		*
-		* @apiParam {List<HObject>) objects 오브젝트 리스트(class 프로퍼티만 셋팅)
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {List&#60HObject&#62} objects 오브젝트 리스트(class 프로퍼티만 셋팅)
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -90,11 +90,11 @@ namespace Hive5
 		/** 
 		* @api {POST} SetObjects 오브젝트 저장
 		* @apiVersion 1.0.0
-		* @apiName void SetObjects(List<Hobject> objects,  CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName SetObjects
+		* @apiGroup Object
 		*
-		* @apiParam {List<HObject>) objects 오브젝트 리스트(class 프로퍼티만 셋팅)
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {List&#60HObject&#62} objects 오브젝트 리스트(class 프로퍼티만 셋팅)
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -124,11 +124,11 @@ namespace Hive5
 		/** 
 		* @api {POST} DestroyObjects 오브젝트 제거
 		* @apiVersion 1.0.0
-		* @apiName void DestroyObjects(List<Hobject> objects,  CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName DestroyObjects
+		* @apiGroup Object
 		*
-		* @apiParam {List<HObject>) objects 오브젝트 리스트(class, id 프로퍼티 셋팅 / Singleton 인경우 id 생략)
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {List&#60HObject&#62} objects 오브젝트 리스트(class, id 프로퍼티 셋팅 / Singleton 인경우 id 생략)
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지

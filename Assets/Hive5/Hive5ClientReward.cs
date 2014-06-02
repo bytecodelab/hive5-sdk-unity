@@ -24,13 +24,13 @@ namespace Hive5
 		
 
 		/** 
-		* @api {POST} GetRewardInfo 보상 정보
+		* @api {GET} GetRewardInfo 보상 정보
 		* @apiVersion 1.0.0
-		* @apiName void GetRewardInfo(long rewardId, CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName GetRewardInfo
+		* @apiGroup Reward
 		*
-		* @apiParam {long) rewardId 상품 코드
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {long} rewardId 상품 코드
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -54,12 +54,12 @@ namespace Hive5
 		/** 
 		* @api {POST} ApplyReward 보상 받기
 		* @apiVersion 1.0.0
-		* @apiName void ApplyReward(long rewardId, bool deleteMail, CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName ApplyReward
+		* @apiGroup Reward
 		*
-		* @apiParam {long) rewardId 상품 코드
-		* @apiParam {bool) deleteMail 보상 받을 시 메일 함께 삭제 여부
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {long} rewardId 상품 코드
+		* @apiParam {bool} deleteMail 보상 받을 시 메일 함께 삭제 여부
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -85,11 +85,11 @@ namespace Hive5
 		/** 
 		* @api {POST} ApplyReward 보상 전체 받기
 		* @apiVersion 1.0.0
-		* @apiName void ApplyAllRewards(bool deleteMail, CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName ApplyAllRewards
+		* @apiGroup Reward
 		*
-		* @apiParam {bool) deleteMail 보상 받을 시 메일 함께 삭제 여부
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {bool} deleteMail 보상 받을 시 메일 함께 삭제 여부
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -115,11 +115,11 @@ namespace Hive5
 		/** 
 		* @api {POST} InvalidateReward 보상 무효화
 		* @apiVersion 1.0.0
-		* @apiName void InvalidateReward(long rewardId, bool deleteMail, CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName InvalidateReward
+		* @apiGroup Reward
 		*
-		* @apiParam {bool) deleteMail 보상 받을 시 메일 함께 삭제 여부
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {bool} deleteMail 보상 받을 시 메일 함께 삭제 여부
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지

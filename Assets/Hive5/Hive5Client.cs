@@ -48,14 +48,14 @@ namespace Hive5
 		*********************************************************************************/
 
 		/** 
-		* @api {public Method} Init SDK 초기화
-		* @apiVersion 1.0.0
-		* @apiName void Init(string appKey, string uuid, Hive5APIZone zone)
-		* @apiGroup Hive5Client
+		* @api {POST} Init SDK 초기화
+		* @apiVersion 2.0.0
+		* @apiName Init
+		* @apiGroup Init
 		*
 		* @apiParam {String} appKey Hive5 발급 AppKey
 		* @apiParam {String} uuid   디바이스 고유 UUID
-		* @apiParam {Hive5APIZone) zone 접속 서버 선택(Beta OR Real)
+		* @apiParam {Hive5APIZone} zone 접속 서버 선택(Beta OR Real)
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -82,20 +82,20 @@ namespace Hive5
 		*********************************************************************************/
 
 		/** 
-		* @api {public Method} UpdatePushToken Push 토큰 등록 및 업데이트
+		* @api {POST} UpdatePushToken Push 토큰 등록 및 업데이트
 		* @apiVersion 1.0.0
-		* @apiName void UpdatePushToken(string platform, string token, CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName UpdatePushToken
+		* @apiGroup Push
 		*
 		* @apiParam {String} platform 플랫폼 Type( Android, iOS )
 		* @apiParam {String} token push 토큰
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
 		* @apiExample Example usage:
 		* Hive5Client hive5 = Hive5Client.Instance;
-		* hive5.UpdatePushToken(string platform, string token, CallBack callback)
+		* hive5.UpdatePushToken( platform, token, callback)
 		*/
 		public void UpdatePushToken(string platform, string token, CallBack callback)
 		{
@@ -121,20 +121,20 @@ namespace Hive5
 
 		
 		/** 
-		* @api {public Method} CallProcedure Procedure 호출
+		* @api {POST} CallProcedure Procedure 호출
 		* @apiVersion 1.0.0
-		* @apiName void CallProcedure(string procedureName, TupleList<string, string> parameters,  CallBack callback)
-		* @apiGroup Hive5Client
+		* @apiName CallProcedure
+		* @apiGroup Procedure
 		*
 		* @apiParam {String} procedureName 호출 Procedure 이름
-		* @apiParam {TupleList<string, string>} parameters 파라미터
-		* @apiParam {CallBack) callback 콜백 함수
+		* @apiParam {TupleList&#60;string, string&#62;} parameters 파라미터
+		* @apiParam {CallBack} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
 		* @apiExample Example usage:
 		* Hive5Client hive5 = Hive5Client.Instance;
-		* hive5.CallProcedure(string procedureName, TupleList<string, string> parameters,  CallBack callback)
+		* hive5.CallProcedure(procedureName, parameters, callback)
 		*/
 		public void CallProcedure(string procedureName, TupleList<string, string> parameters,  CallBack callback)
 		{

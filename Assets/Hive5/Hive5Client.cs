@@ -59,8 +59,8 @@ namespace Hive5
 
 			if (Hive5APIZone.Beta == zone)
 				this.host 	= APIServer.BetaHost;
-			else if (Hive5APIZone.Real == zone)
-				this.host 	= APIServer.RealHost;
+			else if (Hive5APIZone.Production == zone)
+				this.host 	= APIServer.ProductionHost;
 
 			this.version 	= APIServer.Version;
 			this.initState 	= true;
@@ -154,8 +154,8 @@ namespace Hive5
 				break;
 
 				// Real Server
-				case Hive5APIZone.Real:
-					host = APIServer.BetaHost;
+				case Hive5APIZone.Production:
+					host = APIServer.ProductionHost;
 				break;
 			}
 

@@ -28,6 +28,8 @@ namespace Hive5
 		public static string ConsumeItem		= "items/consume";
 	 	public static string Unregister			= "auth/delete";
 	 	public static string Agreement			= "agreements";
+		public static string CheckNicknameAvailability = "settings/nickname/is_available/{0}";
+		public static string SetNickname = "settings/nickname/set";
 		public static string ConvertItem 		= "items/convert/{0}";
 		public static string GiftItem 			= "items/gift";
 		public static string LeaderboardSubmitScores 	= "leaderboards/{0}/scores/{1}";
@@ -82,6 +84,8 @@ namespace Hive5
 		public static string ItemKey 		= "key";
 		public static string ConfigKey 		= "config_key";
 		public static string ObjectKey		= "object_key";
+
+		public static string Nickname = "nickname";
 	}
 
 	/// <summary>

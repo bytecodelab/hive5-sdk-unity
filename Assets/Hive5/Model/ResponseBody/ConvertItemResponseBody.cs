@@ -12,7 +12,7 @@ namespace Hive5.Model
 	/// </summary>
 	public class ConvertItemResponseBody : IResponseBody
 	{
-		public List<Item> items { set; get; }			
+		public List<Item> Items { set; get; }			
 
 		/// <summary>
 		/// Load the specified json.
@@ -35,7 +35,7 @@ namespace Hive5.Model
 			}
 
 			return new ConvertItemResponseBody() {
-				items			= items
+				Items			= items
 			};
 		}
 

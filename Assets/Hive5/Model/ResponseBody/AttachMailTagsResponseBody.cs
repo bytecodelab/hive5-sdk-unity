@@ -12,7 +12,7 @@ namespace Hive5.Model
 	/// </summary>
 	public class AttachMailTagsResponseBody : IResponseBody
 	{
-		public List<string> tags { set; get; }			
+		public List<string> Tags { set; get; }			
 
 		/// <summary>
 		/// Load the specified json.
@@ -26,7 +26,7 @@ namespace Hive5.Model
 			List<string> tags = JsonMapper.ToObject<List<string>> (json ["tags"].ToJson());
 
 			return new AttachMailTagsResponseBody() {
-				tags = tags
+				Tags = tags
 			};
 		}
 

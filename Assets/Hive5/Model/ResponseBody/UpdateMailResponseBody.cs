@@ -12,7 +12,7 @@ namespace Hive5.Model
 	/// </summary>
 	public class UpdateMailResponseBody : IResponseBody
 	{
-		public List<UserData> userData { set; get; }			
+		public List<UserData> UserData { set; get; }			
 
 		/// <summary>
 		/// Load the specified json.
@@ -27,7 +27,7 @@ namespace Hive5.Model
 
 			try
 			{
-				userData = UserData.LoadList( json["data"] );
+				userData = Hive5.Model.UserData.LoadList( json["data"] );
 			}
 			catch (KeyNotFoundException)
 			{
@@ -35,7 +35,7 @@ namespace Hive5.Model
 			}
 
 			return new UpdateMailResponseBody() {
-				userData		= userData
+				UserData		= userData
 			};
 		}
 

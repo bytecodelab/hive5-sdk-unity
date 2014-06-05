@@ -25,7 +25,7 @@ public class Login : MonoBehaviour {
 		hive5.Init ("a40e4122-99d9-44a6-b916-68ed756f79d6", "747474747",Hive5APIZone.Beta);
 		hive5.SetDebug ();
 		hive5.Login (os, objectKeys, configKeys, PlatformType.Google, userId, sdkVersion, response => {
-			Debug.Log ("response = "+ response.resultData);
+			Debug.Log ("response = "+ response.ResultData);
 		});
 	}
 

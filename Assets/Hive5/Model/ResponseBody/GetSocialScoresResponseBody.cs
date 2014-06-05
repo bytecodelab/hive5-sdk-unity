@@ -12,11 +12,11 @@ namespace Hive5.Model
 	/// </summary>
 	public class GetSocialScoresResponseBody : IResponseBody
 	{
-		public string lastPrizedAt { set; get; }
-		public ResetInfo resetInfo { set; get; }
-		public MyScore myLastScore { set; get; }
-		public List<Score> scores { set; get; }
-		public long scoresCount { set; get; }
+		public string LastPrizedAt { set; get; }
+		public ResetInfo ResetInfo { set; get; }
+		public MyScore MyLastScore { set; get; }
+		public List<Score> Scores { set; get; }
+		public long ScoresCount { set; get; }
 
 		/// <summary>
 		/// Load the specified json.
@@ -28,10 +28,10 @@ namespace Hive5.Model
 				return null;
 
 			return new GetSocialScoresResponseBody() {
-				resetInfo 		= ResetInfo.Load (json["reset_info"]),
-				myLastScore 	= MyScore.Load(json["my_last_score"]),
-				scores 			= Score.LoadList(json["scores"]),
-				scoresCount 	= (int)json["scores_count"]
+				ResetInfo 		= ResetInfo.Load (json["reset_info"]),
+				MyLastScore 	= MyScore.Load(json["my_last_score"]),
+				Scores 			= Score.LoadList(json["scores"]),
+				ScoresCount 	= (int)json["scores_count"]
 			};
 		}
 

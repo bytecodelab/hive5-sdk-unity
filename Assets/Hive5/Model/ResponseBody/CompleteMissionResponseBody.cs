@@ -12,9 +12,9 @@ namespace Hive5.Model
 	/// </summary>
 	public class CompleteMissionResponseBody : IResponseBody
 	{
-		public long rewardId { set; get; }
-		public long mailId { set; get; }
-		public List<Item> items { set; get; }
+		public long RewardId { set; get; }
+		public long MailId { set; get; }
+		public List<Item> Items { set; get; }
 
 		/// <summary>
 		/// Load the specified json.
@@ -40,9 +40,9 @@ namespace Hive5.Model
 			}
 
 			return new CompleteMissionResponseBody() {
-				rewardId = rewardId,
-				mailId = mailId,
-				items = items
+				RewardId = rewardId,
+				MailId = mailId,
+				Items = items
 			};
 		}
 

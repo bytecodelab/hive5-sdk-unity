@@ -11,14 +11,14 @@ public class Agreements : MonoBehaviour {
 		hive5.SubmitAgreements ("1.1.1", "0.1", response => {
 			Debug.Log ("onSubmitAgreements");
 			// 성공
-			if (response.resultCode == Hive5ResultCode.Success) {
-				Debug.Log ("resultCode =" + response.resultCode);
-				Debug.Log ("resultData = "+ JsonMapper.ToJson(response.resultData));	// 응답 데이터 전체 정보
+			if (response.ResultCode == Hive5ResultCode.Success) {
+				Debug.Log ("resultCode =" + response.ResultCode);
+				Debug.Log ("resultData = "+ JsonMapper.ToJson(response.ResultData));	// 응답 데이터 전체 정보
 				
 			} 
 			// 실패
 			else {
-				Debug.Log ("resultCode =" + response.resultCode);
+				Debug.Log ("resultCode =" + response.ResultCode);
 			}
 		});
 	}
@@ -30,14 +30,14 @@ public class Agreements : MonoBehaviour {
 		hive5.GetAgreements ( response => {
 			Debug.Log ("onSubmitAgreements");
 			// 성공
-			if (response.resultCode == Hive5ResultCode.Success) {
-				Debug.Log ("resultCode =" + response.resultCode);
-				Debug.Log ("resultData = "+ JsonMapper.ToJson(response.resultData));	// 응답 데이터 전체 정보
+			if (response.ResultCode == Hive5ResultCode.Success) {
+				Debug.Log ("resultCode =" + response.ResultCode);
+				Debug.Log ("resultData = "+ JsonMapper.ToJson(response.ResultData));	// 응답 데이터 전체 정보
 				
 			} 
 			// 실패
 			else {
-				Debug.Log ("resultCode =" + response.resultCode);
+				Debug.Log ("resultCode =" + response.ResultCode);
 			}
 		});
 	}
@@ -48,14 +48,14 @@ public class Agreements : MonoBehaviour {
 		hive5.Unregister ( response => {
 			Debug.Log ("onSubmitAgreements");
 			// 성공
-			if (response.resultCode == Hive5ResultCode.Success) {
-				Debug.Log ("resultCode =" + response.resultCode);
-				Debug.Log ("resultData = "+ JsonMapper.ToJson(response.resultData));	// 응답 데이터 전체 정보
+			if (response.ResultCode == Hive5ResultCode.Success) {
+				Debug.Log ("resultCode =" + response.ResultCode);
+				Debug.Log ("resultData = "+ JsonMapper.ToJson(response.ResultData));	// 응답 데이터 전체 정보
 				
 			} 
 			// 실패
 			else {
-				Debug.Log ("resultCode =" + response.resultCode);
+				Debug.Log ("resultCode =" + response.ResultCode);
 			}
 		});
 	}

@@ -21,14 +21,14 @@ public class Purchases : MonoBehaviour {
 		hive5.CreateGooglePurchase(productCode, receiverPlatformUserId, mailForReceiver, (response) => {
 			
 			// 성공
-			if (response.resultCode == Hive5ResultCode.Success) {
-				Debug.Log ("resultCode =" + response.resultCode);
-				Debug.Log ("resultData = "+ response.resultData);	// 응답 데이터 전체 정보
-				purchaseId = ((CreateGooglePurchaseResponseBody)response.resultData).id;
+			if (response.ResultCode == Hive5ResultCode.Success) {
+				Debug.Log ("resultCode =" + response.ResultCode);
+				Debug.Log ("resultData = "+ response.ResultData);	// 응답 데이터 전체 정보
+				purchaseId = ((CreateGooglePurchaseResponseBody)response.ResultData).Id;
 			} 
 			// 실패
 			else {
-				Debug.Log ("resultCode =" + response.resultCode);
+				Debug.Log ("resultCode =" + response.ResultCode);
 			}	
 			
 		});
@@ -48,13 +48,13 @@ public class Purchases : MonoBehaviour {
 		hive5.CompleteGooglePurchase(id, listPrice, purchasePrice, currency, purchaseData, signature, (response) => {
 			
 			// 성공
-			if (response.resultCode == Hive5ResultCode.Success) {
-				Debug.Log ("resultCode =" + response.resultCode);
-				Debug.Log ("resultData = "+ JsonMapper.ToJson(response.resultData));	// 응답 데이터 전체 정보
+			if (response.ResultCode == Hive5ResultCode.Success) {
+				Debug.Log ("resultCode =" + response.ResultCode);
+				Debug.Log ("resultData = "+ JsonMapper.ToJson(response.ResultData));	// 응답 데이터 전체 정보
 			} 
 			// 실패
 			else {
-				Debug.Log ("resultCode =" + response.resultCode);
+				Debug.Log ("resultCode =" + response.ResultCode);
 			}	
 			
 		});

@@ -12,9 +12,9 @@ namespace Hive5
 	{
 		public delegate IResponseBody dataLoader (JsonData response);
 
-		public Hive5ResultCode 	resultCode { set; get; }
-		public string 			resultMessage { set; get; }
-		public IResponseBody	resultData { set; get; }
+		public Hive5ResultCode 	ResultCode { set; get; }
+		public string 			ResultMessage { set; get; }
+		public IResponseBody	ResultData { set; get; }
 
 		/// <summary>
 		/// Load the specified loader and json.
@@ -40,9 +40,9 @@ namespace Hive5
 			IResponseBody resultData = loader(response);
 
 			return new Hive5Response () {
-				resultCode = resultCode,
-				resultMessage = resultMessage,
-				resultData = resultData
+				ResultCode = resultCode,
+				ResultMessage = resultMessage,
+				ResultData = resultData
 			};
 		}
 	}

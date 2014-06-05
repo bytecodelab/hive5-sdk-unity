@@ -12,7 +12,7 @@ namespace Hive5.Model
 	/// </summary>
 	public class GetAgreementsResponseBody : IResponseBody
 	{
-		public List<Agreement> agreements { set; get; }			
+		public List<Agreement> Agreements { set; get; }			
 
 		/// <summary>
 		/// Load the specified json.
@@ -35,7 +35,7 @@ namespace Hive5.Model
 			}
 
 			return new GetAgreementsResponseBody() {
-				agreements		= agreements
+				Agreements		= agreements
 			};
 		}
 

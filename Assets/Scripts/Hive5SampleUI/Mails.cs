@@ -17,13 +17,13 @@ public class Mails : MonoBehaviour {
 			Debug.Log ("onGetMails");
 			
 			// 성공
-			if (response.resultCode == Hive5ResultCode.Success) {
-				Debug.Log ("resultCode =" + response.resultCode);
-				Debug.Log ("resultData = "+ JsonMapper.ToJson(response.resultData));	// 응답 데이터 전체 정보
+			if (response.ResultCode == Hive5ResultCode.Success) {
+				Debug.Log ("resultCode =" + response.ResultCode);
+				Debug.Log ("resultData = "+ JsonMapper.ToJson(response.ResultData));	// 응답 데이터 전체 정보
 				
-				var mailInfo = (GetMailsResponseBody)response.resultData;
+				var mailInfo = (GetMailsResponseBody)response.ResultData;
 
-				foreach(Mail mail in mailInfo.mails)
+				foreach(Mail mail in mailInfo.Mails)
 				{
 					Debug.Log ("mail = "+ mail.content);
 				}
@@ -31,8 +31,8 @@ public class Mails : MonoBehaviour {
 			} 
 			// 실패
 			else {
-				Debug.Log ("resultCode =" + response.resultCode);
-				Debug.Log ("resultMessage =" + response.resultMessage);	// 상세 에러 메시지
+				Debug.Log ("resultCode =" + response.ResultCode);
+				Debug.Log ("resultMessage =" + response.ResultMessage);	// 상세 에러 메시지
 			}
 
 		});
@@ -48,17 +48,17 @@ public class Mails : MonoBehaviour {
 			Debug.Log ("onCreateMail");
 			
 			// 성공
-			if (response.resultCode == Hive5ResultCode.Success) {
-				Debug.Log ("resultCode =" + response.resultCode);
-				Debug.Log ("resultData = "+ JsonMapper.ToJson(response.resultData));	// 응답 데이터 전체 정보
+			if (response.ResultCode == Hive5ResultCode.Success) {
+				Debug.Log ("resultCode =" + response.ResultCode);
+				Debug.Log ("resultData = "+ JsonMapper.ToJson(response.ResultData));	// 응답 데이터 전체 정보
 				
-				var mailInfo = (CreateMailResponseBody)response.resultData;
+				var mailInfo = (CreateMailResponseBody)response.ResultData;
 				
 			} 
 			// 실패
 			else {
-				Debug.Log ("resultCode =" + response.resultCode);
-				Debug.Log ("resultMessage =" + response.resultMessage);	// 상세 에러 메시지
+				Debug.Log ("resultCode =" + response.ResultCode);
+				Debug.Log ("resultMessage =" + response.ResultMessage);	// 상세 에러 메시지
 			}
 		});
 	}
@@ -72,13 +72,13 @@ public class Mails : MonoBehaviour {
 			Debug.Log ("onGetMailCount");
 			
 			// 성공
-			if (response.resultCode == Hive5ResultCode.Success) {
-				Debug.Log ("resultCode =" + response.resultCode);
-				Debug.Log ("resultData = "+ JsonMapper.ToJson(response.resultData));	// 응답 데이터 전체 정보
+			if (response.ResultCode == Hive5ResultCode.Success) {
+				Debug.Log ("resultCode =" + response.ResultCode);
+				Debug.Log ("resultData = "+ JsonMapper.ToJson(response.ResultData));	// 응답 데이터 전체 정보
 				
-				var mailInfo = (GetMailsResponseBody)response.resultData;
+				var mailInfo = (GetMailsResponseBody)response.ResultData;
 				
-				foreach(Mail mail in mailInfo.mails)
+				foreach(Mail mail in mailInfo.Mails)
 				{
 					Debug.Log ("mail = "+ mail.content);
 				}
@@ -86,8 +86,8 @@ public class Mails : MonoBehaviour {
 			} 
 			// 실패
 			else {
-				Debug.Log ("resultCode =" + response.resultCode);
-				Debug.Log ("resultMessage =" + response.resultMessage);	// 상세 에러 메시지
+				Debug.Log ("resultCode =" + response.ResultCode);
+				Debug.Log ("resultMessage =" + response.ResultMessage);	// 상세 에러 메시지
 			}
 			
 		});
@@ -102,13 +102,13 @@ public class Mails : MonoBehaviour {
 			Debug.Log ("onUpdateMail");
 			
 			// 성공
-			if (response.resultCode == Hive5ResultCode.Success) {
-				Debug.Log ("resultCode =" + response.resultCode);
-				Debug.Log ("resultData = "+ JsonMapper.ToJson(response.resultData));	// 응답 데이터 전체 정보
+			if (response.ResultCode == Hive5ResultCode.Success) {
+				Debug.Log ("resultCode =" + response.ResultCode);
+				Debug.Log ("resultData = "+ JsonMapper.ToJson(response.ResultData));	// 응답 데이터 전체 정보
 				
-				var mailInfo = (GetMailsResponseBody)response.resultData;
+				var mailInfo = (GetMailsResponseBody)response.ResultData;
 				
-				foreach(Mail mail in mailInfo.mails)
+				foreach(Mail mail in mailInfo.Mails)
 				{
 					Debug.Log ("mail = "+ mail.content);
 				}
@@ -116,8 +116,8 @@ public class Mails : MonoBehaviour {
 			} 
 			// 실패
 			else {
-				Debug.Log ("resultCode =" + response.resultCode);
-				Debug.Log ("resultMessage =" + response.resultMessage);	// 상세 에러 메시지
+				Debug.Log ("resultCode =" + response.ResultCode);
+				Debug.Log ("resultMessage =" + response.ResultMessage);	// 상세 에러 메시지
 			}
 			
 		});
@@ -131,13 +131,13 @@ public class Mails : MonoBehaviour {
 			Debug.Log ("onDeleteMail");
 			
 			// 성공
-			if (response.resultCode == Hive5ResultCode.Success) {
-				Debug.Log ("resultCode =" + response.resultCode);
-				Debug.Log ("resultData = "+ JsonMapper.ToJson(response.resultData));	// 응답 데이터 전체 정보
+			if (response.ResultCode == Hive5ResultCode.Success) {
+				Debug.Log ("resultCode =" + response.ResultCode);
+				Debug.Log ("resultData = "+ JsonMapper.ToJson(response.ResultData));	// 응답 데이터 전체 정보
 				
-				var mailInfo = (GetMailsResponseBody)response.resultData;
+				var mailInfo = (GetMailsResponseBody)response.ResultData;
 				
-				foreach(Mail mail in mailInfo.mails)
+				foreach(Mail mail in mailInfo.Mails)
 				{
 					Debug.Log ("mail = "+ mail.content);
 				}
@@ -145,8 +145,8 @@ public class Mails : MonoBehaviour {
 			} 
 			// 실패
 			else {
-				Debug.Log ("resultCode =" + response.resultCode);
-				Debug.Log ("resultMessage =" + response.resultMessage);	// 상세 에러 메시지
+				Debug.Log ("resultCode =" + response.ResultCode);
+				Debug.Log ("resultMessage =" + response.ResultMessage);	// 상세 에러 메시지
 			}
 			
 		});
@@ -162,21 +162,21 @@ public class Mails : MonoBehaviour {
 			Debug.Log ("onDeleteAllMail");
 			
 			// 성공
-			if (response.resultCode == Hive5ResultCode.Success) {
-				Debug.Log ("resultCode =" + response.resultCode);
-				Debug.Log ("resultData = "+ JsonMapper.ToJson(response.resultData));	// 응답 데이터 전체 정보
+			if (response.ResultCode == Hive5ResultCode.Success) {
+				Debug.Log ("resultCode =" + response.ResultCode);
+				Debug.Log ("resultData = "+ JsonMapper.ToJson(response.ResultData));	// 응답 데이터 전체 정보
 				
-				var mailInfo = (GetMailsResponseBody)response.resultData;
+				var mailInfo = (GetMailsResponseBody)response.ResultData;
 				
-				foreach(Mail mail in mailInfo.mails)
+				foreach(Mail mail in mailInfo.Mails)
 				{
 					Debug.Log ("mail = "+ mail.content);
 				}	
 			} 
 			// 실패
 			else {
-				Debug.Log ("resultCode =" + response.resultCode);
-				Debug.Log ("resultMessage =" + response.resultMessage);	// 상세 에러 메시지
+				Debug.Log ("resultCode =" + response.ResultCode);
+				Debug.Log ("resultMessage =" + response.ResultMessage);	// 상세 에러 메시지
 			}
 			
 		});
@@ -192,21 +192,21 @@ public class Mails : MonoBehaviour {
 			Debug.Log ("onAttachMailTag");
 			
 			// 성공
-			if (response.resultCode == Hive5ResultCode.Success) {
-				Debug.Log ("resultCode =" + response.resultCode);
-				Debug.Log ("resultData = "+ JsonMapper.ToJson(response.resultData));	// 응답 데이터 전체 정보
+			if (response.ResultCode == Hive5ResultCode.Success) {
+				Debug.Log ("resultCode =" + response.ResultCode);
+				Debug.Log ("resultData = "+ JsonMapper.ToJson(response.ResultData));	// 응답 데이터 전체 정보
 				
-				var mailInfo = (GetMailsResponseBody)response.resultData;
+				var mailInfo = (GetMailsResponseBody)response.ResultData;
 				
-				foreach(Mail mail in mailInfo.mails)
+				foreach(Mail mail in mailInfo.Mails)
 				{
 					Debug.Log ("mail = "+ mail.content);
 				}	
 			} 
 			// 실패
 			else {
-				Debug.Log ("resultCode =" + response.resultCode);
-				Debug.Log ("resultMessage =" + response.resultMessage);	// 상세 에러 메시지
+				Debug.Log ("resultCode =" + response.ResultCode);
+				Debug.Log ("resultMessage =" + response.ResultMessage);	// 상세 에러 메시지
 			}
 			
 		});
@@ -223,21 +223,21 @@ public class Mails : MonoBehaviour {
 			Debug.Log ("onDetachMailTag");
 			
 			// 성공
-			if (response.resultCode == Hive5ResultCode.Success) {
-				Debug.Log ("resultCode =" + response.resultCode);
-				Debug.Log ("resultData = "+ JsonMapper.ToJson(response.resultData));	// 응답 데이터 전체 정보
+			if (response.ResultCode == Hive5ResultCode.Success) {
+				Debug.Log ("resultCode =" + response.ResultCode);
+				Debug.Log ("resultData = "+ JsonMapper.ToJson(response.ResultData));	// 응답 데이터 전체 정보
 				
-				var mailInfo = (GetMailsResponseBody)response.resultData;
+				var mailInfo = (GetMailsResponseBody)response.ResultData;
 				
-				foreach(Mail mail in mailInfo.mails)
+				foreach(Mail mail in mailInfo.Mails)
 				{
 					Debug.Log ("mail = "+ mail.content);
 				}	
 			} 
 			// 실패
 			else {
-				Debug.Log ("resultCode =" + response.resultCode);
-				Debug.Log ("resultMessage =" + response.resultMessage);	// 상세 에러 메시지
+				Debug.Log ("resultCode =" + response.ResultCode);
+				Debug.Log ("resultMessage =" + response.ResultMessage);	// 상세 에러 메시지
 			}
 			
 		});

@@ -186,8 +186,5 @@ namespace Hive5
 				GetHttp (url, parameters.data, GetAgreementsResponseBody.Load, callback)
 				);	
 		}
-
-
 	}
-
 }

@@ -6,14 +6,12 @@ using Hive5.Util;
 
 namespace Hive5.Model
 {
-	
+
 	/// <summary>
 	/// Login data.
 	/// </summary>
-	public class DetachMailTagsResponseBody : IResponseBody
+	public class SetNicknameResponseBody : IResponseBody
 	{
-		public List<string> tags { set; get; }			
-		
 		/// <summary>
 		/// Load the specified json.
 		/// </summary>
@@ -22,14 +20,12 @@ namespace Hive5.Model
 		{
 			if (json == null)
 				return null;
-			
-			List<string> tags = JsonMapper.ToObject<List<string>> (json ["tags"].ToJson());
-			
-			return new DetachMailTagsResponseBody() {
-				tags = tags
+
+			return new SetNicknameResponseBody() {
+
 			};
 		}
-		
+
 	}
 }
 

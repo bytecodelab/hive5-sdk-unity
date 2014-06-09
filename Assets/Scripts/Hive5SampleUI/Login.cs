@@ -40,7 +40,7 @@ public class Login : MonoBehaviour {
 			// 성공
 			if (response.resultCode == Hive5ResultCode.Success) {
 				Debug.Log ("resultCode =" + response.resultCode);
-				Debug.Log ("resultMessage = "+ JsonMapper.ToJson(response.resultMessage));	// 응답 데이터 전체 정보
+				Debug.Log ("resultMessage = "+ response.resultMessage);	// 응답 데이터 전체 정보
 				
 			} 
 			// 실패

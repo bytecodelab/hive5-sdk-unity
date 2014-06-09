@@ -26,7 +26,18 @@ namespace Hive5.Model
 				return null;
 			
 			var resultCode 			= (int)json["result_code"];
-			var resultMessage 		= (string)json["result_message"];
+
+		
+			var resultMessage = string.Empty;
+			try
+			{
+				if (json["result_message"] != null) {
+					resultMessage = (string)json ["result_message"];
+				}
+			}
+			catch {
+						}
+
 
 			return new SwitchPlatformResponseBody ()
 			{

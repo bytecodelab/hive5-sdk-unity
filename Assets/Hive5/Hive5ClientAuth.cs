@@ -186,5 +186,28 @@ namespace Hive5
 				GetHttp (url, parameters.data, GetAgreementsResponseBody.Load, callback)
 				);	
 		}
+
+		/*
+		 * TODO: gilbert will add comments on windows later
+		 */
+		public void SwitchPlatform(string platformType, string platformUserId, CallBack callback)
+		{
+			Debug.Log ("SwitchPlatform called");
+			
+			var url = InitializeUrl (APIPath.SwitchPlatform);
+			
+			var requestBody = new {
+				platform = platformType,
+				platform_user_id = platformUserId
+			};
+
+			Debug.Log (url);
+
+			// WWW 호출
+			StartCoroutine (
+				PostHttp (url, requestBody, SwitchPlatformResponseBody.Load, callback)
+				);
+		}
+
 	}
 }

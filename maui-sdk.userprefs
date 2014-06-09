@@ -1,0 +1,25 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Hive5/Model/ResponseBody/SwitchPlatformResponseBody.cs">
+    <Files>
+      <File FileName="Assets/Hive5/Hive5Client.cs" Line="335" Column="1" />
+      <File FileName="Assets/Hive5/Hive5ClientSocialgraph.cs" Line="1" Column="1" />
+      <File FileName="Assets/Hive5/Hive5ClientAuth.cs" Line="208" Column="45" />
+      <File FileName="Assets/Hive5/Common/Const.cs" Line="11" Column="32" />
+      <File FileName="Assets/Hive5/Model/ResponseBody/SwitchPlatformResponseBody.cs" Line="39" Column="8" />
+      <File FileName="Assets/Hive5/Model/ResponseBody/SubmitScoreResponseBody.cs" Line="13" Column="49" />
+      <File FileName="Assets/Scripts/Hive5SampleUI/Login.cs" Line="51" Column="1" />
+      <File FileName="Assets/Scripts/Hive5SampleUI/Settings.cs" Line="24" Column="5" />
+      <File FileName="Assets/Hive5/Hive5Response.cs" Line="26" Column="47" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

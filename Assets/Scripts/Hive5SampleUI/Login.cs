@@ -7,6 +7,9 @@ using Hive5.Model;
 
 public class Login : MonoBehaviour {
 
+	public string SwitchPlatformTo = "kakao";
+	public string SwitchPlatformUserId = "gilbok@live.com";
+
 	/// <summary>
 	/// Login this instance.
 	/// </summary>
@@ -29,4 +32,21 @@ public class Login : MonoBehaviour {
 		});
 	}
 
+	public void SwitchPlatform()
+	{
+		Hive5Client client = Hive5Client.Instance;
+		client.SwitchPlatform(this.SwitchPlatformTo, this.SwitchPlatformUserId, response => {
+			Debug.Log ("onSwitchPlatform");
+			// 성공
+			if (response.resultCode == Hive5ResultCode.Success) {
+				Debug.Log ("resultCode =" + response.resultCode);
+				Debug.Log ("resultMessage = "+ response.resultMessage);	// 응답 데이터 전체 정보
+				
+			} 
+			// 실패
+			else {
+				Debug.Log ("resultCode =" + response.resultCode);
+			}
+		});
+	}
 }

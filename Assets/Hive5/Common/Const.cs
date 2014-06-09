@@ -21,6 +21,7 @@ namespace Hive5
 		public static string PlatformLogin 		= "auth/login";
 		public static string AnonymousLogin 	= "auth/anonymous";
 		public static string NaverLogin 		= "auth/naver";
+		public static string SwitchPlatform 	= "auth/switch";
 		public static string UserData 			= "data";		// user data API
 		public static string Item 				= "items";		// user item
 		public static string GetMails			= "mails";
@@ -28,8 +29,8 @@ namespace Hive5
 		public static string ConsumeItem		= "items/consume";
 	 	public static string Unregister			= "auth/delete";
 	 	public static string Agreement			= "agreements";
-		public static string CheckNicknameAvailability = "settings/nickname/is_available/{0}";
-		public static string SetNickname = "settings/nickname/set";
+		public static string CheckNicknameAvailability 	= "settings/nickname/is_available/{0}";
+		public static string SetNickname 		= "settings/nickname/set";
 		public static string ConvertItem 		= "items/convert/{0}";
 		public static string GiftItem 			= "items/gift";
 		public static string LeaderboardSubmitScores 	= "leaderboards/{0}/scores/{1}";

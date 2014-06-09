@@ -12,9 +12,9 @@ namespace Hive5.Model
 	/// </summary>
 	public class EndRoundResponseBody : IResponseBody
 	{
-		public List<UserData> userData { set; get; }			
-		public List<Item> items { set; get; }
-		public DateTime scoreUpdatedAt { set; get; }
+		public List<UserData> UserData { set; get; }			
+		public List<Item> Items { set; get; }
+		public DateTime ScoreUpdatedAt { set; get; }
 
 		/// <summary>
 		/// Load the specified json.
@@ -32,7 +32,7 @@ namespace Hive5.Model
 
 			try
 			{
-				userData = UserData.LoadList( json["user_data"] );
+				userData = Hive5.Model.UserData.LoadList( json["user_data"] );
 			}
 			catch (KeyNotFoundException)
 			{
@@ -52,9 +52,9 @@ namespace Hive5.Model
 				scoreUpdatedAt = Date.ParseDateTime( (string)json["score_updated_at"] );
 
 			return new EndRoundResponseBody() {
-				userData		= userData,
-				items 			= items,
-				scoreUpdatedAt 	= scoreUpdatedAt
+				UserData		= userData,
+				Items 			= items,
+				ScoreUpdatedAt 	= scoreUpdatedAt
 			};
 		}
 

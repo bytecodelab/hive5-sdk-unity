@@ -47,7 +47,7 @@ namespace Hive5
 		* 
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.Login (OSType.Android, objectKeys, configKeys, PlatformType.Google, userId, sdkVersion, response => {
-		* 	Debug.Log ("response = "+ response.resultData);
+		* 	Debug.Log ("response = "+ response.ResultData);
 		* });
 		*/
 		public void Login(string os, string[] objectKeys, string[] configKeys, string platform, string platformUserId, string platformSDKVersion, CallBack callback)
@@ -72,9 +72,9 @@ namespace Hive5
 			
 			StartCoroutine (
 				GetHttp(url, parameters.data, LoginResponseBody.Load, ( response ) => { 
-				if ( response.resultCode == Hive5ResultCode.Success)
+				if ( response.ResultCode == Hive5ResultCode.Success)
 				{
-					SetAccessToken(((LoginResponseBody)response.resultData).accessToken);
+					SetAccessToken(((LoginResponseBody)response.ResultData).AccessToken);
 				}
 				this.loginState = true;
 				callback(response);
@@ -82,7 +82,7 @@ namespace Hive5
 			));
 			
 		}
-		
+
 		
 		/** 
 		* @api {post} Logout 로그아웃

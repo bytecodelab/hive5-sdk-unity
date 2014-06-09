@@ -12,14 +12,14 @@ namespace Hive5.Model
 	/// </summary>
 	public class LoginResponseBody : IResponseBody
 	{
-		public long 	userId;
-		public string 	accessToken;
-		public int 		mailboxNewItemCount;
+		public long 	UserId;
+		public string 	AccessToken;
+		public int 		MailboxNewItemCount;
 
-		public List<Config> 	configs;				
-		public List<Mission> 	completedMissions;	
-		public List<Agreement> 	agreements;			
-		public List<Promotion> 	promotions;			
+		public List<Config> 	Configs;				
+		public List<Mission> 	CompletedMissions;	
+		public List<Agreement> 	Agreements;			
+		public List<Promotion> 	Promotions;			
 		
 		/// <summary>
 		/// Load the specified json.
@@ -43,12 +43,12 @@ namespace Hive5.Model
 			
 			return new LoginResponseBody ()
 			{
-				accessToken = accessToken, 
-				mailboxNewItemCount = mailboxNewItemCount, 
-				userId = userId, 
-				completedMissions = completedMissions, 
-				promotions = promotions, 
-				agreements = agreements
+				AccessToken = accessToken, 
+				MailboxNewItemCount = mailboxNewItemCount, 
+				UserId = userId, 
+				CompletedMissions = completedMissions, 
+				Promotions = promotions, 
+				Agreements = agreements
 			};
 		}
 		

@@ -39,8 +39,6 @@ namespace Hive5
 		 */
 		public void SetNickname(string nickname, CallBack callback)
 		{
-			Debug.Log ("SetNickname called");
-
 			var url = InitializeUrl (APIPath.SetNickname);
 			
 			var requestBody = new {

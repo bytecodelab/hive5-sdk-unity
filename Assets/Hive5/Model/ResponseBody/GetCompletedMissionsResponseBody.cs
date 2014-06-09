@@ -12,7 +12,7 @@ namespace Hive5.Model
 	/// </summary>
 	public class GetCompletedMissionsResponseBody : IResponseBody
 	{
-		public List<Mission> missions { set; get; }
+		public List<Mission> Missions { set; get; }
 
 		/// <summary>
 		/// Load the specified json.
@@ -35,7 +35,7 @@ namespace Hive5.Model
 			}
 
 			return new GetCompletedMissionsResponseBody() {
-				missions = missions
+				Missions = missions
 			};
 		}
 

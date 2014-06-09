@@ -23,8 +23,10 @@ namespace Hive5.Model
 			if (json == null)
 				return null;
 
+			bool available = (bool)json ["available"];
+
 			return new CheckNicknameAvailabilityResponseBody() {
-				Available = (bool)json["available"],
+				Available = available,
 			};
 		}
 

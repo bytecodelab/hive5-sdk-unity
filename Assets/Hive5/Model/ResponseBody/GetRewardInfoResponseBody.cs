@@ -12,8 +12,8 @@ namespace Hive5.Model
 	/// </summary>
 	public class GetRewardInfoResponseBody : IResponseBody
 	{
-		public List<Reward> rewards { set; get; }
-		public bool valid { set; get; }
+		public List<Reward> Rewards { set; get; }
+		public bool Valid { set; get; }
 
 		/// <summary>
 		/// Load the specified json.
@@ -37,8 +37,8 @@ namespace Hive5.Model
 			}
 
 			return new GetRewardInfoResponseBody() {
-				valid = valid,
-				rewards = rewards
+				Valid = valid,
+				Rewards = rewards
 			};
 		}
 

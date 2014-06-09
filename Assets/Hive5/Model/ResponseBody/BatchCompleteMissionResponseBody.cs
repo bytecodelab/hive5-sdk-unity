@@ -12,7 +12,7 @@ namespace Hive5.Model
 	/// </summary>
 	public class BatchCompleteMissionResponseBody : IResponseBody
 	{
-		public List<CompletedMission> complatedMissions { set; get; }
+		public List<CompletedMission> ComplatedMissions { set; get; }
 
 		/// <summary>
 		/// Load the specified json.
@@ -37,7 +37,7 @@ namespace Hive5.Model
 			}
 
 			return new BatchCompleteMissionResponseBody() {
-				complatedMissions = completedMissions
+				ComplatedMissions = completedMissions
 			};
 		}
 

@@ -12,7 +12,7 @@ namespace Hive5.Model
 	/// </summary>
 	public class GetMailsResponseBody : IResponseBody
 	{
-		public List<Mail> mails { set; get; }			
+		public List<Mail> Mails { set; get; }			
 
 		/// <summary>
 		/// Load the specified json.
@@ -35,7 +35,7 @@ namespace Hive5.Model
 			}
 
 			return new GetMailsResponseBody() {
-				mails = mails
+				Mails = mails
 			};
 		}
 

@@ -172,7 +172,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.Prize(leaderboardId, callback);
 		*/
-		public void Prize(string leaderboardId, CallBack callback)
+		public void Prize(long leaderboardId, CallBack callback)
 		{
 			// Hive5 API URL 초기화
 			var url = InitializeUrl(string.Format(APIPath.LeaderboardPrize, leaderboardId));

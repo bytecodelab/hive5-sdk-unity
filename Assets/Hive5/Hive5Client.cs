@@ -142,7 +142,7 @@ namespace Hive5
 				return;
 			
 			// Hive5 API URL 초기화
-			var url = InitializeUrl(String.Format(APIPath.CallProcedure,procedureName));
+			var url = InitializeUrl(String.Format(APIPath.CallProcedure, WWW.EscapeURL(procedureName)));
 			
 			// WWW 호출
 
@@ -218,17 +218,7 @@ namespace Hive5
 			headers.Add(HeaderKey.Token, this.accessToken);
 			headers.Add(HeaderKey.ContentType, HeaderValue.ContentType);
 
-			string queryString = "";		
-			foreach (KeyValuePair<string, string> parameter in parameters)
-			{
-				if (queryString.Length > 0)	
-				{
-					queryString += "&";
-				}
-				
-				queryString += parameter.Key + "=" + parameter.Value;
-			}
-
+			string queryString = GetQueryString (parameters);
 			string newUrl = url;
 			
 			if (queryString.Length > 0)
@@ -264,7 +254,7 @@ namespace Hive5
 					sb.Append("&");
 				}
 				
-				sb.Append(parameter.Key + "=" + parameter.Value);
+				sb.Append(parameter.Key + "=" + WWW.EscapeURL(parameter.Value));
 			}
 
 			return sb.ToString ();

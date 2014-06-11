@@ -31,7 +31,6 @@ namespace Hive5.Model
 			if (json == null)
 				return null;
 			
-			var resultCode 			= (int)json["result_code"];
 			var userId 				= (int)json["user_id"];
 			var mailboxNewItemCount = (int)json["mailbox_new_item_count"];
 			var accessToken 		= (string)json["access_token"];
@@ -48,7 +47,8 @@ namespace Hive5.Model
 				UserId = userId, 
 				CompletedMissions = completedMissions, 
 				Promotions = promotions, 
-				Agreements = agreements
+				Agreements = agreements,
+				Configs = configs,
 			};
 		}
 		

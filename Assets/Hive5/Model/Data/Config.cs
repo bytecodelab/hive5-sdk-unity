@@ -12,6 +12,7 @@ namespace Hive5.Model
 	/// </summary>
 	public class Config : Hive5Data
 	{
+
 		public string key { set; get; }
 		public string value  { set; get; }
 

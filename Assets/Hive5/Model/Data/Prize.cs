@@ -27,8 +27,8 @@ namespace Hive5.Model
 				seasonFrom 	= Date.ParseDateTime((string)json["season_from"]),
 				seasonTo 	= Date.ParseDateTime((string)json["season_to"]),
 				prizedAt 	= Date.ParseDateTime((string)json["prized_at"]),
-				score 	= (long)json["score"],
-				rank 	= (long)json["rank"],
+				score 		= (long)json["score"],
+				rank 		= (long)json["rank"],
 				scoresCount = (long)json["scores_count"],
 				topScores 	= Score.LoadList(json["top_scores"]),
 				reward 		= PrizedReward.Load (json["reward"])

@@ -12,7 +12,7 @@ namespace Hive5.Model
 	/// </summary>
 	public class PrizeResponseBody : IResponseBody
 	{
-		public Prize prized { set; get; }
+		public Prize Prized { set; get; }
 
 		/// <summary>
 		/// Load the specified json.
@@ -35,7 +35,7 @@ namespace Hive5.Model
 			}
 
 			return new PrizeResponseBody() {
-				prized = prized
+				Prized = prized
 			};
 		}
 

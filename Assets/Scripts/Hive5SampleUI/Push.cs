@@ -15,19 +15,19 @@ public class Push : MonoBehaviour {
 
 		var hive5 = Hive5Client.Instance;	// Hive5Client 호출
 
-		hive5.setZone (Hive5APIZone.Real);
-		hive5.setDebug ();
-		hive5.updatePushToken ("android", "test_token", response => {
+		hive5.SetZone (Hive5APIZone.Production);
+		hive5.SetDebug ();
+		hive5.UpdatePushToken ("android", "test_token", response => {
 			Debug.Log ("onregisterPushToken");
 			// 성공
-			if (response.resultCode == Hive5ResultCode.Success) {
-				Debug.Log ("resultCode =" + response.resultCode);
+			if (response.ResultCode == Hive5ResultCode.Success) {
+				Debug.Log ("resultCode =" + response.ResultCode);
 				Debug.Log ("resultData = "+ JsonMapper.ToJson(response));	// 응답 데이터 전체 정보
 
 			} 
 			// 실패
 			else {
-				Debug.Log ("resultCode =" + response.resultCode);
+				Debug.Log ("resultCode =" + response.ResultCode);
 			}
 		});
 

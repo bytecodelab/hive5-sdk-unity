@@ -12,7 +12,7 @@ namespace Hive5.Model
 	/// </summary>
 	public class SubmitScoreResponseBody : IResponseBody
 	{
-		public DateTime updateAt { set; get; }	
+		public DateTime UpdateAt { set; get; }	
 
 		/// <summary>
 		/// Load the specified json.
@@ -24,7 +24,7 @@ namespace Hive5.Model
 				return null;
 
 			return new SubmitScoreResponseBody() {
-				updateAt = Date.ParseDateTime((string)json["update_at"])
+				UpdateAt = Date.ParseDateTime((string)json["update_at"])
 			};
 		}
 

@@ -12,7 +12,7 @@ namespace Hive5.Model
 	/// </summary>
 	public class CreateGooglePurchaseResponseBody : IResponseBody
 	{
-		public long		id { set; get; }
+		public long		Id { set; get; }
 
 		/// <summary>
 		/// Load the specified json.
@@ -26,7 +26,7 @@ namespace Hive5.Model
 			long id = (long)json["id"];
 
 			return new CreateGooglePurchaseResponseBody() {
-				id = id
+				Id = id
 			};
 		}
 

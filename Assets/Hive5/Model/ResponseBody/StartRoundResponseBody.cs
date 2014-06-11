@@ -12,9 +12,9 @@ namespace Hive5.Model
 	/// </summary>
 	public class StartRoundResponseBody : IResponseBody
 	{
-		public long		id { set; get; }
-		public List<UserData> 	userData { set; get; }			
-		public List<Item> 		items { set; get; }
+		public long		Id { set; get; }
+		public List<UserData> 	UserData { set; get; }			
+		public List<Item> 		Items { set; get; }
 
 		/// <summary>
 		/// Load the specified json.
@@ -31,7 +31,7 @@ namespace Hive5.Model
 
 			try
 			{
-				userData = UserData.LoadList( json["user_data"] );
+				userData = Hive5.Model.UserData.LoadList( json["user_data"] );
 			}
 			catch (KeyNotFoundException)
 			{
@@ -48,9 +48,9 @@ namespace Hive5.Model
 			}
 
 			return new StartRoundResponseBody() {
-				userData		= userData,
-				items			= items,
-				id				= id
+				UserData		= userData,
+				Items			= items,
+				Id				= id
 			};
 		}
 

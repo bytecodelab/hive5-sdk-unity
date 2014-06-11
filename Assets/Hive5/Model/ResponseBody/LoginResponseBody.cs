@@ -6,30 +6,28 @@ using Hive5.Util;
 
 namespace Hive5.Model
 {
-
+	
 	/// <summary>
 	/// Login data.
 	/// </summary>
 	public class LoginResponseBody : IResponseBody
 	{
-		public long 	userId;
-		public string 	accessToken;
-		public int 		mailboxNewItemCount;
+		public long 	UserId;
+		public string 	AccessToken;
+		public int 		MailboxNewItemCount;
 
-		public List<UserData>	userData;				
-		public List<Item> 		items;				
-		public List<Config> 	configs;				
-		public List<Mission> 	completedMissions;	
-		public List<Agreement> 	agreements;			
-		public List<Promotion> 	promotions;			
-
+		public List<Config> 	Configs;				
+		public List<Mission> 	CompletedMissions;	
+		public List<Agreement> 	Agreements;			
+		public List<Promotion> 	Promotions;			
+		
 		/// <summary>
 		/// Load the specified json.
 		/// </summary>
 		/// <param name="json">Json.</param>
 		public static LoginResponseBody Load(JsonData json)
 		{
-
+			
 			if (json == null)
 				return null;
 			
@@ -37,27 +35,22 @@ namespace Hive5.Model
 			var userId 				= (int)json["user_id"];
 			var mailboxNewItemCount = (int)json["mailbox_new_item_count"];
 			var accessToken 		= (string)json["access_token"];
-			var items 				= Item.LoadList( json ["items"] );
-			var userData			= UserData.LoadList( json["user_data"] );
 			var completedMissions	= Mission.LoadList( json["completed_missions"] );
 			var configs 			= Config.LoadList( json ["configs"] );
 			var promotions			= Promotion.LoadList ( json ["promotions"] );
 			var agreements 			= Agreement.LoadList ( json ["agreements"] );
-
-
+			
+			
 			return new LoginResponseBody ()
 			{
-				accessToken = accessToken, 
-				mailboxNewItemCount = mailboxNewItemCount, 
-				userId = userId, 
-				items = items, 
-				userData = userData, 
-				completedMissions = completedMissions, 
-				promotions = promotions, 
-				agreements = agreements
+				AccessToken = accessToken, 
+				MailboxNewItemCount = mailboxNewItemCount, 
+				UserId = userId, 
+				CompletedMissions = completedMissions, 
+				Promotions = promotions, 
+				Agreements = agreements
 			};
 		}
-
+		
 	}
 }
-

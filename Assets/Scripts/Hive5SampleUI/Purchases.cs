@@ -17,18 +17,18 @@ public class Purchases : MonoBehaviour {
 		string mailForReceiver = null;
 
 		Hive5Client hive5 = Hive5Client.Instance;
-		hive5.setDebug ();
-		hive5.createGooglePurchase(productCode, receiverPlatformUserId, mailForReceiver, (response) => {
+		hive5.SetDebug ();
+		hive5.CreateGooglePurchase(productCode, receiverPlatformUserId, mailForReceiver, (response) => {
 			
 			// 성공
-			if (response.resultCode == Hive5ResultCode.Success) {
-				Debug.Log ("resultCode =" + response.resultCode);
-				Debug.Log ("resultData = "+ response.resultData);	// 응답 데이터 전체 정보
-				purchaseId = ((CreateGooglePurchaseResponseBody)response.resultData).id;
+			if (response.ResultCode == Hive5ResultCode.Success) {
+				Debug.Log ("resultCode =" + response.ResultCode);
+				Debug.Log ("resultData = "+ response.ResultData);	// 응답 데이터 전체 정보
+				purchaseId = ((CreateGooglePurchaseResponseBody)response.ResultData).Id;
 			} 
 			// 실패
 			else {
-				Debug.Log ("resultCode =" + response.resultCode);
+				Debug.Log ("resultCode =" + response.ResultCode);
 			}	
 			
 		});
@@ -44,17 +44,17 @@ public class Purchases : MonoBehaviour {
 		string signature = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx==";
 		
 		Hive5Client hive5 = Hive5Client.Instance;
-		hive5.setDebug ();
-		hive5.completeGooglePurchase(id, listPrice, purchasePrice, currency, purchaseData, signature, (response) => {
+		hive5.SetDebug ();
+		hive5.CompleteGooglePurchase(id, listPrice, purchasePrice, currency, purchaseData, signature, (response) => {
 			
 			// 성공
-			if (response.resultCode == Hive5ResultCode.Success) {
-				Debug.Log ("resultCode =" + response.resultCode);
-				Debug.Log ("resultData = "+ JsonMapper.ToJson(response.resultData));	// 응답 데이터 전체 정보
+			if (response.ResultCode == Hive5ResultCode.Success) {
+				Debug.Log ("resultCode =" + response.ResultCode);
+				Debug.Log ("resultData = "+ JsonMapper.ToJson(response.ResultData));	// 응답 데이터 전체 정보
 			} 
 			// 실패
 			else {
-				Debug.Log ("resultCode =" + response.resultCode);
+				Debug.Log ("resultCode =" + response.ResultCode);
 			}	
 			
 		});

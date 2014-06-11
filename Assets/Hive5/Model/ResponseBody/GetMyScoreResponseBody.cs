@@ -12,9 +12,9 @@ namespace Hive5.Model
 	/// </summary>
 	public class GetMyScoreResponseBody : IResponseBody
 	{
-		public long scoresCount { set; get; }
-		public long value { set; get; }
-		public long rank { set; get; }
+		public long ScoresCount { set; get; }
+		public long Value { set; get; }
+		public long Rank { set; get; }
 
 		/// <summary>
 		/// Load the specified json.
@@ -48,9 +48,9 @@ namespace Hive5.Model
 			}
 
 			return new GetMyScoreResponseBody() {
-				scoresCount = scoresCount,
-				value = value,
-				rank = value,
+				ScoresCount = scoresCount,
+				Value = value,
+				Rank = value,
 			};
 		}
 

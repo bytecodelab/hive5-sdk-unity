@@ -3,14 +3,13 @@ using System;
 namespace Hive5
 {
 	/// <summary>
-	/// Hive5 API server.
+	/// Hive5 API V5 server.
 	/// </summary>
 	public class APIServer
 	{
-		public static string RealHost		= "https://api.hive5.io";
-		public static string BetaHost 		= "https://beta.api.hive5.io";
-		public static string Version 		= "v4";
-		
+		public static string ProductionHost	= "https://hornet.hive5.io";
+		public static string BetaHost 		= "https://beta.hornet.hive5.io";
+		public static string Version 		= "v5";
 	}
 
 	/// <summary>
@@ -19,15 +18,20 @@ namespace Hive5
 	public class APIPath
 	{
 		public static string KakaoLogin 		= "auth/kakao";
+		public static string PlatformLogin 		= "auth/login";
 		public static string AnonymousLogin 	= "auth/anonymous";
 		public static string NaverLogin 		= "auth/naver";
+		public static string SwitchPlatform 	= "auth/switch";
 		public static string UserData 			= "data";		// user data API
 		public static string Item 				= "items";		// user item
 		public static string GetMails			= "mails";
 		public static string SubmitMail			= "mails";
+		public static string Logs 				= "event_logs"; // add logs
 		public static string ConsumeItem		= "items/consume";
 	 	public static string Unregister			= "auth/delete";
 	 	public static string Agreement			= "agreements";
+		public static string CheckNicknameAvailability 	= "settings/nickname/is_available/{0}";
+		public static string SetNickname 		= "settings/nickname/set";
 		public static string ConvertItem 		= "items/convert/{0}";
 		public static string GiftItem 			= "items/gift";
 		public static string LeaderboardSubmitScores 	= "leaderboards/{0}/scores/{1}";
@@ -55,10 +59,13 @@ namespace Hive5
 		public static string ApplyReward 			= "rewards/apply/{0}";
 	 	public static string ApplyAllReward 		= "rewards/apply_all";
 		public static string InvalidateReward 		= "rewards/invalidate/{0}";
-		public static string StartRound 			= "rounds/start?rule_id={0}";
-		public static string EndRound 				= "rounds/end/{0}";
 		public static string UpdateFriends 			= "friends/update";
 	 	public static string GetFriendsInfo 		= "friends/info";
+		public static string CallProcedure			= "procedures/call/{0}";
+		public static string GetObjects				= "objects";
+		public static string CreateObjects 			= "objects/create";
+		public static string SetObjects				= "objects/set";
+		public static string DestoryObjects			= "objects/destroy";
 	}
 
 	/// <summary>
@@ -66,15 +73,19 @@ namespace Hive5
 	/// </summary>
 	public class ParameterKey
 	{
-		public static string UserId 		= "user_id";
 		public static string AccessToken 	= "access_token";
-		public static string SdkVersion 	= "sdk_version";
+		public static string PlatformUserId	= "platform_user_id";
+		public static string PlatformSdkVersion = "platform_sdk_version";
 		public static string OS 			= "os";
 		public static string Key 			= "key";
+		public static string Platform		= "platform";
 		
 		public static string UserDataKey 	= "user_data_key";
 		public static string ItemKey 		= "key";
 		public static string ConfigKey 		= "config_key";
+		public static string ObjectKey		= "object_key";
+
+		public static string Nickname = "nickname";
 	}
 
 	/// <summary>

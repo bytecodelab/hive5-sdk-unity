@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System;
-using System.Collections.Generic;
 using LitJson;
 using Hive5;
 using Hive5.Util;
@@ -14,7 +12,7 @@ namespace Hive5.Model
 	/// </summary>
 	public class DetachMailTagsResponseBody : IResponseBody
 	{
-		public List<string> tags { set; get; }			
+		public List<string> Tags { set; get; }			
 		
 		/// <summary>
 		/// Load the specified json.
@@ -28,7 +26,7 @@ namespace Hive5.Model
 			List<string> tags = JsonMapper.ToObject<List<string>> (json ["tags"].ToJson());
 			
 			return new DetachMailTagsResponseBody() {
-				tags = tags
+				Tags = tags
 			};
 		}
 		

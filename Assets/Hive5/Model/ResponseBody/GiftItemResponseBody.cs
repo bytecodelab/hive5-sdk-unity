@@ -12,7 +12,7 @@ namespace Hive5.Model
 	/// </summary>
 	public class GiftItemResponseBody : IResponseBody
 	{
-		public DateTime canGiftAfter { set; get; }		
+		public DateTime CanGiftAfter { set; get; }		
 
 		/// <summary>
 		/// Load the specified json.
@@ -24,7 +24,7 @@ namespace Hive5.Model
 				return null;
 
 			return new GiftItemResponseBody() {
-				canGiftAfter = Date.ParseDateTime((string)json["can_gift_after"])
+				CanGiftAfter = Date.ParseDateTime((string)json["can_gift_after"])
 			};
 		}
 

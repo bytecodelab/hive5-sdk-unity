@@ -12,7 +12,7 @@ namespace Hive5.Model
 	/// </summary>
 	public class GetMailCountResponseBody : IResponseBody
 	{
-		public int count { set; get; }		
+		public int Count { set; get; }		
 
 		/// <summary>
 		/// Load the specified json.
@@ -26,7 +26,7 @@ namespace Hive5.Model
 			var count = (int)json ["count"];
 
 			return new GetMailCountResponseBody() {
-				count = count
+				Count = count
 			};
 		}
 

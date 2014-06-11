@@ -17,9 +17,9 @@ public class Friends : MonoBehaviour {
 		var friend_ids = new string[] {"881979482072261763"};
 
 		Hive5Client.CallBack callback = onUpdateFriends;
-		H5.setZone (Hive5APIZone.Beta);
-		H5.setDebug ();
-		H5.updateFriends (friend_ids, callback);
+		H5.SetZone (Hive5APIZone.Beta);
+		H5.SetDebug ();
+		H5.UpdateFriends (friend_ids, callback);
 	}
 	
 	/// <summary>
@@ -32,13 +32,13 @@ public class Friends : MonoBehaviour {
 		Debug.Log ("onUpdateFriends");
 		
 		// 성공
-		if (response.resultCode == Hive5ResultCode.Success) {
-			Debug.Log ("resultCode =" + response.resultCode);
+		if (response.ResultCode == Hive5ResultCode.Success) {
+			Debug.Log ("resultCode =" + response.ResultCode);
 			Debug.Log ("resultData = "+ JsonMapper.ToJson(response));	// 응답 데이터 전체 정보
 		} 
 		// 실패
 		else {
-			Debug.Log ("resultCode =" + response.resultCode);
+			Debug.Log ("resultCode =" + response.ResultCode);
 		}		
 	}
 

@@ -12,7 +12,7 @@ namespace Hive5.Model
 	/// </summary>
 	public class CompleteNaverPurchaseResponseBody : IResponseBody
 	{
-		public List<Item> items { set; get; }		
+		public List<Item> Items { set; get; }		
 		
 		/// <summary>
 		/// Load the specified json.
@@ -34,7 +34,7 @@ namespace Hive5.Model
 			}
 			
 			return new CompleteNaverPurchaseResponseBody() {
-				items = items
+				Items = items
 			};
 		}
 		

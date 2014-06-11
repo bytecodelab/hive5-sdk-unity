@@ -23,7 +23,7 @@ namespace Hive5
 		 */
 		public void CheckNicknameAvailability(string nickname, CallBack callback)
 		{
-			var url = InitializeUrl (String.Format(APIPath.CheckNicknameAvailability, nickname));
+			var url = InitializeUrl (String.Format(APIPath.CheckNicknameAvailability, WWW.EscapeURL(nickname)));
 
 			// Hive5 API 파라미터 셋팅
 			TupleList<string, string> parameters = new TupleList<string, string> ();

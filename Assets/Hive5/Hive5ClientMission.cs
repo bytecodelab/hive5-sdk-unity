@@ -39,7 +39,7 @@ namespace Hive5
 		*/
 		public void CompleteMission(string missionKey, CallBack callback)
 		{
-			var url = InitializeUrl (string.Format(APIPath.CompleteMission, missionKey));
+			var url = InitializeUrl (string.Format(APIPath.CompleteMission, WWW.EscapeURL(missionKey)));
 			
 			// WWW 호출
 			StartCoroutine (

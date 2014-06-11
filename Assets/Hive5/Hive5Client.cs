@@ -142,7 +142,7 @@ namespace Hive5
 				return;
 			
 			// Hive5 API URL 초기화
-			var url = InitializeUrl(String.Format(APIPath.CallProcedure,procedureName));
+			var url = InitializeUrl(String.Format(APIPath.CallProcedure, WWW.EscapeURL(procedureName)));
 			
 			// WWW 호출
 

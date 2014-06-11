@@ -59,8 +59,6 @@ namespace Hive5
 		public static string ApplyReward 			= "rewards/apply/{0}";
 	 	public static string ApplyAllReward 		= "rewards/apply_all";
 		public static string InvalidateReward 		= "rewards/invalidate/{0}";
-		public static string StartRound 			= "rounds/start?rule_id={0}";
-		public static string EndRound 				= "rounds/end/{0}";
 		public static string UpdateFriends 			= "friends/update";
 	 	public static string GetFriendsInfo 		= "friends/info";
 		public static string CallProcedure			= "procedures/call/{0}";

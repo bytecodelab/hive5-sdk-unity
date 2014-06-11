@@ -1,9 +1,9 @@
 #Hive5 SDK for Unity
-========
 
 
 ##Specification
-[API Specification](#)
+[SDK 사용가이드](https://github.com/bytecodelab/maui-sdk/wiki/Guide%20for%20Unity)
+[API Specification](http://dev.hive5.io/docs/unity/apidoc/index.html)
 
 
 

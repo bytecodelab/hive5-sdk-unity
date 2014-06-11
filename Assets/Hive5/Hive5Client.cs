@@ -156,6 +156,24 @@ namespace Hive5
 			}
 		}
 
+		/// <summary>
+		/// Hive5 client.
+		/// </summary>
+		public void EventLogs(string eventType, string data, CallBack callback)
+		{
+			var url = InitializeUrl (APIPath.Logs);
+			
+			var requestBody = new {
+				event_type = eventType,
+				data = data,
+			};
+			
+			// WWW 호출
+			StartCoroutine (
+				PostHttp (url, requestBody, LogsResponseBody.Load, callback)
+				);
+		}
+
 
 		/********************************************************************************
 			Internal API Group

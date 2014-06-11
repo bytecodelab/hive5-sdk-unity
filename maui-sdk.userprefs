@@ -1,25 +1,38 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Hive5/Model/ResponseBody/SwitchPlatformResponseBody.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Hive5/Hive5Response.cs">
     <Files>
-      <File FileName="Assets/Hive5/Hive5Client.cs" Line="335" Column="1" />
-      <File FileName="Assets/Hive5/Hive5ClientSocialgraph.cs" Line="1" Column="1" />
-      <File FileName="Assets/Hive5/Hive5ClientAuth.cs" Line="208" Column="45" />
-      <File FileName="Assets/Hive5/Common/Const.cs" Line="11" Column="32" />
-      <File FileName="Assets/Hive5/Model/ResponseBody/SwitchPlatformResponseBody.cs" Line="39" Column="8" />
-      <File FileName="Assets/Hive5/Model/ResponseBody/SubmitScoreResponseBody.cs" Line="13" Column="49" />
-      <File FileName="Assets/Scripts/Hive5SampleUI/Login.cs" Line="51" Column="1" />
-      <File FileName="Assets/Scripts/Hive5SampleUI/Settings.cs" Line="24" Column="5" />
-      <File FileName="Assets/Hive5/Hive5Response.cs" Line="26" Column="47" />
+      <File FileName="Assets/Hive5/APIZone.cs" Line="1" Column="1" />
+      <File FileName="Assets/Hive5/Hive5Client.cs" Line="162" Column="68" />
+      <File FileName="Assets/Hive5/Hive5ClientSettings.cs" Line="1" Column="1" />
+      <File FileName="Assets/Hive5/Common/Const.cs" Line="1" Column="1" />
+      <File FileName="Assets/Hive5/Model/ResponseBody/LogsResponseBody.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Hive5SampleUI/General.cs" Line="26" Column="3" />
+      <File FileName="Assets/Hive5/Hive5Response.cs" Line="26" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
-        <State expanded="True" selected="True" />
+        <State expanded="True">
+          <Node name="Assembly-CSharp" expanded="True">
+            <Node name="Hive5" expanded="True">
+              <Node name="Common" expanded="True" />
+              <Node name="Model" expanded="True">
+                <Node name="ResponseBody" expanded="True" />
+              </Node>
+              <Node name="Hive5Response.cs" selected="True" />
+            </Node>
+            <Node name="Scripts" expanded="True">
+              <Node name="Hive5SampleUI" expanded="True" />
+            </Node>
+          </Node>
+        </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/gilbok/GitHub/bytecodelab/maui-sdk/Assets/Hive5/Hive5Response.cs" line="26" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

@@ -3,7 +3,7 @@ obj
 bin
 *.suo
 temp
-library
 *.csproj
-./Library/*
-*.meta
+**/Library/*
+**/Temp/*
+**/Assets/**/*.meta

@@ -2,20 +2,28 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Hive5/Hive5Response.cs">
     <Files>
-      <File FileName="Assets/Hive5/APIZone.cs" Line="1" Column="1" />
-      <File FileName="Assets/Hive5/Hive5Client.cs" Line="164" Column="1" />
-      <File FileName="Assets/Hive5/Hive5ClientSettings.cs" Line="1" Column="1" />
-      <File FileName="Assets/Hive5/Common/Const.cs" Line="62" Column="1" />
-      <File FileName="Assets/Hive5/Model/ResponseBody/LogsResponseBody.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Hive5SampleUI/General.cs" Line="16" Column="18" />
-      <File FileName="Assets/Hive5/Hive5Response.cs" Line="33" Column="1" />
-      <File FileName="Assets/NGUI/Scripts/Interaction/UIPopupList.cs" Line="45" Column="57" />
+      <File FileName="Assets/Hive5/Hive5ClientLeaderboard.cs" Line="39" Column="17" />
+      <File FileName="Assets/Hive5/Model/Data/Score.cs" Line="32" Column="31" />
+      <File FileName="Assets/Hive5/Model/ResponseBody/PrizeResponseBody.cs" Line="1" Column="1" />
+      <File FileName="Assets/Hive5/Hive5ClientSocialgraph.cs" Line="1" Column="1" />
+      <File FileName="Assets/Hive5/Hive5Response.cs" Line="26" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
-        <State expanded="True" selected="True">
-          <Node name="Assembly-CSharp" expanded="True" />
+        <State expanded="True">
+          <Node name="Assembly-CSharp" expanded="True">
+            <Node name="Hive5" expanded="True">
+              <Node name="Model" expanded="True">
+                <Node name="Data" expanded="True" />
+                <Node name="ResponseBody" expanded="True" />
+              </Node>
+              <Node name="Hive5Response.cs" selected="True" />
+            </Node>
+          </Node>
         </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>

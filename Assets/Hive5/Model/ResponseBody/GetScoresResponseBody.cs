@@ -12,8 +12,6 @@ namespace Hive5.Model
 	/// </summary>
 	public class GetScoresResponseBody : IResponseBody
 	{
-		public long ScoresCount { set; get; }
-		public MyScore MyLastScore { set; get; }
 		public List<Score> Scores { set; get; }			
 
 		/// <summary>
@@ -25,8 +23,6 @@ namespace Hive5.Model
 			if (json == null)
 				return null;
 
-			var scoresCount = (int)json ["scores_count"];
-			var myLastScore = MyScore.Load (json ["my_last_score"]);
 			List<Score> scores;
 
 			try
@@ -39,12 +35,9 @@ namespace Hive5.Model
 			}
 
 			return new GetScoresResponseBody() {
-				ScoresCount = scoresCount,
-				MyLastScore = myLastScore,
 				Scores = scores
 			};
 		}
-
 	}
 }
 

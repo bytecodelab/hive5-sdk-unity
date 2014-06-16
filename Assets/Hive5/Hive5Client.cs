@@ -159,7 +159,7 @@ namespace Hive5
 		/// <summary>
 		/// Hive5 client.
 		/// </summary>
-		public void EventLogs(string eventType, string data, CallBack callback)
+		public void Logs(string eventType, string data, CallBack callback)
 		{
 			var url = InitializeUrl (APIPath.Logs);
 			

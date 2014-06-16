@@ -26,7 +26,7 @@ namespace Hive5
 		public static string Item 				= "items";		// user item
 		public static string GetMails			= "mails";
 		public static string SubmitMail			= "mails";
-		public static string Logs 				= "event_logs"; // add logs
+		public static string Logs 				= "logs"; // add logs
 		public static string ConsumeItem		= "items/consume";
 	 	public static string Unregister			= "auth/delete";
 	 	public static string Agreement			= "agreements";

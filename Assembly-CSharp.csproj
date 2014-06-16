@@ -82,6 +82,7 @@
      <Compile Include="Assets\Hive5\Model\Data\Score.cs" />
      <Compile Include="Assets\Hive5\Model\Data\UserData.cs" />
      <Compile Include="Assets\Hive5\Model\RequestBody\SetUserDataRequestBody.cs" />
+     <Compile Include="Assets\Hive5\Model\ResponseBody\AddFriendsResponseBody.cs" />
      <Compile Include="Assets\Hive5\Model\ResponseBody\ApplyAllRewardsResponseBody.cs" />
      <Compile Include="Assets\Hive5\Model\ResponseBody\ApplyRewardResponseBody.cs" />
      <Compile Include="Assets\Hive5\Model\ResponseBody\AttachMailTagsResponseBody.cs" />
@@ -104,6 +105,7 @@
      <Compile Include="Assets\Hive5\Model\ResponseBody\GetAgreementsResponseBody.cs" />
      <Compile Include="Assets\Hive5\Model\ResponseBody\GetCompletedMissionsResponseBody.cs" />
      <Compile Include="Assets\Hive5\Model\ResponseBody\GetFriendsInfoResponseBody.cs" />
+     <Compile Include="Assets\Hive5\Model\ResponseBody\GetFriendsResponseBody.cs" />
      <Compile Include="Assets\Hive5\Model\ResponseBody\GetItemsResponseBody.cs" />
      <Compile Include="Assets\Hive5\Model\ResponseBody\GetMailCountResponseBody.cs" />
      <Compile Include="Assets\Hive5\Model\ResponseBody\GetMailsResponseBody.cs" />
@@ -119,6 +121,7 @@
      <Compile Include="Assets\Hive5\Model\ResponseBody\LogoutResponseBody.cs" />
      <Compile Include="Assets\Hive5\Model\ResponseBody\LogsResponseBody.cs" />
      <Compile Include="Assets\Hive5\Model\ResponseBody\PrizeResponseBody.cs" />
+     <Compile Include="Assets\Hive5\Model\ResponseBody\RemoveFriendsResponseBody.cs" />
      <Compile Include="Assets\Hive5\Model\ResponseBody\SetNicknameResponseBody.cs" />
      <Compile Include="Assets\Hive5\Model\ResponseBody\SetUserDataResponseBody.cs" />
      <Compile Include="Assets\Hive5\Model\ResponseBody\StartRoundResponseBody.cs" />

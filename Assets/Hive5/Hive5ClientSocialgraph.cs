@@ -28,6 +28,7 @@ namespace Hive5
 		* @apiName UpdateFriends
 		* @apiGroup SocialGraph
 		*
+		* @apiParam {string} groupName A group name to be updated
 		* @apiParam {string[]} friend_ids 친구 ID 리스트
 		* @apiParam {CallBack} callback 콜백 함수
 		*
@@ -37,13 +38,14 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.UpdateFriends(friend_ids, callback);
 		*/
-		public void UpdateFriends(string[] friend_ids, CallBack callback)
+		public void UpdateFriends(string groupName, string[] friend_ids, CallBack callback)
 		{
 			// Hive5 API URL 초기화	
 			var url = InitializeUrl(APIPath.UpdateFriends);
 			
 			// Request Body
 			var requestBody = new {
+				group=groupName,
 				friends = friend_ids
 			};
 			
@@ -82,7 +84,100 @@ namespace Hive5
         	);
 		}
 
+		/** 
+		* @api {POST} AddFriends 친구 리스트 add
+		* @apiVersion 1.0.0
+		* @apiName AddFriends
+		* @apiGroup SocialGraph
+		*
+		* @apiParam {string} groupName A group name which add friends into
+		* @apiParam {string[]} friend_ids 친구 ID 리스트
+		* @apiParam {CallBack} callback 콜백 함수
+		*
+		* @apiSuccess {String} resultCode Error Code 참고
+		* @apiSuccess {String} resultMessage 요청 실패시 메시지
+		* @apiExample Example usage:
+		* Hive5Client hive5 = Hive5Client.Instance;
+		* hive5.AddFriends(groupName, friend_ids, callback);
+		*/
+		public void AddFriends(string groupName, string[] friend_ids, CallBack callback)
+		{
+			// Hive5 API URL 초기화	
+			var url = InitializeUrl(APIPath.AddFriends);
+			
+			// Request Body
+			var requestBody = new {
+				group=groupName,
+				friends = friend_ids
+			};
+			
+			// WWW 호출
+			StartCoroutine (
+				PostHttp(url, requestBody, AddFriendsResponseBody.Load, callback)
+				);
+		}
+	
+		/** 
+		* @api {POST} RemoveFriends 친구 리스트 remove
+		* @apiVersion 1.0.0
+		* @apiName RemoveFriends
+		* @apiGroup SocialGraph
+		*
+		* @apiParam {string} groupName A group name which remove friends from
+		* @apiParam {string[]} friend_ids 친구 ID 리스트
+		* @apiParam {CallBack} callback 콜백 함수
+		*
+		* @apiSuccess {String} resultCode Error Code 참고
+		* @apiSuccess {String} resultMessage 요청 실패시 메시지
+		* @apiExample Example usage:
+		* Hive5Client hive5 = Hive5Client.Instance;
+		* hive5.RemoveFriends(groupName, friend_ids, callback);
+		*/
+		public void RemoveFriends(string groupName, string[] friend_ids, CallBack callback)
+		{
+			// Hive5 API URL 초기화	
+			var url = InitializeUrl(APIPath.RemoveFriends);
+			
+			// Request Body
+			var requestBody = new {
+				group=groupName,
+				friends = friend_ids
+			};
+			
+			// WWW 호출
+			StartCoroutine (
+				PostHttp(url, requestBody, RemoveFriendsResponseBody.Load, callback)
+				);
+		}
 
+		/** 
+		* @api {GET} GetFriends 친구 리스트 가져오기 from a group
+		* @apiVersion 1.0.0
+		* @apiName GetFriends
+		* @apiGroup SocialGraph
+		*
+		* @apiParam {string} groupName a group name which retrieve friends from
+		* @apiParam {CallBack} callback 콜백 함수
+		*
+		* @apiSuccess {String} resultCode Error Code 참고
+		* @apiSuccess {String} resultMessage 요청 실패시 메시지
+		* @apiExample Example usage:
+		* Hive5Client hive5 = Hive5Client.Instance;
+		* hive5.GetFriends(groupName, CallBack callback);
+		*/
+		public void GetFriends(string groupName, CallBack callback)
+		{
+			var url = InitializeUrl (APIPath.GetFriends);
+			
+			// Hive5 API 파라미터 셋팅
+			TupleList<string, string> parameters = new TupleList<string, string>();
+			parameters.Add ("group", groupName);
+
+			// WWW 호출
+			StartCoroutine ( 
+			                GetHttp(url, parameters.data, GetFriendsResponseBody.Load, callback) 
+			                );
+		}
 	}
 
 }

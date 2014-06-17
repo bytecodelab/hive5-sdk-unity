@@ -16,7 +16,11 @@ namespace Hive5
 	/// <summary>
 	/// Hive5 client.
 	/// </summary>
+#if TEST    
+    public partial class Hive5Client : MockMonoSingleton<Hive5Client> {
+#else
 	public partial class Hive5Client : MonoSingleton<Hive5Client> {
+#endif
 
 		/********************************************************************************
 			SocialGraph API Group
@@ -47,10 +51,7 @@ namespace Hive5
 				friends = friend_ids
 			};
 			
-			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, UpdateFriendsResponseBody.Load, callback)
-			);
+			PostHttpAsync(url, requestBody, UpdateFriendsResponseBody.Load, callback);
 		}
 		
 		/** 
@@ -77,9 +78,7 @@ namespace Hive5
 			Array.ForEach ( platformUserIds, key => { parameters.Add( ParameterKey.PlatformUserId, key ); }); 
 			
 			// WWW 호출
-			StartCoroutine ( 
-                GetHttp (url, parameters.data, GetFriendsInfoResponseBody.Load, callback) 
-        	);
+            GetHttpAsync(url, parameters.data, GetFriendsInfoResponseBody.Load, callback);
 		}
 
 

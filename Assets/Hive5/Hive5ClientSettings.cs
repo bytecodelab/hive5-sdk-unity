@@ -16,7 +16,11 @@ namespace Hive5
 	/// <summary>
 	/// Hive5 client.
 	/// </summary>
+#if TEST    
+    public partial class Hive5Client : MockMonoSingleton<Hive5Client> {
+#else
 	public partial class Hive5Client : MonoSingleton<Hive5Client> {
+#endif
 
 		/*
 		 * TODO: gilbert will add comments on windows later
@@ -29,9 +33,7 @@ namespace Hive5
 			TupleList<string, string> parameters = new TupleList<string, string> ();
 
 			// WWW 호출
-			StartCoroutine (
-				GetHttp (url, parameters.data, CheckNicknameAvailabilityResponseBody.Load, callback)
-			);
+            GetHttpAsync(url, parameters.data, CheckNicknameAvailabilityResponseBody.Load, callback);
 		}
 
 		/*
@@ -45,10 +47,7 @@ namespace Hive5
 				nickname = nickname,
 			};
 			
-			// WWW 호출
-			StartCoroutine (
-				PostHttp (url, requestBody, SetNicknameResponseBody.Load, callback)
-				);
+            PostHttpAsync(url, requestBody, SetNicknameResponseBody.Load, callback);
 		}
 	}
 

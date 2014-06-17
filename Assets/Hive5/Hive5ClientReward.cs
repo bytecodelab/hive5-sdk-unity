@@ -16,7 +16,11 @@ namespace Hive5
 	/// <summary>
 	/// Hive5 client.
 	/// </summary>
+#if TEST    
+    public partial class Hive5Client : MockMonoSingleton<Hive5Client> {
+#else
 	public partial class Hive5Client : MonoSingleton<Hive5Client> {
+#endif
 
 		/********************************************************************************
 			Reward API Group
@@ -46,9 +50,7 @@ namespace Hive5
 			TupleList<string, string> parameters = new TupleList<string, string>();
 			
 			// WWW 호출
-			StartCoroutine ( 
-	        	GetHttp (url, parameters.data, GetRewardInfoResponseBody.Load, callback) 
-	        );
+            GetHttpAsync(url, parameters.data, GetRewardInfoResponseBody.Load, callback);
 		}
 		
 		/** 
@@ -77,9 +79,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, ApplyRewardResponseBody.Load, callback)
-			);
+            PostHttpAsync(url, requestBody, ApplyRewardResponseBody.Load, callback);
 		}
 		
 		/** 
@@ -107,9 +107,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, ApplyAllRewardsResponseBody.Load, callback)
-				);
+            PostHttpAsync(url, requestBody, ApplyAllRewardsResponseBody.Load, callback);
 		}
 		
 		/** 
@@ -137,9 +135,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, InvalidateRewardResponseBody.Load, callback)
-			);
+            PostHttpAsync(url, requestBody, InvalidateRewardResponseBody.Load, callback);
 		}
 
 

@@ -16,7 +16,11 @@ namespace Hive5
 	/// <summary>
 	/// Hive5 client.
 	/// </summary>
+#if TEST    
+    public partial class Hive5Client : MockMonoSingleton<Hive5Client> {
+#else
 	public partial class Hive5Client : MonoSingleton<Hive5Client> {
+#endif
 
 		/********************************************************************************
 			Mail API Group
@@ -51,9 +55,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, CreateMailResponseBody.Load, callback)
-			);
+			PostHttpAsync(url, requestBody, CreateMailResponseBody.Load, callback);
 		}
 
 		/** 
@@ -88,9 +90,7 @@ namespace Hive5
 				parameters.Add ("tag", tag);
 			
 			// WWW 호출
-			StartCoroutine ( 
-            	GetHttp (url, parameters.data, GetMailsResponseBody.Load, callback) 
-            );
+            GetHttpAsync(url, parameters.data, GetMailsResponseBody.Load, callback);
 		}
 		
 		/** 
@@ -123,9 +123,8 @@ namespace Hive5
 				parameters.Add ("tag", tag);
 			
 			// WWW 호출
-			StartCoroutine ( 
-		    	GetHttp (url, parameters.data, GetMailCountResponseBody.Load, callback) 
-		    );
+            GetHttpAsync(url, parameters.data, GetMailCountResponseBody.Load, callback);
+		    
 		}
 		
 		/** 
@@ -154,9 +153,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, CommonResponseBody.Load, callback)
-			);
+            PostHttpAsync(url, requestBody, CommonResponseBody.Load, callback);
 		}
 
 		/** 
@@ -181,9 +178,7 @@ namespace Hive5
 			var url = InitializeUrl(string.Format(APIPath.DeleteMail, mailId));
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, new {}, CommonResponseBody.Load, callback)
-			);
+            PostHttpAsync(url, new { }, CommonResponseBody.Load, callback);
 		}
 
 		/** 
@@ -213,9 +208,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, CommonResponseBody.Load, callback)
-			);
+            PostHttpAsync(url, requestBody, CommonResponseBody.Load, callback);
 		}
 
 		/** 
@@ -244,9 +237,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, AttachMailTagsResponseBody.Load, callback)
-			);
+            PostHttpAsync(url, requestBody, AttachMailTagsResponseBody.Load, callback);
 		}
 
 		/** 
@@ -275,9 +266,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, DetachMailTagsResponseBody.Load, callback)
-				);
+            PostHttpAsync(url, requestBody, DetachMailTagsResponseBody.Load, callback);
 		}
 
 	}

@@ -16,7 +16,11 @@ namespace Hive5
 	/// <summary>
 	/// Hive5 client.
 	/// </summary>
+#if TEST    
+    public partial class Hive5Client : MockMonoSingleton<Hive5Client> {
+#else
 	public partial class Hive5Client : MonoSingleton<Hive5Client> {
+#endif
 
 		/********************************************************************************
 			Leaderboard API Group
@@ -49,9 +53,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, SubmitScoreResponseBody.Load, callback)
-				);
+			PostHttpAsync(url, requestBody, SubmitScoreResponseBody.Load, callback);
 		}
 		
 		/** 
@@ -88,9 +90,7 @@ namespace Hive5
 				parameters.Add ("range_max", rangeMax.ToString());
 			
 			// WWW 호출
-			StartCoroutine ( 
-                GetHttp (url, parameters.data, GetScoresResponseBody.Load, callback) 
-                );
+            GetHttpAsync(url, parameters.data, GetScoresResponseBody.Load, callback);
 		}
 		
 		/** 
@@ -123,9 +123,7 @@ namespace Hive5
 			parameters.Add ("range_max", rangeMax.ToString());
 			
 			// WWW 호출
-			StartCoroutine ( 
-			                GetHttp (url, parameters.data, GetMyScoreResponseBody.Load, callback) 
-			                );
+            GetHttpAsync(url, parameters.data, GetMyScoreResponseBody.Load, callback);
 		}
 		
 		/** 
@@ -152,9 +150,7 @@ namespace Hive5
 			parameters.Add ("leaderboard_id", leaderboardId.ToString());
 
 			// WWW 호출
-			StartCoroutine ( 
-                GetHttp (url, parameters.data, GetSocialScoresResponseBody.Load, callback) 
-                );
+            GetHttpAsync(url, parameters.data, GetSocialScoresResponseBody.Load, callback);
 		}
 		
 		/** 
@@ -178,9 +174,7 @@ namespace Hive5
 			var url = InitializeUrl(string.Format(APIPath.LeaderboardPrize, leaderboardId));
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, new {}, PrizeResponseBody.Load, callback)
-			);
+            PostHttpAsync(url, new { }, PrizeResponseBody.Load, callback);
 		}
 
 	}

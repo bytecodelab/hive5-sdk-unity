@@ -16,7 +16,11 @@ namespace Hive5
 	/// <summary>
 	/// Hive5 client.
 	/// </summary>
+#if TEST    
+    public partial class Hive5Client : MockMonoSingleton<Hive5Client> {
+#else
 	public partial class Hive5Client : MonoSingleton<Hive5Client> {
+#endif
 
 		/********************************************************************************
 			Objects API Group
@@ -45,11 +49,8 @@ namespace Hive5
 			// Hive5 API 파라미터 셋팅
 			TupleList<string, string> parameters = new TupleList<string, string>();
 			objects.ForEach ( hobject => { parameters.Add( ParameterKey.Key, hobject.@class ); } );
-			
-			// WWW 호출
-			StartCoroutine ( 
-	        	GetHttp (url, parameters.data, CommonResponseBody.Load, callback) 
-	        );
+
+            GetHttpAsync(url, parameters.data, CommonResponseBody.Load, callback);
 		}
 		
 		
@@ -81,9 +82,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp (url, requestBody, CommonResponseBody.Load, callback)
-			);	
+            PostHttpAsync(url, requestBody, CommonResponseBody.Load, callback);
 			
 		}
 		
@@ -115,9 +114,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp (url, requestBody, CommonResponseBody.Load, callback)
-			);	
+            PostHttpAsync(url, requestBody, CommonResponseBody.Load, callback);
 			
 		}
 		
@@ -149,9 +146,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp (url, requestBody, CommonResponseBody.Load, callback)
-			);	
+            PostHttpAsync(url, requestBody, CommonResponseBody.Load, callback);
 			
 		}
 

@@ -17,6 +17,9 @@ public class Procedure : MonoBehaviour {
 		hive5.CallProcedure("get_user_name", parameters, response => {
 			Debug.Log ("onCallProcedure");
 			Debug.Log ("result data = "+response.ResultData);
+
+			var concrete = response.ResultData as CallProcedureResponseBody;
+			Debug.Log ("concrete.CallReturn= " + concrete.CallReturn);
 		});
 		
 	}

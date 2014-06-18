@@ -8,11 +8,10 @@ namespace Hive5.Model
 {
 
 	/// <summary>
-	/// Login data.
+	/// Add Friends
 	/// </summary>
-	public class GetMailsResponseBody : IResponseBody
-	{
-		public List<Mail> Mails { set; get; }			
+	public class AddFriendsResponseBody : IResponseBody
+	{	
 
 		/// <summary>
 		/// Load the specified json.
@@ -23,19 +22,9 @@ namespace Hive5.Model
 			if (json == null)
 				return null;
 
-			List<Mail> mails;
 
-			try
-			{
-				mails = Mail.LoadList(JsonMapper.ToObject(json["mails"].ToJson()));
-			}
-			catch (KeyNotFoundException)
-			{
-				mails = null;
-			}
+			return new AddFriendsResponseBody() {
 
-			return new GetMailsResponseBody() {
-				Mails = mails
 			};
 		}
 

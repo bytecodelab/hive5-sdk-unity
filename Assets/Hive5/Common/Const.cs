@@ -26,7 +26,7 @@ namespace Hive5
 		public static string Item 				= "items";		// user item
 		public static string GetMails			= "mails";
 		public static string SubmitMail			= "mails";
-		public static string Logs 				= "event_logs"; // add logs
+		public static string Logs 				= "logs"; // add logs
 		public static string ConsumeItem		= "items/consume";
 	 	public static string Unregister			= "auth/delete";
 	 	public static string Agreement			= "agreements";
@@ -59,7 +59,11 @@ namespace Hive5
 		public static string ApplyReward 			= "rewards/apply/{0}";
 	 	public static string ApplyAllReward 		= "rewards/apply_all";
 		public static string InvalidateReward 		= "rewards/invalidate/{0}";
+		public static string AddFriends 			= "friends/add";
+		public static string RemoveFriends 			= "friends/remove";
 		public static string UpdateFriends 			= "friends/update";
+		public static string GetFriends 			= "friends";
+
 	 	public static string GetFriendsInfo 		= "friends/info";
 		public static string CallProcedure			= "procedures/call/{0}";
 		public static string GetObjects				= "objects";

@@ -148,18 +148,18 @@ namespace Hive5
 
 		    if (parameters == null)
 			{
-			    StartCoroutine(PostHttp(url, null, new {}, CommonResponseBody.Load, callback));	
+				StartCoroutine(PostHttp(url, null, new {}, CallProcedureResponseBody.Load, callback));	
 			}
 			else
 			{
-				StartCoroutine(PostHttp(url, parameters.data, new {}, CommonResponseBody.Load, callback));
+				StartCoroutine(PostHttp(url, parameters.data, new {}, CallProcedureResponseBody.Load, callback));
 			}
 		}
 
 		/// <summary>
 		/// Hive5 client.
 		/// </summary>
-		public void EventLogs(string eventType, string data, CallBack callback)
+		public void Logs(string eventType, string data, CallBack callback)
 		{
 			var url = InitializeUrl (APIPath.Logs);
 			

@@ -27,7 +27,7 @@ namespace Hive5.Model
 
 			try
 			{
-				callReturn =  (string)json["call_return"];
+				callReturn =  json["call_return"].ToJson();
 			}
 			catch (KeyNotFoundException)
 			{

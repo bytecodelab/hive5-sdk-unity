@@ -148,11 +148,11 @@ namespace Hive5
 
 		    if (parameters == null)
 			{
-			    StartCoroutine(PostHttp(url, null, new {}, CommonResponseBody.Load, callback));	
+				StartCoroutine(PostHttp(url, null, new {}, CallProcedureResponseBody.Load, callback));	
 			}
 			else
 			{
-				StartCoroutine(PostHttp(url, parameters.data, new {}, CommonResponseBody.Load, callback));
+				StartCoroutine(PostHttp(url, parameters.data, new {}, CallProcedureResponseBody.Load, callback));
 			}
 		}
 

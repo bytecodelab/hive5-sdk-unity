@@ -21,7 +21,16 @@ namespace Hive5.Model
 		{
 			var id 			= (long)json["id"];
 			var content 	= (string)json["content"];
-			var rewardId 	= (long)json["reward_id"];
+
+			long rewardId = 0;
+			try
+			{
+				rewardId 	= (long)json["reward_id"];
+			}
+			catch
+			{
+			}
+
 			var tags 		= JsonMapper.ToObject<string[]> (json ["tags"].ToJson ());
 
 			return new Mail () {
@@ -46,7 +55,7 @@ namespace Hive5.Model
 			var listCount = json.Count;
 			for (int currentCount = 0; currentCount < listCount; currentCount++) 
 			{
-				mails.Add(Mail.Load(json[currentCount]));
+				mails.Add(Mail.Load(JsonMapper.ToObject(json[currentCount].ToJson())));
 			}
 
 			return mails;

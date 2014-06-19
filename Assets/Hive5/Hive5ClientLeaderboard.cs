@@ -151,32 +151,5 @@ namespace Hive5
 			// WWW 호출
             GetHttpAsync(url, parameters.data, GetSocialScoresResponseBody.Load, callback);
 		}
-		
-		/** 
-		* @api {POST} Prize 리더보드 보상 받기
-		* @apiVersion 1.0.0
-		* @apiName Prize
-		* @apiGroup Leaderboard
-		*
-		* @apiParam {long} leaderboardId 리더보드 ID
-		* @apiParam {CallBack} callback 콜백 함수
-		*
-		* @apiSuccess {String} resultCode Error Code 참고
-		* @apiSuccess {String} resultMessage 요청 실패시 메시지
-		* @apiExample Example usage:
-		* Hive5Client hive5 = Hive5Client.Instance;
-		* hive5.Prize(leaderboardId, callback);
-		*/
-		public void Prize(long leaderboardId, Callback callback)
-		{
-			// Hive5 API URL 초기화
-			var url = InitializeUrl(string.Format(APIPath.LeaderboardPrize, leaderboardId));
-			
-			// WWW 호출
-            PostHttpAsync(url, new { }, PrizeResponseBody.Load, callback);
-			
-		}
-
 	}
-
 }

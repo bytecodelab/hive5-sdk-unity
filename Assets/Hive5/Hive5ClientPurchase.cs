@@ -33,7 +33,7 @@ namespace Hive5
 		*
 		* @apiParam {string} productCode 상품 코드
 		* @apiParam {string} paymentSequence 결제 시퀀스
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -65,7 +65,7 @@ namespace Hive5
 		* @apiParam {long} listPrice 표시 가격
 		* @apiParam {long} purchasedPrice 결제 가격
 		* @apiParam {string} currency 화폐
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -97,7 +97,7 @@ namespace Hive5
 		* @apiParam {string} productCode 상품 코드
 		* @apiParam {string} receiverPlatformUserId 선물 받을 플랫폼 User ID
 		* @apiParam {string} mailForReceiver 메일로 받을 경우
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -132,7 +132,7 @@ namespace Hive5
 		* @apiParam {string} currency 화폐
 		* @apiParam {string} purchaseData 결제 데이터 
 		* @apiParam {string} signature 결제 데이터 검증용 sign
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -167,7 +167,7 @@ namespace Hive5
 		* @apiParam {string} productCode 상품 코드
 		* @apiParam {string} receiverPlatformUserId 선물 받을 플랫폼 User ID
 		* @apiParam {string} mailForReceiver 메일로 받을 경우
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -202,7 +202,7 @@ namespace Hive5
 		* @apiParam {string} currency 화폐
 		* @apiParam {string} receipt 영수증 데이터
 		* @apiParam {bool} isSandbox sandbox 여부
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지

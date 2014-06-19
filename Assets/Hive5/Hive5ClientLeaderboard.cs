@@ -33,7 +33,7 @@ namespace Hive5
 		*
 		* @apiParam {long} leaderboardId 리더보드 ID
 		* @apiParam {long} score 기록 점수
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -66,7 +66,7 @@ namespace Hive5
 		* @apiParam {long} rankMax 랭킹 최고
 		* @apiParam {long} rangeMin 점수 범위 최저
 		* @apiParam {long} rangeMax 점수 범위 최고
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -103,7 +103,7 @@ namespace Hive5
 		* @apiParam {long} rankMax 랭킹 최고
 		* @apiParam {long} rangeMin 점수 범위 최저
 		* @apiParam {long} rangeMax 점수 범위 최고
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -132,7 +132,7 @@ namespace Hive5
 		* @apiGroup Leaderboard
 		*
 		* @apiParam {long} leaderboardId 리더보드 ID
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지

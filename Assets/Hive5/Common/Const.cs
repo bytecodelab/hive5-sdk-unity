@@ -45,7 +45,6 @@ namespace Hive5
 		public static string AttachMailTag 			= "mails/{0}/add_tags";
 		public static string DetachMailTag 			= "mails/{0}/remove_tags";
 		public static string CompleteMission 		= "missions/complete/{0}";
-	 	public static string BatchCompleteMission 	= "missions/batch_complete";
 	 	public static string GetCompletedMissions 	= "missions/completed";
 		public static string CreateNaverPurchase 	= "naver_purchases";
 		public static string CompleteNaverPurchase 	= "naver_purchases/complete/{0}";

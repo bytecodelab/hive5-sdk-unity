@@ -28,7 +28,7 @@ namespace Hive5.Model
             {
                 udpateAt = Date.ParseDateTime((string)json["updated_at"]);
             }
-            catch(KeyNotFoundException)
+            catch
             {
                 udpateAt = default(DateTime);
             }

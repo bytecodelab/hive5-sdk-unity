@@ -32,7 +32,7 @@ namespace Hive5
 		* @apiGroup Mission
 		*
 		* @apiParam {string} missionKey 완료할 미션 키
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -47,41 +47,14 @@ namespace Hive5
 			// WWW 호출
             PostHttpAsync(url, new { }, CompleteMissionResponseBody.Load, callback);
 		}
-		
-		/** 
-		* @api {POST} BatchCompleteMission 미션 일괄 완료
-		* @apiVersion 1.0.0
-		* @apiName BatchCompleteMission
-		* @apiGroup Mission
-		*
-		* @apiParam {string[]} missionKeys 완료할 미션 키 리스트
-		* @apiParam {CallBack} callback 콜백 함수
-		*
-		* @apiSuccess {String} resultCode Error Code 참고
-		* @apiSuccess {String} resultMessage 요청 실패시 메시지
-		* @apiExample Example usage:
-		* Hive5Client hive5 = Hive5Client.Instance;
-		* hive5.BatchCompleteMission(missionKeys, callback);
-		*/
-		public void BatchCompleteMission(string[] missionKeys, Callback callback)
-		{
-			var url = InitializeUrl (APIPath.BatchCompleteMission);
 			
-			var requestBody = new {
-				keys 	= missionKeys
-			};
-			
-			// WWW 호출
-            PostHttpAsync(url, requestBody, BatchCompleteMissionResponseBody.Load, callback);
-		}
-		
 		/** 
 		* @api {POST} GetCompletedMissions 완료 미션 리스트 가져오기
 		* @apiVersion 1.0.0
 		* @apiName BatchCompleteMission
 		* @apiGroup Mission
 		*
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지

@@ -9,7 +9,7 @@ namespace Hive5
 	{
 		Success 					= 0,
 		InvalidParameter 			= 1001,	
-		DataDoseNotExist 			= 1002,
+		DataDoesNotExist 			= 1002,
 		ConditionsAreNotMet 		= 2001,
 		TooManyConditions 			= 2002, //Max 5
 		TooManyGetDataRequest 		= 2003, //Max 10

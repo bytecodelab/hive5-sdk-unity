@@ -13,7 +13,7 @@ public class Mails : MonoBehaviour {
 	{
 		var hive5 = Hive5Client.Instance;
 
-		hive5.GetMails (10, "dec", 0, "", response => {
+		hive5.GetMails (10, OrderType.DESC, 0, "", response => {
 			Debug.Log ("onGetMails");
 			
 			// 성공

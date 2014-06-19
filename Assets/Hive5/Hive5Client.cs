@@ -96,7 +96,7 @@ namespace Hive5
 		*
 		* @apiParam {String} platform 플랫폼 Type( Android, iOS )
 		* @apiParam {String} token push 토큰
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -132,7 +132,7 @@ namespace Hive5
 		*
 		* @apiParam {String} procedureName 호출 Procedure 이름
 		* @apiParam {TupleList&#60;string, string&#62;} parameters 파라미터
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지

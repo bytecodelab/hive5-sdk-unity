@@ -33,7 +33,7 @@ namespace Hive5
 		* @apiGroup Reward
 		*
 		* @apiParam {long} rewardId 상품 코드
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -60,7 +60,7 @@ namespace Hive5
 		*
 		* @apiParam {long} rewardId 상품 코드
 		* @apiParam {bool} deleteMail 보상 받을 시 메일 함께 삭제 여부
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -88,7 +88,7 @@ namespace Hive5
 		* @apiGroup Reward
 		*
 		* @apiParam {bool} deleteMail 보상 받을 시 메일 함께 삭제 여부
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -116,7 +116,7 @@ namespace Hive5
 		* @apiGroup Reward
 		*
 		* @apiParam {bool} deleteMail 보상 받을 시 메일 함께 삭제 여부
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지

@@ -32,7 +32,7 @@ namespace Hive5
 		* @apiGroup Object
 		*
 		* @apiParam {List&#60HObject&#62} objects 오브젝트 리스트(class 프로퍼티만 셋팅)
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -61,7 +61,7 @@ namespace Hive5
 		* @apiGroup Object
 		*
 		* @apiParam {List&#60HObject&#62} objects 오브젝트 리스트(class 프로퍼티만 셋팅)
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -92,7 +92,7 @@ namespace Hive5
 		* @apiGroup Object
 		*
 		* @apiParam {List&#60HObject&#62} objects 오브젝트 리스트(class 프로퍼티만 셋팅)
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -123,7 +123,7 @@ namespace Hive5
 		* @apiGroup Object
 		*
 		* @apiParam {List&#60HObject&#62} objects 오브젝트 리스트(class, id 프로퍼티 셋팅 / Singleton 인경우 id 생략)
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지

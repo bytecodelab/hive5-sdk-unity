@@ -18,7 +18,7 @@ public class Friends : MonoBehaviour {
 		
 		var friend_ids = new string[] {"881979482072261763"};
 
-		Hive5Client.CallBack callback = onUpdateFriends;
+		Callback callback = onUpdateFriends;
 		H5.SetZone (Hive5APIZone.Beta);
 		H5.SetDebug ();
 		H5.UpdateFriends (this.GroupName, friend_ids, callback);
@@ -54,7 +54,7 @@ public class Friends : MonoBehaviour {
 		
 		var friend_ids = new string[] {"881979482072261763"};
 		
-		Hive5Client.CallBack callback = onAddFriends;
+		Callback callback = onAddFriends;
 		H5.SetZone (Hive5APIZone.Beta);
 		H5.SetDebug ();
 		H5.AddFriends (this.GroupName, friend_ids, callback);
@@ -89,7 +89,7 @@ public class Friends : MonoBehaviour {
 		
 		var friend_ids = new string[] {"881979482072261763"};
 		
-		Hive5Client.CallBack callback = onRemoveFriends;
+		Callback callback = onRemoveFriends;
 		H5.SetZone (Hive5APIZone.Beta);
 		H5.SetDebug ();
 		H5.RemoveFriends(this.GroupName, friend_ids, callback);
@@ -122,7 +122,7 @@ public class Friends : MonoBehaviour {
 	{
 		H5 = Hive5Client.Instance;    // Hive5Client 호출
 
-		Hive5Client.CallBack callback = onGetFriends;
+		Callback callback = onGetFriends;
 		H5.SetZone (Hive5APIZone.Beta);
 		H5.SetDebug ();
 		H5.GetFriends(this.GroupName, callback);

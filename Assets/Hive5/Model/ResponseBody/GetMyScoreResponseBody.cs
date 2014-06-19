@@ -25,13 +25,22 @@ namespace Hive5.Model
 			if (json == null)
 				return null;
 
-			var scoresCount = (long)json ["scores_count"];
+			int scoresCount;
 			long value;
 			long rank;
 
+            try
+            {
+                scoresCount = (int)json["scores_count"];
+            }
+            catch(KeyNotFoundException)
+            {
+                scoresCount = 0;
+            }
+
 			try
 			{
-				value = (long)json["value"];
+				value = (int)json["value"];
 			}
 			catch (KeyNotFoundException)
 			{
@@ -40,7 +49,7 @@ namespace Hive5.Model
 
 			try
 			{
-				rank = (long)json["rank"];
+				rank = (int)json["rank"];
 			}
 			catch (KeyNotFoundException)
 			{

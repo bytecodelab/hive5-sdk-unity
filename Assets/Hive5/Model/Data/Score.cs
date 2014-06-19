@@ -25,12 +25,45 @@ namespace Hive5.Model
 		/// <param name="json">Json.</param>
 		public static Score Load(JsonData json)
 		{
+            long? value = 0;
+            long? rank = 0;
+            DateTime? scoredAt;
+
+            try
+            {
+                value = (int)json["value"];
+            }
+            catch
+            {
+                value = null;
+            }
+
+            try
+            {
+                rank = (int)json["rank"];
+            }
+            catch
+            {
+                rank = null;
+            }
+
+             try
+            {
+                scoredAt = Date.ParseDateTime((string)json["scored_at"]);
+            }
+            catch
+            {
+                scoredAt = null;
+            }
+
+
+
 			if (json ["scored_at"] != null) {
 				return new Score () {
 					platformUserId = (string)json["platform_user_id"],
-					value = ((long?)json["value"]),
-					rank = ((long?)json["rank"]),
-					scoredAt = Date.ParseDateTime((string)json["scored_at"])
+					value = value,
+					rank = rank,
+					scoredAt = scoredAt,
 				};
 			} 
 			else 

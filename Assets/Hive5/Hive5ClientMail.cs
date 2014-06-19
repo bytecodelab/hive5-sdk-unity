@@ -16,8 +16,11 @@ namespace Hive5
 	/// <summary>
 	/// Hive5 client.
 	/// </summary>
+#if UNITTEST
+    public partial class Hive5Client : MockMonoSingleton<Hive5Client> {
+#else
 	public partial class Hive5Client : MonoSingleton<Hive5Client> {
-
+#endif
 		/********************************************************************************
 			Mail API Group
 		*********************************************************************************/
@@ -39,7 +42,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.CreateMail(content, friendPlatformUserId, tags, callback);
 		*/
-		public void CreateMail(string content, string friendPlatformUserId, string[] tags,  CallBack callback)
+		public void CreateMail(string content, string friendPlatformUserId, string[] tags,  Callback callback)
 		{
 			// Hive5 API URL 초기화
 			var url = InitializeUrl(string.Format(APIPath.SubmitMail));
@@ -51,9 +54,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, CreateMailResponseBody.Load, callback)
-			);
+            PostHttpAsync(url, requestBody, CreateMailResponseBody.Load, callback);
 		}
 
 		/** 
@@ -74,7 +75,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.GetMails(limit, order, afterMailId, tag, callback);
 		*/
-		public void GetMails(int limit, string order, long afterMailId, string tag, CallBack callback)
+		public void GetMails(int limit, string order, long afterMailId, string tag, Callback callback)
 		{
 			// Hive5 API URL 초기화
 			var url = InitializeUrl(APIPath.GetMails);
@@ -88,9 +89,7 @@ namespace Hive5
 				parameters.Add ("tag", tag);
 			
 			// WWW 호출
-			StartCoroutine ( 
-            	GetHttp (url, parameters.data, GetMailsResponseBody.Load, callback) 
-            );
+            GetHttpAsync(url, parameters.data, GetMailsResponseBody.Load, callback);
 		}
 		
 		/** 
@@ -110,7 +109,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.GetMailCount(order, afterMailId, tag, callback);
 		*/
-		public void GetMailCount(OrderType order, long afterMailId, string tag, CallBack callback)
+		public void GetMailCount(OrderType order, long afterMailId, string tag, Callback callback)
 		{
 			// Hive5 API URL 초기화
 			var url = InitializeUrl(APIPath.MailCount);
@@ -123,9 +122,7 @@ namespace Hive5
 				parameters.Add ("tag", tag);
 			
 			// WWW 호출
-			StartCoroutine ( 
-		    	GetHttp (url, parameters.data, GetMailCountResponseBody.Load, callback) 
-		    );
+            GetHttpAsync(url, parameters.data, GetMailCountResponseBody.Load, callback);
 		}
 		
 		/** 
@@ -144,7 +141,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.UpdateMail(mailId, content, callback);
 		*/
-		public void UpdateMail(long mailId, string content, CallBack callback)
+		public void UpdateMail(long mailId, string content, Callback callback)
 		{
 			// Hive5 API URL 초기화
 			var url = InitializeUrl(string.Format(APIPath.UpdateMail, mailId));
@@ -154,9 +151,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, CommonResponseBody.Load, callback)
-			);
+            PostHttpAsync(url, requestBody, CommonResponseBody.Load, callback);
 		}
 
 		/** 
@@ -175,15 +170,13 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.DeleteMail(mailId, callback);
 		*/
-		public void DeleteMail(long mailId, CallBack callback)
+		public void DeleteMail(long mailId, Callback callback)
 		{
 			// Hive5 API URL 초기화
 			var url = InitializeUrl(string.Format(APIPath.DeleteMail, mailId));
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, new {}, CommonResponseBody.Load, callback)
-			);
+            PostHttpAsync(url, new { }, CommonResponseBody.Load, callback);
 		}
 
 		/** 
@@ -202,7 +195,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.DeleteAllMail(fromMailId, toMailId, callback);
 		*/
-		public void DeleteAllMail(long fromMailId, long toMailId, CallBack callback)
+		public void DeleteAllMail(long fromMailId, long toMailId, Callback callback)
 		{
 			// Hive5 API URL 초기화
 			var url = InitializeUrl(string.Format(APIPath.DeleteAllMail));
@@ -213,9 +206,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, CommonResponseBody.Load, callback)
-			);
+            PostHttpAsync(url, requestBody, CommonResponseBody.Load, callback);
 		}
 
 		/** 
@@ -234,7 +225,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.AttachMailTags(mailId, tags, callback);
 		*/
-		public void AttachMailTags(long mailId, string[] tags, CallBack callback)
+		public void AttachMailTags(long mailId, string[] tags, Callback callback)
 		{
 			// Hive5 API URL 초기화
 			var url = InitializeUrl(string.Format(APIPath.AttachMailTag, mailId));
@@ -244,9 +235,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, AttachMailTagsResponseBody.Load, callback)
-			);
+            PostHttpAsync(url, requestBody, AttachMailTagsResponseBody.Load, callback);
 		}
 
 		/** 
@@ -265,7 +254,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.DetachMailTags(mailId, tags, callback);
 		*/
-		public void DetachMailTags(long mailId, string[] tags, CallBack callback)
+		public void DetachMailTags(long mailId, string[] tags, Callback callback)
 		{
 			// Hive5 API URL 초기화
 			var url = InitializeUrl(string.Format(APIPath.DetachMailTag, mailId));
@@ -275,9 +264,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, DetachMailTagsResponseBody.Load, callback)
-				);
+            PostHttpAsync(url, requestBody, DetachMailTagsResponseBody.Load, callback);
 		}
 
 	}

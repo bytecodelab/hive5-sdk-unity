@@ -16,8 +16,11 @@ namespace Hive5
 	/// <summary>
 	/// Hive5 client.
 	/// </summary>
+#if UNITTEST
+    public partial class Hive5Client : MockMonoSingleton<Hive5Client> {
+#else
 	public partial class Hive5Client : MonoSingleton<Hive5Client> {
-
+#endif
 		/********************************************************************************
 			Leaderboard API Group
 		*********************************************************************************/
@@ -38,7 +41,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.SubmitScore(leaderboardId, score, callback);
 		*/
-		public void SubmitScore(long leaderboardId, long score, CallBack callback)
+		public void SubmitScore(long leaderboardId, long score, Callback callback)
 		{
 			var url = InitializeUrl (string.Format (APIPath.LeaderboardSubmitScores, leaderboardId, score));
 			
@@ -49,9 +52,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, SubmitScoreResponseBody.Load, callback)
-				);
+            PostHttpAsync(url, requestBody, SubmitScoreResponseBody.Load, callback);
 		}
 		
 		/** 
@@ -73,7 +74,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.GetScores(leaderboardId, rankMin, rankMax, rangeMin, rangeMax, callback);
 		*/
-		public void GetScores(long leaderboardId, long rankMin, long rankMax, long? rangeMin, long? rangeMax, CallBack callback)
+		public void GetScores(long leaderboardId, long rankMin, long rankMax, long? rangeMin, long? rangeMax, Callback callback)
 		{
 			var url = InitializeUrl (string.Format (APIPath.LeaderboardScores, leaderboardId));
 			
@@ -88,9 +89,7 @@ namespace Hive5
 				parameters.Add ("range_max", rangeMax.ToString());
 			
 			// WWW 호출
-			StartCoroutine ( 
-                GetHttp (url, parameters.data, GetScoresResponseBody.Load, callback) 
-                );
+            GetHttpAsync(url, parameters.data, GetScoresResponseBody.Load, callback);
 		}
 		
 		/** 
@@ -112,7 +111,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.GetMyScore(leaderboardId, rangeMin, rangeMax, callback);
 		*/
-		public void GetMyScore(long leaderboardId, long rangeMin, long rangeMax, CallBack callback)
+		public void GetMyScore(long leaderboardId, long rangeMin, long rangeMax, Callback callback)
 		{
 			var url = InitializeUrl (string.Format (APIPath.LeaderboardMyScore, leaderboardId));
 			
@@ -123,9 +122,7 @@ namespace Hive5
 			parameters.Add ("range_max", rangeMax.ToString());
 			
 			// WWW 호출
-			StartCoroutine ( 
-			                GetHttp (url, parameters.data, GetMyScoreResponseBody.Load, callback) 
-			                );
+            GetHttpAsync(url, parameters.data, GetMyScoreResponseBody.Load, callback);
 		}
 		
 		/** 
@@ -143,7 +140,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.GetSocialScores(leaderboardId, CallBack callback);
 		*/
-		public void GetSocialScores(long leaderboardId, CallBack callback)
+		public void GetSocialScores(long leaderboardId, Callback callback)
 		{
 			var url = InitializeUrl (string.Format (APIPath.LeaderboardSocialScores, leaderboardId));
 			
@@ -152,37 +149,7 @@ namespace Hive5
 			parameters.Add ("leaderboard_id", leaderboardId.ToString());
 
 			// WWW 호출
-			StartCoroutine ( 
-                GetHttp (url, parameters.data, GetSocialScoresResponseBody.Load, callback) 
-                );
+            GetHttpAsync(url, parameters.data, GetSocialScoresResponseBody.Load, callback);
 		}
-		
-		/** 
-		* @api {POST} Prize 리더보드 보상 받기
-		* @apiVersion 1.0.0
-		* @apiName Prize
-		* @apiGroup Leaderboard
-		*
-		* @apiParam {long} leaderboardId 리더보드 ID
-		* @apiParam {CallBack} callback 콜백 함수
-		*
-		* @apiSuccess {String} resultCode Error Code 참고
-		* @apiSuccess {String} resultMessage 요청 실패시 메시지
-		* @apiExample Example usage:
-		* Hive5Client hive5 = Hive5Client.Instance;
-		* hive5.Prize(leaderboardId, callback);
-		*/
-		public void Prize(long leaderboardId, CallBack callback)
-		{
-			// Hive5 API URL 초기화
-			var url = InitializeUrl(string.Format(APIPath.LeaderboardPrize, leaderboardId));
-			
-			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, new {}, PrizeResponseBody.Load, callback)
-			);
-		}
-
 	}
-
 }

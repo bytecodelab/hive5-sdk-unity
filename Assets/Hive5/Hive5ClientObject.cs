@@ -16,8 +16,11 @@ namespace Hive5
 	/// <summary>
 	/// Hive5 client.
 	/// </summary>
+#if UNITTEST
+    public partial class Hive5Client : MockMonoSingleton<Hive5Client> {
+#else
 	public partial class Hive5Client : MonoSingleton<Hive5Client> {
-
+#endif
 		/********************************************************************************
 			Objects API Group
 		*********************************************************************************/
@@ -37,7 +40,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.GetObjects(objectKeys, callback);
 		*/
-		public void GetObjects(List<HObject> objects, CallBack callback)
+		public void GetObjects(List<HObject> objects, Callback callback)
 		{
 			// Hive5 API URL 초기화
 			var url = InitializeUrl(APIPath.UserData);
@@ -47,9 +50,7 @@ namespace Hive5
 			objects.ForEach ( hobject => { parameters.Add( ParameterKey.Key, hobject.@class ); } );
 			
 			// WWW 호출
-			StartCoroutine ( 
-	        	GetHttp (url, parameters.data, CommonResponseBody.Load, callback) 
-	        );
+            GetHttpAsync(url, parameters.data, CommonResponseBody.Load, callback);
 		}
 		
 		
@@ -68,7 +69,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.CreateObjects( objects, callback);
 		*/
-		public void CreateObjects(List<HObject> objects,  CallBack callback)
+		public void CreateObjects(List<HObject> objects,  Callback callback)
 		{
 			if (!InitState)
 				return;
@@ -81,10 +82,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp (url, requestBody, CommonResponseBody.Load, callback)
-			);	
-			
+            PostHttpAsync(url, requestBody, CommonResponseBody.Load, callback);
 		}
 		
 		/** 
@@ -102,7 +100,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.SetObjects(objects, callback);
 		*/
-		public void SetObjects(List<HObject> objects,  CallBack callback)
+		public void SetObjects(List<HObject> objects,  Callback callback)
 		{
 			if (!InitState)
 				return;
@@ -115,10 +113,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp (url, requestBody, CommonResponseBody.Load, callback)
-			);	
-			
+            PostHttpAsync(url, requestBody, CommonResponseBody.Load, callback);		
 		}
 		
 		/** 
@@ -136,7 +131,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.DestroyObjects( objects, callback);
 		*/
-		public void DestroyObjects(List<HObject> objects,  CallBack callback)
+		public void DestroyObjects(List<HObject> objects,  Callback callback)
 		{
 			if (!InitState)
 				return;
@@ -149,10 +144,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp (url, requestBody, CommonResponseBody.Load, callback)
-			);	
-			
+            PostHttpAsync(url, requestBody, CommonResponseBody.Load, callback);
 		}
 
 	}

@@ -38,7 +38,6 @@ namespace Hive5
 		public static string LeaderboardScores 			= "leaderboards/{0}/scores";
 		public static string LeaderboardMyScore 		= "leaderboards/{0}/my_score";
 		public static string LeaderboardSocialScores 	= "leaderboards/{0}/social_scores";
-		public static string LeaderboardPrize 			= "leaderboards/prize/{0}";
 		public static string MailCount 				= "mails/count";
 		public static string UpdateMail 			= "mails/update/{0}";
 		public static string DeleteMail 			= "mails/delete/{0}";

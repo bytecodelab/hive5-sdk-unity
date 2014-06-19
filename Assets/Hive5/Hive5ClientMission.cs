@@ -16,8 +16,11 @@ namespace Hive5
 	/// <summary>
 	/// Hive5 client.
 	/// </summary>
+#if UNITTEST
+    public partial class Hive5Client : MockMonoSingleton<Hive5Client> {
+#else
 	public partial class Hive5Client : MonoSingleton<Hive5Client> {
-
+#endif
 		/********************************************************************************
 			Mission API Group
 		*********************************************************************************/
@@ -37,14 +40,12 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.CompleteMission(missionKey, callback);
 		*/
-		public void CompleteMission(string missionKey, CallBack callback)
+		public void CompleteMission(string missionKey, Callback callback)
 		{
 			var url = InitializeUrl (string.Format(APIPath.CompleteMission, WWW.EscapeURL(missionKey)));
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, new {}, CompleteMissionResponseBody.Load, callback)
-				);
+            PostHttpAsync(url, new { }, CompleteMissionResponseBody.Load, callback);
 		}
 		
 		/** 
@@ -62,7 +63,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.BatchCompleteMission(missionKeys, callback);
 		*/
-		public void BatchCompleteMission(string[] missionKeys, CallBack callback)
+		public void BatchCompleteMission(string[] missionKeys, Callback callback)
 		{
 			var url = InitializeUrl (APIPath.BatchCompleteMission);
 			
@@ -71,9 +72,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, BatchCompleteMissionResponseBody.Load, callback)
-				);
+            PostHttpAsync(url, requestBody, BatchCompleteMissionResponseBody.Load, callback);
 		}
 		
 		/** 
@@ -90,7 +89,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.GetCompletedMissions(callback);
 		*/
-		public void GetCompletedMissions(CallBack callback)
+		public void GetCompletedMissions(Callback callback)
 		{
 			var url = InitializeUrl (APIPath.GetCompletedMissions);
 			
@@ -98,9 +97,7 @@ namespace Hive5
 			TupleList<string, string> parameters = new TupleList<string, string>();
 			
 			// WWW 호출
-			StartCoroutine ( 
-                GetHttp (url, parameters.data, GetCompletedMissionsResponseBody.Load, callback) 
-           	);
+            GetHttpAsync(url, parameters.data, GetCompletedMissionsResponseBody.Load, callback);
 		}
 
 

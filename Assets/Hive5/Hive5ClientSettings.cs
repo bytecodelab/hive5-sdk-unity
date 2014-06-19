@@ -16,12 +16,15 @@ namespace Hive5
 	/// <summary>
 	/// Hive5 client.
 	/// </summary>
+#if UNITTEST
+    public partial class Hive5Client : MockMonoSingleton<Hive5Client> {
+#else
 	public partial class Hive5Client : MonoSingleton<Hive5Client> {
-
+#endif
 		/*
 		 * TODO: gilbert will add comments on windows later
 		 */
-		public void CheckNicknameAvailability(string nickname, CallBack callback)
+		public void CheckNicknameAvailability(string nickname, Callback callback)
 		{
 			var url = InitializeUrl (String.Format(APIPath.CheckNicknameAvailability, WWW.EscapeURL(nickname)));
 
@@ -29,15 +32,13 @@ namespace Hive5
 			TupleList<string, string> parameters = new TupleList<string, string> ();
 
 			// WWW 호출
-			StartCoroutine (
-				GetHttp (url, parameters.data, CheckNicknameAvailabilityResponseBody.Load, callback)
-			);
+            GetHttpAsync(url, parameters.data, CheckNicknameAvailabilityResponseBody.Load, callback);
 		}
 
 		/*
 		 * TODO: gilbert will add comments on windows later
 		 */
-		public void SetNickname(string nickname, CallBack callback)
+		public void SetNickname(string nickname, Callback callback)
 		{
 			var url = InitializeUrl (APIPath.SetNickname);
 			
@@ -46,9 +47,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp (url, requestBody, SetNicknameResponseBody.Load, callback)
-				);
+            PostHttpAsync(url, requestBody, SetNicknameResponseBody.Load, callback);
 		}
 	}
 

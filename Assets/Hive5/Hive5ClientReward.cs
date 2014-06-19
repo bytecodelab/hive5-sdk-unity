@@ -16,8 +16,11 @@ namespace Hive5
 	/// <summary>
 	/// Hive5 client.
 	/// </summary>
+#if UNITTEST
+    public partial class Hive5Client : MockMonoSingleton<Hive5Client> {
+#else
 	public partial class Hive5Client : MonoSingleton<Hive5Client> {
-
+#endif
 		/********************************************************************************
 			Reward API Group
 		*********************************************************************************/
@@ -38,7 +41,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.GetRewardInfo(rewardId, callback);
 		*/
-		public void GetRewardInfo(long rewardId, CallBack callback)
+		public void GetRewardInfo(long rewardId, Callback callback)
 		{
 			var url = InitializeUrl (string.Format (APIPath.Reward, rewardId));
 			
@@ -46,9 +49,7 @@ namespace Hive5
 			TupleList<string, string> parameters = new TupleList<string, string>();
 			
 			// WWW 호출
-			StartCoroutine ( 
-	        	GetHttp (url, parameters.data, GetRewardInfoResponseBody.Load, callback) 
-	        );
+            GetHttpAsync(url, parameters.data, GetRewardInfoResponseBody.Load, callback);
 		}
 		
 		/** 
@@ -67,7 +68,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.ApplyReward(rewardId, deleteMail, callback);
 		*/
-		public void ApplyReward(long rewardId, bool deleteMail, CallBack callback)
+		public void ApplyReward(long rewardId, bool deleteMail, Callback callback)
 		{
 			var url = InitializeUrl (string.Format (APIPath.ApplyReward, rewardId));
 			
@@ -77,9 +78,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, ApplyRewardResponseBody.Load, callback)
-			);
+            PostHttpAsync(url, requestBody, ApplyRewardResponseBody.Load, callback);
 		}
 		
 		/** 
@@ -97,7 +96,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.ApplyAllRewards(deleteMail, callback);
 		*/
-		public void ApplyAllRewards(bool deleteMail, CallBack callback)
+		public void ApplyAllRewards(bool deleteMail, Callback callback)
 		{
 			var url = InitializeUrl (APIPath.ApplyAllReward);
 			
@@ -107,9 +106,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, ApplyAllRewardsResponseBody.Load, callback)
-				);
+            PostHttpAsync(url, requestBody, ApplyAllRewardsResponseBody.Load, callback);
 		}
 		
 		/** 
@@ -127,7 +124,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.InvalidateReward(rewardId, deleteMail, callback);
 		*/
-		public void InvalidateReward(long rewardId, bool deleteMail, CallBack callback)
+		public void InvalidateReward(long rewardId, bool deleteMail, Callback callback)
 		{
 			var url = InitializeUrl (string.Format (APIPath.InvalidateReward, rewardId));
 			
@@ -137,9 +134,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, InvalidateRewardResponseBody.Load, callback)
-			);
+            PostHttpAsync(url, requestBody, InvalidateRewardResponseBody.Load, callback);
 		}
 
 

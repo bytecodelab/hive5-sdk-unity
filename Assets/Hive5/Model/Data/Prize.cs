@@ -30,7 +30,7 @@ namespace Hive5.Model
 				score 		= (long)json["score"],
 				rank 		= (long)json["rank"],
 				scoresCount = (long)json["scores_count"],
-				topScores 	= Score.LoadList(json["top_scores"]),
+				topScores 	= Hive5.Model.Score.LoadList(json["top_scores"]),
 				reward 		= PrizedReward.Load (json["reward"])
 
 			};

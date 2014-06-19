@@ -13,13 +13,22 @@ using Hive5.Util;
 
 namespace Hive5
 {
-	/// <summary>
+    public delegate IResponseBody dataLoader (JsonData response);
+	public delegate void Callback (Hive5Response hive5Response);
+
+    /// <summary>
 	/// Hive5 client.
 	/// </summary>
+#if UNITTEST
+    public partial class Hive5Client : MockMonoSingleton<Hive5Client> {
+#else
 	public partial class Hive5Client : MonoSingleton<Hive5Client> {
+#endif
 
-		public delegate IResponseBody dataLoader (JsonData response);
-		public delegate void CallBack (Hive5Response hive5Response);
+        
+#if !UNITTEST
+        protected Hive5Client() { }
+#endif
 
 		private string appKey		= "";
 		private string uuid			= "";
@@ -41,8 +50,6 @@ namespace Hive5
 		private string host;
 		private string version;
 
-		protected Hive5Client () {}
-	
 		/********************************************************************************
 			Init API Group
 		*********************************************************************************/
@@ -97,7 +104,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.UpdatePushToken( platform, token, callback)
 		*/
-		public void UpdatePushToken(string platform, string token, CallBack callback)
+		public void UpdatePushToken(string platform, string token, Callback callback)
 		{
 			// Hive5 API URL 초기화
 			var url = InitializeUrl(APIPath.UpdatePushToken);
@@ -108,10 +115,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, UpdatePushTokenResponseBody.Load, callback)
-			);
-			
+            PostHttpAsync(url, requestBody, UpdatePushTokenResponseBody.Load, callback);
 		}
 
 
@@ -136,7 +140,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.CallProcedure(procedureName, parameters, callback)
 		*/
-		public void CallProcedure(string procedureName, TupleList<string, string> parameters,  CallBack callback)
+		public void CallProcedure(string procedureName, TupleList<string, string> parameters,  Callback callback)
 		{
 			if (!InitState)
 				return;
@@ -148,18 +152,18 @@ namespace Hive5
 
 		    if (parameters == null)
 			{
-				StartCoroutine(PostHttp(url, null, new {}, CallProcedureResponseBody.Load, callback));	
+				PostHttpAsync(url, null, new {}, CallProcedureResponseBody.Load, callback);	
 			}
 			else
 			{
-				StartCoroutine(PostHttp(url, parameters.data, new {}, CallProcedureResponseBody.Load, callback));
+				PostHttpAsync(url, parameters.data, new {}, CallProcedureResponseBody.Load, callback);
 			}
 		}
 
 		/// <summary>
 		/// Hive5 client.
 		/// </summary>
-		public void Logs(string eventType, string data, CallBack callback)
+		public void Logs(string eventType, string data, Callback callback)
 		{
 			var url = InitializeUrl (APIPath.Logs);
 			
@@ -169,9 +173,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp (url, requestBody, LogsResponseBody.Load, callback)
-				);
+			PostHttpAsync(url, requestBody, LogsResponseBody.Load, callback);
 		}
 
 
@@ -210,146 +212,7 @@ namespace Hive5
 
 		}
 
-		/// <summary>
-		/// Asyncs the routine.
-		/// </summary>
-		/// <param name="routine">Routine.</param>
-		public void AsyncRoutine(IEnumerator routine)
-		{
-			// 코루틴 WWW 호출
-			StartCoroutine(routine);
-		}
 
-		/// <summary>
-		/// Https the get.
-		/// </summary>
-		/// <returns>The get.</returns>
-		/// <param name="url">URL.</param>
-		/// <param name="parameters">Parameters.</param>
-		/// <param name="callback">Callback.</param>
-		public IEnumerator GetHttp(string url, List<KeyValuePair<string, string>> parameters, Hive5Response.dataLoader loader, CallBack callBack)
-		{
-			// Hive5 API Header 설정
-			var headers = new Hashtable();
-			headers.Add(HeaderKey.AppKey, this.appKey);
-			headers.Add(HeaderKey.Uuid, this.uuid);
-			headers.Add(HeaderKey.Token, this.accessToken);
-			headers.Add(HeaderKey.ContentType, HeaderValue.ContentType);
-
-			string queryString = GetQueryString (parameters);
-			string newUrl = url;
-			
-			if (queryString.Length > 0)
-			{
-				newUrl = url + "?" + queryString;
-			}
-
-			WWW www = new WWW( newUrl, null, headers );
-			yield return www;
-
-			if(this.isDebug) Debug.Log ("www reuqest URL = " + newUrl);
-			if(this.isDebug) Debug.Log ("www response = " + www.text);
-
-			callBack (Hive5Response.Load (loader, www.text));
-		}
-
-		/// <summary>
-		/// Build QueryString
-		/// </summary>
-		/// <returns>The query string.</returns>
-		/// <param name="parameters">Parameters.</param>
-		private string GetQueryString(List<KeyValuePair<string, string>> parameters)
-		{
-			if (parameters == null)
-			    return string.Empty;
-
-			// Using StringBuilder is faster than concating string by + operator repeatly 
-			StringBuilder sb = new StringBuilder ();
-			foreach (KeyValuePair<string, string> parameter in parameters)
-			{
-				if (sb.Length > 0)	
-				{
-					sb.Append("&");
-				}
-				
-				sb.Append(parameter.Key + "=" + WWW.EscapeURL(parameter.Value));
-			}
-
-			return sb.ToString ();
-		}
-
-		/// <summary>
-		/// Https the post.
-		/// </summary>
-		/// <returns>The post.</returns>
-		/// <param name="url">URL.</param>
-		/// <param name="parameters">Parameters.</param>
-		public IEnumerator PostHttp(string url, List<KeyValuePair<string, string>> parameters, object requestBody, Hive5Response.dataLoader loader, CallBack callBack)
-		{	
-			// Hive5 API Header 설정
-			var headers = new Hashtable();
-			headers.Add(HeaderKey.AppKey, this.appKey);
-			headers.Add(HeaderKey.Uuid, this.uuid);
-			headers.Add(HeaderKey.Token, this.accessToken);
-			headers.Add(HeaderKey.ContentType, HeaderValue.ContentType);
-			
-			// Hive5 API json body 변환
-			string jsonString = JsonMapper.ToJson (requestBody);
-			
-			var encoding	= new System.Text.UTF8Encoding();
-			
-			
-			string queryString = GetQueryString(parameters);		
-			
-			string newUrl = url;
-			
-			if (queryString.Length > 0)
-			{
-				newUrl = url + "?" + queryString;
-			}
-			
-			// Hive5 API Request
-			WWW www = new WWW(newUrl, encoding.GetBytes(jsonString), headers); 
-			yield return www;
-			
-			if(this.isDebug) Debug.Log ("www reuqest URL = " + url);
-			if(this.isDebug) Debug.Log ("www request jsonBody= " + jsonString);
-			if(this.isDebug) Debug.Log ("www response = " + www.text);
-			
-			callBack (Hive5Response.Load (loader, www.text));
-		}
-
-		/// <summary>
-		/// Https the post.
-		/// </summary>
-		/// <returns>The post.</returns>
-		/// <param name="url">URL.</param>
-		/// <param name="parameters">Parameters.</param>
-		public IEnumerator PostHttp(string url, object requestBody, Hive5Response.dataLoader loader, CallBack callBack)
-		{	
-			// Hive5 API Header 설정
-			var headers = new Hashtable();
-			headers.Add(HeaderKey.AppKey, this.appKey);
-			headers.Add(HeaderKey.Uuid, this.uuid);
-			headers.Add(HeaderKey.Token, this.accessToken);
-			headers.Add(HeaderKey.ContentType, HeaderValue.ContentType);
-
-			// Hive5 API json body 변환
-			string jsonString = JsonMapper.ToJson (requestBody);						
-
-			var encoding	= new System.Text.UTF8Encoding();
-
-			// Hive5 API Request
-			WWW www = new WWW(url, encoding.GetBytes(jsonString), headers); 
-			yield return www;
-
-			if(this.isDebug) Debug.Log ("www reuqest URL = " + url);
-			if(this.isDebug) Debug.Log ("www request jsonBody= " + jsonString);
-			if(this.isDebug) Debug.Log ("www response = " + www.text);
-			
-			callBack (Hive5Response.Load (loader, www.text));
-		}
-		
 		/// <summary>
 		/// Initializes the URL.
 		/// </summary>

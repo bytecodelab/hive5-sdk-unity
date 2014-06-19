@@ -16,8 +16,11 @@ namespace Hive5
 	/// <summary>
 	/// Hive5 client.
 	/// </summary>
+#if UNITTEST
+    public partial class Hive5Client : MockMonoSingleton<Hive5Client> {
+#else
 	public partial class Hive5Client : MonoSingleton<Hive5Client> {
-
+#endif
 		/********************************************************************************
 			Purchase API Group
 		*********************************************************************************/
@@ -38,7 +41,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.CreateNaverPurchase(productCode, paymentSequence, callback);
 		*/
-		public void CreateNaverPurchase(string productCode, string paymentSequence, CallBack callback)
+		public void CreateNaverPurchase(string productCode, string paymentSequence, Callback callback)
 		{
 			// Hive5 API URL 초기화
 			var url = InitializeUrl(APIPath.CreateNaverPurchase);
@@ -49,9 +52,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, CreateNaverPurchaseResponseBody.Load, callback)
-			);
+            PostHttpAsync(url, requestBody, CreateNaverPurchaseResponseBody.Load, callback);
 		}
 		
 		/** 
@@ -72,7 +73,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.CreateNaverPurchase(productCode, paymentSequence, callback);
 		*/
-		public void CompleteNaverPurchase(long id, long listPrice, long purchasedPrice, string currency, CallBack callback)
+		public void CompleteNaverPurchase(long id, long listPrice, long purchasedPrice, string currency, Callback callback)
 		{
 			// Hive5 API URL 초기화
 			var url = InitializeUrl(string.Format(APIPath.CompleteNaverPurchase, id));
@@ -84,9 +85,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, CompleteNaverPurchaseResponseBody.Load, callback)
-			);	
+            PostHttpAsync(url, requestBody, CompleteNaverPurchaseResponseBody.Load, callback);
 		}
 		
 		/** 
@@ -106,7 +105,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.CreateGooglePurchase(productCode, receiverPlatformUserId, mailForReceiver, callback);
 		*/
-		public void CreateGooglePurchase(string productCode, string receiverPlatformUserId, string mailForReceiver, CallBack callback)
+		public void CreateGooglePurchase(string productCode, string receiverPlatformUserId, string mailForReceiver, Callback callback)
 		{
 			// Hive5 API URL 초기화
 			var url = InitializeUrl(APIPath.CreateGooglePurchase);
@@ -118,9 +117,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, CreateGooglePurchaseResponseBody.Load, callback)
-			);
+            PostHttpAsync(url, requestBody, CreateGooglePurchaseResponseBody.Load, callback);
 		}
 		
 		/** 
@@ -143,7 +140,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.CompleteGooglePurchase(id, listPrice, purchasedPrice, currency, purchaseData, signature, callback);
 		*/
-		public void CompleteGooglePurchase(long id, long listPrice, long purchasedPrice, string currency, string purchaseData, string signature, CallBack callback)
+		public void CompleteGooglePurchase(long id, long listPrice, long purchasedPrice, string currency, string purchaseData, string signature, Callback callback)
 		{
 			// Hive5 API URL 초기화
 			var url = InitializeUrl(string.Format(APIPath.CompleteGooglePurchase, id));
@@ -157,9 +154,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, CompleteGooglePurchaseResponseBody.Load, callback)
-			);	
+            PostHttpAsync(url, requestBody, CompleteGooglePurchaseResponseBody.Load, callback);
 		}
 		
 		
@@ -180,7 +175,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.CreateApplePurchase(productCode, receiverPlatformUserId, mailForReceiver, callback);
 		*/
-		public void CreateApplePurchase(string productCode, string receiverPlatformUserId, string mailForReceiver, CallBack callback)
+		public void CreateApplePurchase(string productCode, string receiverPlatformUserId, string mailForReceiver, Callback callback)
 		{
 			// Hive5 API URL 초기화
 			var url = InitializeUrl(APIPath.CreateApplePurchase);
@@ -192,9 +187,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, CreateApplePurchaseResponseBody.Load, callback)
-			);
+            PostHttpAsync(url, requestBody, CreateApplePurchaseResponseBody.Load, callback);
 		}
 		
 		/** 
@@ -217,7 +210,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.CompleteApplePurchase(id, listPrice, purchasedPrice, currency, receipt, isSandbox, callback);
 		*/
-		public void CompleteApplePurchase(long id, long listPrice, long purchasedPrice, string currency, string receipt, bool isSandbox, CallBack callback)
+		public void CompleteApplePurchase(long id, long listPrice, long purchasedPrice, string currency, string receipt, bool isSandbox, Callback callback)
 		{
 			// Hive5 API URL 초기화
 			var url = InitializeUrl(string.Format(APIPath.CompleteApplePurchase, id));
@@ -231,9 +224,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, CompleteApplePurchaseResponseBody.Load, callback)
-			);
+            PostHttpAsync(url, requestBody, CompleteApplePurchaseResponseBody.Load, callback);
 		}
 
 

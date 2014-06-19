@@ -12,7 +12,7 @@ namespace Hive5.Model
 	/// </summary>
 	public class SubmitScoreResponseBody : IResponseBody
 	{
-		public DateTime UpdateAt { set; get; }	
+		public DateTime UpdatedAt { set; get; }	
 
 		/// <summary>
 		/// Load the specified json.
@@ -23,8 +23,18 @@ namespace Hive5.Model
 			if (json == null)
 				return null;
 
+            DateTime udpateAt;
+            try 
+            {
+                udpateAt = Date.ParseDateTime((string)json["updated_at"]);
+            }
+            catch(KeyNotFoundException)
+            {
+                udpateAt = default(DateTime);
+            }
+
 			return new SubmitScoreResponseBody() {
-				UpdateAt = Date.ParseDateTime((string)json["update_at"])
+				UpdatedAt = udpateAt
 			};
 		}
 

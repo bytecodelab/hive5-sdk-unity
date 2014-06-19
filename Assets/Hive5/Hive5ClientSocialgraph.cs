@@ -16,8 +16,11 @@ namespace Hive5
 	/// <summary>
 	/// Hive5 client.
 	/// </summary>
+#if UNITTEST
+    public partial class Hive5Client : MockMonoSingleton<Hive5Client> {
+#else
 	public partial class Hive5Client : MonoSingleton<Hive5Client> {
-
+#endif
 		/********************************************************************************
 			SocialGraph API Group
 		*********************************************************************************/
@@ -38,7 +41,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.UpdateFriends(friend_ids, callback);
 		*/
-		public void UpdateFriends(string groupName, string[] friend_ids, CallBack callback)
+		public void UpdateFriends(string groupName, string[] friend_ids, Callback callback)
 		{
 			// Hive5 API URL 초기화	
 			var url = InitializeUrl(APIPath.UpdateFriends);
@@ -50,9 +53,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, UpdateFriendsResponseBody.Load, callback)
-			);
+            PostHttpAsync(url, requestBody, UpdateFriendsResponseBody.Load, callback);
 		}
 		
 		/** 
@@ -70,7 +71,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.GetFriendsInfo(platformUserIds, CallBack callback);
 		*/
-		public void GetFriendsInfo(string[] platformUserIds, CallBack callback)
+		public void GetFriendsInfo(string[] platformUserIds, Callback callback)
 		{
 			var url = InitializeUrl (APIPath.GetFriendsInfo);
 			
@@ -79,9 +80,7 @@ namespace Hive5
 			Array.ForEach ( platformUserIds, key => { parameters.Add( ParameterKey.PlatformUserId, key ); }); 
 			
 			// WWW 호출
-			StartCoroutine ( 
-                GetHttp (url, parameters.data, GetFriendsInfoResponseBody.Load, callback) 
-        	);
+            GetHttpAsync(url, parameters.data, GetFriendsInfoResponseBody.Load, callback);
 		}
 
 		/** 
@@ -100,7 +99,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.AddFriends(groupName, friend_ids, callback);
 		*/
-		public void AddFriends(string groupName, string[] friend_ids, CallBack callback)
+		public void AddFriends(string groupName, string[] friend_ids, Callback callback)
 		{
 			// Hive5 API URL 초기화	
 			var url = InitializeUrl(APIPath.AddFriends);
@@ -112,9 +111,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, AddFriendsResponseBody.Load, callback)
-				);
+            PostHttpAsync(url, requestBody, AddFriendsResponseBody.Load, callback);
 		}
 	
 		/** 
@@ -133,7 +130,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.RemoveFriends(groupName, friend_ids, callback);
 		*/
-		public void RemoveFriends(string groupName, string[] friend_ids, CallBack callback)
+		public void RemoveFriends(string groupName, string[] friend_ids, Callback callback)
 		{
 			// Hive5 API URL 초기화	
 			var url = InitializeUrl(APIPath.RemoveFriends);
@@ -145,9 +142,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-			StartCoroutine (
-				PostHttp(url, requestBody, RemoveFriendsResponseBody.Load, callback)
-				);
+            PostHttpAsync(url, requestBody, RemoveFriendsResponseBody.Load, callback);
 		}
 
 		/** 
@@ -165,7 +160,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.GetFriends(groupName, CallBack callback);
 		*/
-		public void GetFriends(string groupName, CallBack callback)
+		public void GetFriends(string groupName, Callback callback)
 		{
 			var url = InitializeUrl (APIPath.GetFriends);
 			
@@ -174,9 +169,7 @@ namespace Hive5
 			parameters.Add ("group", groupName);
 
 			// WWW 호출
-			StartCoroutine ( 
-			                GetHttp(url, parameters.data, GetFriendsResponseBody.Load, callback) 
-			                );
+            GetHttpAsync(url, parameters.data, GetFriendsResponseBody.Load, callback);
 		}
 	}
 

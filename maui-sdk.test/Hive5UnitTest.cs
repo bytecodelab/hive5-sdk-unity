@@ -5,6 +5,9 @@ using UnityEngine;
 using System.Threading;
 using Hive5.Model;
 using System.Net;
+using System.Collections.Generic;
+using LitJson;
+using Hive5.Util;
 
 namespace maui_sdk.test
 {
@@ -804,6 +807,831 @@ namespace maui_sdk.test
         }
 
         #endregion MISSION
+
+
+        #region OBJECT
+
+        [TestMethod, TestCategory("Object")]
+        public void Test오브젝트리스트GetObjects()
+        {
+            //Assert.Inconclusive("404에러 발생하는 것으로 알고 있음");
+            //return;
+
+            try
+            {
+                Login();
+
+                var completion = new ManualResetEvent(false);
+
+                string sampleClassType = "sword";
+
+                List<HObject> objects = new List<HObject>()
+                {
+                    new HObject() { @class = sampleClassType },
+                };
+
+                this.ApiClient.GetObjects(objects, (response) =>
+                {
+                    // 1. 기본 반환값 검증
+                    Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success ||
+                                  response.ResultCode == Hive5ResultCode.DataDoesNotExist); // 일단 반환성공
+                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                    Assert.IsTrue(response.ResultData is GetObjectsResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                    // 2. 프로퍼티 검증
+                    GetObjectsResponseBody body = response.ResultData as GetObjectsResponseBody;
+                    if (body.Objects != null)
+                    {
+                        Assert.IsTrue(body.Objects.Count >= 0);
+                    }
+
+                    completion.Set();
+                });
+
+                completion.WaitOne();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
+            }
+        }
+
+        [TestMethod, TestCategory("Object")]
+        public void Test오브젝트생성CreateObjects()
+        {
+            //Assert.Inconclusive("404에러 발생하는 것으로 알고 있음");
+            //return;
+
+            try
+            {
+                Login();
+
+                var completion = new ManualResetEvent(false);
+
+                string sampleClassType = "sword";
+                string sampleClassType2 = "shield";
+
+                List<HObject> objects = new List<HObject>()
+                {
+                    new HObject() 
+                    { 
+                        @class = sampleClassType, 
+                    },
+                    new HObject() 
+                    { 
+                        @class = sampleClassType2, 
+                    },
+                };
+
+                this.ApiClient.CreateObjects(objects, (response) =>
+                {
+                    // 1. 기본 반환값 검증
+                    Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success ||
+                                  response.ResultCode == Hive5ResultCode.DataDoesNotExist); // 일단 반환성공
+                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                    Assert.IsTrue(response.ResultData is CreateObjectsResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                    // 2. 프로퍼티 검증
+                    CreateObjectsResponseBody body = response.ResultData as CreateObjectsResponseBody;
+                    if (body.Objects != null)
+                    {
+                        Assert.IsTrue(body.Objects.Count >= 0);
+                    }
+
+                    completion.Set();
+                });
+
+                completion.WaitOne();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
+            }
+        }
+
+        [TestMethod, TestCategory("Object")]
+        public void Test오브젝트저장SetObjects()
+        {
+            //Assert.Inconclusive("404에러 발생하는 것으로 알고 있음");
+            //return;
+
+            try
+            {
+                Login();
+
+                string sampleClassType = "sword";
+                string sampleClassType2 = "shield";
+
+                List<HObject> objects = new List<HObject>()
+                {
+                    new HObject() 
+                    { 
+                        @class = sampleClassType, 
+                        changes = new {
+                            item_name = "Babo Sword", 
+                            size = "100"
+                        }
+                    },
+                    new HObject() 
+                    { 
+                        @class = sampleClassType2, 
+                        changes = new {
+                            item_name = "Babo Shield", 
+                            size = "101"
+                        }
+                    },
+                };
+
+                SetObjects(objects);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
+            }
+        }
+
+        public CommonResponseBody SetObjects(List<HObject> objects)
+        {
+            CommonResponseBody body = null;
+            var completion = new ManualResetEvent(false);
+            this.ApiClient.SetObjects(objects, (response) =>
+            {
+                // 1. 기본 반환값 검증
+                Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+                Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                Assert.IsTrue(response.ResultData is CommonResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                // 2. 프로퍼티 검증
+                body = response.ResultData as CommonResponseBody;
+
+                completion.Set();
+            });
+
+            completion.WaitOne();
+            return body;
+        }
+
+
+        [TestMethod, TestCategory("Object")]
+        public void Test오브젝트제거DestroyObjects()
+        {
+            Assert.Inconclusive("성공시킬 파라미터 구하기 힘듦");
+            return;
+
+            try
+            {
+                Login();
+
+                // Object 추가
+                string sampleClassType = "sword";
+                string sampleClassType2 = "shield";
+
+                List<HObject> objects = new List<HObject>()
+                {
+                    new HObject() 
+                    { 
+                        @class = sampleClassType, 
+                        changes = new {
+                            item_name = "Babo Sword", 
+                            size = "100"
+                        }
+                    },
+                    new HObject() 
+                    { 
+                        @class = sampleClassType2, 
+                        changes = new {
+                            item_name = "Babo Shield", 
+                            size = "101"
+                        }
+                    },
+                };
+
+                SetObjects(objects);
+
+                var completion = new ManualResetEvent(false);
+
+                List<HObject> destroyObjects = new List<HObject>()
+                {
+                    new HObject() 
+                    { 
+                        @class = sampleClassType, 
+                    },
+                    new HObject() 
+                    { 
+                        @class = sampleClassType2, 
+                    },
+                };
+
+                this.ApiClient.DestroyObjects(destroyObjects, (response) =>
+                {
+                    // 1. 기본 반환값 검증
+                    Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                    Assert.IsTrue(response.ResultData is CommonResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                    // 2. 프로퍼티 검증
+                    CommonResponseBody body = response.ResultData as CommonResponseBody;
+
+                    completion.Set();
+                });
+
+                completion.WaitOne();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
+            }
+        }
+
+        #endregion OBJECT
+
+
+        #region PROCEDURE
+
+        [TestMethod, TestCategory("Procedure")]
+        public void Test프로시저호출CallProcedure()
+        {
+            //Assert.Inconclusive("404에러 발생하는 것으로 알고 있음");
+            //return;
+
+            try
+            {
+                Login();
+
+                var completion = new ManualResetEvent(false);
+                var parameters = new TupleList<string, string>();
+
+                this.ApiClient.CallProcedure("get_user_name", parameters, (response) =>
+                {
+                    // 1. 기본 반환값 검증
+                    Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                    Assert.IsTrue(response.ResultData is CallProcedureResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                    // 2. 프로퍼티 검증
+                    CallProcedureResponseBody body = response.ResultData as CallProcedureResponseBody;
+                    Assert.IsTrue(string.IsNullOrEmpty(body.CallReturn) == false);
+
+                    completion.Set();
+                });
+
+                completion.WaitOne();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
+            }
+        }
+
+
+        #endregion PROCEDURE
+
+
+        #region PURCHASE
+
+        [TestMethod, TestCategory("Purchase")]
+        public void Test구글결제시작CreateGooglePurchase()
+        {
+            //Assert.Inconclusive("404에러 발생하는 것으로 알고 있음");
+            //return;
+
+            try
+            {
+                Login();
+
+                var body = CreateGooglePurchase();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
+            }
+        }
+
+        public CreateGooglePurchaseResponseBody CreateGooglePurchase()
+        {
+            var completion = new ManualResetEvent(false);
+
+            string productCode = "google_product_100";
+            string receiverPlatformUserId = null;
+            string mailForReceiver = null;
+
+            CreateGooglePurchaseResponseBody body = null;
+
+            this.ApiClient.CreateGooglePurchase(productCode, receiverPlatformUserId, mailForReceiver, (response) =>
+            {
+                // 1. 기본 반환값 검증
+                Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+                Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                Assert.IsTrue(response.ResultData is CreateGooglePurchaseResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                // 2. 프로퍼티 검증
+                body = response.ResultData as CreateGooglePurchaseResponseBody;
+                Assert.IsTrue(body.Id >= 0);
+
+                completion.Set();
+            });
+
+            completion.WaitOne();
+            return body;
+        }
+
+
+        [TestMethod, TestCategory("Purchase")]
+        public void Test구글결제완료CompleteGooglePurchase()
+        {
+            Assert.Inconclusive("signature 값을 제대로 채울 수가 없음");
+            return;
+
+            try
+            {
+                Login();
+
+                var googlePurchaseBody = CreateGooglePurchase();
+
+                var completion = new ManualResetEvent(false);
+
+                long id = googlePurchaseBody.Id;
+                long listPrice = 1100;
+                long purchasePrice = 1100;
+                string currency = null;
+                string purchaseData = "{\"purchaseToken\":\"\",\"developerPayload\":\"\",\"packageName\":\"\",\"purchaseState\":,\"orderId\":\"\",\"purchaseTime\":,\"productId\":\"\"}";
+                string signature = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx==";
+
+                this.ApiClient.CompleteGooglePurchase(id, listPrice, purchasePrice, currency, purchaseData, signature, (response) =>
+                {
+                    // 1. 기본 반환값 검증
+                    Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                    Assert.IsTrue(response.ResultData is CompleteGooglePurchaseResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                    // 2. 프로퍼티 검증
+                    CompleteGooglePurchaseResponseBody body = response.ResultData as CompleteGooglePurchaseResponseBody;
+
+                    if (body.Items != null)
+                    {
+                        Assert.IsTrue(body.Items.Count >= 0);
+                    }
+
+                    completion.Set();
+                });
+
+                completion.WaitOne();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
+            }
+        }
+
+        [TestMethod, TestCategory("Purchase")]
+        public void Test네이버결제시작CreateNaverPurchase()
+        {
+            Assert.Inconclusive("payement_sequence 값을 제대로 채울 수가 없음");
+            return;
+
+            try
+            {
+                Login();
+
+                var body = CreateNaverPurchase();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
+            }
+        }
+
+        public CreateNaverPurchaseResponseBody CreateNaverPurchase()
+        {           
+            var completion = new ManualResetEvent(false);
+
+            string productCode = "naver_product_100";
+            string payement_sequence = null;
+
+            CreateNaverPurchaseResponseBody body = null;
+
+            this.ApiClient.CreateNaverPurchase(productCode, payement_sequence, (response) =>
+            {
+                // 1. 기본 반환값 검증
+                Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+                Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                Assert.IsTrue(response.ResultData is CreateNaverPurchaseResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                // 2. 프로퍼티 검증
+                body = response.ResultData as CreateNaverPurchaseResponseBody;
+                Assert.IsTrue(body.Id >= 0);
+
+                completion.Set();
+            });
+
+            completion.WaitOne();
+            return body;
+        }
+
+
+        [TestMethod, TestCategory("Purchase")]
+        public void Test네이버결제완료CompleteNaverPurchase()
+        {
+             Assert.Inconclusive("payement_sequence 값을 제대로 채울 수가 없음");
+            return;
+
+            try
+            {
+                Login();
+
+                var purchaseBody = CreateNaverPurchase();
+
+                var completion = new ManualResetEvent(false);
+
+                long id = purchaseBody.Id;
+                long listPrice = 1100;
+                long purchasePrice = 1100;
+                string currency = null;
+
+                this.ApiClient.CompleteNaverPurchase(id, listPrice, purchasePrice, currency, (response) =>
+                {
+                    // 1. 기본 반환값 검증
+                    Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                    Assert.IsTrue(response.ResultData is CompleteNaverPurchaseResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                    // 2. 프로퍼티 검증
+                    CompleteNaverPurchaseResponseBody body = response.ResultData as CompleteNaverPurchaseResponseBody;
+
+                    if (body.Items != null)
+                    {
+                        Assert.IsTrue(body.Items.Count >= 0);
+                    }
+
+                    completion.Set();
+                });
+
+                completion.WaitOne();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
+            }
+        }
+
+        [TestMethod, TestCategory("Purchase")]
+        public void Test애플결제시작CreateApplePurchase()
+        {
+            Assert.Inconclusive("호출성공조건을 아직 모름");
+            return;
+
+            try
+            {
+                Login();
+
+                var body = CreateApplePurchase();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
+            }
+        }
+
+        public CreateApplePurchaseResponseBody CreateApplePurchase()
+        {
+            var completion = new ManualResetEvent(false);
+
+            string productCode = "apple_product_100";
+            string receiverPlatformUserId = null;
+            string mailForReceiver = null;
+
+            CreateApplePurchaseResponseBody body = null;
+
+            this.ApiClient.CreateGooglePurchase(productCode, receiverPlatformUserId, mailForReceiver, (response) =>
+            {
+                // 1. 기본 반환값 검증
+                Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+                Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                Assert.IsTrue(response.ResultData is CreateApplePurchaseResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                // 2. 프로퍼티 검증
+                body = response.ResultData as CreateApplePurchaseResponseBody;
+                Assert.IsTrue(body.Id >= 0);
+
+                completion.Set();
+            });
+
+            completion.WaitOne();
+            return body;
+        }
+
+
+        [TestMethod, TestCategory("Purchase")]
+        public void Test애플결제완료CompleteApplePurchase()
+        {
+            Assert.Inconclusive("receipt 값을 제대로 채울 수 없음");
+            return;
+
+            try
+            {
+                Login();
+
+                var purchaseBody = CreateApplePurchase();
+
+                var completion = new ManualResetEvent(false);
+
+                long id = purchaseBody.Id;
+                long listPrice = 1100;
+                long purchasePrice = 1100;
+                string currency = null;
+                string receipt = "{\"purchaseToken\":\"\",\"developerPayload\":\"\",\"packageName\":\"\",\"purchaseState\":,\"orderId\":\"\",\"purchaseTime\":,\"productId\":\"\"}";
+                bool isSandbox = false;
+
+                this.ApiClient.CompleteApplePurchase(id, listPrice, purchasePrice, currency, receipt, isSandbox, (response) =>
+                {
+                    // 1. 기본 반환값 검증
+                    Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                    Assert.IsTrue(response.ResultData is CreateApplePurchaseResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                    // 2. 프로퍼티 검증
+                    CreateApplePurchaseResponseBody body = response.ResultData as CreateApplePurchaseResponseBody;
+                    Assert.IsTrue(body.Id >= 0);
+
+                    completion.Set();
+                });
+
+                completion.WaitOne();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
+            }
+        }
+
+        #endregion PURCHASE
+
+
+        #region PUSH
+
+        [TestMethod, TestCategory("Push")]
+        public void Test푸쉬토큰등록및업데이트UpdatePushToken()
+        {
+            try
+            {
+                var completion = new ManualResetEvent(false);
+
+                this.ApiClient.UpdatePushToken(PlatformType.Kakao, "test_token", (response) =>
+                {
+                    // 1. 기본 반환값 검증
+                    Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                    Assert.IsTrue(response.ResultData is UpdatePushTokenResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                    // 2. 프로퍼티 검증
+                    UpdatePushTokenResponseBody body = response.ResultData as UpdatePushTokenResponseBody;
+
+                    completion.Set();
+                });
+
+                completion.WaitOne();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
+            }
+        }
+
+        #endregion PUSH
+
+
+        #region REWARD
+
+        [TestMethod, TestCategory("Reward")]
+        public void Test보상무효화InvalidateReward()
+        {
+            Assert.Inconclusive("rewardId 값을 제대로 채울 수 없음");
+            return;
+
+            try
+            {
+                var completion = new ManualResetEvent(false);
+
+                long rewardId = 1;
+
+                this.ApiClient.InvalidateReward(rewardId, false, (response) =>
+                {
+                    // 1. 기본 반환값 검증
+                    Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                    Assert.IsTrue(response.ResultData is InvalidateRewardResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                    // 2. 프로퍼티 검증
+                    InvalidateRewardResponseBody body = response.ResultData as InvalidateRewardResponseBody;
+
+                    completion.Set();
+                });
+
+                completion.WaitOne();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
+            }
+        }
+
+        [TestMethod, TestCategory("Reward")]
+        public void Test보상정보GetRewardInfo()
+        {
+            Assert.Inconclusive("rewardId 값을 제대로 채울 수 없음");
+            return;
+
+            try
+            {
+                var completion = new ManualResetEvent(false);
+
+                long rewardId = 1;
+
+                this.ApiClient.GetRewardInfo(rewardId, (response) =>
+                {
+                    // 1. 기본 반환값 검증
+                    Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                    Assert.IsTrue(response.ResultData is GetRewardInfoResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                    // 2. 프로퍼티 검증
+                    GetRewardInfoResponseBody body = response.ResultData as GetRewardInfoResponseBody;
+                    if (body.Rewards != null)
+                    {
+                        Assert.IsTrue(body.Rewards.Count >= 0);
+                    }
+
+                    completion.Set();
+                });
+
+                completion.WaitOne();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
+            }
+        }
+
+        [TestMethod, TestCategory("Reward")]
+        public void Test보상받기ApplyReward()
+        {
+            Assert.Inconclusive("rewardId 값을 제대로 채울 수 없음");
+            return;
+
+            try
+            {
+                var completion = new ManualResetEvent(false);
+
+                long rewardId = 1;
+
+                this.ApiClient.ApplyReward(rewardId, false, (response) =>
+                {
+                    // 1. 기본 반환값 검증
+                    Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                    Assert.IsTrue(response.ResultData is ApplyRewardResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                    // 2. 프로퍼티 검증
+                    ApplyRewardResponseBody body = response.ResultData as ApplyRewardResponseBody;
+                    if (body.Items != null)
+                    {
+                        Assert.IsTrue(body.Items.Count >= 0);
+                    }
+
+                    completion.Set();
+                });
+
+                completion.WaitOne();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
+            }
+        }
+
+        [TestMethod, TestCategory("Reward")]
+        public void Test보상전체받기ApplyAllRewards()
+        {
+            Assert.Inconclusive("deleteMail에 true나 false를 넣어도 InvalidParameter가 반환됨");
+            return;
+
+            try
+            {
+                var completion = new ManualResetEvent(false);
+
+                this.ApiClient.ApplyAllRewards(true, (response) =>
+                {
+                    // 1. 기본 반환값 검증
+                    Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                    Assert.IsTrue(response.ResultData is ApplyAllRewardsResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                    // 2. 프로퍼티 검증
+                    ApplyAllRewardsResponseBody body = response.ResultData as ApplyAllRewardsResponseBody;
+
+                    completion.Set();
+                });
+
+                completion.WaitOne();
+
+                 var completion2 = new ManualResetEvent(false);
+
+                this.ApiClient.ApplyAllRewards(false, (response) =>
+                {
+                    // 1. 기본 반환값 검증
+                    Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                    Assert.IsTrue(response.ResultData is ApplyAllRewardsResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                    // 2. 프로퍼티 검증
+                    ApplyAllRewardsResponseBody body = response.ResultData as ApplyAllRewardsResponseBody;
+
+                    completion2.Set();
+                });
+
+                completion2.WaitOne();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
+            }
+        }
+
+        
+        #endregion REWARD
+
+
+        #region SOCIALGRAPH
+
+        [TestMethod, TestCategory("Social Graph")]
+        public void Test친구리스트가져오기GetFriendsInfo()
+        {
+            Assert.Inconclusive("InvalidParameter 발생");
+            return;
+
+            try
+            {
+                var completion = new ManualResetEvent(false);
+
+                var friend_ids = new string[] {"881979482072261763", "881979482072261765"};
+
+                this.ApiClient.GetFriendsInfo(friend_ids, (response) =>
+                {
+                    // 1. 기본 반환값 검증
+                    Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                    Assert.IsTrue(response.ResultData is GetFriendsInfoResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                    // 2. 프로퍼티 검증
+                    GetFriendsInfoResponseBody body = response.ResultData as GetFriendsInfoResponseBody;
+
+                    completion.Set();
+                });
+
+                completion.WaitOne();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
+            }
+        }
+
+        [TestMethod, TestCategory("Social Graph")]
+        public void Test친구리스트업데이트UpdateFriends()
+        {
+            Assert.Inconclusive("InvalidParameter 발생");
+            return;
+
+            try
+            {
+                var completion = new ManualResetEvent(false);
+
+                var friend_ids = new string[] {"881979482072261763", "881979482072261765"};
+
+                this.ApiClient.UpdateFriends("default", friend_ids, (response) =>
+                {
+                    // 1. 기본 반환값 검증
+                    Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                    Assert.IsTrue(response.ResultData is UpdateFriendsResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                    // 2. 프로퍼티 검증
+                    UpdateFriendsResponseBody body = response.ResultData as UpdateFriendsResponseBody;
+
+                    completion.Set();
+                });
+
+                completion.WaitOne();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
+            }
+        }
+        
+
+        #endregion SOCIALGRAPH
+
 
     }
 }

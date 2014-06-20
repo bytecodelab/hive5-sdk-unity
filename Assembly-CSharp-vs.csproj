@@ -93,7 +93,10 @@
     <Compile Include="Assets\Hive5\Model\Data\Reward.cs" />
     <Compile Include="Assets\Hive5\Model\Data\Score.cs" />
     <Compile Include="Assets\Hive5\Model\Data\UserData.cs" />
+    <Compile Include="Assets\Hive5\Model\JsonHelper.cs" />
     <Compile Include="Assets\Hive5\Model\RequestBody\SetUserDataRequestBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\CreateObjectsResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\GetObjectsResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\AddFriendsResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\ApplyAllRewardsResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\ApplyRewardResponseBody.cs" />

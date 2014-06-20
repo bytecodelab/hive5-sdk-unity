@@ -43,14 +43,14 @@ namespace Hive5
 		public void GetObjects(List<HObject> objects, Callback callback)
 		{
 			// Hive5 API URL 초기화
-			var url = InitializeUrl(APIPath.UserData);
+			var url = InitializeUrl(APIPath.GetObjects);
 			
 			// Hive5 API 파라미터 셋팅
 			TupleList<string, string> parameters = new TupleList<string, string>();
 			objects.ForEach ( hobject => { parameters.Add( ParameterKey.Key, hobject.@class ); } );
 			
 			// WWW 호출
-            GetHttpAsync(url, parameters.data, CommonResponseBody.Load, callback);
+            GetHttpAsync(url, parameters.data, GetObjectsResponseBody.Load, callback);
 		}
 		
 		
@@ -82,7 +82,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-            PostHttpAsync(url, requestBody, CommonResponseBody.Load, callback);
+            PostHttpAsync(url, requestBody, CreateObjectsResponseBody.Load, callback);
 		}
 		
 		/** 

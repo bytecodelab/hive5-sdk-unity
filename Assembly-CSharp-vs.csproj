@@ -93,12 +93,14 @@
     <Compile Include="Assets\Hive5\Model\Data\Reward.cs" />
     <Compile Include="Assets\Hive5\Model\Data\Score.cs" />
     <Compile Include="Assets\Hive5\Model\Data\UserData.cs" />
+    <Compile Include="Assets\Hive5\Model\JsonHelper.cs" />
     <Compile Include="Assets\Hive5\Model\RequestBody\SetUserDataRequestBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\CreateObjectsResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\GetObjectsResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\AddFriendsResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\ApplyAllRewardsResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\ApplyRewardResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\AttachMailTagsResponseBody.cs" />
-    <Compile Include="Assets\Hive5\Model\ResponseBody\BatchCompleteMissionResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\CallProcedureResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\CheckNicknameAvailabilityResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\CommonResponseBody.cs" />
@@ -141,7 +143,6 @@
     <Compile Include="Assets\Hive5\Model\ResponseBody\SwitchPlatformResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\UnregisterResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\UpdateFriendsResponseBody.cs" />
-    <Compile Include="Assets\Hive5\Model\ResponseBody\UpdateMailResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\UpdatePushTokenResponseBody.cs" />
     <Compile Include="Assets\Hive5\Test\Logger.cs" />
     <Compile Include="Assets\Hive5\Test\MockMonoSingleton.cs" />

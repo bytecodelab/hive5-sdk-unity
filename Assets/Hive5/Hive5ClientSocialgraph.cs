@@ -33,7 +33,7 @@ namespace Hive5
 		*
 		* @apiParam {string} groupName A group name to be updated
 		* @apiParam {string[]} friend_ids 친구 ID 리스트
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -63,7 +63,7 @@ namespace Hive5
 		* @apiGroup SocialGraph
 		*
 		* @apiParam {string[]} friend_ids 친구 ID 리스트
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -91,7 +91,7 @@ namespace Hive5
 		*
 		* @apiParam {string} groupName A group name which add friends into
 		* @apiParam {string[]} friend_ids 친구 ID 리스트
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -122,7 +122,7 @@ namespace Hive5
 		*
 		* @apiParam {string} groupName A group name which remove friends from
 		* @apiParam {string[]} friend_ids 친구 ID 리스트
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -152,7 +152,7 @@ namespace Hive5
 		* @apiGroup SocialGraph
 		*
 		* @apiParam {string} groupName a group name which retrieve friends from
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지

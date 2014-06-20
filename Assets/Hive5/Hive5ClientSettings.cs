@@ -21,9 +21,21 @@ namespace Hive5
 #else
 	public partial class Hive5Client : MonoSingleton<Hive5Client> {
 #endif
-		/*
-		 * TODO: gilbert will add comments on windows later
-		 */
+		/** 
+        * @api {GET} CheckNicknameAvailability 닉네임 사용 가능여부 확인
+        * @apiVersion 1.0.0
+        * @apiName CheckNicknameAvailability
+        * @apiGroup Settings
+        *
+        * @apiParam {string} nickname 닉네임
+        * @apiParam {Callback} callback 콜백 함수
+        *
+        * @apiSuccess {String} resultCode Error Code 참고
+        * @apiSuccess {String} resultMessage 요청 실패시 메시지
+        * @apiExample Example usage:
+        * Hive5Client hive5 = Hive5Client.Instance;
+        * hive5.CheckNicknameAvailability("gilbert", callback);
+        */
 		public void CheckNicknameAvailability(string nickname, Callback callback)
 		{
 			var url = InitializeUrl (String.Format(APIPath.CheckNicknameAvailability, WWW.EscapeURL(nickname)));
@@ -35,9 +47,21 @@ namespace Hive5
             GetHttpAsync(url, parameters.data, CheckNicknameAvailabilityResponseBody.Load, callback);
 		}
 
-		/*
-		 * TODO: gilbert will add comments on windows later
-		 */
+		/** 
+        * @api {POST} SetNickname 닉네임 설정
+        * @apiVersion 1.0.0
+        * @apiName SetNickname
+        * @apiGroup Settings
+        *
+        * @apiParam {string} nickname 닉네임
+        * @apiParam {Callback} callback 콜백 함수
+        *
+        * @apiSuccess {String} resultCode Error Code 참고
+        * @apiSuccess {String} resultMessage 요청 실패시 메시지
+        * @apiExample Example usage:
+        * Hive5Client hive5 = Hive5Client.Instance;
+        * hive5.SetNickname("gilbert", callback);
+        */
 		public void SetNickname(string nickname, Callback callback)
 		{
 			var url = InitializeUrl (APIPath.SetNickname);

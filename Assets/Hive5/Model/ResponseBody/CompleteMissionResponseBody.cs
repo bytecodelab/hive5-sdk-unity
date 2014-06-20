@@ -14,7 +14,6 @@ namespace Hive5.Model
 	{
 		public long RewardId { set; get; }
 		public long MailId { set; get; }
-		public List<Item> Items { set; get; }
 
 		/// <summary>
 		/// Load the specified json.
@@ -25,24 +24,31 @@ namespace Hive5.Model
 			if (json == null)
 				return null;
 
-			var rewardId = (long)json ["reward_id"];
-			var mailId = (long)json ["mail_id"];
+            long rewardId = -1;
 
-			List<Item> items;
+            try
+            {
+                rewardId = (int)json ["reward_id"];
+            }
+            catch
+            {
+                rewardId = -1;
+            }
 
-			try
-			{
-				items = Item.LoadList( json["items"] );
-			}
-			catch (KeyNotFoundException)
-			{
-				items = null;
-			}
+            long mailId = -1;
+
+            try
+            {
+                mailId = (int)json ["mail_id"];
+            }
+            catch
+            {
+                mailId = -1;
+            }
 
 			return new CompleteMissionResponseBody() {
 				RewardId = rewardId,
 				MailId = mailId,
-				Items = items
 			};
 		}
 

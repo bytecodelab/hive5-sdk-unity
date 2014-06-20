@@ -32,7 +32,7 @@ namespace Hive5
 		* @apiGroup Object
 		*
 		* @apiParam {List&#60HObject&#62} objects 오브젝트 리스트(class 프로퍼티만 셋팅)
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -43,14 +43,14 @@ namespace Hive5
 		public void GetObjects(List<HObject> objects, Callback callback)
 		{
 			// Hive5 API URL 초기화
-			var url = InitializeUrl(APIPath.UserData);
+			var url = InitializeUrl(APIPath.GetObjects);
 			
 			// Hive5 API 파라미터 셋팅
 			TupleList<string, string> parameters = new TupleList<string, string>();
 			objects.ForEach ( hobject => { parameters.Add( ParameterKey.Key, hobject.@class ); } );
 			
 			// WWW 호출
-            GetHttpAsync(url, parameters.data, CommonResponseBody.Load, callback);
+            GetHttpAsync(url, parameters.data, GetObjectsResponseBody.Load, callback);
 		}
 		
 		
@@ -61,7 +61,7 @@ namespace Hive5
 		* @apiGroup Object
 		*
 		* @apiParam {List&#60HObject&#62} objects 오브젝트 리스트(class 프로퍼티만 셋팅)
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -82,7 +82,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-            PostHttpAsync(url, requestBody, CommonResponseBody.Load, callback);
+            PostHttpAsync(url, requestBody, CreateObjectsResponseBody.Load, callback);
 		}
 		
 		/** 
@@ -92,7 +92,7 @@ namespace Hive5
 		* @apiGroup Object
 		*
 		* @apiParam {List&#60HObject&#62} objects 오브젝트 리스트(class 프로퍼티만 셋팅)
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
@@ -123,7 +123,7 @@ namespace Hive5
 		* @apiGroup Object
 		*
 		* @apiParam {List&#60HObject&#62} objects 오브젝트 리스트(class, id 프로퍼티 셋팅 / Singleton 인경우 id 생략)
-		* @apiParam {CallBack} callback 콜백 함수
+		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지

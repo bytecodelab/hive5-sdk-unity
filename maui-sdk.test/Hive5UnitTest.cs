@@ -975,9 +975,6 @@ namespace maui_sdk.test
         [TestMethod, TestCategory("Object")]
         public void Test오브젝트제거DestroyObjects()
         {
-            Assert.Inconclusive("성공시킬 파라미터 구하기 힘듦");
-            return;
-
             try
             {
                 Login();
@@ -1232,7 +1229,7 @@ namespace maui_sdk.test
         [TestMethod, TestCategory("Purchase")]
         public void Test네이버결제완료CompleteNaverPurchase()
         {
-             Assert.Inconclusive("payement_sequence 값을 제대로 채울 수가 없음");
+            Assert.Inconclusive("payement_sequence 값을 제대로 채울 수가 없음");
             return;
 
             try
@@ -1374,6 +1371,8 @@ namespace maui_sdk.test
         {
             try
             {
+                Login();
+
                 var completion = new ManualResetEvent(false);
 
                 this.ApiClient.UpdatePushToken(PlatformType.Kakao, "test_token", (response) =>
@@ -1405,11 +1404,13 @@ namespace maui_sdk.test
         [TestMethod, TestCategory("Reward")]
         public void Test보상무효화InvalidateReward()
         {
-            Assert.Inconclusive("rewardId 값을 제대로 채울 수 없음");
+            Assert.Inconclusive("Test 가능한 rewardId 값 필요.");
             return;
 
             try
             {
+                Login();
+
                 var completion = new ManualResetEvent(false);
 
                 long rewardId = 1;
@@ -1438,11 +1439,13 @@ namespace maui_sdk.test
         [TestMethod, TestCategory("Reward")]
         public void Test보상정보GetRewardInfo()
         {
-            Assert.Inconclusive("rewardId 값을 제대로 채울 수 없음");
+            Assert.Inconclusive("Test 가능한 rewardId 값 필요.");
             return;
 
             try
             {
+                Login();
+
                 var completion = new ManualResetEvent(false);
 
                 long rewardId = 1;
@@ -1475,11 +1478,13 @@ namespace maui_sdk.test
         [TestMethod, TestCategory("Reward")]
         public void Test보상받기ApplyReward()
         {
-            Assert.Inconclusive("rewardId 값을 제대로 채울 수 없음");
+            Assert.Inconclusive("Test 가능한 rewardId 값 필요.");
             return;
 
             try
             {
+                Login();
+
                 var completion = new ManualResetEvent(false);
 
                 long rewardId = 1;
@@ -1512,11 +1517,13 @@ namespace maui_sdk.test
         [TestMethod, TestCategory("Reward")]
         public void Test보상전체받기ApplyAllRewards()
         {
-            Assert.Inconclusive("deleteMail에 true나 false를 넣어도 InvalidParameter가 반환됨");
-            return;
+            //Assert.Inconclusive("deleteMail에 true나 false를 넣어도 InvalidParameter가 반환됨");
+            //return;
 
             try
             {
+                Login();
+
                 var completion = new ManualResetEvent(false);
 
                 this.ApiClient.ApplyAllRewards(true, (response) =>
@@ -1566,11 +1573,13 @@ namespace maui_sdk.test
         [TestMethod, TestCategory("Social Graph")]
         public void Test친구리스트가져오기GetFriendsInfo()
         {
-            Assert.Inconclusive("InvalidParameter 발생");
-            return;
+            //Assert.Inconclusive("InvalidParameter 발생");
+            //return;
 
             try
             {
+                Login();
+
                 var completion = new ManualResetEvent(false);
 
                 var friend_ids = new string[] {"881979482072261763", "881979482072261765"};
@@ -1599,11 +1608,13 @@ namespace maui_sdk.test
         [TestMethod, TestCategory("Social Graph")]
         public void Test친구리스트업데이트UpdateFriends()
         {
-            Assert.Inconclusive("InvalidParameter 발생");
-            return;
+            //Assert.Inconclusive("InvalidParameter 발생");
+            //return;
 
             try
             {
+                Login();
+
                 var completion = new ManualResetEvent(false);
 
                 var friend_ids = new string[] {"881979482072261763", "881979482072261765"};

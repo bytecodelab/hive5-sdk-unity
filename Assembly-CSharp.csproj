@@ -85,7 +85,6 @@
     <Compile Include="Assets\Hive5\Model\ResponseBody\ApplyAllRewardsResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\ApplyRewardResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\AttachMailTagsResponseBody.cs" />
-    <Compile Include="Assets\Hive5\Model\ResponseBody\BatchCompleteMissionResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\CallProcedureResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\CheckNicknameAvailabilityResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\CommonResponseBody.cs" />
@@ -128,7 +127,6 @@
     <Compile Include="Assets\Hive5\Model\ResponseBody\SwitchPlatformResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\UnregisterResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\UpdateFriendsResponseBody.cs" />
-    <Compile Include="Assets\Hive5\Model\ResponseBody\UpdateMailResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\UpdatePushTokenResponseBody.cs" />
     <Compile Include="Assets\Hive5\Util\Util.cs" />
     <Compile Include="Assets\Hive5\lib\MonoSingleton.cs" />
@@ -250,6 +248,9 @@
     <Compile Include="Assets\Hive5\Hive5ClientHttp.cs" />
     <Compile Include="Assets\Hive5\Test\Logger.cs" />
     <Compile Include="Assets\Hive5\Test\MockMonoSingleton.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\GetObjectsResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\JsonHelper.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\CreateObjectsResponseBody.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

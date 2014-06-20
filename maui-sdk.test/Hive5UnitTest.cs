@@ -866,7 +866,6 @@ namespace maui_sdk.test
             {
                 Login();
 
-                var completion = new ManualResetEvent(false);
 
                 string sampleClassType = "sword";
                 string sampleClassType2 = "shield";
@@ -883,30 +882,41 @@ namespace maui_sdk.test
                     },
                 };
 
-                this.ApiClient.CreateObjects(objects, (response) =>
-                {
-                    // 1. 기본 반환값 검증
-                    Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success ||
-                                  response.ResultCode == Hive5ResultCode.DataDoesNotExist); // 일단 반환성공
-                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                    Assert.IsTrue(response.ResultData is CreateObjectsResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+                CreateObjects(objects);
 
-                    // 2. 프로퍼티 검증
-                    CreateObjectsResponseBody body = response.ResultData as CreateObjectsResponseBody;
-                    if (body.Objects != null)
-                    {
-                        Assert.IsTrue(body.Objects.Count >= 0);
-                    }
-
-                    completion.Set();
-                });
-
-                completion.WaitOne();
             }
             catch (Exception ex)
             {
                 Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
             }
+        }
+
+        private CreateObjectsResponseBody CreateObjects(List<HObject> objects)
+        {
+            var completion = new ManualResetEvent(false);
+
+            CreateObjectsResponseBody body = null;
+
+            this.ApiClient.CreateObjects(objects, (response) =>
+            {
+                // 1. 기본 반환값 검증
+                Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success ||
+                              response.ResultCode == Hive5ResultCode.DataDoesNotExist); // 일단 반환성공
+                Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                Assert.IsTrue(response.ResultData is CreateObjectsResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                // 2. 프로퍼티 검증
+                body = response.ResultData as CreateObjectsResponseBody;
+                if (body.Objects != null)
+                {
+                    Assert.IsTrue(body.Objects.Count >= 0);
+                }
+
+                completion.Set();
+            });
+
+            completion.WaitOne();
+            return body;
         }
 
         [TestMethod, TestCategory("Object")]
@@ -979,7 +989,7 @@ namespace maui_sdk.test
             {
                 Login();
 
-                // Object 추가
+                // 오브젝트 생성하기
                 string sampleClassType = "sword";
                 string sampleClassType2 = "shield";
 
@@ -988,23 +998,16 @@ namespace maui_sdk.test
                     new HObject() 
                     { 
                         @class = sampleClassType, 
-                        changes = new {
-                            item_name = "Babo Sword", 
-                            size = "100"
-                        }
                     },
                     new HObject() 
                     { 
                         @class = sampleClassType2, 
-                        changes = new {
-                            item_name = "Babo Shield", 
-                            size = "101"
-                        }
                     },
                 };
 
-                SetObjects(objects);
+                CreateObjects(objects);
 
+                // 오브젝트 지우기
                 var completion = new ManualResetEvent(false);
 
                 List<HObject> destroyObjects = new List<HObject>()
@@ -1199,7 +1202,7 @@ namespace maui_sdk.test
         }
 
         public CreateNaverPurchaseResponseBody CreateNaverPurchase()
-        {           
+        {
             var completion = new ManualResetEvent(false);
 
             string productCode = "naver_product_100";
@@ -1541,7 +1544,7 @@ namespace maui_sdk.test
 
                 completion.WaitOne();
 
-                 var completion2 = new ManualResetEvent(false);
+                var completion2 = new ManualResetEvent(false);
 
                 this.ApiClient.ApplyAllRewards(false, (response) =>
                 {
@@ -1564,7 +1567,7 @@ namespace maui_sdk.test
             }
         }
 
-        
+
         #endregion REWARD
 
 
@@ -1582,7 +1585,7 @@ namespace maui_sdk.test
 
                 var completion = new ManualResetEvent(false);
 
-                var friend_ids = new string[] {"881979482072261763", "881979482072261765"};
+                var friend_ids = new string[] { "881979482072261763", "881979482072261765" };
 
                 this.ApiClient.GetFriendsInfo(friend_ids, (response) =>
                 {
@@ -1617,7 +1620,7 @@ namespace maui_sdk.test
 
                 var completion = new ManualResetEvent(false);
 
-                var friend_ids = new string[] {"881979482072261763", "881979482072261765"};
+                var friend_ids = new string[] { "881979482072261763", "881979482072261765" };
 
                 this.ApiClient.UpdateFriends("default", friend_ids, (response) =>
                 {
@@ -1639,7 +1642,7 @@ namespace maui_sdk.test
                 Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
             }
         }
-        
+
 
         #endregion SOCIALGRAPH
 

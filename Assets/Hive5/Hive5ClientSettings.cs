@@ -23,7 +23,7 @@ namespace Hive5
 #endif
 		/** 
         * @api {GET} CheckNicknameAvailability 닉네임 사용 가능여부 확인
-        * @apiVersion 1.0.0
+        * @apiVersion 0.2.0
         * @apiName CheckNicknameAvailability
         * @apiGroup Settings
         *
@@ -49,7 +49,7 @@ namespace Hive5
 
 		/** 
         * @api {POST} SetNickname 닉네임 설정
-        * @apiVersion 1.0.0
+        * @apiVersion 0.2.0
         * @apiName SetNickname
         * @apiGroup Settings
         *

@@ -27,7 +27,7 @@ namespace Hive5
 		
 		/** 
 		* @api {POST} CreateNaverPurchase 네이버 결제 시작
-		* @apiVersion 1.0.0
+		* @apiVersion 0.2.0
 		* @apiName CreateNaverPurchase
 		* @apiGroup Purchase
 		*
@@ -57,7 +57,7 @@ namespace Hive5
 		
 		/** 
 		* @api {POST} CompleteNaverPurchase 네이버 결제 완료
-		* @apiVersion 1.0.0
+		* @apiVersion 0.2.0
 		* @apiName CompleteNaverPurchase
 		* @apiGroup Purchase
 		*
@@ -90,7 +90,7 @@ namespace Hive5
 		
 		/** 
 		* @api {POST} CreateGooglePurchase 구글 결제 시작
-		* @apiVersion 1.0.0
+		* @apiVersion 0.2.0
 		* @apiName CreateGooglePurchase
 		* @apiGroup Purchase
 		*
@@ -122,7 +122,7 @@ namespace Hive5
 		
 		/** 
 		* @api {POST} CompleteGooglePurchase 구글 결제 완료
-		* @apiVersion 1.0.0
+		* @apiVersion 0.2.0
 		* @apiName CompleteGooglePurchase
 		* @apiGroup Purchase
 		*
@@ -160,7 +160,7 @@ namespace Hive5
 		
 		/** 
 		* @api {POST} CreateApplePurchase 애플 결제 시작
-		* @apiVersion 1.0.0
+		* @apiVersion 0.2.0
 		* @apiName CreateApplePurchase
 		* @apiGroup Purchase
 		*
@@ -192,7 +192,7 @@ namespace Hive5
 		
 		/** 
 		* @api {POST} CompleteApplePurchase 애플 결제 완료
-		* @apiVersion 1.0.0
+		* @apiVersion 0.2.0
 		* @apiName CompleteApplePurchase
 		* @apiGroup Purchase
 		*

@@ -27,7 +27,7 @@ namespace Hive5
 		
 		/** 
 		* @api {POST} CompleteMission 미션 완료
-		* @apiVersion 1.0.0
+		* @apiVersion 0.2.0
 		* @apiName CompleteMission
 		* @apiGroup Mission
 		*
@@ -50,7 +50,7 @@ namespace Hive5
 			
 		/** 
 		* @api {POST} GetCompletedMissions 완료 미션 리스트 가져오기
-		* @apiVersion 1.0.0
+		* @apiVersion 0.2.0
 		* @apiName BatchCompleteMission
 		* @apiGroup Mission
 		*

@@ -27,7 +27,7 @@ namespace Hive5
 		
 		/** 
 		* @api {GET} GetObjects 오브젝트 리스트
-		* @apiVersion 1.0.0
+		* @apiVersion 0.2.0
 		* @apiName GetObjects
 		* @apiGroup Object
 		*
@@ -56,7 +56,7 @@ namespace Hive5
 		
 		/** 
 		* @api {POST} CreateObjects 오브젝트 생성
-		* @apiVersion 1.0.0
+		* @apiVersion 0.2.0
 		* @apiName CreateObjects
 		* @apiGroup Object
 		*
@@ -87,7 +87,7 @@ namespace Hive5
 		
 		/** 
 		* @api {POST} SetObjects 오브젝트 저장
-		* @apiVersion 1.0.0
+		* @apiVersion 0.2.0
 		* @apiName SetObjects
 		* @apiGroup Object
 		*
@@ -118,7 +118,7 @@ namespace Hive5
 		
 		/** 
 		* @api {POST} DestroyObjects 오브젝트 제거
-		* @apiVersion 1.0.0
+		* @apiVersion 0.2.0
 		* @apiName DestroyObjects
 		* @apiGroup Object
 		*

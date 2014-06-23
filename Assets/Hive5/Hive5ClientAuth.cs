@@ -28,7 +28,7 @@ namespace Hive5
 
         /** 
         * @api {GET} Login 로그인
-        * @apiVersion 1.0.0
+        * @apiVersion 0.2.0
         * @apiName Login
         * @apiGroup Auth
         *
@@ -90,7 +90,7 @@ namespace Hive5
 
         /** 
         * @api {post} Logout 로그아웃
-        * @apiVersion 1.0.0
+        * @apiVersion 0.2.0
         * @apiName Logout
         * @apiGroup Auth
         *
@@ -113,7 +113,7 @@ namespace Hive5
 
         /** 
         * @api {POST} Unregister 탈퇴
-        * @apiVersion 1.0.0
+        * @apiVersion 0.2.0
         * @apiName Unregister
         * @apiGroup Auth
         *
@@ -135,7 +135,7 @@ namespace Hive5
 
         /** 
         * @api {POST} SubmitAgreements 약관 동의
-        * @apiVersion 1.0.0
+        * @apiVersion 0.2.0
         * @apiName SubmitAgreements
         * @apiGroup Auth
         *
@@ -165,7 +165,7 @@ namespace Hive5
 
         /** 
         * @api {GET} GetAgreements 약관 동의 내역보기
-        * @apiVersion 1.0.0
+        * @apiVersion 0.2.0
         * @apiName GetAgreements
         * @apiGroup Auth
         *
@@ -190,7 +190,7 @@ namespace Hive5
 
         /** 
         * @api {POST} SwitchPlatform 로그인 플랫폼 바꾸기
-        * @apiVersion 1.0.0
+        * @apiVersion 0.2.0
         * @apiName SwitchPlatform
         * @apiGroup Auth
         *

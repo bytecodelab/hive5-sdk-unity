@@ -1,7 +1,7 @@
 define({
   "apidoc": "",
   "generator": {
-    "version": "0.4.2",
-    "time": "2014-06-02T10:09:48.795Z"
+    "version": "0.4.4",
+    "time": "2014-06-23T05:04:03.710Z"
   }
 });

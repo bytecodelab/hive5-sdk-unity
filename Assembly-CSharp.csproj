@@ -43,6 +43,9 @@
       <HintPath>..\..\..\..\..\Applications\Unity\Unity.app\Contents\Frameworks\Managed\UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
+    <Reference Include="websocket-sharp">
+      <HintPath>Assets\Plugins\websocket-sharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Hive5\APIZone.cs" />
@@ -251,6 +254,7 @@
     <Compile Include="Assets\Hive5\Model\ResponseBody\GetObjectsResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\JsonHelper.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\CreateObjectsResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Spider\Hive5Spider.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -262,5 +266,6 @@
   -->
   <ItemGroup>
     <Folder Include="Assets\Hive5\Test\" />
+    <Folder Include="Assets\Hive5\Spider\" />
   </ItemGroup>
 </Project>

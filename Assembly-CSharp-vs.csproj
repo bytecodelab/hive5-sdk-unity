@@ -55,6 +55,9 @@
     <Reference Include="UnityEditor">
       <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
+    <Reference Include="websocket-sharp">
+      <HintPath>Assets\Plugins\websocket-sharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Hive5\APIZone.cs" />
@@ -144,6 +147,15 @@
     <Compile Include="Assets\Hive5\Model\ResponseBody\UnregisterResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\UpdateFriendsResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\UpdatePushTokenResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Spider\Details\HelloDetail.cs" />
+    <Compile Include="Assets\Hive5\Spider\Details\MessageDetail.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\HelloMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Hive5Spider.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\MessageParser.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\SpiderMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\WampMessageCode.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\WelcomeMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Realm.cs" />
     <Compile Include="Assets\Hive5\Test\Logger.cs" />
     <Compile Include="Assets\Hive5\Test\MockMonoSingleton.cs" />
     <Compile Include="Assets\Hive5\Util\Util.cs" />

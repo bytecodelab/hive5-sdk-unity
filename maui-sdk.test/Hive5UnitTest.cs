@@ -18,9 +18,9 @@ namespace maui_sdk.test
         #region 설정값들
 
 #if DEBUG
-        public Hive5APIZone TestZone = Hive5APIZone.Beta;
+        public static Hive5APIZone TestZone = Hive5APIZone.Beta;
 #else
-        public Hive5APIZone TestZone = Hive5APIZone.Production;
+        public static Hive5APIZone TestZone = Hive5APIZone.Production;
 #endif
         public const string ValidUserId = "88197948207226176";
         public const string InvalidUserId = "88197948207226112";
@@ -93,7 +93,7 @@ namespace maui_sdk.test
 
             try
             {
-                client.Init(appKey, uuid, this.TestZone);
+                client.Init(appKey, uuid, Hive5UnitTest.TestZone);
                 this.ApiClient = client;
             }
             catch (Exception ex)

@@ -53,6 +53,9 @@ namespace Hive5
 
         private const string RouterEndPoint = "ws://beta.spider.hive5.io:9201/channels/ws";
 
+        private SpiderCallback connectedCallback;
+        private SpiderCallback disconnectedCallback;
+
         private Hive5Client hive5Client { get; set; }
         private WebSocket mySocket { get; set; }
 
@@ -143,8 +146,9 @@ namespace Hive5
         #endregion Hello
 
 
-        public void ConnectAsync()
+        public void Connect(SpiderCallback callback)
         {
+            connectedCallback = callback;
             mySocket.ConnectAsync();
         }
 
@@ -280,11 +284,12 @@ namespace Hive5
 
         #region Disconnect(GoodBye)
 
-        public void Disconnect()
+        public void Disconnect(SpiderCallback callback)
         {
             GoodbyeMessage message = new GoodbyeMessage();
             string jsonMessage = message.ToJson();
 
+            disconnectedCallback = callback;
             mySocket.SendAsync(jsonMessage, goodbyeCompleted);
         }
 
@@ -327,8 +332,11 @@ namespace Hive5
                         WelcomeMessage welcomeMessage = message as WelcomeMessage;
                         this.SessionId = welcomeMessage.SessionId;
                         this.IsConnected = true;
-                        OnConnected();
-                        return;
+                       
+                        if (connectedCallback != null)
+                        {
+                            connectedCallback(true);
+                        }
                     }
                     break;
                 case WampMessageCode.ABORT:
@@ -343,7 +351,11 @@ namespace Hive5
                         GoodbyeMessage goodbyeMessage = message as GoodbyeMessage;
 
                         this.IsConnected = false;
-                        OnDisconnected();
+                        
+                        if (disconnectedCallback != null)
+                        {
+                            disconnectedCallback(true);
+                        }
                     }
                     break;
                 case WampMessageCode.HEARTBEAT:
@@ -443,37 +455,6 @@ namespace Hive5
 
 
         #region 이벤트들
-
-
-        #region Connected
-
-        public event EventHandler Connected;
-
-        private void OnConnected()
-        {
-            if (Connected == null)
-                return;
-
-            Connected(this, null);
-        }
-
-        #endregion Connected
-
-
-        #region Disconnected
-
-        public event EventHandler Disconnected;
-
-        private void OnDisconnected()
-        {
-            if (Disconnected == null)
-                return;
-
-            Disconnected(this, null);
-        }
-
-        #endregion Disconnected
-
 
         public event EventHandler Event;
         public event EventHandler Subscribed;

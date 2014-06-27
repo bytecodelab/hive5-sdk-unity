@@ -51,12 +51,11 @@ namespace maui_sdk.test
 
             var completion = new ManualResetEvent(false);
 
-            spider.Disconnected += (s, e) =>
+            spider.Disconnect((success) =>
                 {
                     Assert.IsTrue(spider.IsConnected == false);
                     completion.Set();
-                };
-            spider.Disconnect();
+                });
 
             completion.WaitOne();
         }
@@ -133,11 +132,10 @@ namespace maui_sdk.test
             var completion = new ManualResetEvent(false);
 
             Hive5Spider spider = new Hive5Spider(this.apiClient);
-            spider.Connected += (s, e) =>
+            spider.Connect((success) =>
                 {
                     completion.Set();
-                };
-            spider.ConnectAsync();
+                });
 
             completion.WaitOne();
 

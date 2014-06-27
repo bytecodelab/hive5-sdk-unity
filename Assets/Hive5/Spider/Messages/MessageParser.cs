@@ -8,23 +8,23 @@ namespace Hive5
 {
     public class MessageParser
     {
-        public static SpiderMessage Parse(string s)
+        public static SpiderMessage Parse(string json)
         {
-            JsonData json = JsonMapper.ToObject(s);
-            if (json.Count == 0)
+            JsonData jsonData = JsonMapper.ToObject(json);
+            if (jsonData.Count == 0)
                 return null;
 
-            if (json[0].IsInt == false)
+            if (jsonData[0].IsInt == false)
                 return null;
 
-            int messageCode = (int)json[0];
+            int messageCode = (int)jsonData[0];
 
             switch ((WampMessageCode)messageCode)
             {
                 case WampMessageCode.HELLO:
                     break;
                 case WampMessageCode.WELCOME:
-                    return WelcomeMessage.Parse(s);
+                    return WelcomeMessage.Parse(json);
                 case WampMessageCode.ABORT:
                     break;
                 case WampMessageCode.CHALLENGE:
@@ -32,7 +32,7 @@ namespace Hive5
                 case WampMessageCode.AUTHENTICATE:
                     break;
                 case WampMessageCode.GOODBYE:
-                    return GoodbyeMessage.Parse(s);
+                    return GoodbyeMessage.Parse(json);
                 case WampMessageCode.HEARTBEAT:
                     break;
                 case WampMessageCode.ERROR:
@@ -40,7 +40,7 @@ namespace Hive5
                 case WampMessageCode.PUBLISH:
                     break;
                 case WampMessageCode.PUBLISHED:
-                    return PublishedMessage.Parse(s);
+                    return PublishedMessage.Parse(json);
                 case WampMessageCode.SUBSCRIBE:
                     break;
                 case WampMessageCode.SUBSCRIBED:
@@ -56,7 +56,7 @@ namespace Hive5
                 case WampMessageCode.CANCEL:
                     break;
                 case WampMessageCode.RESULT:
-                    break;
+                    return ResultMessage.Parse(json);
                 case WampMessageCode.REGISTER:
                     break;
                 case WampMessageCode.REGISTERED:

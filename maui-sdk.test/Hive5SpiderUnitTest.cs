@@ -88,21 +88,45 @@ namespace maui_sdk.test
 
             var completion = new ManualResetEvent(false);
 
-            Dictionary<string, object> contents = new Dictionary<string, object>();
-            contents.Add("content", "notice test by gilbert");
-
             spider.GetChannels((success, result) =>
             {
+                Assert.IsTrue(success == true);
+                Assert.IsTrue(result != null);
                 Assert.IsTrue(result is GetChannelsResult == true);
 
                 GetChannelsResult getChannelsResult = result as GetChannelsResult;
+                Assert.IsTrue(getChannelsResult.Channels.Count > 0);
+                Assert.IsTrue(getChannelsResult.Channels[0].id > 0);
+                Assert.IsTrue(getChannelsResult.Channels[0].session_count >= 0);
+
                 completion.Set();
             });
 
             completion.WaitOne();
         }
 
-        
+         [TestMethod, TestCategory("Spider-Call")]
+        public void TestGetPlayers()
+        {
+            Hive5Spider spider = Connect();
+
+            var completion = new ManualResetEvent(false);
+
+            spider.GetPlayers((success, result) =>
+            {
+                Assert.IsTrue(success == true);
+                Assert.IsTrue(result != null);
+                Assert.IsTrue(result is GetPlayersResult == true);
+
+                GetPlayersResult getChannelsResult = result as GetPlayersResult;
+                Assert.IsTrue(getChannelsResult.PlatformUserIds.Count > 0);
+                Assert.IsTrue(string.IsNullOrEmpty(getChannelsResult.PlatformUserIds[0]) == false);
+
+                completion.Set();
+            });
+
+            completion.WaitOne();
+        }
 
         private Hive5Spider Connect()
         {

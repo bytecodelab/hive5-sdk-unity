@@ -10,11 +10,11 @@ namespace Hive5
     {
         public long RequestId { get; set; }
 
-        public Dictionary<string, object> Details { get; set; }
+        public Dictionary<string, JsonData> Details { get; set; }
 
-        public List<object> Arguments { get; set; }
+        public List<JsonData> Arguments { get; set; }
 
-        public Dictionary<string, object> ArgumentsKw { get; set; }
+        public Dictionary<string, JsonData> ArgumentsKw { get; set; }
 
 
         public ResultMessage()
@@ -35,29 +35,31 @@ namespace Hive5
             if (json[0].IsInt == false)
                 return null;
 
-            if (json[1].IsLong == false)
+            
+            if (json[1].IsLong == false &&
+                json[1].IsInt == false)
                 return null;
 
-            long requestId = (long)json[1];
-            var details = json[2];
+            long requestId = JsonHelper.ToLong(json[1], -1); 
 
-            List<object> arguments = null;
-            //if (parts.Count > 3)
-            //{
-            //    arguments = parts[3] as List<object>;
-            //}
+            Dictionary<string, JsonData> details = GetDictionary(json[2]);
 
-            Dictionary<string, object> argumentsKw = null;
-            //if (parts.Count > 4)
-            //{
-            //    argumentsKw = parts[4] as Dictionary<string, object>;
-            //}
+            List<JsonData> arguments = new List<JsonData>();
+            if (json.Count > 3)
+            {
+                arguments = GetList(json[3]);
+            }
 
+            Dictionary<string, JsonData> argumentsKw = new Dictionary<string,JsonData>();
+            if (json.Count > 4)
+            {
+                argumentsKw = GetDictionary(json[4]);
+            }
 
             var instance = new ResultMessage()
             {
                 RequestId = requestId,
-                //Details = details,
+                Details = details,
                 Arguments = arguments,
                 ArgumentsKw = argumentsKw,
             };

@@ -264,7 +264,7 @@ namespace Hive5
                 {
                     Logger.Log("Spider call 전송 실패 in callCompleted");
 
-                    CallResultCallbackNode registeredCallbackNode= null;
+                    CallResultCallbackNode registeredCallbackNode = null;
                     if (callRequestIdToCallbackNode.TryGetValue(callMessage.RequestId, out registeredCallbackNode) == true)
                     {
                         callRequestIdToCallbackNode.Remove(callMessage.RequestId);
@@ -387,7 +387,25 @@ namespace Hive5
                         {
                             callRequestIdToCallbackNode.Remove(resultMessage.RequestId);
 
-                            registeredCallbackNode.Callback(true, null);
+                            switch (registeredCallbackNode.Kind)
+                            {
+                                default:
+                                case CallResultKind.Unknown:
+                                    registeredCallbackNode.Callback(true, null);
+                                    break;
+                                case CallResultKind.GetChannelsResult:
+                                    {
+                                        GetChannelsResult result = new GetChannelsResult(resultMessage);
+                                        registeredCallbackNode.Callback(true, result);
+                                    }
+                                    break;
+                                case CallResultKind.GetPlayersResult:
+                                    {
+                                        GetPlayersResult result = new GetPlayersResult(resultMessage);
+                                        registeredCallbackNode.Callback(true, result);
+                                    }
+                                    break;
+                            }
                         }
                     }
                     break;

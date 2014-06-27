@@ -14,5 +14,9 @@ namespace Hive5
 
     public abstract class CallResult
     {
+        protected virtual void Load(ResultMessage message)
+        {
+
+        }
     }
 }

@@ -15,11 +15,14 @@ namespace Hive5
 
         public string auth_token { get; set; }
 
-        //public string roles { get; private set; }
+        public Dictionary<string, object> roles { get; private set; }
 
         public HelloDetail()
         {
-            //this.roles = "{\"publisher\": {},\"subscriber\": {}}";
+            var roles = new Dictionary<string, object>();
+            roles.Add("publisher", new Dictionary<string, object>());
+            roles.Add("subscriber", new Dictionary<string, object>());
+            this.roles = roles;
         }
     }
 }

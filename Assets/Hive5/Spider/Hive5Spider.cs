@@ -14,8 +14,36 @@ using WebSocketSharp;
 
 namespace Hive5
 {
+    /// <summary>
+    /// 구독용 Topic 종류
+    /// </summary>
+    public enum TopicKind
+    {
+        Channel,
+        Private,
+        Notice,
+        System, // Hive5 System
+    };
+
+    public delegate void SpiderCallback(bool success);
+    public delegate void CallResultCallback(bool success, CallResult result);
+
+    /// <summary>
+    /// Hive5의 Spider API에 대응하는 클래스
+    /// </summary>
     public class Hive5Spider
     {
+        #region 프로퍼티들
+
+        public long SessionId { get; set; }
+
+        public bool IsConnected { get; set; }
+
+        #endregion 프로퍼티들
+
+
+        #region 멤버들
+
         private static readonly string TopicPrefix = "io.hive5.spider.topic";
 
         private static readonly string TopicNameChannel = "channel";
@@ -23,21 +51,14 @@ namespace Hive5
         private static readonly string TopicNameNotice = "notice";
         private static readonly string TopicNameSystem = "system";
 
-        public long SessionId { get; set; }
-
         private const string RouterEndPoint = "ws://beta.spider.hive5.io:9201/channels/ws";
+
         private Hive5Client hive5Client { get; set; }
-
-
-        public enum TopicKind
-        {
-            Channel,
-            Private,
-            Notice,
-            System, // Hive5 System
-        };
-
         private WebSocket mySocket { get; set; }
+
+        #endregion 멤버들
+
+        #region 생성자들
 
         public Hive5Spider(Hive5Client client)
         {
@@ -52,6 +73,12 @@ namespace Hive5
 
             this.hive5Client = client;
         }
+
+        #endregion 생성자들
+
+
+        #region 메서드들
+
 
         public string GetTopicUri(TopicKind kind)
         {
@@ -75,8 +102,12 @@ namespace Hive5
                     break;
             }
 
-            return string.Concat(Hive5Spider.TopicPrefix, topicName);
+            return string.Concat(Hive5Spider.TopicPrefix, ".", topicName);
         }
+
+
+        #region Hello
+
 
         public void Hello(long channelId)
         {
@@ -92,18 +123,190 @@ namespace Hive5
                 },
             };
 
-            this.mySocket.SendAsync(message.ToString(), HelloCompleted);
+            string jsonMessage = message.ToJson();
+            Logger.Log("Spider Hello: " + jsonMessage);
+            this.mySocket.SendAsync(jsonMessage, helloCompleted);
         }
 
-        public void HelloCompleted(bool success)
+        private void helloCompleted(bool success)
         {
-
+            if (success == false)
+            {
+                Logger.Log("Spider Hello 전송 실패 in HelloCompleted");
+            }
+            else
+            {
+                Logger.Log("Spider Hello 전송 성공 in HelloCompleted");
+            }
         }
+
+        #endregion Hello
+
 
         public void ConnectAsync()
         {
-            mySocket.Connect();
+            mySocket.ConnectAsync();
         }
+
+        public void Subscribe()
+        {
+        }
+
+
+        #region Publish
+
+        /// <summary>
+        /// 공지메세지 전송
+        /// </summary>
+        /// <param name="appSecret"></param>
+        /// <param name="contents"></param>
+        public void SendNoticeMessage(string appSecret, Dictionary<string, object> contents, SpiderCallback callback)
+        {
+            Publish(TopicKind.Notice, new NoticePublishOptions() { secret = appSecret }, contents, callback);
+        }
+
+        /// <summary>
+        /// 시스템메세지 전송
+        /// </summary>
+        /// <param name="contents"></param>
+        public void SendSystemMessage(Dictionary<string, object> contents, SpiderCallback callback)
+        {
+            Publish(TopicKind.System, new SystemPublishOptions(), contents, callback);
+        }
+
+        /// <summary>
+        /// 채널 안의 모두가 볼 수 있도록 메세지 전송
+        /// </summary>
+        /// <param name="contents"></param>
+        public void SendChannelMessage(Dictionary<string, object> contents, SpiderCallback callback)
+        {
+            Publish(TopicKind.Channel, new ChannelPublishOptions(), contents, callback);
+        }
+
+        /// <summary>
+        /// 채널 안의 특정 사람이 볼 수 있도록 전송
+        /// </summary>
+        /// <param name="contents"></param>
+        public void SendPrivateMessage(Dictionary<string, object> contents, SpiderCallback callback)
+        {
+            Publish(TopicKind.Private, new PrivatePublishOptions(), contents, callback);
+        }
+
+        private Dictionary<long, SpiderCallback> publishRequestIdToCallback = new Dictionary<long, SpiderCallback>();
+
+        private void Publish(TopicKind kind, PublishOptions options, Dictionary<string, object> content, SpiderCallback callback)
+        {
+            PublishMessage message = new PublishMessage()
+            {
+                TopicUri = GetTopicUri(kind),
+                Options = options,
+                Contents = content,
+            };
+
+            publishRequestIdToCallback.Add(message.RequestId, callback);
+
+            string jsonMessage = message.ToJson();
+            Logger.Log("Spider Publish: " + jsonMessage);
+            mySocket.SendAsync(jsonMessage, (success) =>
+                {
+                    if (success == false)
+                    {
+                        Logger.Log("Spider Publish 전송 실패 in publishCompleted");
+
+                        SpiderCallback registeredCallback = null;
+                        if (publishRequestIdToCallback.TryGetValue(message.RequestId, out registeredCallback) == true)
+                        {
+                            publishRequestIdToCallback.Remove(message.RequestId);
+                            registeredCallback(false);
+                        }
+                    }
+                    else
+                    {
+                        Logger.Log("Spider Publish 전송 성공 in publishCompleted");
+                    }
+                });
+        }
+
+        #endregion Publish
+
+        public void GetChannels(CallResultCallback callback)
+        {
+            this.call(CallUris.GetChannels, null, CallResultKind.GetChannelsResult, callback);
+        }
+
+
+        public void GetPlayers(CallResultCallback callback)
+        {
+            this.call(CallUris.GetPlayers, null, CallResultKind.GetPlayersResult, callback);
+        }
+
+
+
+        private Dictionary<long, CallResultCallbackNode> callRequestIdToCallbackNode = new Dictionary<long, CallResultCallbackNode>();
+
+        private void call(string callUri, CallOptions options, CallResultKind resultKind, CallResultCallback callback)
+        {
+            if (options == null)
+                options = new CallOptions();
+
+            CallMessage callMessage = new CallMessage()
+            {
+                ProcedureUri = callUri,
+                Options = options,
+            };
+
+            string jsonMessage = callMessage.ToJson();
+
+            callRequestIdToCallbackNode.Add(callMessage.RequestId, new CallResultCallbackNode(resultKind, callback));
+            mySocket.SendAsync(jsonMessage, (success) =>
+            {
+                if (success == false)
+                {
+                    Logger.Log("Spider call 전송 실패 in callCompleted");
+
+                    CallResultCallbackNode registeredCallbackNode= null;
+                    if (callRequestIdToCallbackNode.TryGetValue(callMessage.RequestId, out registeredCallbackNode) == true)
+                    {
+                        callRequestIdToCallbackNode.Remove(callMessage.RequestId);
+                        registeredCallbackNode.Callback(false, null);
+                    }
+                }
+                else
+                {
+                    Logger.Log("Spider call 전송 성공 in callCompleted");
+                }
+            });
+        }
+
+        #region Disconnect(GoodBye)
+
+        public void Disconnect()
+        {
+            GoodbyeMessage message = new GoodbyeMessage();
+            string jsonMessage = message.ToJson();
+
+            mySocket.SendAsync(jsonMessage, goodbyeCompleted);
+        }
+
+        private void goodbyeCompleted(bool success)
+        {
+            if (success == false)
+            {
+                Logger.Log("Spider Goodbye 전송 실패 in goodbyeCompleted");
+            }
+            else
+            {
+                Logger.Log("Spider Goodbye 전송 성공 in goodbyeCompleted");
+            }
+        }
+
+        #endregion Disconnect(GoodBye)
+
+        #endregion 메서드들
+
+
+        #region 이벤트핸들러들
+
 
         void mySocket_OnClose(object sender, CloseEventArgs e)
         {
@@ -123,17 +326,25 @@ namespace Hive5
                     {
                         WelcomeMessage welcomeMessage = message as WelcomeMessage;
                         this.SessionId = welcomeMessage.SessionId;
+                        this.IsConnected = true;
                         OnConnected();
                         return;
                     }
                     break;
                 case WampMessageCode.ABORT:
+                    this.IsConnected = false;
                     break;
                 case WampMessageCode.CHALLENGE:
                     break;
                 case WampMessageCode.AUTHENTICATE:
                     break;
                 case WampMessageCode.GOODBYE:
+                    {
+                        GoodbyeMessage goodbyeMessage = message as GoodbyeMessage;
+
+                        this.IsConnected = false;
+                        OnDisconnected();
+                    }
                     break;
                 case WampMessageCode.HEARTBEAT:
                     break;
@@ -142,6 +353,16 @@ namespace Hive5
                 case WampMessageCode.PUBLISH:
                     break;
                 case WampMessageCode.PUBLISHED:
+                    {
+                        PublishedMessage publishedMessage = message as PublishedMessage;
+
+                        SpiderCallback registeredCallback = null;
+                        if (publishRequestIdToCallback.TryGetValue(publishedMessage.RequestId, out registeredCallback) == true)
+                        {
+                            publishRequestIdToCallback.Remove(publishedMessage.RequestId);
+                            registeredCallback(true);
+                        }
+                    }
                     break;
                 case WampMessageCode.SUBSCRIBE:
                     break;
@@ -158,6 +379,17 @@ namespace Hive5
                 case WampMessageCode.CANCEL:
                     break;
                 case WampMessageCode.RESULT:
+                    {
+                        ResultMessage resultMessage = message as ResultMessage;
+
+                        CallResultCallbackNode registeredCallbackNode = null;
+                        if (callRequestIdToCallbackNode.TryGetValue(resultMessage.RequestId, out registeredCallbackNode) == true)
+                        {
+                            callRequestIdToCallbackNode.Remove(resultMessage.RequestId);
+
+                            registeredCallbackNode.Callback(true, null);
+                        }
+                    }
                     break;
                 case WampMessageCode.REGISTER:
                     break;
@@ -189,17 +421,7 @@ namespace Hive5
             this.Hello(1);
         }
 
-        public void Subscribe()
-        {
-        }
-
-        public void Publish()
-        {
-        }
-
-        public void Call()
-        {
-        }
+        #endregion 이벤트핸들러들
 
 
         #region 이벤트들
@@ -220,13 +442,25 @@ namespace Hive5
         #endregion Connected
 
 
-        #endregion 이벤트들
+        #region Disconnected
+
+        public event EventHandler Disconnected;
+
+        private void OnDisconnected()
+        {
+            if (Disconnected == null)
+                return;
+
+            Disconnected(this, null);
+        }
+
+        #endregion Disconnected
+
 
         public event EventHandler Event;
         public event EventHandler Subscribed;
 
-
-        
+        #endregion 이벤트들
     }
 }
 

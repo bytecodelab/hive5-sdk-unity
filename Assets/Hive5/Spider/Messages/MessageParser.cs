@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LitJson;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,24 +10,21 @@ namespace Hive5
     {
         public static SpiderMessage Parse(string s)
         {
-            var parts = LitJson.JsonMapper.ToObject<List<object>>(s);
-
-            if (parts.Count == 0)
+            JsonData json = JsonMapper.ToObject(s);
+            if (json.Count == 0)
                 return null;
 
-            if (parts[0] is int == false)
+            if (json[0].IsInt == false)
                 return null;
 
-            int messageCode = (int)parts[0];
+            int messageCode = (int)json[0];
 
             switch ((WampMessageCode)messageCode)
             {
                 case WampMessageCode.HELLO:
                     break;
                 case WampMessageCode.WELCOME:
-                    {
-                        return WelcomeMessage.Parse(s);
-                    }
+                    return WelcomeMessage.Parse(s);
                 case WampMessageCode.ABORT:
                     break;
                 case WampMessageCode.CHALLENGE:
@@ -34,7 +32,7 @@ namespace Hive5
                 case WampMessageCode.AUTHENTICATE:
                     break;
                 case WampMessageCode.GOODBYE:
-                    break;
+                    return GoodbyeMessage.Parse(s);
                 case WampMessageCode.HEARTBEAT:
                     break;
                 case WampMessageCode.ERROR:
@@ -42,7 +40,7 @@ namespace Hive5
                 case WampMessageCode.PUBLISH:
                     break;
                 case WampMessageCode.PUBLISHED:
-                    break;
+                    return PublishedMessage.Parse(s);
                 case WampMessageCode.SUBSCRIBE:
                     break;
                 case WampMessageCode.SUBSCRIBED:

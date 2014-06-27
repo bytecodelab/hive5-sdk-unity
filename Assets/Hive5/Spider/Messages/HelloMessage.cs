@@ -16,14 +16,16 @@ namespace Hive5
             this.MessageCode = (int)WampMessageCode.HELLO;
         }
 
-        public override string ToString()
+        public override string ToJson()
         {
-            string message = string.Format("[{0}, {1}, {2}]",
-                this.MessageCode,
-                this.Realm.ToString(),
-                this.Detail.ToJson());
+            List<object> messageObjects = new List<object>();
+            messageObjects.Add(this.MessageCode);
+            messageObjects.Add(this.Realm.ToString());
+            messageObjects.Add(Detail);
 
-            return message;
+            string jsonMessage = LitJson.JsonMapper.ToJson(messageObjects);
+
+            return jsonMessage;
         }
     }
 }

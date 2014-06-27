@@ -29,34 +29,99 @@ namespace maui_sdk.test
                 this.apiClient = client;
 
                 Login();
-            }           
+            }
         }
 
 
-       
+
 
 
         [TestMethod, TestCategory("Spider-Basic")]
         public void TestConnect()
         {
+            var spider = Connect();
+            Assert.IsTrue(spider.IsConnected == true);
+            Assert.IsTrue(spider.SessionId > 0);
+        }
+
+        [TestMethod, TestCategory("Spider-Basic")]
+        public void TestDisconnect()
+        {
+            Hive5Spider spider = Connect();
+
             var completion = new ManualResetEvent(false);
 
-
-            Hive5Spider spider = new Hive5Spider(this.apiClient);
-            spider.Connected += (s, e) =>
+            spider.Disconnected += (s, e) =>
                 {
-                    Assert.IsTrue(spider.SessionId > 0);
+                    Assert.IsTrue(spider.IsConnected == false);
                     completion.Set();
                 };
-            spider.ConnectAsync();
+            spider.Disconnect();
 
             completion.WaitOne();
         }
 
 
+        [TestMethod, TestCategory("Spider-Publish")]
+        public void TestSendNoticeMessage()
+        {
+            Hive5Spider spider = Connect();
+
+            var completion = new ManualResetEvent(false);
+
+            Dictionary<string, object> contents = new Dictionary<string, object>();
+            contents.Add("content", "notice test by gilbert");
+
+            spider.SendNoticeMessage("gogogo", contents, (success) =>
+            {
+                Assert.IsTrue(success == true);
+                completion.Set();
+            });
+
+            completion.WaitOne();
+        }
+
+        [TestMethod, TestCategory("Spider-Call")]
+        public void TestGetChannels()
+        {
+            Hive5Spider spider = Connect();
+
+            var completion = new ManualResetEvent(false);
+
+            Dictionary<string, object> contents = new Dictionary<string, object>();
+            contents.Add("content", "notice test by gilbert");
+
+            spider.GetChannels((success, result) =>
+            {
+                Assert.IsTrue(result is GetChannelsResult == true);
+
+                GetChannelsResult getChannelsResult = result as GetChannelsResult;
+                completion.Set();
+            });
+
+            completion.WaitOne();
+        }
+
+        
+
+        private Hive5Spider Connect()
+        {
+            var completion = new ManualResetEvent(false);
+
+            Hive5Spider spider = new Hive5Spider(this.apiClient);
+            spider.Connected += (s, e) =>
+                {
+                    completion.Set();
+                };
+            spider.ConnectAsync();
+
+            completion.WaitOne();
+
+            return spider;
+        }
 
 
-         private void Login()
+        private void Login()
         {
             string userId = Hive5UnitTest.ValidUserId;
             string sdkVersion = Hive5UnitTest.GoogleSdkVersion;

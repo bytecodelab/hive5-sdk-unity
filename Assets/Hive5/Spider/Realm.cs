@@ -7,7 +7,7 @@ namespace Hive5
 {
     public class Realm
     {
-        private static readonly string RealmStringFormat = "\"io.hive5.spider.realm.{0}\"";
+        private static readonly string RealmStringFormat = "io.hive5.spider.realm.{0}";
 
         
         public long ChannelId { get; private set; }

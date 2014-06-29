@@ -175,7 +175,7 @@ namespace maui_sdk.test
         }
 
         [TestMethod, TestCategory("Spider-Event")]
-        public void TestEvent()
+        public void TestEventChannel()
         {
             Hive5Spider spider = Connect();
 
@@ -192,12 +192,44 @@ namespace maui_sdk.test
 
             long returnedPublicationId = -1;
 
-            spider.EventMessageReceived += (s, e) =>
+            spider.MessageReceived += (sender, topicKind, messageContents) =>
                 {
-                    //Assert.IsTrue(e.PublicationId == returnedPublicationId);
-                    Assert.IsTrue(e.PublicationId > 0);
-                    Assert.IsTrue(e.SubscriptionId == subscriptionId);
-                    Assert.IsTrue((string)e.ArgumentsKw[contentKey] == contentValue);
+                    Assert.IsTrue(messageContents[contentKey] == contentValue);
+                    completion.Set();
+                };
+
+            spider.SendChannelMessage(contents, (success, publicationId) =>
+            {
+                Assert.IsTrue(publicationId > 0);
+                Assert.IsTrue(success == true);
+
+                returnedPublicationId = publicationId;
+            });
+
+            completion.WaitOne();
+        }
+
+        [TestMethod, TestCategory("Spider-Event")]
+        public void TestEventNotice()
+        {
+            Hive5Spider spider = Connect();
+
+            long subscriptionId = Subscribe(spider, TopicKind.Notice);
+
+            // Topic, Channel
+            var completion = new ManualResetEvent(false);
+
+            Dictionary<string, string> contents = new Dictionary<string, string>();
+
+            string contentKey = "content";
+            string contentValue = "test channel message for event";
+            contents.Add(contentKey, contentValue);
+
+            long returnedPublicationId = -1;
+
+            spider.MessageReceived += (sender, topicKind, messageContents) =>
+                {
+                    Assert.IsTrue(messageContents[contentKey] == contentValue);
                     completion.Set();
                 };
 

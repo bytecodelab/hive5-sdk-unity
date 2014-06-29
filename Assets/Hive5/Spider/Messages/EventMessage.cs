@@ -16,7 +16,7 @@ namespace Hive5
 
         public List<JsonData> Arguments { get; set; }
 
-        public Dictionary<string, JsonData> ArgumentsKw { get; set; }
+        public Dictionary<string, string> ArgumentsKw { get; set; }
 
         public EventMessage()
         {
@@ -38,7 +38,7 @@ namespace Hive5
             long publicationId = JsonHelper.ToLong(parts[2], -1);
             Dictionary<string, JsonData> details = JsonHelper.GetDictionary(parts[3]);
             List<JsonData> arguments  = JsonHelper.GetList(parts[4]);
-            Dictionary<string, JsonData> argumentsKw  = JsonHelper.GetDictionary(parts[5]);
+            Dictionary<string, string> argumentsKw  = JsonHelper.GetStringDictionary(parts[5]);
             
 
             return new EventMessage()
@@ -49,6 +49,13 @@ namespace Hive5
                 Arguments= arguments,
                 ArgumentsKw = argumentsKw,
             };
+        }
+
+        public TopicKind GetTopicKind()
+        {
+            // TODO: 종류를 판별할 방법이 없음
+
+            return TopicKind.Channel;
         }
     }
 }

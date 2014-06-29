@@ -20,7 +20,7 @@ namespace Hive5
     public delegate void CallResultCallback(bool success, CallResult result);
 
     public delegate void ErrorMessageEventHandler(object sender, ErrorMessage error);
-    public delegate void EventMessageEventHandler(object sender, EventMessage message);
+    public delegate void MessageReceivedEventHandler(object sender, TopicKind topicKind, Dictionary<string, string> mesageContents);
 
     /// <summary>
     /// Hive5의 Spider API에 대응하는 클래스
@@ -479,7 +479,7 @@ namespace Hive5
                 case WampMessageCode.EVENT:
                     {
                         EventMessage castedMessage = message as EventMessage;
-                        OnEventMessageReceived(castedMessage);
+                        OnMessageReceived(castedMessage.GetTopicKind(), castedMessage.ArgumentsKw);
                     }
                     break;
                 case WampMessageCode.CALL:
@@ -575,19 +575,19 @@ namespace Hive5
         #endregion Error
 
 
-        #region EventMessageReceived
+        #region MessageReceived
 
-        public event EventMessageEventHandler EventMessageReceived;
+        public event MessageReceivedEventHandler MessageReceived;
 
-        private void OnEventMessageReceived(EventMessage message)
+        private void OnMessageReceived(TopicKind topicKind, Dictionary<string, string> messageContents)
         {
-            if (EventMessageReceived == null)
+            if (MessageReceived == null)
                 return;
 
-            EventMessageReceived(this, message);
+            MessageReceived(this, topicKind, messageContents);
         }
 
-        #endregion EventMessageReceived
+        #endregion MessageReceived
 
 
 

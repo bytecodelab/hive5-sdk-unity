@@ -138,6 +138,25 @@ namespace Hive5
             return defaultDict;
         }
 
+         public static Dictionary<string, string> GetStringDictionary(JsonData json)
+        {
+            var defaultDict = new Dictionary<string, string>(); 
+
+            if (json == null)
+                return defaultDict;
+
+            var dict = (json as System.Collections.IDictionary);
+            if (dict == null)
+                return defaultDict;
+
+            foreach (string key in dict.Keys)
+            {
+                defaultDict.Add(key, (string)json[key]);
+            }
+
+            return defaultDict;
+        }
+
         public static object ToObject(JsonData json, string propertyName, object defaultValue)
         {
             if (json == null)

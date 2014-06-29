@@ -156,6 +156,7 @@
     <Compile Include="Assets\Hive5\Spider\Details\SystemPublishOptions.cs" />
     <Compile Include="Assets\Hive5\Spider\Details\NoticePublishOptions.cs" />
     <Compile Include="Assets\Hive5\Spider\Details\PublishOptions.cs" />
+    <Compile Include="Assets\Hive5\Spider\ErrorUris.cs" />
     <Compile Include="Assets\Hive5\Spider\Helpers\CallbackManager.cs" />
     <Compile Include="Assets\Hive5\Spider\Messages\CallMessage.cs" />
     <Compile Include="Assets\Hive5\Spider\Messages\EventMessage.cs" />
@@ -178,6 +179,7 @@
     <Compile Include="Assets\Hive5\Spider\Models\CallResultCallbackNode.cs" />
     <Compile Include="Assets\Hive5\Spider\Models\SpiderChannel.cs" />
     <Compile Include="Assets\Hive5\Spider\Realm.cs" />
+    <Compile Include="Assets\Hive5\Spider\Results\CallErrorResult.cs" />
     <Compile Include="Assets\Hive5\Spider\Results\CallResult.cs" />
     <Compile Include="Assets\Hive5\Spider\Results\GetPlayersResult.cs" />
     <Compile Include="Assets\Hive5\Spider\Results\GetChannelsResult.cs" />

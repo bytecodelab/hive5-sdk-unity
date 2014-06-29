@@ -11,7 +11,7 @@ namespace Hive5
 
         public static Dictionary<long, SpiderCallback> UnsubscribeRequestIdToCallback { get; private set; }
 
-        public static Dictionary<long, PublishCallback> PublishRequestIdToCallback { get; private set; }
+        public static Dictionary<long, SendMessageCallback> PublishRequestIdToCallback { get; private set; }
 
         public static Dictionary<long, CallResultCallbackNode> CallRequestIdToCallbackNode { get; private set; }
 
@@ -20,7 +20,7 @@ namespace Hive5
         {
             SubscribeRequestIdToCallback = new Dictionary<long, SubscribeCallback>();
             UnsubscribeRequestIdToCallback = new Dictionary<long, SpiderCallback>();
-            PublishRequestIdToCallback = new Dictionary<long, PublishCallback>();
+            PublishRequestIdToCallback = new Dictionary<long, SendMessageCallback>();
             CallRequestIdToCallbackNode = new Dictionary<long, CallResultCallbackNode>();
         }
     }

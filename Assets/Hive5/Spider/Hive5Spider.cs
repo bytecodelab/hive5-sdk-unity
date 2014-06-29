@@ -16,7 +16,7 @@ namespace Hive5
 {
     public delegate void SpiderCallback(bool success);
     public delegate void SubscribeCallback(bool success, long subscriptionId);
-    public delegate void PublishCallback(bool success, long publicationId);
+    public delegate void SendMessageCallback(bool success, long publicationId); // PublishCallback
     public delegate void CallResultCallback(bool success, CallResult result);
 
     public delegate void ErrorMessageEventHandler(object sender, ErrorMessage error);
@@ -190,7 +190,7 @@ namespace Hive5
         /// </summary>
         /// <param name="appSecret"></param>
         /// <param name="contents"></param>
-        public void SendNoticeMessage(string appSecret, Dictionary<string, object> contents, PublishCallback callback)
+        public void SendNoticeMessage(string appSecret, Dictionary<string, object> contents, SendMessageCallback callback)
         {
             Publish(TopicKind.Notice, new NoticePublishOptions() { secret = appSecret }, contents, callback);
         }
@@ -199,7 +199,7 @@ namespace Hive5
         /// 시스템메세지 전송
         /// </summary>
         /// <param name="contents"></param>
-        public void SendSystemMessage(Dictionary<string, object> contents, PublishCallback callback)
+        public void SendSystemMessage(Dictionary<string, object> contents, SendMessageCallback callback)
         {
             Publish(TopicKind.System, new SystemPublishOptions(), contents, callback);
         }
@@ -208,7 +208,7 @@ namespace Hive5
         /// 채널 안의 모두가 볼 수 있도록 메세지 전송
         /// </summary>
         /// <param name="contents"></param>
-        public void SendChannelMessage(Dictionary<string, object> contents, PublishCallback callback)
+        public void SendChannelMessage(Dictionary<string, object> contents, SendMessageCallback callback)
         {
             Publish(TopicKind.Channel, new ChannelPublishOptions(), contents, callback);
         }
@@ -217,13 +217,13 @@ namespace Hive5
         /// 채널 안의 특정 사람이 볼 수 있도록 전송
         /// </summary>
         /// <param name="contents"></param>
-        public void SendPrivateMessage(Dictionary<string, object> contents, PublishCallback callback)
+        public void SendPrivateMessage(Dictionary<string, object> contents, SendMessageCallback callback)
         {
             Publish(TopicKind.Private, new PrivatePublishOptions(), contents, callback);
         }
 
 
-        private void Publish(TopicKind kind, PublishOptions options, Dictionary<string, object> content, PublishCallback callback)
+        private void Publish(TopicKind kind, PublishOptions options, Dictionary<string, object> content, SendMessageCallback callback)
         {
             PublishMessage message = new PublishMessage()
             {
@@ -346,6 +346,9 @@ namespace Hive5
                         this.SessionId = welcomeMessage.SessionId;
                         this.IsConnected = true;
 
+                        // Subscribe들
+                        this.SubscribeAll();
+
                         if (connectedCallback != null)
                         {
                             connectedCallback(true);
@@ -368,6 +371,7 @@ namespace Hive5
                         if (disconnectedCallback != null)
                         {
                             disconnectedCallback(true);
+                            mySocket.CloseAsync(); // Close
                         }
                     }
                     break;
@@ -399,10 +403,22 @@ namespace Hive5
                                 break;
                             case WampMessageCode.PUBLISH:
                                 {
-                                    PublishCallback foundCallback = null;
+                                    SendMessageCallback foundCallback = null;
                                     if (CallbackManager.PublishRequestIdToCallback.TryGetValue(castedMessage.RequestId, out foundCallback) == true)
                                     {
                                         foundCallback(false, -1);
+                                    }
+                                }
+                                break;
+                            case WampMessageCode.CALL:
+                                {
+                                    CallResultCallbackNode node = null;
+                                    if (CallbackManager.CallRequestIdToCallbackNode.TryGetValue(castedMessage.RequestId, out node) == true)
+                                    {
+                                        node.Callback(false, new CallErrorResult()
+                                            {
+                                                 Error =  castedMessage,
+                                            });
                                     }
                                 }
                                 break;
@@ -418,7 +434,7 @@ namespace Hive5
                     {
                         PublishedMessage publishedMessage = message as PublishedMessage;
 
-                        PublishCallback registeredCallback = null;
+                        SendMessageCallback registeredCallback = null;
                         if (CallbackManager.PublishRequestIdToCallback.TryGetValue(publishedMessage.RequestId, out registeredCallback) == true)
                         {
                             CallbackManager.PublishRequestIdToCallback.Remove(publishedMessage.RequestId);
@@ -432,7 +448,7 @@ namespace Hive5
                     {
                         SubscribedMessage castedMessage = message as SubscribedMessage;
                         SubscribeCallback registeredCallback = null;
-                        PublishCallback registeredCallbackTemp = null;
+                        SendMessageCallback registeredCallbackTemp = null;
 
                         if (CallbackManager.SubscribeRequestIdToCallback.TryGetValue(castedMessage.RequestId, out registeredCallback) == true)
                         {
@@ -519,6 +535,14 @@ namespace Hive5
                     break;
             }
 
+        }
+
+        private void SubscribeAll()
+        {
+            this.Subscribe(TopicKind.Channel, (success, subscriptionId) => { });
+            this.Subscribe(TopicKind.Notice, (success, subscriptionId) => { });
+            this.Subscribe(TopicKind.Private, (success, subscriptionId) => { });
+            this.Subscribe(TopicKind.System, (success, subscriptionId) => { });
         }
 
         void mySocket_OnError(object sender, ErrorEventArgs e)

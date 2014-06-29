@@ -104,6 +104,40 @@ namespace Hive5
 
         }
 
+        public static List<JsonData> GetList(JsonData json)
+        {
+            var defaultList = new List<JsonData>();
+            if (json == null ||
+                json.IsArray == false)
+                return defaultList;
+
+            foreach (JsonData item in json)
+            {
+               defaultList.Add(item);
+            }
+
+            return defaultList;
+        }
+
+        public static Dictionary<string, JsonData> GetDictionary(JsonData json)
+        {
+            var defaultDict = new Dictionary<string, JsonData>(); 
+
+            if (json == null)
+                return defaultDict;
+
+            var dict = (json as System.Collections.IDictionary);
+            if (dict == null)
+                return defaultDict;
+
+            foreach (string key in dict.Keys)
+            {
+                defaultDict.Add(key, json[key]);
+            }
+
+            return defaultDict;
+        }
+
         public static object ToObject(JsonData json, string propertyName, object defaultValue)
         {
             if (json == null)
@@ -119,6 +153,15 @@ namespace Hive5
             {
                 return defaultValue;
             }
+        }
+
+        public static string ToJson(List<object> messageObjects)
+        {
+            if (messageObjects == null)
+                return string.Empty;
+
+            string json = LitJson.JsonMapper.ToJson(messageObjects);
+            return json;
         }
     }
 }

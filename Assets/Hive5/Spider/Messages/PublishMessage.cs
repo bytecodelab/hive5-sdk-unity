@@ -32,7 +32,7 @@ namespace Hive5
             messageObjects.Add(this.Arguments);
             messageObjects.Add(this.Contents);
 
-            string jsonString = LitJson.JsonMapper.ToJson(messageObjects);
+            string jsonString = JsonHelper.ToJson(messageObjects);
             return jsonString;
         }
     }

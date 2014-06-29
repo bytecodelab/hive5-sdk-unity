@@ -36,7 +36,7 @@ namespace Hive5
                 case WampMessageCode.HEARTBEAT:
                     break;
                 case WampMessageCode.ERROR:
-                    break;
+                    return ErrorMessage.Parse(json);
                 case WampMessageCode.PUBLISH:
                     break;
                 case WampMessageCode.PUBLISHED:
@@ -44,13 +44,13 @@ namespace Hive5
                 case WampMessageCode.SUBSCRIBE:
                     break;
                 case WampMessageCode.SUBSCRIBED:
-                    break;
+                    return SubscribedMessage.Parse(json);
                 case WampMessageCode.UNSUBSCRIBE:
                     break;
                 case WampMessageCode.UNSUBSCRIBED:
-                    break;
+                    return UnsubscribedMessage.Parse(json);
                 case WampMessageCode.EVENT:
-                    break;
+                    return EventMessage.Parse(json);
                 case WampMessageCode.CALL:
                     break;
                 case WampMessageCode.CANCEL:

@@ -42,18 +42,18 @@ namespace Hive5
 
             long requestId = JsonHelper.ToLong(json[1], -1); 
 
-            Dictionary<string, JsonData> details = GetDictionary(json[2]);
+            Dictionary<string, JsonData> details = JsonHelper.GetDictionary(json[2]);
 
             List<JsonData> arguments = new List<JsonData>();
             if (json.Count > 3)
             {
-                arguments = GetList(json[3]);
+                arguments = JsonHelper.GetList(json[3]);
             }
 
             Dictionary<string, JsonData> argumentsKw = new Dictionary<string,JsonData>();
             if (json.Count > 4)
             {
-                argumentsKw = GetDictionary(json[4]);
+                argumentsKw = JsonHelper.GetDictionary(json[4]);
             }
 
             var instance = new ResultMessage()

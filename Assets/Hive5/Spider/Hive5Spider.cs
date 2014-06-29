@@ -14,19 +14,13 @@ using WebSocketSharp;
 
 namespace Hive5
 {
-    /// <summary>
-    /// 구독용 Topic 종류
-    /// </summary>
-    public enum TopicKind
-    {
-        Channel,
-        Private,
-        Notice,
-        System, // Hive5 System
-    };
-
     public delegate void SpiderCallback(bool success);
+    public delegate void SubscribeCallback(bool success, long subscriptionId);
+    public delegate void PublishCallback(bool success, long publicationId);
     public delegate void CallResultCallback(bool success, CallResult result);
+
+    public delegate void ErrorMessageEventHandler(object sender, ErrorMessage error);
+    public delegate void EventMessageEventHandler(object sender, EventMessage message);
 
     /// <summary>
     /// Hive5의 Spider API에 대응하는 클래스
@@ -43,13 +37,6 @@ namespace Hive5
 
 
         #region 멤버들
-
-        private static readonly string TopicPrefix = "io.hive5.spider.topic";
-
-        private static readonly string TopicNameChannel = "channel";
-        private static readonly string TopicNamePrivate = "private";
-        private static readonly string TopicNameNotice = "notice";
-        private static readonly string TopicNameSystem = "system";
 
         private const string RouterEndPoint = "ws://beta.spider.hive5.io:9201/channels/ws";
 
@@ -83,30 +70,6 @@ namespace Hive5
         #region 메서드들
 
 
-        public string GetTopicUri(TopicKind kind)
-        {
-            string topicName = "";
-            switch (kind)
-            {
-                case TopicKind.Channel:
-                    topicName = TopicNameChannel;
-                    break;
-
-                case TopicKind.Notice:
-                    topicName = TopicNameNotice;
-                    break;
-
-                case TopicKind.Private:
-                    topicName = TopicNamePrivate;
-                    break;
-
-                case TopicKind.System:
-                    topicName = TopicNameSystem;
-                    break;
-            }
-
-            return string.Concat(Hive5Spider.TopicPrefix, ".", topicName);
-        }
 
 
         #region Hello
@@ -128,7 +91,7 @@ namespace Hive5
 
             string jsonMessage = message.ToJson();
             Logger.Log("Spider Hello: " + jsonMessage);
-            this.mySocket.SendAsync(jsonMessage, helloCompleted);
+            this.SendAsync(jsonMessage, helloCompleted);
         }
 
         private void helloCompleted(bool success)
@@ -152,10 +115,73 @@ namespace Hive5
             mySocket.ConnectAsync();
         }
 
-        public void Subscribe()
+        public void Subscribe(TopicKind topicKind, SubscribeCallback callback)
         {
+            SubscribeMessage message = new SubscribeMessage()
+                {
+                    TopicKind = topicKind,
+                };
+
+            if (callback != null)
+            {
+                CallbackManager.SubscribeRequestIdToCallback.Add(message.RequestId, callback);
+            }
+            string jsonMessage = message.ToJson();
+            this.SendAsync(jsonMessage, (success) =>
+            {
+                if (success == false)
+                {
+                    // 사전에서 제거
+                    CallbackManager.SubscribeRequestIdToCallback.Remove(message.RequestId);
+                    callback(false, -1);
+                    Logger.Log("Spider Subscribe 전송 실패 in subscribeCompleted");
+                }
+                else
+                {
+                    Logger.Log("Spider Subscribe 전송 성공 in subscribeCompleted");
+                }
+            });
         }
 
+        public void SendAsync(string message, Action<bool> completed)
+        {
+            if (mySocket == null)
+                return;
+
+            Logger.Log("▶ Message sent.\tRaw message = " + message);
+            mySocket.SendAsync(message, completed);
+        }
+
+
+        public void Unsubscribe(long subscriptionId, SpiderCallback callback)
+        {
+            UnsubscribeMessage message = new UnsubscribeMessage()
+            {
+                SubscriptionId = subscriptionId,
+            };
+
+            if (callback != null)
+            {
+                CallbackManager.UnsubscribeRequestIdToCallback.Add(message.RequestId, callback);
+            }
+
+            string jsonMessage = message.ToJson();
+            this.SendAsync(jsonMessage, (success) =>
+            {
+                if (success == false)
+                {
+                    // 사전에서 제거
+                    CallbackManager.UnsubscribeRequestIdToCallback.Remove(message.RequestId);
+                    callback(false);
+                    Logger.Log("Spider Unsubscribe 전송 실패 in unsubscribeCompleted");
+
+                }
+                else
+                {
+                    Logger.Log("Spider Unsubscribe 전송 성공 in unsubscribeCompleted");
+                }
+            });
+        }
 
         #region Publish
 
@@ -164,7 +190,7 @@ namespace Hive5
         /// </summary>
         /// <param name="appSecret"></param>
         /// <param name="contents"></param>
-        public void SendNoticeMessage(string appSecret, Dictionary<string, object> contents, SpiderCallback callback)
+        public void SendNoticeMessage(string appSecret, Dictionary<string, object> contents, PublishCallback callback)
         {
             Publish(TopicKind.Notice, new NoticePublishOptions() { secret = appSecret }, contents, callback);
         }
@@ -173,7 +199,7 @@ namespace Hive5
         /// 시스템메세지 전송
         /// </summary>
         /// <param name="contents"></param>
-        public void SendSystemMessage(Dictionary<string, object> contents, SpiderCallback callback)
+        public void SendSystemMessage(Dictionary<string, object> contents, PublishCallback callback)
         {
             Publish(TopicKind.System, new SystemPublishOptions(), contents, callback);
         }
@@ -182,7 +208,7 @@ namespace Hive5
         /// 채널 안의 모두가 볼 수 있도록 메세지 전송
         /// </summary>
         /// <param name="contents"></param>
-        public void SendChannelMessage(Dictionary<string, object> contents, SpiderCallback callback)
+        public void SendChannelMessage(Dictionary<string, object> contents, PublishCallback callback)
         {
             Publish(TopicKind.Channel, new ChannelPublishOptions(), contents, callback);
         }
@@ -191,38 +217,32 @@ namespace Hive5
         /// 채널 안의 특정 사람이 볼 수 있도록 전송
         /// </summary>
         /// <param name="contents"></param>
-        public void SendPrivateMessage(Dictionary<string, object> contents, SpiderCallback callback)
+        public void SendPrivateMessage(Dictionary<string, object> contents, PublishCallback callback)
         {
             Publish(TopicKind.Private, new PrivatePublishOptions(), contents, callback);
         }
 
-        private Dictionary<long, SpiderCallback> publishRequestIdToCallback = new Dictionary<long, SpiderCallback>();
 
-        private void Publish(TopicKind kind, PublishOptions options, Dictionary<string, object> content, SpiderCallback callback)
+        private void Publish(TopicKind kind, PublishOptions options, Dictionary<string, object> content, PublishCallback callback)
         {
             PublishMessage message = new PublishMessage()
             {
-                TopicUri = GetTopicUri(kind),
+                TopicUri = TopicUris.GetTopicUri(kind),
                 Options = options,
                 Contents = content,
             };
 
-            publishRequestIdToCallback.Add(message.RequestId, callback);
+            CallbackManager.PublishRequestIdToCallback.Add(message.RequestId, callback);
 
             string jsonMessage = message.ToJson();
             Logger.Log("Spider Publish: " + jsonMessage);
-            mySocket.SendAsync(jsonMessage, (success) =>
+            this.SendAsync(jsonMessage, (success) =>
                 {
                     if (success == false)
                     {
+                        CallbackManager.PublishRequestIdToCallback.Remove(message.RequestId);
+                        callback(false, -1);
                         Logger.Log("Spider Publish 전송 실패 in publishCompleted");
-
-                        SpiderCallback registeredCallback = null;
-                        if (publishRequestIdToCallback.TryGetValue(message.RequestId, out registeredCallback) == true)
-                        {
-                            publishRequestIdToCallback.Remove(message.RequestId);
-                            registeredCallback(false);
-                        }
                     }
                     else
                     {
@@ -244,10 +264,6 @@ namespace Hive5
             this.call(CallUris.GetPlayers, null, CallResultKind.GetPlayersResult, callback);
         }
 
-
-
-        private Dictionary<long, CallResultCallbackNode> callRequestIdToCallbackNode = new Dictionary<long, CallResultCallbackNode>();
-
         private void call(string callUri, CallOptions options, CallResultKind resultKind, CallResultCallback callback)
         {
             if (options == null)
@@ -261,19 +277,15 @@ namespace Hive5
 
             string jsonMessage = callMessage.ToJson();
 
-            callRequestIdToCallbackNode.Add(callMessage.RequestId, new CallResultCallbackNode(resultKind, callback));
-            mySocket.SendAsync(jsonMessage, (success) =>
+            var callbackNode = new CallResultCallbackNode(resultKind, callback);
+            CallbackManager.CallRequestIdToCallbackNode.Add(callMessage.RequestId, callbackNode);
+            this.SendAsync(jsonMessage, (success) =>
             {
                 if (success == false)
                 {
+                    CallbackManager.CallRequestIdToCallbackNode.Remove(callMessage.RequestId);
+                    callbackNode.Callback(false, null);
                     Logger.Log("Spider call 전송 실패 in callCompleted");
-
-                    CallResultCallbackNode registeredCallbackNode = null;
-                    if (callRequestIdToCallbackNode.TryGetValue(callMessage.RequestId, out registeredCallbackNode) == true)
-                    {
-                        callRequestIdToCallbackNode.Remove(callMessage.RequestId);
-                        registeredCallbackNode.Callback(false, null);
-                    }
                 }
                 else
                 {
@@ -290,7 +302,7 @@ namespace Hive5
             string jsonMessage = message.ToJson();
 
             disconnectedCallback = callback;
-            mySocket.SendAsync(jsonMessage, goodbyeCompleted);
+            this.SendAsync(jsonMessage, goodbyeCompleted);
         }
 
         private void goodbyeCompleted(bool success)
@@ -319,6 +331,7 @@ namespace Hive5
 
         void mySocket_OnMessage(object sender, MessageEventArgs e)
         {
+            Logger.Log("◀ Message received.\tRaw message = " + e.Data);
             SpiderMessage message = MessageParser.Parse(e.Data);
             if (message == null)
                 return;
@@ -332,7 +345,7 @@ namespace Hive5
                         WelcomeMessage welcomeMessage = message as WelcomeMessage;
                         this.SessionId = welcomeMessage.SessionId;
                         this.IsConnected = true;
-                       
+
                         if (connectedCallback != null)
                         {
                             connectedCallback(true);
@@ -351,7 +364,7 @@ namespace Hive5
                         GoodbyeMessage goodbyeMessage = message as GoodbyeMessage;
 
                         this.IsConnected = false;
-                        
+
                         if (disconnectedCallback != null)
                         {
                             disconnectedCallback(true);
@@ -361,6 +374,43 @@ namespace Hive5
                 case WampMessageCode.HEARTBEAT:
                     break;
                 case WampMessageCode.ERROR:
+                    {
+                        ErrorMessage castedMessage = message as ErrorMessage;
+
+                        switch ((WampMessageCode)castedMessage.MessageCodeOfError)
+                        {
+                            case WampMessageCode.SUBSCRIBE:
+                                {
+                                    SubscribeCallback foundCallback = null;
+                                    if (CallbackManager.SubscribeRequestIdToCallback.TryGetValue(castedMessage.RequestId, out foundCallback) == true)
+                                    {
+                                        foundCallback(false, -1);
+                                    }
+                                }
+                                break;
+                            case WampMessageCode.UNSUBSCRIBE:
+                                {
+                                    SpiderCallback foundCallback = null;
+                                    if (CallbackManager.UnsubscribeRequestIdToCallback.TryGetValue(castedMessage.RequestId, out foundCallback) == true)
+                                    {
+                                        foundCallback(false);
+                                    }
+                                }
+                                break;
+                            case WampMessageCode.PUBLISH:
+                                {
+                                    PublishCallback foundCallback = null;
+                                    if (CallbackManager.PublishRequestIdToCallback.TryGetValue(castedMessage.RequestId, out foundCallback) == true)
+                                    {
+                                        foundCallback(false, -1);
+                                    }
+                                }
+                                break;
+                        }
+
+
+                        OnError(castedMessage);
+                    }
                     break;
                 case WampMessageCode.PUBLISH:
                     break;
@@ -368,23 +418,53 @@ namespace Hive5
                     {
                         PublishedMessage publishedMessage = message as PublishedMessage;
 
-                        SpiderCallback registeredCallback = null;
-                        if (publishRequestIdToCallback.TryGetValue(publishedMessage.RequestId, out registeredCallback) == true)
+                        PublishCallback registeredCallback = null;
+                        if (CallbackManager.PublishRequestIdToCallback.TryGetValue(publishedMessage.RequestId, out registeredCallback) == true)
                         {
-                            publishRequestIdToCallback.Remove(publishedMessage.RequestId);
-                            registeredCallback(true);
+                            CallbackManager.PublishRequestIdToCallback.Remove(publishedMessage.RequestId);
+                            registeredCallback(true, publishedMessage.PublicationId);
                         }
                     }
                     break;
                 case WampMessageCode.SUBSCRIBE:
                     break;
                 case WampMessageCode.SUBSCRIBED:
+                    {
+                        SubscribedMessage castedMessage = message as SubscribedMessage;
+                        SubscribeCallback registeredCallback = null;
+                        PublishCallback registeredCallbackTemp = null;
+
+                        if (CallbackManager.SubscribeRequestIdToCallback.TryGetValue(castedMessage.RequestId, out registeredCallback) == true)
+                        {
+                            CallbackManager.SubscribeRequestIdToCallback.Remove(castedMessage.RequestId);
+                            registeredCallback(true, castedMessage.SubscriptionId);
+                        }
+                        // 임시코드 Publish를 호출해도 Subscribed가 와서 구현한 임시 루틴
+                        else if (CallbackManager.PublishRequestIdToCallback.TryGetValue(castedMessage.RequestId, out registeredCallbackTemp) == true)
+                        {
+                            CallbackManager.PublishRequestIdToCallback.Remove(castedMessage.RequestId);
+                            registeredCallbackTemp(true, castedMessage.SubscriptionId);
+                        }
+                    }
                     break;
                 case WampMessageCode.UNSUBSCRIBE:
                     break;
                 case WampMessageCode.UNSUBSCRIBED:
+                    {
+                        UnsubscribedMessage castedMessage = message as UnsubscribedMessage;
+                        SpiderCallback registeredCallback = null;
+                        if (CallbackManager.UnsubscribeRequestIdToCallback.TryGetValue(castedMessage.RequestId, out registeredCallback) == true)
+                        {
+                            CallbackManager.UnsubscribeRequestIdToCallback.Remove(castedMessage.RequestId);
+                            registeredCallback(true);
+                        }
+                    }
                     break;
                 case WampMessageCode.EVENT:
+                    {
+                        EventMessage castedMessage = message as EventMessage;
+                        OnEventMessageReceived(castedMessage);
+                    }
                     break;
                 case WampMessageCode.CALL:
                     break;
@@ -395,9 +475,9 @@ namespace Hive5
                         ResultMessage resultMessage = message as ResultMessage;
 
                         CallResultCallbackNode registeredCallbackNode = null;
-                        if (callRequestIdToCallbackNode.TryGetValue(resultMessage.RequestId, out registeredCallbackNode) == true)
+                        if (CallbackManager.CallRequestIdToCallbackNode.TryGetValue(resultMessage.RequestId, out registeredCallbackNode) == true)
                         {
-                            callRequestIdToCallbackNode.Remove(resultMessage.RequestId);
+                            CallbackManager.CallRequestIdToCallbackNode.Remove(resultMessage.RequestId);
 
                             switch (registeredCallbackNode.Kind)
                             {
@@ -456,8 +536,36 @@ namespace Hive5
 
         #region 이벤트들
 
-        public event EventHandler Event;
-        public event EventHandler Subscribed;
+        #region Error
+
+        public event ErrorMessageEventHandler Error;
+
+        private void OnError(ErrorMessage error)
+        {
+            if (Error == null)
+                return;
+
+            Error(this, error);
+        }
+
+        #endregion Error
+
+
+        #region EventMessageReceived
+
+        public event EventMessageEventHandler EventMessageReceived;
+
+        private void OnEventMessageReceived(EventMessage message)
+        {
+            if (EventMessageReceived == null)
+                return;
+
+            EventMessageReceived(this, message);
+        }
+
+        #endregion EventMessageReceived
+
+
 
         #endregion 이벤트들
     }

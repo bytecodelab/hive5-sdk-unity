@@ -32,7 +32,7 @@ namespace Hive5
         public static void WriteLine(string s)
         {
 #if UNITTEST
-            Console.WriteLine(s);
+            System.Diagnostics.Debug.WriteLine(s);
 #else
             UnityEngine.Debug.Log(s);            
 #endif

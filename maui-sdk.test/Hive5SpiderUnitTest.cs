@@ -39,9 +39,17 @@ namespace maui_sdk.test
         [TestMethod, TestCategory("Spider-Basic")]
         public void TestConnect()
         {
-            var spider = Connect();
-            Assert.IsTrue(spider.IsConnected == true);
-            Assert.IsTrue(spider.SessionId > 0);
+            var completion = new ManualResetEvent(false);
+
+            Hive5Spider spider = new Hive5Spider(this.apiClient);
+            spider.Connect((success) =>
+                {
+                    Assert.IsTrue(spider.IsConnected == true);
+                    Assert.IsTrue(spider.SessionId > 0);
+                    completion.Set();
+                });
+
+            completion.WaitOne();
         }
 
         [TestMethod, TestCategory("Spider-Basic")]
@@ -64,17 +72,141 @@ namespace maui_sdk.test
         [TestMethod, TestCategory("Spider-Publish")]
         public void TestSendNoticeMessage()
         {
+            Assert.Inconclusive("서버가 Publish에 대해서도 Subscribed를 반환한다.");
+            return;
+
             Hive5Spider spider = Connect();
+
+            var completionPre = new ManualResetEvent(false);
+            spider.Subscribe(TopicKind.Notice, (success, subsciptionId) =>
+            {
+                Assert.IsTrue(success == true);
+                Assert.IsTrue(subsciptionId > 0);
+                completionPre.Set();
+            });
+
+            completionPre.WaitOne();
+
 
             var completion = new ManualResetEvent(false);
 
             Dictionary<string, object> contents = new Dictionary<string, object>();
             contents.Add("content", "notice test by gilbert");
 
-            spider.SendNoticeMessage("gogogo", contents, (success) =>
+            spider.SendNoticeMessage("gogogo", contents, (success, publicationId) =>
+            {
+                Assert.IsTrue(publicationId > 0);
+                Assert.IsTrue(success == true);
+                completion.Set();
+            });
+
+            completion.WaitOne();
+        }
+
+
+        [TestMethod, TestCategory("Spider-Subscribe")]
+        public void TestSubscribeTopicChannel()
+        {
+            Hive5Spider spider = Connect();
+            Subscribe(spider, TopicKind.Channel);
+
+        }
+
+        [TestMethod, TestCategory("Spider-Subscribe")]
+        public void TestSubscribeTopicNotice()
+        {
+            Hive5Spider spider = Connect();
+            Subscribe(spider, TopicKind.Notice);
+
+        }
+
+        [TestMethod, TestCategory("Spider-Subscribe")]
+        public void TestSubscribeTopicPrivate()
+        {
+            Hive5Spider spider = Connect();
+            Subscribe(spider, TopicKind.Private);
+
+        }
+
+        [TestMethod, TestCategory("Spider-Subscribe")]
+        public void TestSubscribeTopicSystem()
+        {
+            Hive5Spider spider = Connect();
+            Subscribe(spider, TopicKind.System);
+        }
+
+        public long Subscribe(Hive5Spider spider, TopicKind topicKind)
+        {
+            // Topic, Channel
+            var completion = new ManualResetEvent(false);
+
+            long returnedSubscriptionId = -1;
+            spider.Subscribe(topicKind, (success, subscriptionId) =>
+            {
+                Assert.IsTrue(success == true);
+                Assert.IsTrue(subscriptionId > 0);
+
+                returnedSubscriptionId = subscriptionId;
+                completion.Set();
+            });
+
+            completion.WaitOne();
+
+            return returnedSubscriptionId;
+        }
+
+        [TestMethod, TestCategory("Spider-Unsubscribe")]
+        public void TestUnsubscribeTopicChannel()
+        {
+            Hive5Spider spider = Connect();
+
+            long subscriptionId = Subscribe(spider, TopicKind.Channel);
+
+            // Topic, Channel
+            var completion = new ManualResetEvent(false);
+
+            spider.Unsubscribe(subscriptionId, (success) =>
             {
                 Assert.IsTrue(success == true);
                 completion.Set();
+            });
+
+            completion.WaitOne();
+        }
+
+        [TestMethod, TestCategory("Spider-Event")]
+        public void TestEvent()
+        {
+            Hive5Spider spider = Connect();
+
+            long subscriptionId = Subscribe(spider, TopicKind.Channel);
+
+            // Topic, Channel
+            var completion = new ManualResetEvent(false);
+
+            Dictionary<string, object> contents = new Dictionary<string, object>();
+
+            string contentKey = "content";
+            string contentValue = "test channel message for event";
+            contents.Add(contentKey, contentValue);
+
+            long returnedPublicationId = -1;
+
+            spider.EventMessageReceived += (s, e) =>
+                {
+                    //Assert.IsTrue(e.PublicationId == returnedPublicationId);
+                    Assert.IsTrue(e.PublicationId > 0);
+                    Assert.IsTrue(e.SubscriptionId == subscriptionId);
+                    Assert.IsTrue((string)e.ArgumentsKw[contentKey] == contentValue);
+                    completion.Set();
+                };
+
+            spider.SendChannelMessage(contents, (success, publicationId) =>
+            {
+                Assert.IsTrue(publicationId > 0);
+                Assert.IsTrue(success == true);
+
+                returnedPublicationId = publicationId;
             });
 
             completion.WaitOne();
@@ -104,7 +236,7 @@ namespace maui_sdk.test
             completion.WaitOne();
         }
 
-         [TestMethod, TestCategory("Spider-Call")]
+        [TestMethod, TestCategory("Spider-Call")]
         public void TestGetPlayers()
         {
             Hive5Spider spider = Connect();
@@ -127,11 +259,26 @@ namespace maui_sdk.test
             completion.WaitOne();
         }
 
-        private Hive5Spider Connect()
+        Hive5Spider usedSpider { get; set; }
+
+        private Hive5Spider Connect(bool newInstance = true)
         {
             var completion = new ManualResetEvent(false);
 
-            Hive5Spider spider = new Hive5Spider(this.apiClient);
+            Hive5Spider spider = null;
+            if (newInstance == true)
+            {
+                spider = new Hive5Spider(this.apiClient);
+            }
+            else
+            {
+                if (this.usedSpider == null)
+                {
+                    this.usedSpider = new Hive5Spider(this.apiClient);
+                }
+
+                spider = this.usedSpider;
+            }
             spider.Connect((success) =>
                 {
                     completion.Set();

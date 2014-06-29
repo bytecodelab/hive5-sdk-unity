@@ -156,10 +156,17 @@
     <Compile Include="Assets\Hive5\Spider\Details\SystemPublishOptions.cs" />
     <Compile Include="Assets\Hive5\Spider\Details\NoticePublishOptions.cs" />
     <Compile Include="Assets\Hive5\Spider\Details\PublishOptions.cs" />
+    <Compile Include="Assets\Hive5\Spider\Helpers\CallbackManager.cs" />
     <Compile Include="Assets\Hive5\Spider\Messages\CallMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\EventMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\ErrorMessage.cs" />
     <Compile Include="Assets\Hive5\Spider\Messages\HelloMessage.cs" />
     <Compile Include="Assets\Hive5\Spider\Hive5Spider.cs" />
     <Compile Include="Assets\Hive5\Spider\Messages\MessageParser.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\UnsubscribedMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\UnsubscribeMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\SubscribeMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\SubscribedMessage.cs" />
     <Compile Include="Assets\Hive5\Spider\Messages\PublishedMessage.cs" />
     <Compile Include="Assets\Hive5\Spider\Messages\PublishMessage.cs" />
     <Compile Include="Assets\Hive5\Spider\Messages\ResultMessage.cs" />
@@ -174,6 +181,7 @@
     <Compile Include="Assets\Hive5\Spider\Results\CallResult.cs" />
     <Compile Include="Assets\Hive5\Spider\Results\GetPlayersResult.cs" />
     <Compile Include="Assets\Hive5\Spider\Results\GetChannelsResult.cs" />
+    <Compile Include="Assets\Hive5\Spider\TopicUris.cs" />
     <Compile Include="Assets\Hive5\Test\Logger.cs" />
     <Compile Include="Assets\Hive5\Test\MockMonoSingleton.cs" />
     <Compile Include="Assets\Hive5\Util\Util.cs" />

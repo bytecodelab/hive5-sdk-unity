@@ -5,16 +5,15 @@ using System.Text;
 
 namespace Hive5
 {
-    public class CallMessage : SpiderRequestMessage
+    public class SubscribeMessage : SpiderRequestMessage
     {
-        public string ProcedureUri { get; set; }
+        public TopicKind TopicKind { get; set; }
 
-        public CallOptions Options { get; set; }
+        public Dictionary<string, object> Options { get; set;  }
 
-        public CallMessage()
+        public SubscribeMessage()
         {
-            this.MessageCode = (int)WampMessageCode.CALL;
-            this.Options = new CallOptions();
+            this.MessageCode = (int)WampMessageCode.SUBSCRIBE;
         }
 
         public override string ToJson()
@@ -22,8 +21,8 @@ namespace Hive5
             List<object> messageObjects = new List<object>();
             messageObjects.Add(this.MessageCode);
             messageObjects.Add(this.RequestId);
-            messageObjects.Add(this.Options);
-            messageObjects.Add(this.ProcedureUri);
+            messageObjects.Add(this.Options != null ? this.Options : new Dictionary<string, object>());
+            messageObjects.Add(TopicUris.GetTopicUri(this.TopicKind));
 
             string jsonMessage = JsonHelper.ToJson(messageObjects);
             return jsonMessage;

@@ -15,22 +15,22 @@ namespace Hive5
             this.MessageCode = (int)WampMessageCode.PUBLISHED;
         }
 
-        public static PublishedMessage Parse(string s)
+        public static PublishedMessage Parse(string json)
         {
-            if (string.IsNullOrEmpty(s) == true)
+            if (string.IsNullOrEmpty(json) == true)
                 return null;
 
-            var parts = LitJson.JsonMapper.ToObject<List<object>>(s);
+            var parts = LitJson.JsonMapper.ToObject(json);
 
             if (parts.Count != 3)
                 return null;
 
-            if (parts[1] is long == false ||
-                parts[2] is long == false)
+            if (parts[1].IsLong == false ||
+                parts[2].IsLong == false)
                 return null;
 
-            long requestId = (long)parts[1];
-            long publicationId = (long)parts[1];
+            long requestId = JsonHelper.ToLong(parts[1], -1);
+            long publicationId = JsonHelper.ToLong(parts[2], -1);
 
             var instance = new PublishedMessage()
             {

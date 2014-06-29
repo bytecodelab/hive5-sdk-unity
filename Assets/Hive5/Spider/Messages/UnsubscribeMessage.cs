@@ -5,26 +5,23 @@ using System.Text;
 
 namespace Hive5
 {
-    public class HelloMessage : SpiderMessage
+    public class UnsubscribeMessage : SpiderRequestMessage
     {
-        public Realm Realm { get; set; }
+        public long SubscriptionId { get; set; }
 
-        public HelloDetail Detail { get; set; }
-
-        public HelloMessage()
+        public UnsubscribeMessage()
         {
-            this.MessageCode = (int)WampMessageCode.HELLO;
+            this.MessageCode = (int)WampMessageCode.UNSUBSCRIBE;
         }
 
         public override string ToJson()
         {
             List<object> messageObjects = new List<object>();
             messageObjects.Add(this.MessageCode);
-            messageObjects.Add(this.Realm.ToString());
-            messageObjects.Add(Detail);
+            messageObjects.Add(this.RequestId);
+            messageObjects.Add(this.SubscriptionId);
 
             string jsonMessage = JsonHelper.ToJson(messageObjects);
-
             return jsonMessage;
         }
     }

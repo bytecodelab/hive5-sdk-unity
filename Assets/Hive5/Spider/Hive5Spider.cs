@@ -190,7 +190,7 @@ namespace Hive5
         /// </summary>
         /// <param name="appSecret"></param>
         /// <param name="contents"></param>
-        public void SendNoticeMessage(string appSecret, Dictionary<string, object> contents, SendMessageCallback callback)
+        public void SendNoticeMessage(string appSecret, Dictionary<string, string> contents, SendMessageCallback callback)
         {
             Publish(TopicKind.Notice, new NoticePublishOptions() { secret = appSecret }, contents, callback);
         }
@@ -199,7 +199,7 @@ namespace Hive5
         /// 시스템메세지 전송
         /// </summary>
         /// <param name="contents"></param>
-        public void SendSystemMessage(Dictionary<string, object> contents, SendMessageCallback callback)
+        public void SendSystemMessage(Dictionary<string, string> contents, SendMessageCallback callback)
         {
             Publish(TopicKind.System, new SystemPublishOptions(), contents, callback);
         }
@@ -208,7 +208,7 @@ namespace Hive5
         /// 채널 안의 모두가 볼 수 있도록 메세지 전송
         /// </summary>
         /// <param name="contents"></param>
-        public void SendChannelMessage(Dictionary<string, object> contents, SendMessageCallback callback)
+        public void SendChannelMessage(Dictionary<string, string> contents, SendMessageCallback callback)
         {
             Publish(TopicKind.Channel, new ChannelPublishOptions(), contents, callback);
         }
@@ -217,13 +217,13 @@ namespace Hive5
         /// 채널 안의 특정 사람이 볼 수 있도록 전송
         /// </summary>
         /// <param name="contents"></param>
-        public void SendPrivateMessage(Dictionary<string, object> contents, SendMessageCallback callback)
+        public void SendPrivateMessage(Dictionary<string, string> contents, SendMessageCallback callback)
         {
             Publish(TopicKind.Private, new PrivatePublishOptions(), contents, callback);
         }
 
 
-        private void Publish(TopicKind kind, PublishOptions options, Dictionary<string, object> content, SendMessageCallback callback)
+        private void Publish(TopicKind kind, PublishOptions options, Dictionary<string, string> content, SendMessageCallback callback)
         {
             PublishMessage message = new PublishMessage()
             {

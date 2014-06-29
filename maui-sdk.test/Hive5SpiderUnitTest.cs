@@ -90,7 +90,7 @@ namespace maui_sdk.test
 
             var completion = new ManualResetEvent(false);
 
-            Dictionary<string, object> contents = new Dictionary<string, object>();
+            Dictionary<string, string> contents = new Dictionary<string, string>();
             contents.Add("content", "notice test by gilbert");
 
             spider.SendNoticeMessage("gogogo", contents, (success, publicationId) =>
@@ -184,7 +184,7 @@ namespace maui_sdk.test
             // Topic, Channel
             var completion = new ManualResetEvent(false);
 
-            Dictionary<string, object> contents = new Dictionary<string, object>();
+            Dictionary<string, string> contents = new Dictionary<string, string>();
 
             string contentKey = "content";
             string contentValue = "test channel message for event";

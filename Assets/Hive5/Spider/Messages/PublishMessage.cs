@@ -11,7 +11,7 @@ namespace Hive5
 
         public List<object> Arguments { get; private set; }
 
-        public Dictionary<string, object> Contents { get; set; }
+        public Dictionary<string, string> Contents { get; set; }
 
 
         public string TopicUri { get; set; }

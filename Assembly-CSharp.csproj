@@ -255,6 +255,43 @@
     <Compile Include="Assets\Hive5\Model\JsonHelper.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\CreateObjectsResponseBody.cs" />
     <Compile Include="Assets\Hive5\Spider\Hive5Spider.cs" />
+    <Compile Include="Assets\Hive5\Spider\Details\CallOptions.cs" />
+    <Compile Include="Assets\Hive5\Spider\Details\ChannelPublishOptions.cs" />
+    <Compile Include="Assets\Hive5\Spider\Details\HelloDetail.cs" />
+    <Compile Include="Assets\Hive5\Spider\Details\MessageDetail.cs" />
+    <Compile Include="Assets\Hive5\Spider\Details\NoticePublishOptions.cs" />
+    <Compile Include="Assets\Hive5\Spider\Details\PrivatrePublishOptions.cs" />
+    <Compile Include="Assets\Hive5\Spider\Details\PublishOptions.cs" />
+    <Compile Include="Assets\Hive5\Spider\Details\SystemPublishOptions.cs" />
+    <Compile Include="Assets\Hive5\Spider\Helpers\CallbackManager.cs" />
+    <Compile Include="Assets\Hive5\Spider\Helpers\SubscriptionManager.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\CallMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\ErrorMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\EventMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\GoodbyeMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\HelloMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\MessageParser.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\PublishMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\PublishedMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\ResultMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\SpiderMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\SpiderRequestMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\SubscribeMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\SubscribedMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\UnsubscribeMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\UnsubscribedMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\WampMessageCode.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\WelcomeMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Models\CallResultCallbackNode.cs" />
+    <Compile Include="Assets\Hive5\Spider\Models\SpiderChannel.cs" />
+    <Compile Include="Assets\Hive5\Spider\Results\CallErrorResult.cs" />
+    <Compile Include="Assets\Hive5\Spider\Results\CallResult.cs" />
+    <Compile Include="Assets\Hive5\Spider\Results\GetChannelsResult.cs" />
+    <Compile Include="Assets\Hive5\Spider\Results\GetPlayersResult.cs" />
+    <Compile Include="Assets\Hive5\Spider\CallUris.cs" />
+    <Compile Include="Assets\Hive5\Spider\ErrorUris.cs" />
+    <Compile Include="Assets\Hive5\Spider\Realm.cs" />
+    <Compile Include="Assets\Hive5\Spider\TopicUris.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -267,5 +304,10 @@
   <ItemGroup>
     <Folder Include="Assets\Hive5\Test\" />
     <Folder Include="Assets\Hive5\Spider\" />
+    <Folder Include="Assets\Hive5\Spider\Details\" />
+    <Folder Include="Assets\Hive5\Spider\Helpers\" />
+    <Folder Include="Assets\Hive5\Spider\Messages\" />
+    <Folder Include="Assets\Hive5\Spider\Models\" />
+    <Folder Include="Assets\Hive5\Spider\Results\" />
   </ItemGroup>
 </Project>

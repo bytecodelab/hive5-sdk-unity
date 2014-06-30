@@ -15,6 +15,7 @@ namespace maui_sdk.test
     public class Hive5SpiderUnitTest
     {
         private Hive5Client apiClient { get; set; }
+        public const string ValidUserId = "88197948207226176";
 
         [TestInitialize]
         public void InitTest()
@@ -72,21 +73,7 @@ namespace maui_sdk.test
         [TestMethod, TestCategory("Spider-Publish")]
         public void TestSendNoticeMessage()
         {
-            Assert.Inconclusive("서버가 Publish에 대해서도 Subscribed를 반환한다.");
-            return;
-
             Hive5Spider spider = Connect();
-
-            var completionPre = new ManualResetEvent(false);
-            spider.Subscribe(TopicKind.Notice, (success, subsciptionId) =>
-            {
-                Assert.IsTrue(success == true);
-                Assert.IsTrue(subsciptionId > 0);
-                completionPre.Set();
-            });
-
-            completionPre.WaitOne();
-
 
             var completion = new ManualResetEvent(false);
 
@@ -94,6 +81,66 @@ namespace maui_sdk.test
             contents.Add("content", "notice test by gilbert");
 
             spider.SendNoticeMessage("gogogo", contents, (success, publicationId) =>
+            {
+                Assert.IsTrue(publicationId > 0);
+                Assert.IsTrue(success == true);
+                completion.Set();
+            });
+
+            completion.WaitOne();
+        }
+
+        [TestMethod, TestCategory("Spider-Publish")]
+        public void TestSendSystemMessage()
+        {
+            Hive5Spider spider = Connect();
+
+            var completion = new ManualResetEvent(false);
+
+            Dictionary<string, string> contents = new Dictionary<string, string>();
+            contents.Add("content", "test system message by gilbert");
+
+            spider.SendSystemMessage(contents, (success, publicationId) =>
+            {
+                Assert.IsTrue(publicationId > 0);
+                Assert.IsTrue(success == true);
+                completion.Set();
+            });
+
+            completion.WaitOne();
+        }
+
+        [TestMethod, TestCategory("Spider-Publish")]
+        public void TestSendPrivateMessage()
+        {
+            Hive5Spider spider = Connect();
+
+            var completion = new ManualResetEvent(false);
+
+            Dictionary<string, string> contents = new Dictionary<string, string>();
+            contents.Add("content", "test system message by gilbert");
+
+            spider.SendPrivateMessage(Hive5SpiderUnitTest.ValidUserId, contents, (success, publicationId) =>
+            {
+                Assert.IsTrue(publicationId > 0);
+                Assert.IsTrue(success == true);
+                completion.Set();
+            });
+
+            completion.WaitOne();
+        }
+
+        [TestMethod, TestCategory("Spider-Publish")]
+        public void TestSendChannelMessage()
+        {
+            Hive5Spider spider = Connect();
+
+            var completion = new ManualResetEvent(false);
+
+            Dictionary<string, string> contents = new Dictionary<string, string>();
+            contents.Add("content", "test system message by gilbert");
+
+            spider.SendChannelMessage(contents, (success, publicationId) =>
             {
                 Assert.IsTrue(publicationId > 0);
                 Assert.IsTrue(success == true);
@@ -192,8 +239,16 @@ namespace maui_sdk.test
 
             long returnedPublicationId = -1;
 
+            // 다른 호출과 꼬임방지
+            bool onceReceived = false;
             spider.MessageReceived += (sender, topicKind, messageContents) =>
                 {
+                    if (onceReceived == true)
+                        return;
+
+                    onceReceived = true;
+
+                    Assert.IsTrue(topicKind == TopicKind.Channel);
                     Assert.IsTrue(messageContents[contentKey] == contentValue);
                     completion.Set();
                 };
@@ -222,18 +277,111 @@ namespace maui_sdk.test
             Dictionary<string, string> contents = new Dictionary<string, string>();
 
             string contentKey = "content";
-            string contentValue = "test channel message for event";
+            string contentValue = "test notice message for event";
             contents.Add(contentKey, contentValue);
 
             long returnedPublicationId = -1;
 
+            // 다른 호출과 꼬임방지
+            bool onceReceived = false;
             spider.MessageReceived += (sender, topicKind, messageContents) =>
                 {
+                    if (onceReceived == true)
+                        return;
+
+                    onceReceived = true;
+
+                    Assert.IsTrue(topicKind == TopicKind.Notice);
                     Assert.IsTrue(messageContents[contentKey] == contentValue);
                     completion.Set();
                 };
 
-            spider.SendChannelMessage(contents, (success, publicationId) =>
+            spider.SendNoticeMessage("gogogo", contents, (success, publicationId) =>
+            {
+                Assert.IsTrue(publicationId > 0);
+                Assert.IsTrue(success == true);
+
+                returnedPublicationId = publicationId;
+            });
+
+            completion.WaitOne();
+        }
+
+        [TestMethod, TestCategory("Spider-Event")]
+        public void TestEventSystem()
+        {
+            Hive5Spider spider = Connect();
+
+            long subscriptionId = Subscribe(spider, TopicKind.System);
+
+            // Topic, Channel
+            var completion = new ManualResetEvent(false);
+
+            Dictionary<string, string> contents = new Dictionary<string, string>();
+
+            string contentKey = "content";
+            string contentValue = "test system message for event";
+            contents.Add(contentKey, contentValue);
+
+            long returnedPublicationId = -1;
+            // 다른 호출과 꼬임방지
+            bool onceReceived = false;
+            spider.MessageReceived += (sender, topicKind, messageContents) =>
+                {
+                    if (onceReceived == true)
+                        return;
+
+                    onceReceived = true;
+
+                    Assert.IsTrue(topicKind == TopicKind.System);
+                    Assert.IsTrue(messageContents[contentKey] == contentValue);
+                    completion.Set();
+                };
+
+            spider.SendSystemMessage(contents, (success, publicationId) =>
+            {
+                Assert.IsTrue(publicationId > 0);
+                Assert.IsTrue(success == true);
+
+                returnedPublicationId = publicationId;
+            });
+
+            completion.WaitOne();
+        }
+
+        [TestMethod, TestCategory("Spider-Event")]
+        public void TestEventPrivate()
+        {
+            Hive5Spider spider = Connect();
+
+            long subscriptionId = Subscribe(spider, TopicKind.Private);
+
+            // Topic, Channel
+            var completion = new ManualResetEvent(false);
+
+            Dictionary<string, string> contents = new Dictionary<string, string>();
+
+            string contentKey = "content";
+            string contentValue = "test private message for event";
+            contents.Add(contentKey, contentValue);
+
+            long returnedPublicationId = -1;
+
+            // 다른 호출과 꼬임방지
+            bool onceReceived = false;
+            spider.MessageReceived += (sender, topicKind, messageContents) =>
+                {
+                    if (onceReceived == true)
+                        return;
+
+                    onceReceived = true;
+
+                    Assert.IsTrue(topicKind == TopicKind.Private);
+                    Assert.IsTrue(messageContents[contentKey] == contentValue);
+                    completion.Set();
+                };
+
+            spider.SendPrivateMessage(Hive5SpiderUnitTest.ValidUserId, contents, (success, publicationId) =>
             {
                 Assert.IsTrue(publicationId > 0);
                 Assert.IsTrue(success == true);
@@ -259,7 +407,8 @@ namespace maui_sdk.test
 
                 GetChannelsResult getChannelsResult = result as GetChannelsResult;
                 Assert.IsTrue(getChannelsResult.Channels.Count > 0);
-                Assert.IsTrue(getChannelsResult.Channels[0].id > 0);
+                Assert.IsTrue(getChannelsResult.Channels[0].app_id > 0);
+                Assert.IsTrue(getChannelsResult.Channels[0].channel_number > 0);
                 Assert.IsTrue(getChannelsResult.Channels[0].session_count >= 0);
 
                 completion.Set();

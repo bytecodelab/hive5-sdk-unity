@@ -158,6 +158,7 @@
     <Compile Include="Assets\Hive5\Spider\Details\PublishOptions.cs" />
     <Compile Include="Assets\Hive5\Spider\ErrorUris.cs" />
     <Compile Include="Assets\Hive5\Spider\Helpers\CallbackManager.cs" />
+    <Compile Include="Assets\Hive5\Spider\Helpers\SubscriptionManager.cs" />
     <Compile Include="Assets\Hive5\Spider\Messages\CallMessage.cs" />
     <Compile Include="Assets\Hive5\Spider\Messages\EventMessage.cs" />
     <Compile Include="Assets\Hive5\Spider\Messages\ErrorMessage.cs" />

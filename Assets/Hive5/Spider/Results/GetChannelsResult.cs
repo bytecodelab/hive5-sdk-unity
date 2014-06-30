@@ -19,12 +19,14 @@ namespace Hive5
             Channels = new List<SpiderChannel>();
             foreach (var jsonData in message.Arguments)
             {
-                long id = JsonHelper.ToLong(jsonData, "id", -1);
+                long appId = JsonHelper.ToLong(jsonData, "app_id", -1);
+                int channelNumber = JsonHelper.ToInt(jsonData, "channel_number", -1);
                 int sessionCount = JsonHelper.ToInt(jsonData, "session_count", 0);
 
                 var channel = new SpiderChannel()
                 {
-                    id = id,
+                    app_id = appId,
+                    channel_number = channelNumber,
                     session_count = sessionCount,
                 };
 

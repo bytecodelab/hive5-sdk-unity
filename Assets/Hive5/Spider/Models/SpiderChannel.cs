@@ -7,7 +7,10 @@ namespace Hive5
 {
     public class SpiderChannel
     {
-        public long id { get; set; }
+        public long app_id { get; set; }
+
+        public int channel_number { get; set; }
+
         public int session_count { get; set; }
     }
 }

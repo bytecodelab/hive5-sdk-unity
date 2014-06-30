@@ -127,6 +127,10 @@ namespace Hive5
                 CallbackManager.SubscribeRequestIdToCallback.Add(message.RequestId, callback);
             }
             string jsonMessage = message.ToJson();
+
+            // RequestId를 TopicKind와 등록
+            SubscriptionManager.ReportSubscribe(message.RequestId, topicKind);
+
             this.SendAsync(jsonMessage, (success) =>
             {
                 if (success == false)
@@ -217,9 +221,9 @@ namespace Hive5
         /// 채널 안의 특정 사람이 볼 수 있도록 전송
         /// </summary>
         /// <param name="contents"></param>
-        public void SendPrivateMessage(Dictionary<string, string> contents, SendMessageCallback callback)
+        public void SendPrivateMessage(string platformUserId, Dictionary<string, string> contents, SendMessageCallback callback)
         {
-            Publish(TopicKind.Private, new PrivatePublishOptions(), contents, callback);
+            Publish(TopicKind.Private, new PrivatePublishOptions() {  platform_user_id = platformUserId }, contents, callback);
         }
 
 
@@ -447,20 +451,24 @@ namespace Hive5
                 case WampMessageCode.SUBSCRIBED:
                     {
                         SubscribedMessage castedMessage = message as SubscribedMessage;
+
                         SubscribeCallback registeredCallback = null;
-                        SendMessageCallback registeredCallbackTemp = null;
+                        //SendMessageCallback registeredCallbackTemp = null;
 
                         if (CallbackManager.SubscribeRequestIdToCallback.TryGetValue(castedMessage.RequestId, out registeredCallback) == true)
                         {
+                            // RequestId를 통해 SubscriptionId와 TopicKind 연결
+                            SubscriptionManager.ReportSubscribed(castedMessage.RequestId, castedMessage.SubscriptionId);
+
                             CallbackManager.SubscribeRequestIdToCallback.Remove(castedMessage.RequestId);
                             registeredCallback(true, castedMessage.SubscriptionId);
                         }
-                        // 임시코드 Publish를 호출해도 Subscribed가 와서 구현한 임시 루틴
-                        else if (CallbackManager.PublishRequestIdToCallback.TryGetValue(castedMessage.RequestId, out registeredCallbackTemp) == true)
-                        {
-                            CallbackManager.PublishRequestIdToCallback.Remove(castedMessage.RequestId);
-                            registeredCallbackTemp(true, castedMessage.SubscriptionId);
-                        }
+                        //// 임시코드 Publish를 호출해도 Subscribed가 와서 구현한 임시 루틴
+                        //else if (CallbackManager.PublishRequestIdToCallback.TryGetValue(castedMessage.RequestId, out registeredCallbackTemp) == true)
+                        //{
+                        //    CallbackManager.PublishRequestIdToCallback.Remove(castedMessage.RequestId);
+                        //    registeredCallbackTemp(true, castedMessage.SubscriptionId);
+                        //}
                     }
                     break;
                 case WampMessageCode.UNSUBSCRIBE:
@@ -479,7 +487,10 @@ namespace Hive5
                 case WampMessageCode.EVENT:
                     {
                         EventMessage castedMessage = message as EventMessage;
-                        OnMessageReceived(castedMessage.GetTopicKind(), castedMessage.ArgumentsKw);
+
+                        // subscriptionId를 통해 TopicKind 찾아오기
+                        TopicKind topicKind = SubscriptionManager.GetTopicKindBySubscriptionId(castedMessage.SubscriptionId);
+                        OnMessageReceived(topicKind, castedMessage.ArgumentsKw);
                     }
                     break;
                 case WampMessageCode.CALL:
@@ -547,7 +558,7 @@ namespace Hive5
 
         void mySocket_OnError(object sender, ErrorEventArgs e)
         {
-
+            Logger.Log(e.Message);
         }
 
         void mySocket_OnOpen(object sender, EventArgs e)

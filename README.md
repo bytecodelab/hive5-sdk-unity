@@ -38,3 +38,10 @@ SDK를 이용하실 수 있습니다.
 [SDK 사용가이드](https://github.com/bytecodelab/maui-sdk/wiki/Guide%20for%20Unity)
 
 
+## 라이선스
+
+### Websocket-Sharp
+
+스파이더에서 웹소켓에 인터페이스 하기 위해서 MIT License인 Websocket-Sharp을 사용하고 있습니다.
+Websocket-Sharp은 아래 링크를 통해 배포되고 있습니다.
+[https://github.com/sta/websocket-sharp/](https://github.com/sta/websocket-sharp/)

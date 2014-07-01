@@ -121,7 +121,9 @@ namespace Hive5
             var headers = new Hashtable();
             headers.Add(HeaderKey.AppKey, this.AppKey);
             headers.Add(HeaderKey.Uuid, this.Uuid);
-            headers.Add(HeaderKey.Token, this.AccessToken);
+				if (string.IsNullOrEmpty (this.AccessToken) == false) {
+								headers.Add (HeaderKey.Token, this.AccessToken);
+						}
             headers.Add(HeaderKey.ContentType, HeaderValue.ContentType);
 
             string queryString = GetQueryString(parameters);
@@ -132,8 +134,9 @@ namespace Hive5
                 newUrl = url + "?" + queryString;
             }
 
-            WWW www = new WWW(newUrl, null, headers);
-            yield return www;
+
+				WWW www = new WWW(newUrl, null, headers);
+			yield return www;
 
             if (this.isDebug) Logger.Log("www reuqest URL = " + newUrl);
             if (this.isDebug) Logger.Log("www response = " + www.text);
@@ -147,7 +150,10 @@ namespace Hive5
             var headers = new Hashtable();
             headers.Add(HeaderKey.AppKey, this.AppKey);
             headers.Add(HeaderKey.Uuid, this.Uuid);
-            headers.Add(HeaderKey.Token, this.AccessToken);
+
+			if (string.IsNullOrEmpty (this.AccessToken) == false) {
+							headers.Add (HeaderKey.Token, this.AccessToken);
+					}
             headers.Add(HeaderKey.ContentType, HeaderValue.ContentType);
 
             // Hive5 API json body 변환

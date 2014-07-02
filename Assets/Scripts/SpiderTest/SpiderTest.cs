@@ -38,44 +38,49 @@ public class SpiderTest : MonoBehaviour {
 
 			hive5Spider = new Hive5Spider (hive5Client);
 			
-			hive5Spider.Connect ((success) =>
-			                     {
+			hive5Spider.Connect ((success) => {
 				spiderConnected = success;
-			});
 
-			/*
-			hive5Spider.MessageReceived += (sender, topicKind, messageContents) =>
-			{
-				string head = string.Empty;
-				switch (topicKind) {
-				case TopicKind.Channel:
+				/*
+				hive5Spider.MessageReceived += (sender, topicKind, messageContents) =>
 				{
-					head = "[Channel]";
-				}
-					break;
-				case TopicKind.Private:
-				{
-					head = "[Private]";
-				}
-					break;
-				case TopicKind.System:
-				{
-					head = "[System]";
-				}
-					break;
-				case TopicKind.Notice:
-				{
-					head = "[Notice]";
-				}
-					break;
-				}
-				
-				messages += string.Format("{0} {1} {2}", DateTime.Now, head, messageContents["message"]);
-				
-			};
-			*/
+					string head = string.Empty;
+					switch (topicKind) {
+					case TopicKind.Channel:
+					{
+						head = "[Channel]";
+					}
+						break;
+					case TopicKind.Private:
+					{
+						head = "[Private]";
+					}
+						break;
+					case TopicKind.System:
+					{
+						head = "[System]";
+					}
+						break;
+					case TopicKind.Notice:
+					{
+						head = "[Notice]";
+					}
+						break;
+					}
+					
+					messages += string.Format("{0} {1} {2}", DateTime.Now, head, messageContents["message"]);
+					
+				};
+				*/
+
+				/*
+
+				*/
+			});
 		});
 	}
+
+	string players = string.Empty;
 
 	void BuildTopicKindComboBox()
 	{
@@ -108,6 +113,12 @@ public class SpiderTest : MonoBehaviour {
 	string inputMessage = "";
 	string messages = "";
 
+	Rect GetTextAreaRect(Rect originRect)
+	{
+		return new Rect (originRect.xMin + UiGap, originRect.yMin + UiGap * 2, originRect.width - UiGap * 2, originRect.height - UiGap * 3);
+	}
+
+
 	void OnGUI() {
 		this.Columns = new float[10];
 		this.Columns [0] = GetWidth(0.0f);
@@ -138,13 +149,36 @@ public class SpiderTest : MonoBehaviour {
 	
 
 		GUI.Box(new Rect(Columns[1],Rows[2],Columns[2] - Columns[1],Rows[3]-Rows[2]), "CHANNELS");
-		GUI.Box(new Rect(Columns[1],Rows[4],Columns[2] - Columns[1],Rows[7]-Rows[4]), "PLAYERS");
+
+		Rect playersRect = new Rect (Columns [1], Rows [4], Columns [2] - Columns [1], Rows [7] - Rows [4]); 
+		GUI.Box(playersRect, "PLAYERS");
+
+		if (GUI.Button (GetSideButtonRect (playersRect), "RUN") == true) {
+			hive5Spider.GetPlayers ((successOfGetPlayers, result) => {
+				GetPlayersResult castedResult = result as GetPlayersResult;
+				players = string.Empty;
+
+				if (castedResult == null)
+					Debug.Log("castedResult is null");
+				Debug.Log("I got result : " + castedResult.PlatformUserIds.Count.ToString());
+				
+				foreach (var item in castedResult.PlatformUserIds) {
+					players+= item + "\n";
+				}
+			});
+		}
+
+		GUI.enabled = false;
+		players = GUI.TextArea (GetTextAreaRect(playersRect), players);
+		GUI.enabled = true;
 
 		Rect messagesRect = new Rect(Columns[3],Rows[2],Columns[8] - Columns[3],Rows[5] - Rows[2]);
 		GUI.Box(messagesRect, "MESSAGES");
 
 		GUI.enabled = false;
 		messages = GUI.TextArea (new Rect (messagesRect.xMin + UiGap, messagesRect.yMin + UiGap * 2, messagesRect.width - UiGap * 2, messagesRect.height - UiGap * 3), messages);
+		//messages += "1";
+		//Debug.Log (messages.Length);
 		GUI.enabled = true;
 
 		GUI.Box(new Rect(Columns[1],Rows[8],Columns[8] - Columns[1],Rows[9] - Rows[8]), "LOGS");
@@ -190,6 +224,11 @@ public class SpiderTest : MonoBehaviour {
 				break;
 			}		
 		}
+	}
+
+	Rect GetSideButtonRect(Rect originRect)
+	{
+		return new Rect (originRect.xMax - 44, originRect.yMin + 2, 42, 20);
 	}
 
 	TopicKind CurrentTopicKind = TopicKind.Channel;

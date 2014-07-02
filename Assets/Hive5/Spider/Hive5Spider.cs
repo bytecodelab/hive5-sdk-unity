@@ -331,7 +331,9 @@ namespace Hive5
 
         void mySocket_OnClose(object sender, CloseEventArgs e)
         {
+			Logger.Log ("[OnClose]");
         }
+
 
         void mySocket_OnMessage(object sender, MessageEventArgs e)
         {
@@ -558,7 +560,7 @@ namespace Hive5
 
         void mySocket_OnError(object sender, ErrorEventArgs e)
         {
-            Logger.Log(e.Message);
+            Logger.Log("[OnError] " + e.Message);
         }
 
         void mySocket_OnOpen(object sender, EventArgs e)

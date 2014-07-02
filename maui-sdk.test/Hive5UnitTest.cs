@@ -1501,10 +1501,7 @@ namespace maui_sdk.test
 
                     // 2. 프로퍼티 검증
                     ApplyRewardResponseBody body = response.ResultData as ApplyRewardResponseBody;
-                    if (body.Items != null)
-                    {
-                        Assert.IsTrue(body.Items.Count >= 0);
-                    }
+                    Assert.IsTrue(body.CallReturn != null);
 
                     completion.Set();
                 });

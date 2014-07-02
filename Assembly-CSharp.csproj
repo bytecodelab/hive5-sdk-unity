@@ -287,13 +287,13 @@
      <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Normal.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (SoftClip).shader" />
  <Reference Include="NGUI">
- <HintPath>C:/Users/Gilbok Lee/Documents/GitHub/bytecodelab/maui-sdk/Assets/NGUI/DLLs/NGUI.dll</HintPath>
+ <HintPath>C:/Users/Gilbok Lee/Documents/GitHub/bytecodelab/maui-sdk2/maui-sdk/Assets/NGUI/DLLs/NGUI.dll</HintPath>
  </Reference>
  <Reference Include="LitJson">
- <HintPath>C:/Users/Gilbok Lee/Documents/GitHub/bytecodelab/maui-sdk/Assets/Plugins/LitJson.dll</HintPath>
+ <HintPath>C:/Users/Gilbok Lee/Documents/GitHub/bytecodelab/maui-sdk2/maui-sdk/Assets/Plugins/LitJson.dll</HintPath>
  </Reference>
  <Reference Include="websocket-sharp">
- <HintPath>C:/Users/Gilbok Lee/Documents/GitHub/bytecodelab/maui-sdk/Assets/Plugins/websocket-sharp.dll</HintPath>
+ <HintPath>C:/Users/Gilbok Lee/Documents/GitHub/bytecodelab/maui-sdk2/maui-sdk/Assets/Plugins/websocket-sharp.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -138,7 +138,17 @@ namespace maui_sdk.test
             var completion = new ManualResetEvent(false);
 
             Dictionary<string, string> contents = new Dictionary<string, string>();
-            contents.Add("content", "test system message by gilbert");
+            contents.Add("content", "abcd");
+
+            bool onceReceived = false;
+            spider.MessageReceived += (sender, topicKind, messageContents) =>
+                {
+                    if (onceReceived == true)
+                        return;
+
+                    onceReceived = true;
+
+                };
 
             spider.SendChannelMessage(contents, (success, publicationId) =>
             {
@@ -146,6 +156,7 @@ namespace maui_sdk.test
                 Assert.IsTrue(success == true);
                 completion.Set();
             });
+
 
             completion.WaitOne();
         }
@@ -424,6 +435,16 @@ namespace maui_sdk.test
 
             var completion = new ManualResetEvent(false);
 
+            spider.Error += (sender, error) =>
+                {
+                    
+                };
+
+
+            spider.Closed += (sender, error) =>
+                {
+                };
+
             spider.GetPlayers((success, result) =>
             {
                 Assert.IsTrue(success == true);
@@ -434,7 +455,7 @@ namespace maui_sdk.test
                 Assert.IsTrue(getChannelsResult.PlatformUserIds.Count > 0);
                 Assert.IsTrue(string.IsNullOrEmpty(getChannelsResult.PlatformUserIds[0]) == false);
 
-                completion.Set();
+                //completion.Set();
             });
 
             completion.WaitOne();

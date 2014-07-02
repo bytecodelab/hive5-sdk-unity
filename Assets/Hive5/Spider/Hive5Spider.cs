@@ -332,6 +332,7 @@ namespace Hive5
         void mySocket_OnClose(object sender, CloseEventArgs e)
         {
 			Logger.Log ("[OnClose]");
+            OnClosed();
         }
 
 
@@ -353,7 +354,7 @@ namespace Hive5
                         this.IsConnected = true;
 
                         // Subscribe들
-                        this.SubscribeAll();
+                        //this.SubscribeAll();
 
                         if (connectedCallback != null)
                         {
@@ -603,8 +604,24 @@ namespace Hive5
         #endregion MessageReceived
 
 
+        #region Closed
+
+        public event EventHandler Closed;
+
+        private void OnClosed()
+        {
+            if (Closed == null)
+                return;
+
+            Closed(this, null);
+        }
+
+        #endregion Closed
+
 
         #endregion 이벤트들
+
+
     }
 }
 

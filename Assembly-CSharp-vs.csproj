@@ -1,300 +1,301 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-	<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-	<ProductVersion>10.0.20506</ProductVersion>
-	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{29B91E10-D0E6-73B9-A265-FAEF72D31B26}</ProjectGuid>
-	<OutputType>Library</OutputType>
-	<AppDesignerFolder>Properties</AppDesignerFolder>
-	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-CSharp</AssemblyName>
-	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-	<FileAlignment>512</FileAlignment>
-	<BaseDirectory>Assets</BaseDirectory>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{29B91E10-D0E6-73B9-A265-FAEF72D31B26}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>
+    </RootNamespace>
+    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <BaseDirectory>Assets</BaseDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-	<DebugSymbols>true</DebugSymbols>
-	<DebugType>full</DebugType>
-	<Optimize>false</Optimize>
-	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_4_5_0;UNITY_4_5;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
-	<ErrorReport>prompt</ErrorReport>
-	<WarningLevel>4</WarningLevel>
-	<NoWarn>0169</NoWarn>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;UNITY_4_5_0;UNITY_4_5;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-	<DebugType>pdbonly</DebugType>
-	<Optimize>true</Optimize>
-	<OutputPath>Temp\bin\Release\</OutputPath>
-	<DefineConstants>TRACE</DefineConstants>
-	<ErrorReport>prompt</ErrorReport>
-	<WarningLevel>4</WarningLevel>
-	<NoWarn>0169</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Temp\bin\Release\</OutputPath>
+    <DefineConstants>TRACE;UNITTEST</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-	<Reference Include="System" />
+    <Reference Include="System" />
     <Reference Include="System.XML" />
-	<Reference Include="System.Core" />
-	<Reference Include="System.Xml.Linq" />
-	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
-	</Reference>
-	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
-	</Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UnityEngine">
+      <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Hive5\APIZone.cs" />
-     <Compile Include="Assets\Hive5\Common\Const.cs" />
-     <Compile Include="Assets\Hive5\Common\Enum.cs" />
-     <Compile Include="Assets\Hive5\Common\Exceptions.cs" />
-     <Compile Include="Assets\Hive5\Common\Hive5Config.cs" />
-     <Compile Include="Assets\Hive5\Common\Hive5Extensions.cs" />
-     <Compile Include="Assets\Hive5\Hive5Client.cs" />
-     <Compile Include="Assets\Hive5\Hive5ClientAuth.cs" />
-     <Compile Include="Assets\Hive5\Hive5ClientHttp.cs" />
-     <Compile Include="Assets\Hive5\Hive5ClientLeaderboard.cs" />
-     <Compile Include="Assets\Hive5\Hive5ClientMail.cs" />
-     <Compile Include="Assets\Hive5\Hive5ClientMission.cs" />
-     <Compile Include="Assets\Hive5\Hive5ClientObject.cs" />
-     <Compile Include="Assets\Hive5\Hive5ClientPurchase.cs" />
-     <Compile Include="Assets\Hive5\Hive5ClientReward.cs" />
-     <Compile Include="Assets\Hive5\Hive5ClientSettings.cs" />
-     <Compile Include="Assets\Hive5\Hive5ClientSocialgraph.cs" />
-     <Compile Include="Assets\Hive5\Hive5Response.cs" />
-     <Compile Include="Assets\Hive5\Hive5ResultCode.cs" />
-     <Compile Include="Assets\Hive5\Model\Data\Agreement.cs" />
-     <Compile Include="Assets\Hive5\Model\Data\CompletedMission.cs" />
-     <Compile Include="Assets\Hive5\Model\Data\Config.cs" />
-     <Compile Include="Assets\Hive5\Model\Data\Friend.cs" />
-     <Compile Include="Assets\Hive5\Model\Data\GiftItem.cs" />
-     <Compile Include="Assets\Hive5\Model\Data\HObject.cs" />
-     <Compile Include="Assets\Hive5\Model\Data\Item.cs" />
-     <Compile Include="Assets\Hive5\Model\Data\Mail.cs" />
-     <Compile Include="Assets\Hive5\Model\Data\Mission.cs" />
-     <Compile Include="Assets\Hive5\Model\Data\MyScore.cs" />
-     <Compile Include="Assets\Hive5\Model\Data\Prize.cs" />
-     <Compile Include="Assets\Hive5\Model\Data\PrizedReward.cs" />
-     <Compile Include="Assets\Hive5\Model\Data\Promotion.cs" />
-     <Compile Include="Assets\Hive5\Model\Data\ResetInfo.cs" />
-     <Compile Include="Assets\Hive5\Model\Data\Reward.cs" />
-     <Compile Include="Assets\Hive5\Model\Data\Score.cs" />
-     <Compile Include="Assets\Hive5\Model\Data\UserData.cs" />
-     <Compile Include="Assets\Hive5\Model\JsonHelper.cs" />
-     <Compile Include="Assets\Hive5\Model\RequestBody\SetUserDataRequestBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\AddFriendsResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\ApplyAllRewardsResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\ApplyRewardResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\AttachMailTagsResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\CallProcedureResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\CheckNicknameAvailabilityResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\CommonResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\CompleteApplePurchaseResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\CompleteGooglePurchaseResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\CompleteMissionResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\CompleteNaverPurchaseResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\ConsumeItemResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\ConvertItemResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\CreateApplePurchaseResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\CreateGooglePurchaseResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\CreateMailResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\CreateNaverPurchaseResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\CreateObjectsResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\DetachMailTagsResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\EndRoundResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\GetAgreementsResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\GetCompletedMissionsResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\GetFriendsInfoResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\GetFriendsResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\GetItemsResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\GetMailCountResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\GetMailsResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\GetMyScoreResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\GetObjectsResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\GetRewardInfoResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\GetScoresResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\GetSocialScoresResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\GetUserDataResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\GiftItemResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\IResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\InvalidateRewardResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\LoginResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\LogoutResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\LogsResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\PrizeResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\RemoveFriendsResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\SetNicknameResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\SetUserDataResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\StartRoundResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\SubmitScoreResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\SwitchPlatformResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\UnregisterResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\UpdateFriendsResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Model\ResponseBody\UpdatePushTokenResponseBody.cs" />
-     <Compile Include="Assets\Hive5\Spider\CallUris.cs" />
-     <Compile Include="Assets\Hive5\Spider\Details\CallOptions.cs" />
-     <Compile Include="Assets\Hive5\Spider\Details\ChannelPublishOptions.cs" />
-     <Compile Include="Assets\Hive5\Spider\Details\HelloDetail.cs" />
-     <Compile Include="Assets\Hive5\Spider\Details\MessageDetail.cs" />
-     <Compile Include="Assets\Hive5\Spider\Details\NoticePublishOptions.cs" />
-     <Compile Include="Assets\Hive5\Spider\Details\PrivatrePublishOptions.cs" />
-     <Compile Include="Assets\Hive5\Spider\Details\PublishOptions.cs" />
-     <Compile Include="Assets\Hive5\Spider\Details\SystemPublishOptions.cs" />
-     <Compile Include="Assets\Hive5\Spider\ErrorUris.cs" />
-     <Compile Include="Assets\Hive5\Spider\Helpers\CallbackManager.cs" />
-     <Compile Include="Assets\Hive5\Spider\Helpers\SubscriptionManager.cs" />
-     <Compile Include="Assets\Hive5\Spider\Hive5Spider.cs" />
-     <Compile Include="Assets\Hive5\Spider\Messages\CallMessage.cs" />
-     <Compile Include="Assets\Hive5\Spider\Messages\ErrorMessage.cs" />
-     <Compile Include="Assets\Hive5\Spider\Messages\EventMessage.cs" />
-     <Compile Include="Assets\Hive5\Spider\Messages\GoodbyeMessage.cs" />
-     <Compile Include="Assets\Hive5\Spider\Messages\HelloMessage.cs" />
-     <Compile Include="Assets\Hive5\Spider\Messages\MessageParser.cs" />
-     <Compile Include="Assets\Hive5\Spider\Messages\PublishMessage.cs" />
-     <Compile Include="Assets\Hive5\Spider\Messages\PublishedMessage.cs" />
-     <Compile Include="Assets\Hive5\Spider\Messages\ResultMessage.cs" />
-     <Compile Include="Assets\Hive5\Spider\Messages\SpiderMessage.cs" />
-     <Compile Include="Assets\Hive5\Spider\Messages\SpiderRequestMessage.cs" />
-     <Compile Include="Assets\Hive5\Spider\Messages\SubscribeMessage.cs" />
-     <Compile Include="Assets\Hive5\Spider\Messages\SubscribedMessage.cs" />
-     <Compile Include="Assets\Hive5\Spider\Messages\UnsubscribeMessage.cs" />
-     <Compile Include="Assets\Hive5\Spider\Messages\UnsubscribedMessage.cs" />
-     <Compile Include="Assets\Hive5\Spider\Messages\WampMessageCode.cs" />
-     <Compile Include="Assets\Hive5\Spider\Messages\WelcomeMessage.cs" />
-     <Compile Include="Assets\Hive5\Spider\Models\CallResultCallbackNode.cs" />
-     <Compile Include="Assets\Hive5\Spider\Models\SpiderChannel.cs" />
-     <Compile Include="Assets\Hive5\Spider\Realm.cs" />
-     <Compile Include="Assets\Hive5\Spider\Results\CallErrorResult.cs" />
-     <Compile Include="Assets\Hive5\Spider\Results\CallResult.cs" />
-     <Compile Include="Assets\Hive5\Spider\Results\GetChannelsResult.cs" />
-     <Compile Include="Assets\Hive5\Spider\Results\GetPlayersResult.cs" />
-     <Compile Include="Assets\Hive5\Spider\TopicUris.cs" />
-     <Compile Include="Assets\Hive5\Test\Logger.cs" />
-     <Compile Include="Assets\Hive5\Test\MockMonoSingleton.cs" />
-     <Compile Include="Assets\Hive5\Util\Util.cs" />
-     <Compile Include="Assets\Hive5\lib\MonoSingleton.cs" />
-     <Compile Include="Assets\NGUI\Examples\Scripts\Other\ChatInput.cs" />
-     <Compile Include="Assets\NGUI\Examples\Scripts\Other\DownloadTexture.cs" />
-     <Compile Include="Assets\NGUI\Examples\Scripts\Other\DragDropContainer.cs" />
-     <Compile Include="Assets\NGUI\Examples\Scripts\Other\DragDropItem.cs" />
-     <Compile Include="Assets\NGUI\Examples\Scripts\Other\DragDropRoot.cs" />
-     <Compile Include="Assets\NGUI\Examples\Scripts\Other\DragDropSurface.cs" />
-     <Compile Include="Assets\NGUI\Examples\Scripts\Other\LagPosition.cs" />
-     <Compile Include="Assets\NGUI\Examples\Scripts\Other\LagRotation.cs" />
-     <Compile Include="Assets\NGUI\Examples\Scripts\Other\LoadLevelOnClick.cs" />
-     <Compile Include="Assets\NGUI\Examples\Scripts\Other\LookAtTarget.cs" />
-     <Compile Include="Assets\NGUI\Examples\Scripts\Other\PanWithMouse.cs" />
-     <Compile Include="Assets\NGUI\Examples\Scripts\Other\PlayIdleAnimations.cs" />
-     <Compile Include="Assets\NGUI\Examples\Scripts\Other\SetColorOnSelection.cs" />
-     <Compile Include="Assets\NGUI\Examples\Scripts\Other\ShaderQuality.cs" />
-     <Compile Include="Assets\NGUI\Examples\Scripts\Other\Spin.cs" />
-     <Compile Include="Assets\NGUI\Examples\Scripts\Other\SpinWithMouse.cs" />
-     <Compile Include="Assets\NGUI\Examples\Scripts\Other\TypewriterEffect.cs" />
-     <Compile Include="Assets\NGUI\Examples\Scripts\Other\WindowAutoYaw.cs" />
-     <Compile Include="Assets\NGUI\Examples\Scripts\Other\WindowDragTilt.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\LanguageSelection.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\UIButton.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonColor.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonKeys.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonMessage.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonOffset.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonPlayAnimation.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonRotation.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonScale.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonSound.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonTween.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\UICheckbox.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\UICheckboxControlledComponent.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\UICheckboxControlledObject.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\UIDragCamera.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\UIDragObject.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\UIDragPanelContents.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\UIDraggableCamera.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\UIDraggablePanel.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\UIForwardEvents.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\UIGrid.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\UIImageButton.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\UIInputValidator.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\UIPopupList.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\UISavedOption.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\UIScrollBar.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\UISlider.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\UISliderColors.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Interaction\UITable.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Internal\Localization.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Internal\SpringPanel.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Tweening\TweenColor.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Tweening\TweenPosition.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Tweening\TweenRotation.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Tweening\TweenScale.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Tweening\TweenTransform.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Tweening\TweenVolume.cs" />
-     <Compile Include="Assets\NGUI\Scripts\Tweening\UITweener.cs" />
-     <Compile Include="Assets\NGUI\Scripts\UI\UIAnchor.cs" />
-     <Compile Include="Assets\NGUI\Scripts\UI\UIAtlas.cs" />
-     <Compile Include="Assets\NGUI\Scripts\UI\UICamera.cs" />
-     <Compile Include="Assets\NGUI\Scripts\UI\UIFilledSprite.cs" />
-     <Compile Include="Assets\NGUI\Scripts\UI\UIFont.cs" />
-     <Compile Include="Assets\NGUI\Scripts\UI\UIInput.cs" />
-     <Compile Include="Assets\NGUI\Scripts\UI\UIInputSaved.cs" />
-     <Compile Include="Assets\NGUI\Scripts\UI\UILabel.cs" />
-     <Compile Include="Assets\NGUI\Scripts\UI\UILocalize.cs" />
-     <Compile Include="Assets\NGUI\Scripts\UI\UIOrthoCamera.cs" />
-     <Compile Include="Assets\NGUI\Scripts\UI\UIPanel.cs" />
-     <Compile Include="Assets\NGUI\Scripts\UI\UIRoot.cs" />
-     <Compile Include="Assets\NGUI\Scripts\UI\UISlicedSprite.cs" />
-     <Compile Include="Assets\NGUI\Scripts\UI\UISprite.cs" />
-     <Compile Include="Assets\NGUI\Scripts\UI\UISpriteAnimation.cs" />
-     <Compile Include="Assets\NGUI\Scripts\UI\UIStretch.cs" />
-     <Compile Include="Assets\NGUI\Scripts\UI\UITextList.cs" />
-     <Compile Include="Assets\NGUI\Scripts\UI\UITexture.cs" />
-     <Compile Include="Assets\NGUI\Scripts\UI\UITiledSprite.cs" />
-     <Compile Include="Assets\NGUI\Scripts\UI\UITooltip.cs" />
-     <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
-     <Compile Include="Assets\Scripts\Hive5SampleUI\Agreements.cs" />
-     <Compile Include="Assets\Scripts\Hive5SampleUI\Friends.cs" />
-     <Compile Include="Assets\Scripts\Hive5SampleUI\General.cs" />
-     <Compile Include="Assets\Scripts\Hive5SampleUI\Login.cs" />
-     <Compile Include="Assets\Scripts\Hive5SampleUI\Mails.cs" />
-     <Compile Include="Assets\Scripts\Hive5SampleUI\Procedure.cs" />
-     <Compile Include="Assets\Scripts\Hive5SampleUI\Purchases.cs" />
-     <Compile Include="Assets\Scripts\Hive5SampleUI\Push.cs" />
-     <Compile Include="Assets\Scripts\Hive5SampleUI\Scores.cs" />
-     <Compile Include="Assets\Scripts\Hive5SampleUI\Settings.cs" />
-     <Compile Include="Assets\Scripts\SpiderTest\ComboBox.cs" />
-     <Compile Include="Assets\Scripts\SpiderTest\SpiderTest.cs" />
-     <None Include="Assets\NGUI\Resources\Shaders\Depth.shader" />
-     <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo20.txt" />
-     <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo14.txt" />
-     <None Include="Assets\Resources\Font\nanum.txt" />
-     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Masked Colored.shader" />
-     <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo18.txt" />
-     <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Header.txt" />
-     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (AlphaClip).shader" />
-     <None Include="Assets\NGUI\Examples\Atlases\Fantasy\Fantasy Font - Normal.txt" />
-     <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Normal.txt" />
-     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored.shader" />
-     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (HardClip).shader" />
-     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored Overlay.shader" />
-     <None Include="Assets\NGUI\Examples\Other\English.txt" />
-     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed).shader" />
-     <None Include="Assets\Resources\Font\fontData.txt" />
-     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Additive Colored.shader" />
-     <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Header.txt" />
-     <None Include="Assets\NGUI\Examples\Shaders\Refractive.shader" />
-     <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Normal.txt" />
-     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (SoftClip).shader" />
- <Reference Include="NGUI">
- <HintPath>C:/Users/Gilbok Lee/Documents/GitHub/bytecodelab/maui-sdk2/maui-sdk/Assets/NGUI/DLLs/NGUI.dll</HintPath>
- </Reference>
- <Reference Include="LitJson">
- <HintPath>C:/Users/Gilbok Lee/Documents/GitHub/bytecodelab/maui-sdk2/maui-sdk/Assets/Plugins/LitJson.dll</HintPath>
- </Reference>
- <Reference Include="websocket-sharp">
- <HintPath>C:/Users/Gilbok Lee/Documents/GitHub/bytecodelab/maui-sdk2/maui-sdk/Assets/Plugins/websocket-sharp.dll</HintPath>
- </Reference>
+    <Compile Include="Assets\Hive5\APIZone.cs" />
+    <Compile Include="Assets\Hive5\Common\Const.cs" />
+    <Compile Include="Assets\Hive5\Common\Enum.cs" />
+    <Compile Include="Assets\Hive5\Common\Exceptions.cs" />
+    <Compile Include="Assets\Hive5\Common\Hive5Config.cs" />
+    <Compile Include="Assets\Hive5\Common\Hive5Extensions.cs" />
+    <Compile Include="Assets\Hive5\Hive5Client.cs" />
+    <Compile Include="Assets\Hive5\Hive5ClientAuth.cs" />
+    <Compile Include="Assets\Hive5\Hive5ClientHttp.cs" />
+    <Compile Include="Assets\Hive5\Hive5ClientLeaderboard.cs" />
+    <Compile Include="Assets\Hive5\Hive5ClientMail.cs" />
+    <Compile Include="Assets\Hive5\Hive5ClientMission.cs" />
+    <Compile Include="Assets\Hive5\Hive5ClientObject.cs" />
+    <Compile Include="Assets\Hive5\Hive5ClientPurchase.cs" />
+    <Compile Include="Assets\Hive5\Hive5ClientReward.cs" />
+    <Compile Include="Assets\Hive5\Hive5ClientSettings.cs" />
+    <Compile Include="Assets\Hive5\Hive5ClientSocialgraph.cs" />
+    <Compile Include="Assets\Hive5\Hive5Response.cs" />
+    <Compile Include="Assets\Hive5\Hive5ResultCode.cs" />
+    <Compile Include="Assets\Hive5\Model\Data\Agreement.cs" />
+    <Compile Include="Assets\Hive5\Model\Data\CompletedMission.cs" />
+    <Compile Include="Assets\Hive5\Model\Data\Config.cs" />
+    <Compile Include="Assets\Hive5\Model\Data\Friend.cs" />
+    <Compile Include="Assets\Hive5\Model\Data\GiftItem.cs" />
+    <Compile Include="Assets\Hive5\Model\Data\HObject.cs" />
+    <Compile Include="Assets\Hive5\Model\Data\Item.cs" />
+    <Compile Include="Assets\Hive5\Model\Data\Mail.cs" />
+    <Compile Include="Assets\Hive5\Model\Data\Mission.cs" />
+    <Compile Include="Assets\Hive5\Model\Data\MyScore.cs" />
+    <Compile Include="Assets\Hive5\Model\Data\Prize.cs" />
+    <Compile Include="Assets\Hive5\Model\Data\PrizedReward.cs" />
+    <Compile Include="Assets\Hive5\Model\Data\Promotion.cs" />
+    <Compile Include="Assets\Hive5\Model\Data\ResetInfo.cs" />
+    <Compile Include="Assets\Hive5\Model\Data\Reward.cs" />
+    <Compile Include="Assets\Hive5\Model\Data\Score.cs" />
+    <Compile Include="Assets\Hive5\Model\Data\UserData.cs" />
+    <Compile Include="Assets\Hive5\Model\JsonHelper.cs" />
+    <Compile Include="Assets\Hive5\Model\RequestBody\SetUserDataRequestBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\AddFriendsResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\ApplyAllRewardsResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\ApplyRewardResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\AttachMailTagsResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\CallProcedureResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\CheckNicknameAvailabilityResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\CommonResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\CompleteApplePurchaseResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\CompleteGooglePurchaseResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\CompleteMissionResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\CompleteNaverPurchaseResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\ConsumeItemResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\ConvertItemResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\CreateApplePurchaseResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\CreateGooglePurchaseResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\CreateMailResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\CreateNaverPurchaseResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\CreateObjectsResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\DetachMailTagsResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\EndRoundResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\GetAgreementsResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\GetCompletedMissionsResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\GetFriendsInfoResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\GetFriendsResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\GetItemsResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\GetMailCountResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\GetMailsResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\GetMyScoreResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\GetObjectsResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\GetRewardInfoResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\GetScoresResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\GetSocialScoresResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\GetUserDataResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\GiftItemResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\IResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\InvalidateRewardResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\LoginResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\LogoutResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\LogsResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\PrizeResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\RemoveFriendsResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\SetNicknameResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\SetUserDataResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\StartRoundResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\SubmitScoreResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\SwitchPlatformResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\UnregisterResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\UpdateFriendsResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\UpdatePushTokenResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Spider\CallUris.cs" />
+    <Compile Include="Assets\Hive5\Spider\Details\CallOptions.cs" />
+    <Compile Include="Assets\Hive5\Spider\Details\ChannelPublishOptions.cs" />
+    <Compile Include="Assets\Hive5\Spider\Details\HelloDetail.cs" />
+    <Compile Include="Assets\Hive5\Spider\Details\MessageDetail.cs" />
+    <Compile Include="Assets\Hive5\Spider\Details\NoticePublishOptions.cs" />
+    <Compile Include="Assets\Hive5\Spider\Details\PrivatrePublishOptions.cs" />
+    <Compile Include="Assets\Hive5\Spider\Details\PublishOptions.cs" />
+    <Compile Include="Assets\Hive5\Spider\Details\SystemPublishOptions.cs" />
+    <Compile Include="Assets\Hive5\Spider\ErrorUris.cs" />
+    <Compile Include="Assets\Hive5\Spider\Helpers\CallbackManager.cs" />
+    <Compile Include="Assets\Hive5\Spider\Helpers\SubscriptionManager.cs" />
+    <Compile Include="Assets\Hive5\Spider\Hive5Spider.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\CallMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\ErrorMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\EventMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\GoodbyeMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\HelloMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\MessageParser.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\PublishMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\PublishedMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\ResultMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\SpiderMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\SpiderRequestMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\SubscribeMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\SubscribedMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\UnsubscribeMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\UnsubscribedMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\WampMessageCode.cs" />
+    <Compile Include="Assets\Hive5\Spider\Messages\WelcomeMessage.cs" />
+    <Compile Include="Assets\Hive5\Spider\Models\CallResultCallbackNode.cs" />
+    <Compile Include="Assets\Hive5\Spider\Models\SpiderChannel.cs" />
+    <Compile Include="Assets\Hive5\Spider\Realm.cs" />
+    <Compile Include="Assets\Hive5\Spider\Results\CallErrorResult.cs" />
+    <Compile Include="Assets\Hive5\Spider\Results\CallResult.cs" />
+    <Compile Include="Assets\Hive5\Spider\Results\GetChannelsResult.cs" />
+    <Compile Include="Assets\Hive5\Spider\Results\GetPlayersResult.cs" />
+    <Compile Include="Assets\Hive5\Spider\TopicUris.cs" />
+    <Compile Include="Assets\Hive5\Test\Logger.cs" />
+    <Compile Include="Assets\Hive5\Test\MockMonoSingleton.cs" />
+    <Compile Include="Assets\Hive5\Util\Util.cs" />
+    <Compile Include="Assets\Hive5\lib\MonoSingleton.cs" />
+    <Compile Include="Assets\NGUI\Examples\Scripts\Other\ChatInput.cs" />
+    <Compile Include="Assets\NGUI\Examples\Scripts\Other\DownloadTexture.cs" />
+    <Compile Include="Assets\NGUI\Examples\Scripts\Other\DragDropContainer.cs" />
+    <Compile Include="Assets\NGUI\Examples\Scripts\Other\DragDropItem.cs" />
+    <Compile Include="Assets\NGUI\Examples\Scripts\Other\DragDropRoot.cs" />
+    <Compile Include="Assets\NGUI\Examples\Scripts\Other\DragDropSurface.cs" />
+    <Compile Include="Assets\NGUI\Examples\Scripts\Other\LagPosition.cs" />
+    <Compile Include="Assets\NGUI\Examples\Scripts\Other\LagRotation.cs" />
+    <Compile Include="Assets\NGUI\Examples\Scripts\Other\LoadLevelOnClick.cs" />
+    <Compile Include="Assets\NGUI\Examples\Scripts\Other\LookAtTarget.cs" />
+    <Compile Include="Assets\NGUI\Examples\Scripts\Other\PanWithMouse.cs" />
+    <Compile Include="Assets\NGUI\Examples\Scripts\Other\PlayIdleAnimations.cs" />
+    <Compile Include="Assets\NGUI\Examples\Scripts\Other\SetColorOnSelection.cs" />
+    <Compile Include="Assets\NGUI\Examples\Scripts\Other\ShaderQuality.cs" />
+    <Compile Include="Assets\NGUI\Examples\Scripts\Other\Spin.cs" />
+    <Compile Include="Assets\NGUI\Examples\Scripts\Other\SpinWithMouse.cs" />
+    <Compile Include="Assets\NGUI\Examples\Scripts\Other\TypewriterEffect.cs" />
+    <Compile Include="Assets\NGUI\Examples\Scripts\Other\WindowAutoYaw.cs" />
+    <Compile Include="Assets\NGUI\Examples\Scripts\Other\WindowDragTilt.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\LanguageSelection.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UIButton.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonColor.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonKeys.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonMessage.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonOffset.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonPlayAnimation.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonRotation.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonScale.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonSound.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonTween.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UICheckbox.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UICheckboxControlledComponent.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UICheckboxControlledObject.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UIDragCamera.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UIDragObject.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UIDragPanelContents.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UIDraggableCamera.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UIDraggablePanel.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UIForwardEvents.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UIGrid.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UIImageButton.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UIInputValidator.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UIPopupList.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UISavedOption.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UIScrollBar.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UISlider.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UISliderColors.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UITable.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Internal\Localization.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Internal\SpringPanel.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Tweening\TweenColor.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Tweening\TweenPosition.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Tweening\TweenRotation.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Tweening\TweenScale.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Tweening\TweenTransform.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Tweening\TweenVolume.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Tweening\UITweener.cs" />
+    <Compile Include="Assets\NGUI\Scripts\UI\UIAnchor.cs" />
+    <Compile Include="Assets\NGUI\Scripts\UI\UIAtlas.cs" />
+    <Compile Include="Assets\NGUI\Scripts\UI\UICamera.cs" />
+    <Compile Include="Assets\NGUI\Scripts\UI\UIFilledSprite.cs" />
+    <Compile Include="Assets\NGUI\Scripts\UI\UIFont.cs" />
+    <Compile Include="Assets\NGUI\Scripts\UI\UIInput.cs" />
+    <Compile Include="Assets\NGUI\Scripts\UI\UIInputSaved.cs" />
+    <Compile Include="Assets\NGUI\Scripts\UI\UILabel.cs" />
+    <Compile Include="Assets\NGUI\Scripts\UI\UILocalize.cs" />
+    <Compile Include="Assets\NGUI\Scripts\UI\UIOrthoCamera.cs" />
+    <Compile Include="Assets\NGUI\Scripts\UI\UIPanel.cs" />
+    <Compile Include="Assets\NGUI\Scripts\UI\UIRoot.cs" />
+    <Compile Include="Assets\NGUI\Scripts\UI\UISlicedSprite.cs" />
+    <Compile Include="Assets\NGUI\Scripts\UI\UISprite.cs" />
+    <Compile Include="Assets\NGUI\Scripts\UI\UISpriteAnimation.cs" />
+    <Compile Include="Assets\NGUI\Scripts\UI\UIStretch.cs" />
+    <Compile Include="Assets\NGUI\Scripts\UI\UITextList.cs" />
+    <Compile Include="Assets\NGUI\Scripts\UI\UITexture.cs" />
+    <Compile Include="Assets\NGUI\Scripts\UI\UITiledSprite.cs" />
+    <Compile Include="Assets\NGUI\Scripts\UI\UITooltip.cs" />
+    <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
+    <Compile Include="Assets\Scripts\Hive5SampleUI\Agreements.cs" />
+    <Compile Include="Assets\Scripts\Hive5SampleUI\Friends.cs" />
+    <Compile Include="Assets\Scripts\Hive5SampleUI\General.cs" />
+    <Compile Include="Assets\Scripts\Hive5SampleUI\Login.cs" />
+    <Compile Include="Assets\Scripts\Hive5SampleUI\Mails.cs" />
+    <Compile Include="Assets\Scripts\Hive5SampleUI\Procedure.cs" />
+    <Compile Include="Assets\Scripts\Hive5SampleUI\Purchases.cs" />
+    <Compile Include="Assets\Scripts\Hive5SampleUI\Push.cs" />
+    <Compile Include="Assets\Scripts\Hive5SampleUI\Scores.cs" />
+    <Compile Include="Assets\Scripts\Hive5SampleUI\Settings.cs" />
+    <Compile Include="Assets\Scripts\SpiderTest\ComboBox.cs" />
+    <Compile Include="Assets\Scripts\SpiderTest\SpiderTest.cs" />
+    <None Include="Assets\NGUI\Resources\Shaders\Depth.shader" />
+    <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo20.txt" />
+    <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo14.txt" />
+    <None Include="Assets\Resources\Font\nanum.txt" />
+    <None Include="Assets\NGUI\Resources\Shaders\Unlit - Masked Colored.shader" />
+    <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo18.txt" />
+    <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Header.txt" />
+    <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (AlphaClip).shader" />
+    <None Include="Assets\NGUI\Examples\Atlases\Fantasy\Fantasy Font - Normal.txt" />
+    <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Normal.txt" />
+    <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored.shader" />
+    <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (HardClip).shader" />
+    <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored Overlay.shader" />
+    <None Include="Assets\NGUI\Examples\Other\English.txt" />
+    <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed).shader" />
+    <None Include="Assets\Resources\Font\fontData.txt" />
+    <None Include="Assets\NGUI\Resources\Shaders\Unlit - Additive Colored.shader" />
+    <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Header.txt" />
+    <None Include="Assets\NGUI\Examples\Shaders\Refractive.shader" />
+    <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Normal.txt" />
+    <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (SoftClip).shader" />
+    <Reference Include="NGUI">
+      <HintPath>C:/Users/Gilbok Lee/Documents/GitHub/bytecodelab/maui-sdk2/maui-sdk/Assets/NGUI/DLLs/NGUI.dll</HintPath>
+    </Reference>
+    <Reference Include="LitJson">
+      <HintPath>C:/Users/Gilbok Lee/Documents/GitHub/bytecodelab/maui-sdk2/maui-sdk/Assets/Plugins/LitJson.dll</HintPath>
+    </Reference>
+    <Reference Include="websocket-sharp">
+      <HintPath>C:/Users/Gilbok Lee/Documents/GitHub/bytecodelab/maui-sdk2/maui-sdk/Assets/Plugins/websocket-sharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -304,5 +305,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  
 </Project>

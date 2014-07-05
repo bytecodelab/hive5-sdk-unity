@@ -97,7 +97,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\maui-sdk\Assembly-CSharp-vs.csproj">
+    <ProjectReference Include="..\Assembly-CSharp-vs.csproj">
       <Project>{29b91e10-d0e6-73b9-a265-faef72d31b26}</Project>
       <Name>Assembly-CSharp-vs</Name>
     </ProjectReference>

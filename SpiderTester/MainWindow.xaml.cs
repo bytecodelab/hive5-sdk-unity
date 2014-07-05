@@ -1,6 +1,7 @@
 ﻿using Hive5;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -30,7 +31,8 @@ namespace SpiderTester
         public const string Uuid = "747474747";
         public const string GoogleSdkVersion = "3";
 
-        List<string> logs = new List<string>();
+        ObservableCollection<string> logs = new ObservableCollection<string>();
+        ObservableCollection<string> messages = new ObservableCollection<string>();
 
         Hive5Spider spider { get; set; }
 
@@ -47,8 +49,10 @@ namespace SpiderTester
 
             spider = new Hive5Spider(client);
 
+            ChannelListView.ItemsSource = channels;
             LogListView.ItemsSource = logs;
             PlayerListView.ItemsSource = players;
+            MessageListView.ItemsSource = messages;
 
             Logger.LogOutput += Logger_LogOutput;
 
@@ -57,7 +61,10 @@ namespace SpiderTester
 
         void Logger_LogOutput(string log)
         {
-            logs.Insert(0, log);
+            this.Dispatcher.BeginInvoke((Action)(() =>
+                {
+                    logs.Insert(0, log);
+                }));
         }
 
         private void Login()
@@ -73,6 +80,7 @@ namespace SpiderTester
                 {
                     spider.Closed += spider_Closed;
                     spider.Error += spider_Error;
+                    spider.MessageReceived += spider_MessageReceived;
                 });
             }
             catch (Exception ex)
@@ -81,14 +89,22 @@ namespace SpiderTester
             }
         }
 
+        void spider_MessageReceived(object sender, TopicKind topicKind, Dictionary<string, string> mesageContents)
+        {
+            this.Dispatcher.BeginInvoke((Action)(() =>
+                       {
+                           messages.Add(mesageContents["content"]);
+                       }));
+        }
+
         void spider_Error(object sender, ErrorMessage error)
         {
-            
+            logs.Add("Error" + error.MessageCodeOfError.ToString());
         }
 
         void spider_Closed(object sender, EventArgs e)
         {
-            
+            logs.Add("Closed");
         }
 
         private void ConnectToggle_Click(object sender, RoutedEventArgs e)
@@ -98,7 +114,7 @@ namespace SpiderTester
                 spider.Connect((success) =>
                 {
                     if (success == false)
-                        ConnectToggle.IsChecked = false;    
+                        ConnectToggle.IsChecked = false;
                 });
             }
             else
@@ -106,7 +122,7 @@ namespace SpiderTester
                 spider.Disconnect((success) =>
                 {
                     if (success == false)
-                        ConnectToggle.IsChecked = true;                           
+                        ConnectToggle.IsChecked = true;
                 });
             }
         }
@@ -114,47 +130,91 @@ namespace SpiderTester
         private void UpdateChannelButton_Click(object sender, RoutedEventArgs e)
         {
 
+            spider.GetChannels((success, result) =>
+                {
+                    this.Dispatcher.BeginInvoke((Action)(() =>
+                       {
+                           channels.Clear();
+
+                           GetChannelsResult castedResult = result as GetChannelsResult;
+
+                           foreach (var item in castedResult.Channels)
+                           {
+                               channels.Add(string.Format("[{0}]{1}({2})", item.app_id, item.channel_number, item.session_count));
+                           }
+                       }));
+                });
         }
 
-        List<string> players = new List<string>();
+        ObservableCollection<string> players = new ObservableCollection<string>();
+        ObservableCollection<string> channels = new ObservableCollection<string>();
 
         private void UpdatePlayerButton_Click(object sender, RoutedEventArgs e)
         {
             spider.GetPlayers((success, result) =>
                 {
-                    players.Clear();
+                    this.Dispatcher.BeginInvoke((Action)(() =>
+                       {
+                           players.Clear();
 
-                    GetPlayersResult castedResult = result as GetPlayersResult;
+                           GetPlayersResult castedResult = result as GetPlayersResult;
 
-                    foreach (var item in castedResult.PlatformUserIds)
-                    {
-                        players.Add(item);
-                    }
+                           foreach (var item in castedResult.PlatformUserIds)
+                           {
+                               players.Add(item);
+                           }
+                       }));
                 });
         }
 
         private void ChannelCheck_Click(object sender, RoutedEventArgs e)
         {
+            spider.Subscribe(TopicKind.Channel, (success, subscriptionId) =>
+                {
 
+                });
         }
 
         private void PrivateCheck_Click(object sender, RoutedEventArgs e)
         {
+            spider.Subscribe(TopicKind.Private, (success, subscriptionId) =>
+                {
 
+                });
         }
 
         private void NoticeCheck_Click(object sender, RoutedEventArgs e)
         {
+            spider.Subscribe(TopicKind.Notice, (success, subscriptionId) =>
+                {
 
+                });
         }
 
         private void SystemCheck_Click(object sender, RoutedEventArgs e)
         {
+            spider.Subscribe(TopicKind.System, (success, subscriptionId) =>
+                {
+
+                });
 
         }
 
         private void SendButton_Click(object sender, RoutedEventArgs e)
         {
+            var selected = TopicCombo.SelectedItem as ComboBoxItem;
+
+            var contents = new Dictionary<string, string>();
+            contents.Add("content", InputBox.Text);
+
+            switch ((string)selected.Tag)
+            {
+                case "Channel":
+                    spider.SendChannelMessage(contents, (success, a) =>
+                        {
+                        });
+                    break;
+            }
 
         }
     }

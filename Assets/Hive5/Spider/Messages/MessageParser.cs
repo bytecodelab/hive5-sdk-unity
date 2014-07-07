@@ -50,6 +50,7 @@ namespace Hive5
                 case WampMessageCode.UNSUBSCRIBED:
                     return UnsubscribedMessage.Parse(json);
                 case WampMessageCode.EVENT:
+                    Logger.Log("===--=-==-=-=-=");
                     return EventMessage.Parse(json);
                 case WampMessageCode.CALL:
                     break;

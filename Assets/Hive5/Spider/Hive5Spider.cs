@@ -347,6 +347,7 @@ namespace Hive5
 					Logger.Log("Message couldn't be parsed.");
 	                return;
 				}
+					Logger.Log(message.ToString());
 
 	            switch ((WampMessageCode)message.MessageCode)
 	            {
@@ -500,7 +501,12 @@ namespace Hive5
 
 	                        // subscriptionId를 통해 TopicKind 찾아오기
 	                        TopicKind topicKind = SubscriptionManager.GetTopicKindBySubscriptionId(castedMessage.SubscriptionId);
-	                        OnMessageReceived(topicKind, castedMessage.ArgumentsKw);
+	                       
+                            
+                            Loom.QueueOnMainThread(new Action(() => {
+                                OnMessageReceived(topicKind, castedMessage.ArgumentsKw);
+                            }));
+
 	                    }
 	                    break;
 	                case WampMessageCode.CALL:

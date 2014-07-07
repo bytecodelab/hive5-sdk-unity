@@ -146,6 +146,7 @@
      <Compile Include="Assets\Hive5\Spider\Helpers\CallbackManager.cs" />
      <Compile Include="Assets\Hive5\Spider\Helpers\SubscriptionManager.cs" />
      <Compile Include="Assets\Hive5\Spider\Hive5Spider.cs" />
+     <Compile Include="Assets\Hive5\Spider\Loom.cs" />
      <Compile Include="Assets\Hive5\Spider\Messages\CallMessage.cs" />
      <Compile Include="Assets\Hive5\Spider\Messages\ErrorMessage.cs" />
      <Compile Include="Assets\Hive5\Spider\Messages\EventMessage.cs" />

@@ -46,9 +46,9 @@ public class SpiderTest : MonoBehaviour
             {
                 spiderConnected = success;
 
-                /*
                 hive5Spider.MessageReceived += (sender, topicKind, messageContents) =>
                 {
+					Logger.Log("*******************************");
                     string head = string.Empty;
                     switch (topicKind) {
                     case TopicKind.Channel:
@@ -76,8 +76,7 @@ public class SpiderTest : MonoBehaviour
                     messages += string.Format("{0} {1} {2}", DateTime.Now, head, messageContents["message"]);
 					
                 };
-                */
-
+                
                 /*
 
                 */
@@ -142,6 +141,7 @@ public class SpiderTest : MonoBehaviour
         return new Rect(originRect.xMin + UiGap, originRect.yMin + UiGap * 2, originRect.width - UiGap * 2, originRect.height - UiGap * 3);
     }
 
+	Vector2 scrollPosition = Vector2.zero;
 
     void OnGUI()
     {
@@ -180,7 +180,7 @@ public class SpiderTest : MonoBehaviour
         // CHANNELS BUTTON
         if (GUI.Button(GetSideButtonRect(channelsRect), "RUN") == true)
         {
-            hive5Spider.GetChannels((successOfGetPlayers, result) =>
+            hive5Spider.GetChannels((successOfGetChannels, result) =>
             {
                 GetChannelsResult castedResult = result as GetChannelsResult;
                 channels = string.Empty;
@@ -193,7 +193,7 @@ public class SpiderTest : MonoBehaviour
                 {
                     channels += string.Format("[{0}]{1}({2})", item.app_id, item.channel_number, item.session_count);
                 }
-            });
+			});
         }
 
         // CHANNELS LIST
@@ -410,8 +410,16 @@ public class SpiderTest : MonoBehaviour
         //////////////////////////////////////////////////////////////////////////////////////////////////////
         // LOGS
         Rect logsRect = new Rect(Columns[3], Rows[8], Columns[8] - Columns[3], Rows[9] - Rows[8]);
+		Rect logsTextAreaRect = GetTextAreaRect(logsRect);
+		Rect relativeLogsRect = new Rect(0,0, logsTextAreaRect.width-UiGap, logsTextAreaRect.height -UiGap);
         GUI.Box(logsRect, "LOGS");
-        logs = GUI.TextArea(GetTextAreaRect(logsRect), logs);
+
+		scrollPosition = GUI.BeginScrollView (logsTextAreaRect,
+		                                      scrollPosition, relativeLogsRect);
+
+		logs = GUI.TextArea(relativeLogsRect, logs);
+
+		GUI.EndScrollView ();
 
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -443,7 +451,7 @@ public class SpiderTest : MonoBehaviour
             {
                 case 0:
                     //TopicKind = TopicKind.Channel;
-                    hive5Spider.SendChannelMessage(contents, (success, id) => { });
+					hive5Spider.SendChannelMessage(contents, (success, id) => { });
                     break;
                 case 1:
                     //TopicKind = TopicKind.Private;

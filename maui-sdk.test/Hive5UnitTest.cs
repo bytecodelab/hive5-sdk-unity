@@ -1060,8 +1060,10 @@ namespace maui_sdk.test
 
                 var completion = new ManualResetEvent(false);
                 var parameters = new TupleList<string, string>();
+                parameters.Add("echo", "gilbok");
+                parameters.Add("echo", "gilbok");
 
-                this.ApiClient.CallProcedure("get_user_name", parameters, (response) =>
+                this.ApiClient.CallProcedure("echo", parameters, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
@@ -1501,10 +1503,7 @@ namespace maui_sdk.test
 
                     // 2. 프로퍼티 검증
                     ApplyRewardResponseBody body = response.ResultData as ApplyRewardResponseBody;
-                    if (body.Items != null)
-                    {
-                        Assert.IsTrue(body.Items.Count >= 0);
-                    }
+                    Assert.IsTrue(body.CallReturn != null);
 
                     completion.Set();
                 });

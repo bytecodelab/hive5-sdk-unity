@@ -48,7 +48,6 @@ public class SpiderTest : MonoBehaviour
 
                 hive5Spider.MessageReceived += (sender, topicKind, messageContents) =>
                 {
-					Logger.Log("*******************************");
                     string head = string.Empty;
                     switch (topicKind) {
                     case TopicKind.Channel:

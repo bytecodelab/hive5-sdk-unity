@@ -494,12 +494,9 @@ namespace Hive5
 	                case WampMessageCode.EVENT:
 	                    {
 	                        EventMessage castedMessage = message as EventMessage;
-
-							Logger.Log("***********************2");
-
 	                        // subscriptionId를 통해 TopicKind 찾아오기
 	                        TopicKind topicKind = SubscriptionManager.GetTopicKindBySubscriptionId(castedMessage.SubscriptionId);
-	                        OnMessageReceived(topicKind, castedMessage.ArgumentsKw);
+                            OnMessageReceived(topicKind, castedMessage.ArgumentsKw);
 	                    }
 	                    break;
 	                case WampMessageCode.CALL:

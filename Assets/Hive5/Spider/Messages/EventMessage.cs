@@ -37,7 +37,7 @@ namespace Hive5
             long subscriptionId = JsonHelper.ToLong(parts[1], -1);
             long publicationId = JsonHelper.ToLong(parts[2], -1);
             Dictionary<string, JsonData> details = JsonHelper.GetDictionary(parts[3]);
-            List<JsonData> arguments  = JsonHelper.GetList(parts[4]);
+			List<JsonData> arguments = null; //JsonHelper.GetList(parts[4]);
             Dictionary<string, string> argumentsKw  = JsonHelper.GetStringDictionary(parts[5]);
             
 

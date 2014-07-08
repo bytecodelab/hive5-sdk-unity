@@ -108,13 +108,14 @@ namespace Hive5
         {
             var defaultList = new List<JsonData>();
             if (json == null ||
-                json.IsArray == false)
+                json.IsArray == false ||
+			    json.Count == 0)
                 return defaultList;
 
-            foreach (JsonData item in json)
-            {
-               defaultList.Add(item);
-            }
+            //foreach (JsonData item in json)
+			for (int i = 0; i < json.Count; i++) {
+				defaultList.Add(json[i]);
+			}
 
             return defaultList;
         }

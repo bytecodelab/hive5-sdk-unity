@@ -73,7 +73,7 @@ public class SpiderTest : MonoBehaviour
                         break;
                     }
 					
-                    messages += string.Format("{0} {1} {2}", DateTime.Now, head, messageContents["message"]);
+                    messages += string.Format("{0} {1} {2}\n", DateTime.Now, head, messageContents["message"]);
 					
                 };
                 
@@ -442,7 +442,7 @@ public class SpiderTest : MonoBehaviour
         if (GUI.Button(new Rect(Columns[7], Rows[6], Columns[8] - Columns[7], Rows[7] - Rows[6]), "SEND"))
         {
             Dictionary<string, string> contents = new Dictionary<string, string>();
-            contents.Add("content", inputMessage);
+            contents.Add("message", inputMessage);
 
             if (hive5Spider == null)
                 Debug.Log("hive5Spider is Null");
@@ -466,6 +466,9 @@ public class SpiderTest : MonoBehaviour
                     hive5Spider.SendSystemMessage(contents, (success, id) => { });
                     break;
             }
+
+			// Initialize InputBox
+			inputMessage = string.Empty;
         }
     }
 

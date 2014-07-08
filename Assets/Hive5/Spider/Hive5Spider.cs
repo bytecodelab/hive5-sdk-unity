@@ -338,8 +338,7 @@ namespace Hive5
 
         void mySocket_OnMessage(object sender, MessageEventArgs e)
         {
-			Loom.RunAsync(new Action(()=>
-			                         {
+			Loom.RunAsync(new Action(()=> {
 	            Logger.Log("¢¸ Message received.\tRaw message = " + e.Data);
 	            SpiderMessage message = MessageParser.Parse(e.Data);
 	            if (message == null)

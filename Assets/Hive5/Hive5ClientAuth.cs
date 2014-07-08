@@ -106,7 +106,7 @@ namespace Hive5
         */
         public void Logout(string userId, Callback callback)
         {
-            string accessToken = this.accessToken;
+            string accessToken = this.AccessToken;
 
             throw new NotImplementedException();
         }

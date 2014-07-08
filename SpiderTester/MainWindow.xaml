@@ -1,0 +1,94 @@
+﻿<Window x:Class="SpiderTester.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="SpiderTest" Height="350" Width="525">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="0.3*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="0.15*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="0.4*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="0.15*"/>
+            <ColumnDefinition Width="5"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="24"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="0.3*"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="24"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="0.3*"/>
+            <RowDefinition Height="5"/>
+        </Grid.RowDefinitions>
+        <ToggleButton Content="접속" Grid.Column="7" Grid.Row="1" x:Name="ConnectToggle" Click="ConnectToggle_Click"/>
+        <Border Grid.Column="1" Grid.Row="3" >
+            <Grid Background="LightGray">
+                <Grid VerticalAlignment="Top">
+                    <TextBlock Text="채널들"/>
+                    <Button Content="업데이트" HorizontalAlignment="Right" Padding="0" x:Name="UpdateChannelButton" Click="UpdateChannelButton_Click"/>
+                </Grid>
+                <ListView x:Name="ChannelListView" Margin="0,20,0,0"/>
+            </Grid>
+        </Border>
+        <Border Grid.Column="1" Grid.Row="5" Grid.RowSpan="3">
+            <Grid Background="LightGray">
+                <Grid VerticalAlignment="Top">
+                    <TextBlock Text="사용자들"/>
+                    <Button Content="업데이트" HorizontalAlignment="Right" Padding="0" x:Name="UpdatePlayerButton" Click="UpdatePlayerButton_Click"/>
+                </Grid>
+                <ListView x:Name="PlayerListView" Margin="0,20,0,0"/>
+            </Grid>
+        </Border>
+        <Border Grid.Column="1" Grid.Row="9" >
+            <Grid Background="LightGray">
+                <Grid VerticalAlignment="Top">
+                    <TextBlock Text="구독(Subscribes)"/>
+                </Grid>
+                <Border Margin="0,20,0,0">
+                <StackPanel Background="White" >
+                    <CheckBox Content="Channel" x:Name="ChannelCheck" Click="ChannelCheck_Click"/>
+                    <CheckBox Content="Private" x:Name="PrivateCheck" Click="PrivateCheck_Click"/>
+                    <CheckBox Content="Notice" x:Name="NoticeCheck" Click="NoticeCheck_Click"/>
+                    <CheckBox Content="System" x:Name="SystemCheck" Click="SystemCheck_Click"/>
+                </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <Border Grid.Column="3" Grid.ColumnSpan="5" Grid.Row="3" Grid.RowSpan="3">
+            <Grid Background="LightGray">
+                <Grid VerticalAlignment="Top">
+                    <TextBlock Text="메시지들"/>
+                </Grid>
+                <ListView x:Name="MessageListView" Margin="0,20,0,0"/>
+            </Grid>
+        </Border>
+
+        <ComboBox x:Name="TopicCombo" Grid.Column="3" Grid.Row="7" SelectedIndex="0">
+            <ComboBoxItem Tag="Channel">Channel</ComboBoxItem>
+            <ComboBoxItem Tag="Private">Private</ComboBoxItem>
+            <ComboBoxItem Tag="Notice">Notice</ComboBoxItem>
+            <ComboBoxItem Tag="System">System</ComboBoxItem>
+        </ComboBox>
+        
+        <TextBox Grid.Column="5" Grid.Row="7" x:Name="InputBox" />
+        
+        <Button Grid.Column="7" Grid.Row="7" x:Name="SendButton" Content="전송" Click="SendButton_Click" />
+
+        <Border Grid.Column="3" Grid.ColumnSpan="5" Grid.Row="9">
+            <Grid Background="LightGray">
+                <Grid VerticalAlignment="Top">
+                    <TextBlock Text="로그"/>
+                </Grid>
+                <ListView x:Name="LogListView" Margin="0,20,0,0"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

@@ -133,6 +133,45 @@
      <Compile Include="Assets\Hive5\Model\ResponseBody\UnregisterResponseBody.cs" />
      <Compile Include="Assets\Hive5\Model\ResponseBody\UpdateFriendsResponseBody.cs" />
      <Compile Include="Assets\Hive5\Model\ResponseBody\UpdatePushTokenResponseBody.cs" />
+     <Compile Include="Assets\Hive5\Spider\CallUris.cs" />
+     <Compile Include="Assets\Hive5\Spider\Details\CallOptions.cs" />
+     <Compile Include="Assets\Hive5\Spider\Details\ChannelPublishOptions.cs" />
+     <Compile Include="Assets\Hive5\Spider\Details\HelloDetail.cs" />
+     <Compile Include="Assets\Hive5\Spider\Details\MessageDetail.cs" />
+     <Compile Include="Assets\Hive5\Spider\Details\NoticePublishOptions.cs" />
+     <Compile Include="Assets\Hive5\Spider\Details\PrivatrePublishOptions.cs" />
+     <Compile Include="Assets\Hive5\Spider\Details\PublishOptions.cs" />
+     <Compile Include="Assets\Hive5\Spider\Details\SystemPublishOptions.cs" />
+     <Compile Include="Assets\Hive5\Spider\ErrorUris.cs" />
+     <Compile Include="Assets\Hive5\Spider\Helpers\CallbackManager.cs" />
+     <Compile Include="Assets\Hive5\Spider\Helpers\SubscriptionManager.cs" />
+     <Compile Include="Assets\Hive5\Spider\Hive5Spider.cs" />
+     <Compile Include="Assets\Hive5\Spider\Loom.cs" />
+     <Compile Include="Assets\Hive5\Spider\Messages\CallMessage.cs" />
+     <Compile Include="Assets\Hive5\Spider\Messages\ErrorMessage.cs" />
+     <Compile Include="Assets\Hive5\Spider\Messages\EventMessage.cs" />
+     <Compile Include="Assets\Hive5\Spider\Messages\GoodbyeMessage.cs" />
+     <Compile Include="Assets\Hive5\Spider\Messages\HelloMessage.cs" />
+     <Compile Include="Assets\Hive5\Spider\Messages\MessageParser.cs" />
+     <Compile Include="Assets\Hive5\Spider\Messages\PublishMessage.cs" />
+     <Compile Include="Assets\Hive5\Spider\Messages\PublishedMessage.cs" />
+     <Compile Include="Assets\Hive5\Spider\Messages\ResultMessage.cs" />
+     <Compile Include="Assets\Hive5\Spider\Messages\SpiderMessage.cs" />
+     <Compile Include="Assets\Hive5\Spider\Messages\SpiderRequestMessage.cs" />
+     <Compile Include="Assets\Hive5\Spider\Messages\SubscribeMessage.cs" />
+     <Compile Include="Assets\Hive5\Spider\Messages\SubscribedMessage.cs" />
+     <Compile Include="Assets\Hive5\Spider\Messages\UnsubscribeMessage.cs" />
+     <Compile Include="Assets\Hive5\Spider\Messages\UnsubscribedMessage.cs" />
+     <Compile Include="Assets\Hive5\Spider\Messages\WampMessageCode.cs" />
+     <Compile Include="Assets\Hive5\Spider\Messages\WelcomeMessage.cs" />
+     <Compile Include="Assets\Hive5\Spider\Models\CallResultCallbackNode.cs" />
+     <Compile Include="Assets\Hive5\Spider\Models\SpiderChannel.cs" />
+     <Compile Include="Assets\Hive5\Spider\Realm.cs" />
+     <Compile Include="Assets\Hive5\Spider\Results\CallErrorResult.cs" />
+     <Compile Include="Assets\Hive5\Spider\Results\CallResult.cs" />
+     <Compile Include="Assets\Hive5\Spider\Results\GetChannelsResult.cs" />
+     <Compile Include="Assets\Hive5\Spider\Results\GetPlayersResult.cs" />
+     <Compile Include="Assets\Hive5\Spider\TopicUris.cs" />
      <Compile Include="Assets\Hive5\Test\Logger.cs" />
      <Compile Include="Assets\Hive5\Test\MockMonoSingleton.cs" />
      <Compile Include="Assets\Hive5\Util\Util.cs" />
@@ -225,6 +264,8 @@
      <Compile Include="Assets\Scripts\Hive5SampleUI\Push.cs" />
      <Compile Include="Assets\Scripts\Hive5SampleUI\Scores.cs" />
      <Compile Include="Assets\Scripts\Hive5SampleUI\Settings.cs" />
+     <Compile Include="Assets\Scripts\SpiderTest\ComboBox.cs" />
+     <Compile Include="Assets\Scripts\SpiderTest\SpiderTest.cs" />
      <None Include="Assets\NGUI\Resources\Shaders\Depth.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo20.txt" />
      <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo14.txt" />
@@ -247,10 +288,13 @@
      <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Normal.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (SoftClip).shader" />
  <Reference Include="NGUI">
- <HintPath>C:/Users/Gilbok/Documents/GitHub/bytecodelab/maui-sdk/Assets/NGUI/DLLs/NGUI.dll</HintPath>
+ <HintPath>C:/Users/Gilbok Lee/Documents/GitHub/bytecodelab/maui-sdk2/maui-sdk/Assets/NGUI/DLLs/NGUI.dll</HintPath>
  </Reference>
  <Reference Include="LitJson">
- <HintPath>C:/Users/Gilbok/Documents/GitHub/bytecodelab/maui-sdk/Assets/Plugins/LitJson.dll</HintPath>
+ <HintPath>C:/Users/Gilbok Lee/Documents/GitHub/bytecodelab/maui-sdk2/maui-sdk/Assets/Plugins/LitJson.dll</HintPath>
+ </Reference>
+ <Reference Include="websocket-sharp">
+ <HintPath>C:/Users/Gilbok Lee/Documents/GitHub/bytecodelab/maui-sdk2/maui-sdk/Assets/Plugins/websocket-sharp.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

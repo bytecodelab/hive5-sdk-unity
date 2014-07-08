@@ -23,7 +23,6 @@ namespace Hive5.Model
 				return null;
 
 			var resultCode 	= (int)json["result_code"];
-			string resultMessage;
 
 			return new CommonResponseBody() {
 

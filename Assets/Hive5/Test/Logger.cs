@@ -31,11 +31,32 @@ namespace Hive5
 
         public static void WriteLine(string s)
         {
+            string log = string.Format("{0}: {1}", DateTime.Now.ToString(), s);
 #if UNITTEST
-            Console.WriteLine(s);
+            System.Diagnostics.Debug.WriteLine(log);
 #else
-            UnityEngine.Debug.Log(s);            
+            UnityEngine.Debug.Log(log);            
 #endif
+
+            OnLogOutput(s);
         }
+
+
+        #region LogOutput
+
+        public static event LogOutputEventHandler LogOutput;
+
+        private static void OnLogOutput(string log)
+        {
+            if (LogOutput == null)
+                return;
+
+            LogOutput(log);
+        }
+
+        #endregion LogOutput
+
     }
+
+    public delegate void LogOutputEventHandler(string log);
 }

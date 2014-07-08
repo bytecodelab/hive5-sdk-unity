@@ -30,9 +30,9 @@ namespace Hive5
         protected Hive5Client() { }
 #endif
 
-		private string appKey		= "";
-		private string uuid			= "";
-		private string accessToken 	= "";
+        public string AppKey { get; private set; }
+		public string Uuid			{ get; private set; }
+		public string AccessToken 	{ get; private set; }
 
 		private bool initState 	= false;
 		private bool loginState = false; 
@@ -72,8 +72,8 @@ namespace Hive5
 		*/
 		public void Init(string appKey, string uuid, Hive5APIZone zone)
 		{
-			this.appKey 	= appKey;
-			this.uuid 		= uuid;
+			this.AppKey 	= appKey;
+			this.Uuid 		= uuid;
 
 			if (Hive5APIZone.Beta == zone)
 				this.host 	= APIServer.BetaHost;
@@ -231,11 +231,11 @@ namespace Hive5
 		{
 			Dictionary<string, string> result = new Dictionary<string, string>();
 			
-			result.Add(HeaderKey.AppKey, this.appKey);
-			result.Add(HeaderKey.Uuid, this.uuid);
+			result.Add(HeaderKey.AppKey, this.AppKey);
+			result.Add(HeaderKey.Uuid, this.Uuid);
 
-			if (this.accessToken.Length > 0)
-				result.Add(HeaderKey.Token, this.accessToken);
+			if (this.AccessToken.Length > 0)
+				result.Add(HeaderKey.Token, this.AccessToken);
 			
 			return result;
 		}
@@ -246,7 +246,7 @@ namespace Hive5
 		/// <param name="accessToken">Access token.</param>
 		public void SetAccessToken(string accessToken)
 		{
-			this.accessToken = accessToken;
+			this.AccessToken = accessToken;
 		}
 
 		/// <summary>
@@ -255,7 +255,7 @@ namespace Hive5
 		/// <param name="uuid">UUID.</param>
 		private void SetUuid(string uuid)
 		{
-			this.uuid = uuid;
+			this.Uuid = uuid;
 		}
 
 	}

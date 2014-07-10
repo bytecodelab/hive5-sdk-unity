@@ -13,15 +13,13 @@ namespace Hive5.Model
 	public class Friend
 	{
 		public string platformUserId { set; get; }
-		public List<Item> items { set; get; }
-		public List<UserData> userData { set; get; }
+		public List<HObject> objects { set; get; }
 
 		public static Friend Load(JsonData json)
 		{
 			return new Friend () {
 				platformUserId = (string)json["platform_user_id"],
-				items = Item.LoadList(json["items"]),
-				userData = UserData.LoadList(json["user_data"])
+				objects = HObject.LoadList(json["objects"])
 			};
 		}
 

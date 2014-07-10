@@ -59,7 +59,7 @@ namespace Hive5.Model
 			return new GetMyScoreResponseBody() {
 				ScoresCount = scoresCount,
 				Value = value,
-				Rank = value,
+				Rank = rank,
 			};
 		}
 

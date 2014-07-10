@@ -12,7 +12,7 @@ namespace Hive5.Model
 	/// </summary>
 	public class GetFriendsResponseBody : IResponseBody
 	{
-		public List<UserData> Friends { set; get; }			
+		public List<string> Friends { set; get; }			
 
 		/// <summary>
 		/// Load the specified json.
@@ -23,11 +23,11 @@ namespace Hive5.Model
 			if (json == null)
 				return null;
 
-			List<UserData> friends;
+			List<string> friends;
 
 			try
 			{
-				friends = Hive5.Model.UserData.LoadList( json["friends"] );
+				friends = JsonMapper.ToObject<List<string>>( json["friends"].ToJson());
 			}
 			catch (KeyNotFoundException)
 			{

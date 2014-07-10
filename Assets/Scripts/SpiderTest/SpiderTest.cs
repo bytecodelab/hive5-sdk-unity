@@ -29,7 +29,7 @@ public class SpiderTest : MonoBehaviour
         string sdkVersion = "3";							// 클라이언트에서 사용하고 있는 카카오 sdk의 버전
         string os = OSType.Android;				// 'android' 또는 'ios'
         string appKey = "a40e4122-99d9-44a6-b916-68ed756f79d6";
-        string uuid = "747474747";
+        string uuid = "46018";
 
         string[] objectKeys = new string[] { "" };		// 로그인 후 가져와야할 사용자 object의 key 목록
         string[] configKeys = new string[] { "time_event1" };	// 로그인 후 가져와야할 사용자 configuration의 key

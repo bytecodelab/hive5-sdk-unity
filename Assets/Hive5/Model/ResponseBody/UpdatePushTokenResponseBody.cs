@@ -22,17 +22,6 @@ namespace Hive5.Model
 			if (json == null)
 				return null;
 
-			List<UserData> userData;
-
-			try
-			{
-				userData = UserData.LoadList( json["data"] );
-			}
-			catch (KeyNotFoundException)
-			{
-				userData = null;
-			}
-
 			return new UpdatePushTokenResponseBody() {
 
 			};

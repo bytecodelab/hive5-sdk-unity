@@ -12,6 +12,7 @@ namespace Hive5.Model
 	/// </summary>
 	public class CompleteApplePurchaseResponseBody : IResponseBody
 	{
+		public string CallReturn { get; set; }	
 		
 		/// <summary>
 		/// Load the specified json.
@@ -22,18 +23,18 @@ namespace Hive5.Model
 			if (json == null)
 				return null;
 			
-			var items = new List<Item> ();
-			try
+		    string callReturn = string.Empty;
+
+            try
 			{
-				items = Item.LoadList( json["items"] );
+				callReturn =  json["call_return"].ToJson();
 			}
 			catch (KeyNotFoundException)
 			{
-				items = null;
 			}
-			
-			return new CompleteApplePurchaseResponseBody() {
 
+			return new CompleteApplePurchaseResponseBody() {
+                CallReturn = callReturn,
 			};
 		}
 		

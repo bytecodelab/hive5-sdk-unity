@@ -74,13 +74,21 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.GetScores(leaderboardId, rankMin, rankMax, rangeMin, rangeMax, callback);
 		*/
-		public void GetScores(long leaderboardId, long rankMin, long rankMax, long? rangeMin, long? rangeMax, Callback callback)
+		public void GetScores(long leaderboardId, List<string> objectKeys, long rankMin, long rankMax, long? rangeMin, long? rangeMax, Callback callback)
 		{
 			var url = InitializeUrl (string.Format (APIPath.LeaderboardScores, leaderboardId));
 			
 			// Hive5 API 파라미터 셋팅
 			TupleList<string, string> parameters = new TupleList<string, string>();
 			parameters.Add ("leaderboard_id", leaderboardId.ToString());
+
+				if (objectKeys != null) {
+								foreach (var objectKey in objectKeys) {
+										parameters.Add ("object_key", objectKey);
+								}
+						}
+
+
 			parameters.Add ("rank_min", rankMin.ToString());
 			parameters.Add ("rank_max", rankMax.ToString());
 			if (rangeMin != null)
@@ -140,13 +148,19 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.GetSocialScores(leaderboardId, CallBack callback);
 		*/
-		public void GetSocialScores(long leaderboardId, Callback callback)
+		public void GetSocialScores(long leaderboardId, List<string> objectKeys, Callback callback)
 		{
 			var url = InitializeUrl (string.Format (APIPath.LeaderboardSocialScores, leaderboardId));
 			
 			// Hive5 API 파라미터 셋팅
 			TupleList<string, string> parameters = new TupleList<string, string>();
 			parameters.Add ("leaderboard_id", leaderboardId.ToString());
+
+				if (objectKeys != null) {
+								foreach (var objectKey in objectKeys) {
+										parameters.Add ("object_key", objectKey);
+								}
+						}
 
 			// WWW 호출
             GetHttpAsync(url, parameters.data, GetSocialScoresResponseBody.Load, callback);

@@ -84,7 +84,7 @@ namespace Hive5
 
 				if (objectKeys != null) {
 								foreach (var objectKey in objectKeys) {
-										parameters.Add ("object_key", objectKeys);
+										parameters.Add ("object_key", objectKey);
 								}
 						}
 
@@ -158,7 +158,7 @@ namespace Hive5
 
 				if (objectKeys != null) {
 								foreach (var objectKey in objectKeys) {
-										parameters.Add ("object_key", objectKeys);
+										parameters.Add ("object_key", objectKey);
 								}
 						}
 

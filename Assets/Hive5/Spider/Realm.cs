@@ -10,16 +10,16 @@ namespace Hive5
         private static readonly string RealmStringFormat = "io.hive5.spider.realm.{0}";
 
         
-        public long ChannelId { get; private set; }
+        public long ChannelNumber { get; private set; }
 
-        public Realm(long channelId)
+        public Realm(long channelNumber)
         {
-            this.ChannelId = channelId;
+            this.ChannelNumber = channelNumber;
         }
 
         public override string ToString()
         {
-            return string.Format(RealmStringFormat, this.ChannelId);
+            return string.Format(RealmStringFormat, this.ChannelNumber);
         }
     }
 }

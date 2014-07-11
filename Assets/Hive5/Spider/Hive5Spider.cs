@@ -75,16 +75,16 @@ namespace Hive5
         #region Hello
 
 
-        public void Hello(long channelId)
+        public void Hello(long channelNumber)
         {
             HelloMessage message = new HelloMessage()
             {
-                Realm = new Realm(channelId),
+                Realm = new Realm(channelNumber),
                 Detail = new HelloDetail()
                 {
                     app_key = this.hive5Client.AppKey,
                     auth_token = this.hive5Client.AccessToken,
-                    channel_id = channelId,
+                    channel_id = channelNumber,
                     uuid = this.hive5Client.Uuid,
                 },
             };

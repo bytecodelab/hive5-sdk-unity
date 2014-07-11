@@ -25,7 +25,7 @@ namespace maui_sdk.test
         public const string ValidUserId = "88197948207226176";
         public const string InvalidUserId = "88197948207226112";
         public const string ValidAppKey = "a40e4122-99d9-44a6-b916-68ed756f79d6";
-        public const string Uuid = "747474747";
+        public const string Uuid = "46018";
 
         public const string GoogleSdkVersion = "3";
 
@@ -159,26 +159,26 @@ namespace maui_sdk.test
         //    }
         //}
 
-
         [TestMethod, TestCategory("Auth")]
-        public void Test로그아웃Logout()
+        public void Test닉네임확인CheckNicknameAvailability()
         {
-            string userId = Hive5UnitTest.ValidUserId;
-
             try
             {
+                Login();
+
                 var completion = new ManualResetEvent(false);
 
-                this.ApiClient.Logout(userId, (response) =>
+                this.ApiClient.CheckNicknameAvailability("불량사과", (response) =>
                 {
                     // 1. 기본 반환값 검증
-                    Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
-                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                    Assert.IsTrue(response.ResultData is LogoutResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+                    if (response.ResultCode != Hive5ResultCode.Success)
+                    { 
+                        Assert.IsTrue(string.IsNullOrEmpty(response.ResultMessage) == false); 
+                    }
 
-                    // 2. 프로퍼티 검증
-                    LogoutResponseBody body = response.ResultData as LogoutResponseBody;
-                    Assert.IsTrue(body.UserData != null); // 잘못된 아이디로 로그인했으니
+                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                    Assert.IsTrue(response.ResultData is CommonResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
 
                     completion.Set();
                 });
@@ -190,6 +190,7 @@ namespace maui_sdk.test
                 Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
             }
         }
+
 
         [TestMethod, TestCategory("Auth")]
         public void Test약관동의내역보기GetAgreements()
@@ -315,20 +316,16 @@ namespace maui_sdk.test
 
                     // 2. 프로퍼티 검증
                     GetScoresResponseBody body = response.ResultData as GetScoresResponseBody;
-                    if (body.Scores != null)
-                    {
-                        Assert.IsTrue(body.Scores.Count >= 0);
+                    Assert.IsTrue(body.Scores != null);
+                    Assert.IsTrue(body.Scores.Count >= 0);
 
-                        if (body.Scores.Count > 0)
-                        {
-                            var score = body.Scores[0];
-                            Assert.IsTrue(score.items != null);
-                            Assert.IsTrue(string.IsNullOrEmpty(score.platformUserId) == false);
-                            Assert.IsTrue(score.rank >= -1);
-                            Assert.IsTrue(score.scoredAt != null);
-                            Assert.IsTrue(score.userData != null);
-                            Assert.IsTrue(score.value != null);
-                        }
+                    if (body.Scores.Count > 0)
+                    {
+                        var score = body.Scores[0];
+                        Assert.IsTrue(string.IsNullOrEmpty(score.platformUserId) == false);
+                        Assert.IsTrue(score.rank >= -1);
+                        Assert.IsTrue(score.value != null);
+                        Assert.IsTrue(score.objects != null);
                     }
 
                     completion.Set();
@@ -1168,12 +1165,6 @@ namespace maui_sdk.test
 
                     // 2. 프로퍼티 검증
                     CompleteGooglePurchaseResponseBody body = response.ResultData as CompleteGooglePurchaseResponseBody;
-
-                    if (body.Items != null)
-                    {
-                        Assert.IsTrue(body.Items.Count >= 0);
-                    }
-
                     completion.Set();
                 });
 
@@ -1259,12 +1250,6 @@ namespace maui_sdk.test
 
                     // 2. 프로퍼티 검증
                     CompleteNaverPurchaseResponseBody body = response.ResultData as CompleteNaverPurchaseResponseBody;
-
-                    if (body.Items != null)
-                    {
-                        Assert.IsTrue(body.Items.Count >= 0);
-                    }
-
                     completion.Set();
                 });
 
@@ -1573,7 +1558,7 @@ namespace maui_sdk.test
         #region SOCIALGRAPH
 
         [TestMethod, TestCategory("Social Graph")]
-        public void Test친구리스트가져오기GetFriendsInfo()
+        public void Test친구들정보가져오기GetFriendsInfo()
         {
             //Assert.Inconclusive("InvalidParameter 발생");
             //return;
@@ -1595,6 +1580,42 @@ namespace maui_sdk.test
 
                     // 2. 프로퍼티 검증
                     GetFriendsInfoResponseBody body = response.ResultData as GetFriendsInfoResponseBody;
+
+                    completion.Set();
+                });
+
+                completion.WaitOne();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
+            }
+        }
+
+         [TestMethod, TestCategory("Social Graph")]
+        public void Test친구목록가져오기GetFriends()
+        {
+            //Assert.Inconclusive("InvalidParameter 발생");
+            //return;
+
+            try
+            {
+                Login();
+
+                var completion = new ManualResetEvent(false);
+
+                var friend_ids = new string[] { "881979482072261763", "881979482072261765" };
+
+                this.ApiClient.GetFriends("default", (response) =>
+                {
+                    // 1. 기본 반환값 검증
+                    Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                    Assert.IsTrue(response.ResultData is GetFriendsResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                    // 2. 프로퍼티 검증
+                    GetFriendsResponseBody body = response.ResultData as GetFriendsResponseBody;
+                    Assert.IsTrue(body.Friends != null);
 
                     completion.Set();
                 });

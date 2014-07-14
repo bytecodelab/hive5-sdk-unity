@@ -71,14 +71,21 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.GetFriendsInfo(platformUserIds, CallBack callback);
 		*/
-		public void GetFriendsInfo(string[] platformUserIds, Callback callback)
+		public void GetFriendsInfo(string[] platformUserIds, List<string> objectClasses, Callback callback)
 		{
 			var url = InitializeUrl (APIPath.GetFriendsInfo);
 			
 			// Hive5 API 파라미터 셋팅
 			TupleList<string, string> parameters = new TupleList<string, string>();
 			Array.ForEach ( platformUserIds, key => { parameters.Add( ParameterKey.PlatformUserId, key ); }); 
-			
+			if (objectClasses != null)
+            {
+                foreach (var objectClass in objectClasses)
+                {
+                    parameters.Add("object_class", objectClass);
+                }
+            }
+
 			// WWW 호출
             GetHttpAsync(url, parameters.data, GetFriendsInfoResponseBody.Load, callback);
 		}

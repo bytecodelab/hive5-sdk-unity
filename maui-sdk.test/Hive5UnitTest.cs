@@ -307,7 +307,12 @@ namespace maui_sdk.test
                 Login();
 
                 var completion = new ManualResetEvent(false);
-                this.ApiClient.GetScores(3, 0, 100, null, null, (response) =>
+
+                List<string> objectClasses = new List<string>()
+                {
+                    "sword",
+                };
+                this.ApiClient.GetScores(3, objectClasses, 0, 100, null, null, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
@@ -385,7 +390,11 @@ namespace maui_sdk.test
 
                 var completion = new ManualResetEvent(false);
 
-                this.ApiClient.GetSocialScores(3, (response) =>
+                List<string> objectClasses = new List<string>()
+                {
+                    "sword",
+                };
+                this.ApiClient.GetSocialScores(3, objectClasses, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
@@ -1570,8 +1579,12 @@ namespace maui_sdk.test
                 var completion = new ManualResetEvent(false);
 
                 var friend_ids = new string[] { "881979482072261763", "881979482072261765" };
+                var objectClasses = new List<string>()
+                {
+                    "sword",
+                };
 
-                this.ApiClient.GetFriendsInfo(friend_ids, (response) =>
+                this.ApiClient.GetFriendsInfo(friend_ids, objectClasses, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공

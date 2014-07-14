@@ -77,6 +77,7 @@
      <Compile Include="Assets\Hive5\Model\Data\ResetInfo.cs" />
      <Compile Include="Assets\Hive5\Model\Data\Reward.cs" />
      <Compile Include="Assets\Hive5\Model\Data\Score.cs" />
+     <Compile Include="Assets\Hive5\Model\Data\SocialScore.cs" />
      <Compile Include="Assets\Hive5\Model\JsonHelper.cs" />
      <Compile Include="Assets\Hive5\Model\RequestBody\SetUserDataRequestBody.cs" />
      <Compile Include="Assets\Hive5\Model\ResponseBody\AddFriendsResponseBody.cs" />

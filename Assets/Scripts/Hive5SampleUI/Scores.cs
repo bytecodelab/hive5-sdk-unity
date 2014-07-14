@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using LitJson;
 using Hive5;
 
@@ -16,7 +17,13 @@ public class Scores : MonoBehaviour {
 
 		hive5.SetZone (Hive5APIZone.Beta);
 		hive5.SetDebug ();
-		hive5.GetScores (3, 1, 10, null, null, response => {
+
+		List<string> objectKeys = new List<string> ()
+		{
+			"sword",
+		};
+
+		hive5.GetScores (3, objectKeys, 1, 10, null, null, response => {
 			Debug.Log ("onGetScores");
 			
 			// 성공
@@ -38,9 +45,14 @@ public class Scores : MonoBehaviour {
 	{
 		hive5 = Hive5Client.Instance;    // Hive5Client 호출
 
+		List<string> objectKeys = new List<string> ()
+		{
+			"sword",
+		};
+
 		hive5.SetZone (Hive5APIZone.Beta);
 		hive5.SetDebug ();
-		hive5.GetSocialScores(3, response => {
+		hive5.GetSocialScores(3, objectKeys, response => {
 			Debug.Log ("onGetSocialScores");
 			
 			// 성공

@@ -23,16 +23,17 @@ namespace Hive5.Model
 			Fields = new Dictionary<string, ObjectField> ();
 		}
 
-		static ObjectField ConvertToObjectField (JsonData jsonData)
+		static ObjectField ConvertToObjectField (string key, JsonData jsonData)
 		{
 			if (jsonData == null)
-				return new ObjectFieldNull();
+                return new ObjectFieldNull() { Key = key };
 
 			if (jsonData.IsInt || 
 			    jsonData.IsLong)
 			{
 				return new ObjectFieldLong()
 				{
+                    Key = key,
 					FieldType = ObjectFieldType.Long,
 					Value = JsonHelper.ToLong(jsonData, -1),
 				};
@@ -41,6 +42,7 @@ namespace Hive5.Model
 			{
 				return new ObjectFieldString()
 				{
+                    Key = key,
 					FieldType = ObjectFieldType.String,
 					Value = (string)jsonData,
 				};
@@ -49,6 +51,7 @@ namespace Hive5.Model
 			{
 				return new ObjectFieldDouble()
 				{
+                    Key = key,
 					FieldType = ObjectFieldType.Double,
 					Value = (double)jsonData,
 				};
@@ -57,6 +60,7 @@ namespace Hive5.Model
 			{
 				return new ObjectFieldList()
 				{
+                    Key = key,
 					FieldType = ObjectFieldType.List,
 					Value = GetObjectFieldList(jsonData),
 				};
@@ -69,7 +73,18 @@ namespace Hive5.Model
 
 		static List<ObjectField> GetObjectFieldList (JsonData jsonData)
 		{
-			throw new NotImplementedException ();
+            List<ObjectField> list = new List<ObjectField>();
+            if (jsonData == null ||
+                jsonData.IsArray == false)
+                return list;
+
+            for (int i = 0; i < jsonData.Count; i++) 
+            {
+                var jsonDataChild = jsonData[i];
+                list.Add(ConvertToObjectField("", jsonDataChild));
+            }
+
+            return list;
 		}
 
         /// <summary>
@@ -91,7 +106,11 @@ namespace Hive5.Model
 
 			foreach (string key in (json as System.Collections.IDictionary).Keys)
 			{
-				var of = ConvertToObjectField(json[key]);
+                if (key == "class" ||
+                    key == "id")
+                    continue;
+
+				var of = ConvertToObjectField(key, json[key]);
 				if (of == null)
 				{
 					Logger.Log("json is invalid " + key);

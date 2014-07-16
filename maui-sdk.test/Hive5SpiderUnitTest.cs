@@ -15,16 +15,20 @@ namespace maui_sdk.test
     public class Hive5SpiderUnitTest
     {
         private Hive5Client apiClient { get; set; }
-        public const string ValidUserId = "88197948207226176";
+       
+        public static TestValueSet TestValues { get; set; }
+
 
         [TestInitialize]
         public void InitTest()
         {
+            TestValues = TestValueSet.AinaRod;
+             
             if (this.apiClient == null)
             {
                 var client = Hive5Client.Instance;
-                string appKey = Hive5UnitTest.ValidAppKey;
-                string uuid = Hive5UnitTest.Uuid;
+                string appKey = TestValues.AppKey;
+                string uuid = TestValues.Uuid;
 
                 client.Init(appKey, uuid, Hive5UnitTest.TestZone);
                 this.apiClient = client;
@@ -120,7 +124,7 @@ namespace maui_sdk.test
             Dictionary<string, string> contents = new Dictionary<string, string>();
             contents.Add("content", "test system message by gilbert");
 
-            spider.SendPrivateMessage(Hive5SpiderUnitTest.ValidUserId, contents, (success, publicationId) =>
+            spider.SendPrivateMessage(TestValues.ValidPlatformUserId, contents, (success, publicationId) =>
             {
                 Assert.IsTrue(publicationId > 0);
                 Assert.IsTrue(success == true);
@@ -392,7 +396,7 @@ namespace maui_sdk.test
                     completion.Set();
                 };
 
-            spider.SendPrivateMessage(Hive5SpiderUnitTest.ValidUserId, contents, (success, publicationId) =>
+            spider.SendPrivateMessage(TestValues.ValidPlatformUserId, contents, (success, publicationId) =>
             {
                 Assert.IsTrue(publicationId > 0);
                 Assert.IsTrue(success == true);
@@ -494,8 +498,8 @@ namespace maui_sdk.test
 
         private void Login()
         {
-            string userId = Hive5UnitTest.ValidUserId;
-            string sdkVersion = Hive5UnitTest.GoogleSdkVersion;
+            string userId = TestValues.ValidPlatformUserId;
+            string sdkVersion = TestValues.GoogleSdkVersion;
             string[] objectKeys = new string[] { "" };		// 로그인 후 가져와야할 사용자 object의 key 목록
             string[] configKeys = new string[] { "time_event1" };	// 로그인 후 가져와야할 사용자 configuration의 key
 

@@ -15,6 +15,9 @@ namespace Hive5
 
             JsonData jsonChild = json[propertyName];
 
+            if (jsonChild == null)
+                return defaultValue;
+
             return ToLong(jsonChild, defaultValue);
         }
 

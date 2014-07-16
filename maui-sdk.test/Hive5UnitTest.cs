@@ -22,12 +22,10 @@ namespace maui_sdk.test
 #else
         public static Hive5APIZone TestZone = Hive5APIZone.Production;
 #endif
-        public const string ValidUserId = "88197948207226176";
-        public const string InvalidUserId = "88197948207226112";
-        public const string ValidAppKey = "a40e4122-99d9-44a6-b916-68ed756f79d6";
-        public const string Uuid = "46018";
-
+        
         public const string GoogleSdkVersion = "3";
+
+        public static TestValueSet TestValues { get; set; }
 
         #endregion 설정값들
 
@@ -36,6 +34,7 @@ namespace maui_sdk.test
         [TestInitialize]
         public void InitializeTests()
         {
+            TestValues = TestValueSet.AinaRod;
             if (this.ApiClient == null)
             {
                 TestInit();
@@ -44,8 +43,8 @@ namespace maui_sdk.test
 
         private void Login()
         {
-            string userId = Hive5UnitTest.ValidUserId;
-            string sdkVersion = Hive5UnitTest.GoogleSdkVersion;
+            string userId = TestValues.ValidPlatformUserId;
+            string sdkVersion = TestValues.GoogleSdkVersion;
             string[] objectKeys = new string[] { "" };		// 로그인 후 가져와야할 사용자 object의 key 목록
             string[] configKeys = new string[] { "time_event1" };	// 로그인 후 가져와야할 사용자 configuration의 key
 
@@ -88,8 +87,8 @@ namespace maui_sdk.test
         {
             var client = Hive5Client.Instance;
             //client.SetDebug();
-            string appKey = Hive5UnitTest.ValidAppKey;
-            string uuid = Hive5UnitTest.Uuid;
+            string appKey = TestValues.AppKey;
+            string uuid = TestValues.Uuid;
 
             try
             {
@@ -308,11 +307,7 @@ namespace maui_sdk.test
 
                 var completion = new ManualResetEvent(false);
 
-                List<string> objectClasses = new List<string>()
-                {
-                    "sword",
-                };
-                this.ApiClient.GetScores(3, objectClasses, 0, 100, null, null, (response) =>
+                this.ApiClient.GetScores(TestValues.LeaderBoardId, TestValues.ObjectClasses, 0, 100, null, null, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
@@ -636,7 +631,7 @@ namespace maui_sdk.test
             string[] tags = new string[] { sampleTag };
             long createMailId = 0;
 
-            this.ApiClient.CreateMail(content, Hive5UnitTest.ValidUserId, tags, (response) =>
+            this.ApiClient.CreateMail(content, TestValues.ValidPlatformUserId, tags, (response) =>
             {
                 // 1. 기본 반환값 검증
                 Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
@@ -943,18 +938,10 @@ namespace maui_sdk.test
                     new HObject() 
                     { 
                         @class = sampleClassType, 
-                        changes = new {
-                            item_name = "Babo Sword", 
-                            size = "100"
-                        }
                     },
                     new HObject() 
                     { 
                         @class = sampleClassType2, 
-                        changes = new {
-                            item_name = "Babo Shield", 
-                            size = "101"
-                        }
                     },
                 };
 

@@ -72,6 +72,7 @@
     <Compile Include="Hive5SpiderUnitTest.cs" />
     <Compile Include="Hive5UnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestValueSet.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Assembly-CSharp-vs.csproj">

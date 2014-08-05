@@ -27,7 +27,7 @@ namespace Hive5
             if (string.IsNullOrEmpty(s) == true)
                 return null;
 
-            JsonData json = JsonMapper.ToObject(s);
+			JsonData json = JsonMapper.ToObject<LitJson.JsonData>(s);
             if (json.Count < 3 ||
                 json.Count > 5)
                 return null;

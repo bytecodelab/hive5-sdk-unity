@@ -10,7 +10,7 @@ namespace Hive5
     {
         public static SpiderMessage Parse(string json)
         {
-            JsonData jsonData = JsonMapper.ToObject(json);
+			JsonData jsonData = JsonMapper.ToObject<LitJson.JsonData>(json);
             if (jsonData.Count == 0)
                 return null;
 

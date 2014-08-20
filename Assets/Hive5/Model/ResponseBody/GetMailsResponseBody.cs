@@ -27,7 +27,7 @@ namespace Hive5.Model
 
 			try
 			{
-				mails = Mail.LoadList(JsonMapper.ToObject(json["mails"].ToJson()));
+				mails = Mail.LoadList(JsonMapper.ToObject<LitJson.JsonData>(json["mails"].ToJson()));
 			}
 			catch (KeyNotFoundException)
 			{

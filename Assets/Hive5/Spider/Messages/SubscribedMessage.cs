@@ -20,7 +20,7 @@ namespace Hive5
             if (string.IsNullOrEmpty(s) == true)
                 return null;
 
-            var parts = LitJson.JsonMapper.ToObject(s);
+			var parts = LitJson.JsonMapper.ToObject<LitJson.JsonData>(s);
 
             if (parts.Count != 3)
                 return null;

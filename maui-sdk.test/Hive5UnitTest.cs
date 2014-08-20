@@ -34,7 +34,8 @@ namespace maui_sdk.test
         [TestInitialize]
         public void InitializeTests()
         {
-            TestValues = TestValueSet.AinaRod;
+            //TestValues = TestValueSet.AinaRod;
+            TestValues = TestValueSet.Default;
             if (this.ApiClient == null)
             {
                 TestInit();
@@ -274,7 +275,7 @@ namespace maui_sdk.test
 
                 var completion = new ManualResetEvent(false);
 
-                this.ApiClient.GetMyScore(3, 0, 100, (response) =>
+                this.ApiClient.GetMyScore("3", 0, 100, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
@@ -307,7 +308,7 @@ namespace maui_sdk.test
 
                 var completion = new ManualResetEvent(false);
 
-                this.ApiClient.GetScores(TestValues.LeaderBoardId, TestValues.ObjectClasses, 0, 100, null, null, (response) =>
+                this.ApiClient.GetScores(TestValues.LeaderBoardKey, TestValues.ObjectClasses, 0, 100, null, null, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
@@ -351,7 +352,7 @@ namespace maui_sdk.test
 
                 var completion = new ManualResetEvent(false);
 
-                this.ApiClient.SubmitScore(3, 100, (response) =>
+                this.ApiClient.SubmitScore("3", 100, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
@@ -389,7 +390,7 @@ namespace maui_sdk.test
                 {
                     "sword",
                 };
-                this.ApiClient.GetSocialScores(3, objectClasses, (response) =>
+                this.ApiClient.GetSocialScores("3", objectClasses, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공

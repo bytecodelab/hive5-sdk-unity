@@ -55,7 +55,7 @@ namespace Hive5.Model
 			var listCount = json.Count;
 			for (int currentCount = 0; currentCount < listCount; currentCount++) 
 			{
-				mails.Add(Mail.Load(JsonMapper.ToObject(json[currentCount].ToJson())));
+				mails.Add(Mail.Load(JsonMapper.ToObject<LitJson.JsonData>(json[currentCount].ToJson())));
 			}
 
 			return mails;

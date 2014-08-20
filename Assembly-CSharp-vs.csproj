@@ -284,11 +284,16 @@
       <HintPath>C:/Users/Gilbok/Documents/GitHub/bytecodelab/maui-sdk/Assets/NGUI/DLLs/NGUI.dll</HintPath>
     </Reference>
     <Reference Include="LitJson">
-      <HintPath>C:/Users/Gilbok/Documents/GitHub/bytecodelab/maui-sdk/Assets/Plugins/LitJson.dll</HintPath>
+      <HintPath>Assets\Plugins\LitJson.dll</HintPath>
     </Reference>
     <Reference Include="websocket-sharp">
-      <HintPath>C:/Users/Gilbok/Documents/GitHub/bytecodelab/maui-sdk/Assets/Plugins/websocket-sharp.dll</HintPath>
+      <HintPath>Assets\Plugins\websocket-sharp.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\Plugins\LitJson.dll" />
+    <Content Include="Assets\Plugins\NGUI.dll" />
+    <Content Include="Assets\Plugins\websocket-sharp.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

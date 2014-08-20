@@ -3,7 +3,10 @@ obj
 bin
 *.suo
 temp
+**/metadata/**/*
 **/Library/*
+**/Library/metadata
+**/Library/metadata/**/*
 **/Temp/*
 **/Assets/**/*.meta
 *.userprefs

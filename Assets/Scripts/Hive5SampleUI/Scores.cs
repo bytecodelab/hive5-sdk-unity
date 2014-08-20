@@ -23,7 +23,7 @@ public class Scores : MonoBehaviour {
 			"sword",
 		};
 
-		hive5.GetScores (3, objectKeys, 1, 10, null, null, response => {
+		hive5.GetScores ("3", objectKeys, 1, 10, null, null, response => {
 			Debug.Log ("onGetScores");
 			
 			// 성공
@@ -52,7 +52,7 @@ public class Scores : MonoBehaviour {
 
 		hive5.SetZone (Hive5APIZone.Beta);
 		hive5.SetDebug ();
-		hive5.GetSocialScores(3, objectKeys, response => {
+		hive5.GetSocialScores("3", objectKeys, response => {
 			Debug.Log ("onGetSocialScores");
 			
 			// 성공

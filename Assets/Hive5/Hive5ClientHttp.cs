@@ -16,6 +16,11 @@ namespace Hive5
 #endif
 
 #if UNITTEST
+
+		string GetErrorResponseWithError (string error)
+		{
+			throw new NotImplementedException ();
+		}
          /// <summary>
         /// Https the get.
         /// </summary>
@@ -141,8 +146,45 @@ namespace Hive5
             if (this.isDebug) Logger.Log("www reuqest URL = " + newUrl);
             if (this.isDebug) Logger.Log("www response = " + www.text);
 
-            callback(Hive5Response.Load(loader, www.text));
+			string httpResponse = www.text;
+
+			if (string.IsNullOrEmpty(www.error) == false) {
+					httpResponse = GetErrorResponseWithError(www.error);
+					Logger.Log(httpResponse);
+			}
+
+			callback(Hive5Response.Load(loader, httpResponse));
         }
+
+		string GetErrorResponseWithError (string error)
+		{
+				string trimmedError = error.Trim();
+				int errorCode = (int)Hive5ResultCode.UnknownError;
+				string resultMessage = string.Empty;
+				int index = trimmedError.IndexOf(" ");
+				if (index != -1)
+				{
+					string codePart = trimmedError.Substring(0, index);
+					int parsedErrorCode = 0;
+					if (int.TryParse(codePart, out parsedErrorCode) == true)
+					{
+						errorCode = parsedErrorCode;
+						resultMessage = trimmedError.Substring(index+1);
+					}
+					else
+					{
+						errorCode = (int)Hive5ResultCode.NetworkError;
+						resultMessage = trimmedError;
+					}
+				}
+				else
+				{
+					resultMessage = trimmedError;
+				}
+				
+				string httpResponse = string.Format("{{\"result_code\":{0}, \"result_message\":\"{1}\" }}", errorCode, resultMessage);
+				return httpResponse;
+		}
 
         private IEnumerator PostHttp(string url, object requestBody, Hive5Response.dataLoader loader, Callback callback)
         {
@@ -169,7 +211,14 @@ namespace Hive5
             if (this.isDebug) Logger.Log("www request jsonBody= " + jsonString);
             if (this.isDebug) Logger.Log("www response = " + www.text);
 
-            callback(Hive5Response.Load(loader, www.text));
+				string httpResponse = www.text;
+				
+				if (string.IsNullOrEmpty(www.error) == false) {
+					httpResponse = GetErrorResponseWithError(www.error);
+					Logger.Log(httpResponse);
+				}
+				
+				callback(Hive5Response.Load(loader, httpResponse));
         }
 
          /// <summary>

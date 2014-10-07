@@ -30,7 +30,7 @@ namespace Hive5.Model
 			
 			if (json == null)
 				return null;
-			
+
 			var userId 				= (int)json["user_id"];
 			var mailboxNewItemCount = (int)json["mailbox_new_item_count"];
 			var accessToken 		= (string)json["access_token"];

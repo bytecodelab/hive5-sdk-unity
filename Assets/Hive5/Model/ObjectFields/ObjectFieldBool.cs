@@ -12,25 +12,11 @@ using Hive5;
 
 namespace Hive5
 {
-	public enum ObjectFieldType
+	public class ObjectFieldBool : ObjectFieldHasValue<bool>
 	{
-		None = 0,
-		Null = 1,
-		Long = 2,
-		Double = 3,
-		String = 4,
-		List = 5,
-		Bool = 6,
-	};
-
-	public abstract class ObjectField
-	{
-		public string Key { get; set; }
-		public ObjectFieldType FieldType { get; set; }
-
-		public ObjectField ()
+		public ObjectFieldBool ()
 		{
-			this.FieldType = ObjectFieldType.None;
+			this.FieldType = ObjectFieldType.Bool;
 		}
 	}
 }

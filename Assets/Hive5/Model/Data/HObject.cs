@@ -29,13 +29,20 @@ namespace Hive5.Model
                 return new ObjectFieldNull() { Key = key };
 
 			if (jsonData.IsInt || 
-			    jsonData.IsLong)
-			{
-				return new ObjectFieldLong()
+								jsonData.IsLong) {
+								return new ObjectFieldLong ()
 				{
                     Key = key,
 					FieldType = ObjectFieldType.Long,
 					Value = JsonHelper.ToLong(jsonData, -1),
+				};
+			} 
+			else if (jsonData.IsBoolean) {
+				return new ObjectFieldBool()
+				{
+					Key = key,
+					FieldType = ObjectFieldType.Bool,
+					Value = (bool)jsonData,
 				};
 			}
 			else if (jsonData.IsString)

@@ -14,8 +14,9 @@ public class Procedure : MonoBehaviour {
 		hive5 = Hive5Client.Instance;
 		var parameters = new TupleList<string, string> ();
         parameters.Add("echo", "gilbok");
-		
-		hive5.CallProcedure("echo", parameters, response => {
+
+		//hive5.CallProcedure("echo", parameters, response => {
+		hive5.CallProcedure("", parameters, response => {
 			Debug.Log ("onCallProcedure");
 			Debug.Log ("result data = "+response.ResultData);
 

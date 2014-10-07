@@ -37,7 +37,10 @@ namespace Hive5
 				resultMessage = "";
 			}
 
-			IResponseBody resultData = loader(response);
+			IResponseBody resultData = null;
+			if (resultCode == 0) {
+				resultData = loader (response);
+			}
 
 			return new Hive5Response () {
 				ResultCode = resultCode,

@@ -13,6 +13,7 @@ namespace Hive5.Model
 	/// </summary>
 	public class SocialScore
 	{
+		public string platform { get; set; }
 		public string platformUserId { set; get; }
 		public DateTime? scoredAt { set; get; }
 		public long? value { set; get; }
@@ -73,6 +74,7 @@ namespace Hive5.Model
 
 			if (json ["scored_at"] != null) {
 				return new SocialScore () {
+					platform = (string)json["platform"],
 					platformUserId = (string)json["platform_user_id"],
 					value = value,
 					rank = rank,

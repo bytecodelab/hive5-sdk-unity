@@ -323,6 +323,7 @@ namespace maui_sdk.test
                     if (body.Scores.Count > 0)
                     {
                         var score = body.Scores[0];
+                        Assert.IsTrue(string.IsNullOrEmpty(score.platform) == false);
                         Assert.IsTrue(string.IsNullOrEmpty(score.platformUserId) == false);
                         Assert.IsTrue(score.rank >= -1);
                         Assert.IsTrue(score.value != null);
@@ -401,6 +402,15 @@ namespace maui_sdk.test
                     GetSocialScoresResponseBody body = response.ResultData as GetSocialScoresResponseBody;
                     Assert.IsTrue(body.Scores != null);
                     Assert.IsTrue(body.Scores.Count > 0);
+                    if (body.Scores.Count > 0)
+                    {
+                        var score = body.Scores[0];
+                        Assert.IsTrue(string.IsNullOrEmpty(score.platform) == false);
+                        Assert.IsTrue(string.IsNullOrEmpty(score.platformUserId) == false);
+                        Assert.IsTrue(score.rank >= -1);
+                        Assert.IsTrue(score.value != null);
+                        Assert.IsTrue(score.objects != null);
+                    }
 
                     completion.Set();
                 });

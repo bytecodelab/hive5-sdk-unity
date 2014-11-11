@@ -16,6 +16,9 @@ namespace Hive5.Model
 		public string 	AccessToken;
 		public int 		MailboxNewItemCount;
 
+		public string Platform;
+		public string PlatformUserId;
+
 		public List<Config> 	Configs;				
 		public List<Mission> 	CompletedMissions;	
 		public List<Agreement> 	Agreements;			
@@ -38,13 +41,16 @@ namespace Hive5.Model
 			var configs 			= Config.LoadList( json ["configs"] );
 			var promotions			= Promotion.LoadList ( json ["promotions"] );
 			var agreements 			= Agreement.LoadList ( json ["agreements"] );
-			
+			var platform = (string)json ["platform"];
+			var platformUserId = (string)json ["platform_user_id"];
 			
 			return new LoginResponseBody ()
 			{
 				AccessToken = accessToken, 
 				MailboxNewItemCount = mailboxNewItemCount, 
 				UserId = userId, 
+				Platform = platform,
+				PlatformUserId = platformUserId,
 				CompletedMissions = completedMissions, 
 				Promotions = promotions, 
 				Agreements = agreements,

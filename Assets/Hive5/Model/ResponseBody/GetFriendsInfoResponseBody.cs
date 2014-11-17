@@ -12,6 +12,8 @@ namespace Hive5.Model
 	/// </summary>
 	public class GetFriendsInfoResponseBody : IResponseBody
 	{
+		public List<Friend> Friends { set; get; }			
+
 		/// <summary>
 		/// Load the specified json.
 		/// </summary>
@@ -21,7 +23,19 @@ namespace Hive5.Model
 			if (json == null)
 				return null;
 
+			List<Friend> friends;
+
+			try
+			{
+				friends = Friend.LoadList(json["friends"]);
+			}
+			catch (KeyNotFoundException)
+			{
+				friends = null;
+			}
+			
 			return new GetFriendsInfoResponseBody() {
+				Friends		= friends
 			};
 		}
 

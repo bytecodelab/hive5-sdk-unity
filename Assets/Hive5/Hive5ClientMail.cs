@@ -42,6 +42,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.CreateMail(content, friendPlatformUserId, tags, callback);
 		*/
+		[Obsolete("CreateMail without friendPlatform is deprecated, please use CreateMail with friendPlatform instead.")]
 		public void CreateMail(string content, string friendPlatformUserId, string[] tags,  Callback callback)
 		{
 			// Hive5 API URL 초기화
@@ -55,6 +56,43 @@ namespace Hive5
 			
 			// WWW 호출
             PostHttpAsync(url, requestBody, CreateMailResponseBody.Load, callback);
+		}
+
+			/** 
+		* @api {POST} CreateMail 메일 생성하기
+		* @apiVersion 0.2.0
+		* @apiName CreateMail
+		* @apiGroup Mail
+		*
+		* @apiParam {string} content 메일 본문
+		* @apiParam {string} friendPlatform 받는사람 플랫폼
+		* @apiParam {string} friendPlatformUserId 받는사람 플랫폼 UserId
+		* @apiParam {string[]} tags 메일 Tags
+		* @apiParam {Callback} callback 콜백 함수
+		*
+		* @apiSuccess {String} resultCode Error Code 참고
+		* @apiSuccess {String} resultMessage 요청 실패시 메시지
+		* @apiExample Example usage:
+		* Hive5Client hive5 = Hive5Client.Instance;
+		* hive5.CreateMail(content, friendPlatformUserId, tags, callback);
+		*/
+		public void CreateMail(string content, string friendPlatform, string friendPlatformUserId, string[] tags,  Callback callback)
+		{
+			if (string.IsNullOrEmpty (friendPlatform) == true)
+				throw new NullReferenceException ("friendPlatform should not be empty!");
+
+			// Hive5 API URL 초기화
+			var url = InitializeUrl(string.Format(APIPath.SubmitMail));
+			
+			var requestBody = new {
+				content	= content,
+				platform = friendPlatform,
+				platform_user_id = friendPlatformUserId,
+				tags = tags
+			};
+			
+			// WWW 호출
+			PostHttpAsync(url, requestBody, CreateMailResponseBody.Load, callback);
 		}
 
 		/** 

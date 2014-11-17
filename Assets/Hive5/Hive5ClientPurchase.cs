@@ -105,6 +105,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.CreateGooglePurchase(productCode, receiverPlatformUserId, mailForReceiver, callback);
 		*/
+		[Obsolete("CreateGooglePurchase without receiverPlatform is deprecated, please use CreateGooglePurchase with receiverPlatform instead.")]
 		public void CreateGooglePurchase(string productCode, string receiverPlatformUserId, string mailForReceiver, Callback callback)
 		{
 			// Hive5 API URL 초기화
@@ -112,6 +113,43 @@ namespace Hive5
 			
 			var requestBody = new {
 				product_code 				= productCode,
+				receiver_platform_user_id	= receiverPlatformUserId,
+				mail_for_receiver			= mailForReceiver
+			};
+			
+			// WWW 호출
+			PostHttpAsync(url, requestBody, CreateGooglePurchaseResponseBody.Load, callback);
+		}
+
+		/** 
+		* @api {POST} CreateGooglePurchase 구글 결제 시작
+		* @apiVersion 0.2.0
+		* @apiName CreateGooglePurchase
+		* @apiGroup Purchase
+		*
+		* @apiParam {string} productCode 상품 코드
+		* @apiParam {string} receiverPlatform 선물 받을 플랫폼
+		* @apiParam {string} receiverPlatformUserId 선물 받을 플랫폼 User ID
+		* @apiParam {string} mailForReceiver 메일로 받을 경우
+		* @apiParam {Callback} callback 콜백 함수
+		*
+		* @apiSuccess {String} resultCode Error Code 참고
+		* @apiSuccess {String} resultMessage 요청 실패시 메시지
+		* @apiExample Example usage:
+		* Hive5Client hive5 = Hive5Client.Instance;
+		* hive5.CreateGooglePurchase(productCode, receiverPlatformUserId, mailForReceiver, callback);
+		*/
+		public void CreateGooglePurchase(string productCode, string receiverPlatform, string receiverPlatformUserId, string mailForReceiver, Callback callback)
+		{
+			if (string.IsNullOrEmpty (receiverPlatform) == true)
+				throw new NullReferenceException ("receiverPlatform should not be empty!");
+
+			// Hive5 API URL 초기화
+			var url = InitializeUrl(APIPath.CreateGooglePurchase);
+			
+			var requestBody = new {
+				product_code 				= productCode,
+				receiver_platform 			= receiverPlatform,
 				receiver_platform_user_id	= receiverPlatformUserId,
 				mail_for_receiver			= mailForReceiver
 			};
@@ -156,8 +194,7 @@ namespace Hive5
 			// WWW 호출
             PostHttpAsync(url, requestBody, CompleteGooglePurchaseResponseBody.Load, callback);
 		}
-		
-		
+	
 		/** 
 		* @api {POST} CreateApplePurchase 애플 결제 시작
 		* @apiVersion 0.2.0
@@ -175,6 +212,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.CreateApplePurchase(productCode, receiverPlatformUserId, mailForReceiver, callback);
 		*/
+		[Obsolete("CreateApplePurchase without receiverPlatform is deprecated, please use CreateApplePurchase with receiverPlatform instead.")]
 		public void CreateApplePurchase(string productCode, string receiverPlatformUserId, string mailForReceiver, Callback callback)
 		{
 			// Hive5 API URL 초기화
@@ -182,6 +220,43 @@ namespace Hive5
 			
 			var requestBody = new {
 				product_code 				= productCode,
+				receiver_platform_user_id	= receiverPlatformUserId,
+				mail_for_receiver			= mailForReceiver
+			};
+			
+			// WWW 호출
+			PostHttpAsync(url, requestBody, CreateApplePurchaseResponseBody.Load, callback);
+		}
+
+		/** 
+		* @api {POST} CreateApplePurchase 애플 결제 시작
+		* @apiVersion 0.2.0
+		* @apiName CreateApplePurchase
+		* @apiGroup Purchase
+		*
+		* @apiParam {string} productCode 상품 코드
+		* @apiParam {string} receiverPlatform 선물 받을 플랫폼
+		* @apiParam {string} receiverPlatformUserId 선물 받을 플랫폼 User ID
+		* @apiParam {string} mailForReceiver 메일로 받을 경우
+		* @apiParam {Callback} callback 콜백 함수
+		*
+		* @apiSuccess {String} resultCode Error Code 참고
+		* @apiSuccess {String} resultMessage 요청 실패시 메시지
+		* @apiExample Example usage:
+		* Hive5Client hive5 = Hive5Client.Instance;
+		* hive5.CreateApplePurchase(productCode, receiverPlatformUserId, mailForReceiver, callback);
+		*/
+		public void CreateApplePurchase(string productCode, string receiverPlatform, string receiverPlatformUserId, string mailForReceiver, Callback callback)
+		{
+			if (string.IsNullOrEmpty (receiverPlatform) == true)
+				throw new NullReferenceException ("receiverPlatform should not be empty!");
+
+			// Hive5 API URL 초기화
+			var url = InitializeUrl(APIPath.CreateApplePurchase);
+			
+			var requestBody = new {
+				product_code 				= productCode,
+				receiver_platform  			= receiverPlatform,
 				receiver_platform_user_id	= receiverPlatformUserId,
 				mail_for_receiver			= mailForReceiver
 			};

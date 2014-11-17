@@ -136,11 +136,13 @@ namespace Hive5
 	/// </summary>
 	public class PlatformType
 	{
+		public static string None 		= "none";
 		public static string Kakao 		= "kakao";
 		public static string Naver 		= "naver";
 		public static string Facebook 	= "facebook";
 		public static string Google 	= "google";
-		public static string None 		= "none";
+		public static string QQ			= "qq";
+		public static string WeChat 	= "wechat";
 	}
 
 }

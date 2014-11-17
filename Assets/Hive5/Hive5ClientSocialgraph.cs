@@ -86,8 +86,9 @@ namespace Hive5
 		* @apiName GetFriendsInfo
 		* @apiGroup SocialGraph
 		*
-		* @apiParam {string} friend platform
-		* @apiParam {string[]} friend_ids 친구 ID 리스트
+		* @apiParam {string} platform 친구 platform
+		* @apiParam {string[]} platformUserIds 친구 ID 리스트
+		* @apiParam {List<string>} objectClasses 오브젝트 클래스들
 		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고

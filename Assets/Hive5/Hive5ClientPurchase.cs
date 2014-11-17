@@ -137,7 +137,7 @@ namespace Hive5
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
 		* @apiExample Example usage:
 		* Hive5Client hive5 = Hive5Client.Instance;
-		* hive5.CreateGooglePurchase(productCode, receiverPlatformUserId, mailForReceiver, callback);
+		* hive5.CreateGooglePurchase(productCode, receiverPlatform, receiverPlatformUserId, mailForReceiver, callback);
 		*/
 		public void CreateGooglePurchase(string productCode, string receiverPlatform, string receiverPlatformUserId, string mailForReceiver, Callback callback)
 		{
@@ -244,7 +244,7 @@ namespace Hive5
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
 		* @apiExample Example usage:
 		* Hive5Client hive5 = Hive5Client.Instance;
-		* hive5.CreateApplePurchase(productCode, receiverPlatformUserId, mailForReceiver, callback);
+		* hive5.CreateApplePurchase(productCode, receiverPlatform, receiverPlatformUserId, mailForReceiver, callback);
 		*/
 		public void CreateApplePurchase(string productCode, string receiverPlatform, string receiverPlatformUserId, string mailForReceiver, Callback callback)
 		{

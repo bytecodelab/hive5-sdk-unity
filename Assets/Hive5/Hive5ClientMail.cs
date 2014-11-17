@@ -74,7 +74,7 @@ namespace Hive5
 		* @apiSuccess {String} resultMessage 요청 실패시 메시지
 		* @apiExample Example usage:
 		* Hive5Client hive5 = Hive5Client.Instance;
-		* hive5.CreateMail(content, friendPlatformUserId, tags, callback);
+		* hive5.CreateMail(content, friendPlatform, friendPlatformUserId, tags, callback);
 		*/
 		public void CreateMail(string content, string friendPlatform, string friendPlatformUserId, string[] tags,  Callback callback)
 		{

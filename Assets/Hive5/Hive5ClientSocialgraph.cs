@@ -27,7 +27,7 @@ namespace Hive5
 		
 		/** 
 		* @api {POST} UpdateFriends 친구 리스트 업데이트
-		* @apiVersion 0.2.0
+		* @apiVersion 0.3.11-beta
 		* @apiName UpdateFriends
 		* @apiGroup SocialGraph
 		*
@@ -60,7 +60,7 @@ namespace Hive5
 		
 		/** 
 		* @api {POST} UpdateFriends 친구 리스트 업데이트
-		* @apiVersion 0.2.0
+		* @apiVersion 0.3.11-beta
 		* @apiName UpdateFriends
 		* @apiGroup SocialGraph
 		*
@@ -82,7 +82,7 @@ namespace Hive5
 		
 		/** 
 		* @api {GET} GetFriendsInfo 친구 리스트 가져오기
-		* @apiVersion 0.2.0
+		* @apiVersion 0.3.11-beta
 		* @apiName GetFriendsInfo
 		* @apiGroup SocialGraph
 		*
@@ -119,7 +119,7 @@ namespace Hive5
 		
 		/** 
 		* @api {GET} GetFriendsInfo 친구 리스트 가져오기
-		* @apiVersion 0.2.0
+		* @apiVersion 0.3.11-beta
 		* @apiName GetFriendsInfo
 		* @apiGroup SocialGraph
 		*
@@ -139,7 +139,7 @@ namespace Hive5
 
 		/** 
 		* @api {POST} AddFriends 친구 리스트 add
-		* @apiVersion 0.2.0
+		* @apiVersion 0.3.11-beta
 		* @apiName AddFriends
 		* @apiGroup SocialGraph
 		*
@@ -172,7 +172,7 @@ namespace Hive5
 	
 		/** 
 		* @api {POST} AddFriends 친구 리스트 add
-		* @apiVersion 0.2.0
+		* @apiVersion 0.3.11-beta
 		* @apiName AddFriends
 		* @apiGroup SocialGraph
 		*
@@ -193,7 +193,7 @@ namespace Hive5
 
 		/** 
 		* @api {POST} RemoveFriends 친구 리스트 remove
-		* @apiVersion 0.2.0
+		* @apiVersion 0.3.11-beta
 		* @apiName RemoveFriends
 		* @apiGroup SocialGraph
 		*
@@ -226,7 +226,7 @@ namespace Hive5
 
 		/** 
 		* @api {POST} RemoveFriends 친구 리스트 remove
-		* @apiVersion 0.2.0
+		* @apiVersion 0.3.11-beta
 		* @apiName RemoveFriends
 		* @apiGroup SocialGraph
 		*
@@ -248,7 +248,7 @@ namespace Hive5
 
 		/** 
 		* @api {GET} GetFriends 친구 리스트 가져오기 from a group
-		* @apiVersion 0.2.0
+		* @apiVersion 0.3.11-beta
 		* @apiName GetFriends
 		* @apiGroup SocialGraph
 		*

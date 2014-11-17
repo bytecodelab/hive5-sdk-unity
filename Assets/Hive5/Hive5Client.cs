@@ -90,7 +90,7 @@ namespace Hive5
 
 		/** 
 		* @api {POST} UpdatePushToken Push 토큰 등록 및 업데이트
-		* @apiVersion 0.2.0
+		* @apiVersion 0.3.11-beta
 		* @apiName UpdatePushToken
 		* @apiGroup Push
 		*
@@ -126,7 +126,7 @@ namespace Hive5
 		
 		/** 
 		* @api {POST} CallProcedure Procedure 호출
-		* @apiVersion 0.2.0
+		* @apiVersion 0.3.11-beta
 		* @apiName CallProcedure
 		* @apiGroup Procedure
 		*

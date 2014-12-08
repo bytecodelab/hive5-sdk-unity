@@ -57,6 +57,10 @@ namespace Hive5
 		public static string ApplyReward 			= "rewards/apply/{0}";
 	 	public static string ApplyAllReward 		= "rewards/apply_all";
 		public static string InvalidateReward 		= "rewards/invalidate/{0}";
+		public static string CreatePlatformAccount  = "accounts";
+		public static string CheckPlatformNameAvailability  = "accounts/is_available_name/{0}";
+		public static string CheckPlatformEmailAvailability  = "accounts/is_available_email/{0}";
+		public static string AuthenticatePlatformAccount  = "accounts/authenticate";
 		public static string AddFriends 			= "friends/add";
 		public static string RemoveFriends 			= "friends/remove";
 		public static string UpdateFriends 			= "friends/update";

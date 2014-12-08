@@ -223,5 +223,67 @@ namespace Hive5
             PostHttpAsync(url, requestBody, SwitchPlatformResponseBody.Load, callback);
         }
 
+		public void CreatePlatformAccount(string name, string password, Callback callback, string displayName = "", string email = "")
+		{
+			Logger.Log("CreatePlatformAccount called");
+			
+			var url = InitializeUrl(APIPath.CreatePlatformAccount);
+			
+			var requestBody = new
+			{
+				name = name,
+				password = password,
+				display_name = displayName,
+				email = email,
+			};
+			
+			Logger.Log(url);
+			
+			// WWW 호출
+				PostHttpAsync(url, requestBody, CreatePlatformAccountResponseBody.Load, callback);
+
+		}
+
+		public void CheckPlatformNameAvailability(string name, Callback callback)
+		{
+			Logger.Log("CheckPlatformNameAvailability called");
+			
+			var url = string.Format(InitializeUrl(APIPath.CheckPlatformNameAvailability), name);
+		
+			Logger.Log(url);
+		
+			// WWW 호출           
+			GetHttpAsync(url, null, CheckPlatformNameAvailabilityResponseBody.Load, callback);
+		}
+
+		public void CheckPlatformEmailAvailablity(string email, Callback callback)
+		{
+			Logger.Log("CheckPlatformEmailAvailablity called");
+			
+			var url = string.Format(InitializeUrl(APIPath.CheckPlatformEmailAvailability), email);
+			
+			Logger.Log(url);
+			
+			// WWW 호출           
+			GetHttpAsync(url, null, CheckPlatformEmailAvailabilityResponseBody.Load, callback);
+		}
+
+		public void AuthenticatePlatformAccount(string name, string password, Callback callback)
+		{
+			Logger.Log("AuthenticatePlatformAccount called");
+			
+			var url = InitializeUrl(APIPath.AuthenticatePlatformAccount);
+			
+			var requestBody = new
+			{
+				name = name,
+				password = password,
+			};
+			
+			Logger.Log(url);
+			
+			// WWW 호출
+			PostHttpAsync(url, requestBody, AuthenticatePlatformAccountResponseBody.Load, callback);
+		}
     }
 }

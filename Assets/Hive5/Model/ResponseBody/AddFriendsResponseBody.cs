@@ -12,7 +12,6 @@ namespace Hive5.Model
 	/// </summary>
 	public class AddFriendsResponseBody : IResponseBody
 	{	
-
 		/// <summary>
 		/// Load the specified json.
 		/// </summary>

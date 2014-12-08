@@ -53,10 +53,6 @@ namespace Hive5
 		HttpStatusHttpVersionNotSupported = 505,
 		InvalidParameter 			= 1001,	
 		DataDoesNotExist 			= 1002,
-		ConditionsAreNotMet 		= 2001,
-		TooManyConditions 			= 2002, //Max 5
-		TooManyGetDataRequest 		= 2003, //Max 10
-		TooManySetDataRequest 		= 2004,	//Max 10
 		InvalidReward 				= 2101, 
 		InvalidPurchaseStatus 		= 2201,
 		InvalidPaymentSequence 		= 2202,
@@ -65,8 +61,6 @@ namespace Hive5
 		InvalidGoogleSignature 		= 2205, 
 		NoGoogleIapPublicKeyIsRegistered = 2206, 
 		InvalidGoogleIapPublicKey 	= 2207, 
-		NoItemConversionIsDefined 	= 2301,
-		NotEnoughItem 				= 2302,
 		NoIapConversion 			= 2303, 
 		MissionAlreadyCompleted 	= 2401, 
 		InvalidRoundStatus 			= 2601, 
@@ -74,7 +68,37 @@ namespace Hive5
 		TheItemIsNotAbleToGift 		= 2702, 
 		TheItemCannotGiftBecauseItHasRecentlyGifted = 2703, 
 		TooManyCountToGift 			= 2704, 
+		AlreadyExistingNickname		= 2801,
+		ForbiddenNickname			= 2802,
+
+		JavascriptExceptionOnProcedure	= 3001,
+
+		UndefinedProcedure				= 3101,
+		ProtectedProcedure				= 3102,
+		ProtectedMethodClassDescriptor	= 3103,
+		UndefinedLibrary				= 3104,
+
+		ObjectNoFound					= 3201,
+		SingletonCanNotBeDestroyed		= 3202,
+		InvalidObjectField				= 3203,
+		TooManyObjectFields				= 3204,
+
+		DataTableNotFound				= 3301,
+
+		InvalidReturn					= 3401,
+
+		UndefinedAppDataKey				= 3501,
+
+		ExecutionTimeout				= 3901,
+		StackOverflow					= 3902,
+		UnsupportedLibraryOrFunction	= 3903,
+		UnsupportedDataType				= 3904,
+
+		AlreadyExistingPlatformUserName 	= 4001,
+		AlreadyExistingPlatformUserEmail 	= 4002,
+
 		TheUserHasBeenDisabled 		= 8001,
+
 		UnknownError 				= 9999
 	}
 }

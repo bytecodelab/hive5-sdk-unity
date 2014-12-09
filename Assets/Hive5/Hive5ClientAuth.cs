@@ -227,6 +227,10 @@ namespace Hive5
 		{
 			Logger.Log("CreatePlatformAccount called");
 			
+			if (string.IsNullOrEmpty (Hive5Config.XPlatformKey) == true)
+				throw new NullReferenceException ("Please fill Hive5Config.XPlatformKey"); 
+
+
 			var url = InitializeUrl(APIPath.CreatePlatformAccount);
 			
 			var requestBody = new
@@ -248,6 +252,9 @@ namespace Hive5
 		{
 			Logger.Log("CheckPlatformNameAvailability called");
 			
+			if (string.IsNullOrEmpty (Hive5Config.XPlatformKey) == true)
+				throw new NullReferenceException ("Please fill Hive5Config.XPlatformKey"); 
+
 			var url = string.Format(InitializeUrl(APIPath.CheckPlatformNameAvailability), name);
 		
 			Logger.Log(url);
@@ -260,6 +267,9 @@ namespace Hive5
 		{
 			Logger.Log("CheckPlatformEmailAvailablity called");
 			
+			if (string.IsNullOrEmpty (Hive5Config.XPlatformKey) == true)
+				throw new NullReferenceException ("Please fill Hive5Config.XPlatformKey"); 
+
 			var url = string.Format(InitializeUrl(APIPath.CheckPlatformEmailAvailability), email);
 			
 			Logger.Log(url);
@@ -272,6 +282,9 @@ namespace Hive5
 		{
 			Logger.Log("AuthenticatePlatformAccount called");
 			
+			if (string.IsNullOrEmpty (Hive5Config.XPlatformKey) == true)
+				throw new NullReferenceException ("Please fill Hive5Config.XPlatformKey"); 
+
 			var url = InitializeUrl(APIPath.AuthenticatePlatformAccount);
 			
 			var requestBody = new

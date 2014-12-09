@@ -15,7 +15,8 @@ namespace Hive5.Model
 {
 	public class CreatePlatformAccountResponseBody : IResponseBody
 		{	
-			
+			public string Id { get; set; }
+
 			/// <summary>
 			/// Load the specified json.
 			/// </summary>
@@ -25,12 +26,17 @@ namespace Hive5.Model
 				if (json == null)
 					return null;
 				
+				string id = string.Empty;
+				try
+				{
+					id = (string)json["id"];
+				}
+				catch {}
 				
-			return new CreatePlatformAccountResponseBody() {
-					
+				return new CreatePlatformAccountResponseBody() {
+					Id = id
 				};
 			}
-			
 		}
 }
 

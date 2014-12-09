@@ -193,6 +193,7 @@ namespace Hive5
             var headers = new Hashtable();
             headers.Add(HeaderKey.AppKey, this.AppKey);
             headers.Add(HeaderKey.Uuid, this.Uuid);
+			headers.Add(HeaderKey.XPlatformKey, Hive5Config.XPlatformKey);
 			headers.Add (HeaderKey.AcceptEncoding, HeaderValue.Gzip);
 
 			if (string.IsNullOrEmpty (this.AccessToken) == false) {

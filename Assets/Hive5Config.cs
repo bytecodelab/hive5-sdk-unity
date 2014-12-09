@@ -12,8 +12,9 @@ namespace Hive5
 {
 	public static class Hive5Config
 	{
-		public static string AppKey 		= "a40e4122-99d9-44a6-b916-68ed756f79d6"; // SampleApp
+		public static string AppKey 		= "a40e4122-99d9-44a6-b916-68ed756f79d6"; // Sample game
 		public static string XPlatformKey 	= ""; // If you need it, request us 
+		public static string CustomAccountPlatformName = ""; 
 	}
 }
 

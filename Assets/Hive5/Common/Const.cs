@@ -9,6 +9,7 @@ namespace Hive5
 	{
 		public static string ProductionHost	= "https://hornet.hive5.io";
 		public static string BetaHost 		= "https://beta.hornet.hive5.io";
+        public static string AlphaHost = "https://alpha.hornet.hive5.io";
 		public static string Version 		= "v5";
 	}
 

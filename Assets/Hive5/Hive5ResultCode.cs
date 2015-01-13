@@ -96,6 +96,7 @@ namespace Hive5
 
 		AlreadyExistingPlatformUserName 	= 4001,
 		AlreadyExistingPlatformUserEmail 	= 4002,
+        InvalidNameOrPassword               = 4003,
 
 		TheUserHasBeenDisabled 		= 8001,
 

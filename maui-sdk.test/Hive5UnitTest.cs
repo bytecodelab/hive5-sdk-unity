@@ -18,7 +18,7 @@ namespace maui_sdk.test
         #region 설정값들
 
 #if DEBUG
-        public static Hive5APIZone TestZone = Hive5APIZone.Beta;
+        public static Hive5APIZone TestZone = Hive5APIZone.Alpha;
 #else
         public static Hive5APIZone TestZone = Hive5APIZone.Production;
 #endif
@@ -36,6 +36,8 @@ namespace maui_sdk.test
         {
             //TestValues = TestValueSet.AinaRod;
             TestValues = TestValueSet.Default;
+            Hive5.Hive5Config.CustomAccountPlatformName = "bigfoot";
+            Hive5.Hive5Config.XPlatformKey = "4b9ea368-2809-4e57-91a1-d9ce7ac39534";
             if (this.ApiClient == null)
             {
                 TestInit();
@@ -258,6 +260,198 @@ namespace maui_sdk.test
         public void Test탈퇴Unregister()
         {
             Assert.Inconclusive("테스트 구현 안함 - 가입API가 없는데, 소중한 유저 탈퇴를 호출하기 겁남");
+        }
+
+        [TestMethod, TestCategory("Auth")]
+        public void Test플랫폼계정생성CreatePlatformAccount()
+        {
+            var completion = new ManualResetEvent(false);
+
+            string name = DateTime.Now.Ticks.ToString().ToString();
+            string email = string.Format("{0}@example.com", name);
+            this.ApiClient.CreatePlatformAccount(name, "12345678", (response) =>
+            {
+                // 1. 기본 반환값 검증
+                Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+                Assert.IsTrue(string.IsNullOrEmpty(response.ResultMessage));
+                Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                Assert.IsTrue(response.ResultData is CreatePlatformAccountResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                // 2. 프로퍼티 검증
+                CreatePlatformAccountResponseBody body = response.ResultData as CreatePlatformAccountResponseBody;
+                Assert.IsTrue(body.Id > 0);
+
+                completion.Set();
+            }, "tester", email);
+
+            completion.WaitOne();
+        }
+
+        [TestMethod, TestCategory("Auth")]
+        public void Test플랫폼계정이름중복확인CheckPlatformNameAvailability()
+        {
+            string name = DateTime.Now.Ticks.ToString().ToString();
+            string email = string.Format("{0}@example.com", name);
+
+            var completion1 = new ManualResetEvent(false);
+            this.ApiClient.CheckPlatformNameAvailability(name, (response) =>
+                {
+                    // 1. 기본 반환값 검증
+                    Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+                    Assert.IsTrue(string.IsNullOrEmpty(response.ResultMessage));
+                    
+                    // 2. 프로퍼티 검증
+
+                    completion1.Set();
+                });
+            completion1.WaitOne();
+
+            var completion2 = new ManualResetEvent(false);
+            this.ApiClient.CreatePlatformAccount(name, "12345678", (response) =>
+            {
+                // 1. 기본 반환값 검증
+                Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+                Assert.IsTrue(string.IsNullOrEmpty(response.ResultMessage));
+                Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                Assert.IsTrue(response.ResultData is CreatePlatformAccountResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                // 2. 프로퍼티 검증
+                CreatePlatformAccountResponseBody body = response.ResultData as CreatePlatformAccountResponseBody;
+                Assert.IsTrue(body.Id > 0);
+
+                completion2.Set();
+            }, "tester", email);
+
+
+            completion2.WaitOne();
+
+            var completion3 = new ManualResetEvent(false);
+            this.ApiClient.CheckPlatformNameAvailability(name, (response) =>
+            {
+                // 1. 기본 반환값 검증
+                Assert.IsTrue(response.ResultCode == Hive5ResultCode.AlreadyExistingPlatformUserName); // 일단 반환성공
+                Assert.IsFalse(string.IsNullOrEmpty(response.ResultMessage));
+               
+                // 2. 프로퍼티 검증
+
+                completion3.Set();
+            });
+            completion3.WaitOne();
+        }
+
+        [TestMethod, TestCategory("Auth")]
+        public void Test플랫폼계정이메일중복확인CheckPlatformEmailAvailability()
+        {
+            string name = DateTime.Now.Ticks.ToString().ToString();
+            string email = string.Format("{0}@example.com", name);
+
+            var completion1 = new ManualResetEvent(false);
+            this.ApiClient.CheckPlatformEmailAvailablity(email, (response) =>
+            {
+                // 1. 기본 반환값 검증
+                Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+                Assert.IsTrue(string.IsNullOrEmpty(response.ResultMessage));
+
+                // 2. 프로퍼티 검증
+
+                completion1.Set();
+            });
+            completion1.WaitOne();
+
+            var completion2 = new ManualResetEvent(false);
+            this.ApiClient.CreatePlatformAccount(name, "12345678", (response) =>
+            {
+                // 1. 기본 반환값 검증
+                Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+                Assert.IsTrue(string.IsNullOrEmpty(response.ResultMessage));
+                Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                Assert.IsTrue(response.ResultData is CreatePlatformAccountResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                // 2. 프로퍼티 검증
+                CreatePlatformAccountResponseBody body = response.ResultData as CreatePlatformAccountResponseBody;
+                Assert.IsTrue(body.Id > 0);
+
+                completion2.Set();
+            }, "tester", email);
+
+
+            completion2.WaitOne();
+
+            var completion3 = new ManualResetEvent(false);
+            this.ApiClient.CheckPlatformEmailAvailablity(email, (response) =>
+            {
+                // 1. 기본 반환값 검증
+                Assert.IsTrue(response.ResultCode == Hive5ResultCode.AlreadyExistingPlatformUserEmail); // 일단 반환성공
+                Assert.IsFalse(string.IsNullOrEmpty(response.ResultMessage));
+
+                // 2. 프로퍼티 검증
+
+                completion3.Set();
+            });
+            completion3.WaitOne();
+        }
+
+        [TestMethod, TestCategory("Auth")]
+        public void Test플랫폼계정인증AuthenticatePlatformAccount()
+        {
+            string name = DateTime.Now.Ticks.ToString().ToString();
+            string email = string.Format("{0}@example.com", name);
+            string password = "12345678";
+            string wrongPassword = "00000000";
+
+            int platformUserId = 0;
+
+            var completion1 = new ManualResetEvent(false);
+            this.ApiClient.CreatePlatformAccount(name, password, (response) =>
+            {
+                // 1. 기본 반환값 검증
+                Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+                Assert.IsTrue(string.IsNullOrEmpty(response.ResultMessage));
+                Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                Assert.IsTrue(response.ResultData is CreatePlatformAccountResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                // 2. 프로퍼티 검증
+                CreatePlatformAccountResponseBody body = response.ResultData as CreatePlatformAccountResponseBody;
+                Assert.IsTrue(body.Id > 0);
+                platformUserId = body.Id;
+
+                completion1.Set();
+            }, "tester", email);
+
+            completion1.WaitOne();
+
+            var completion2 = new ManualResetEvent(false);
+            this.ApiClient.AuthenticatePlatformAccount(name, password, (response) =>
+            {
+                // 1. 기본 반환값 검증
+                Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+                Assert.IsTrue(string.IsNullOrEmpty(response.ResultMessage));
+                Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                Assert.IsTrue(response.ResultData is AuthenticatePlatformAccountResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                // 2. 프로퍼티 검증
+                AuthenticatePlatformAccountResponseBody body = response.ResultData as AuthenticatePlatformAccountResponseBody;
+                Assert.IsTrue(body.Id == platformUserId);
+
+                completion2.Set();
+            });
+
+            completion2.WaitOne();
+
+            var completion3 = new ManualResetEvent(false);
+            this.ApiClient.AuthenticatePlatformAccount(name, wrongPassword, (response) =>
+            {
+                // 1. 기본 반환값 검증
+                Assert.IsTrue(response.ResultCode == Hive5ResultCode.InvalidNameOrPassword); // 일단 반환성공
+                Assert.IsFalse(string.IsNullOrEmpty(response.ResultMessage));
+                Assert.IsTrue(response.ResultData == null); // 반환데이터는 null이면 안 됨
+              
+                // 2. 프로퍼티 검증
+
+                completion3.Set();
+            });
+
+            completion3.WaitOne();
         }
 
         #endregion AUTH

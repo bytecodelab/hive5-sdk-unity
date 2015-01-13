@@ -244,8 +244,7 @@ namespace Hive5
 			Logger.Log(url);
 			
 			// WWW 호출
-				PostHttpAsync(url, requestBody, CreatePlatformAccountResponseBody.Load, callback);
-
+			PostHttpAsync(url, requestBody, CreatePlatformAccountResponseBody.Load, callback);
 		}
 
 		public void CheckPlatformNameAvailability(string name, Callback callback)

@@ -75,10 +75,25 @@ namespace Hive5
 			this.AppKey 	= appKey;
 			this.Uuid 		= uuid;
 
-			if (Hive5APIZone.Beta == zone)
-				this.host 	= APIServer.BetaHost;
-			else if (Hive5APIZone.Production == zone)
-				this.host 	= APIServer.ProductionHost;
+            switch (zone)
+            {
+                default:
+                case Hive5APIZone.Alpha:
+                    {
+                        this.host = APIServer.AlphaHost;
+                    }
+                    break;
+                case Hive5APIZone.Beta:
+                    {
+                        this.host = APIServer.BetaHost;
+                    }
+                    break;
+                case Hive5APIZone.Production:
+                    {
+                        this.host = APIServer.ProductionHost;
+                    }
+                    break;
+            }
 
 			this.version 	= APIServer.Version;
 			this.initState 	= true;

@@ -35,6 +35,7 @@ namespace Hive5
             headers.Add(HeaderKey.AppKey, this.AppKey);
             headers.Add(HeaderKey.Uuid, this.Uuid);
             headers.Add(HeaderKey.Token, this.AccessToken);
+            headers.Add(HeaderKey.XPlatformKey, Hive5Config.XPlatformKey);
             headers.Add(HeaderKey.ContentType, HeaderValue.ContentType);
 
             string queryString = GetQueryString(parameters);
@@ -68,6 +69,7 @@ namespace Hive5
             headers.Add(HeaderKey.AppKey, this.AppKey);
             headers.Add(HeaderKey.Uuid, this.Uuid);
             headers.Add(HeaderKey.Token, this.AccessToken);
+            headers.Add(HeaderKey.XPlatformKey, Hive5Config.XPlatformKey);
             headers.Add(HeaderKey.ContentType, HeaderValue.ContentType);
 
             // Hive5 API json body 변환

@@ -15,7 +15,7 @@ namespace Hive5.Model
 {
 	public class AuthenticatePlatformAccountResponseBody : IResponseBody
 	{	
-		public string Id { get; set; }
+		public int Id { get; set; }
 
 		/// <summary>
 		/// Load the specified json.
@@ -26,10 +26,10 @@ namespace Hive5.Model
 			if (json == null)
 				return null;
 
-			string id = string.Empty;
+			int id = -1;
 			try
 			{
-				id = (string)json["id"];
+				id = (int)json["id"];
 			}
 			catch {}
 

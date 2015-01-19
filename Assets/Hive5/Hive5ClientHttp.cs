@@ -129,9 +129,10 @@ namespace Hive5
             headers.Add(HeaderKey.AppKey, this.AppKey);
             headers.Add(HeaderKey.Uuid, this.Uuid);
 			headers.Add (HeaderKey.AcceptEncoding, HeaderValue.Gzip);
-				if (string.IsNullOrEmpty (this.AccessToken) == false) {
-								headers.Add (HeaderKey.Token, this.AccessToken);
-						}
+			if (string.IsNullOrEmpty (this.AccessToken) == false) {
+				headers.Add (HeaderKey.Token, this.AccessToken);
+			}
+            headers.Add(HeaderKey.XPlatformKey, Hive5Config.XPlatformKey);
             headers.Add(HeaderKey.ContentType, HeaderValue.ContentType);
 
             string queryString = GetQueryString(parameters);
@@ -247,7 +248,7 @@ namespace Hive5
         }
 #endif
 
-        	
+
         private void GetHttpAsync(string url, List<KeyValuePair<string, string>> parameters, Hive5Response.dataLoader loader, Callback callback)
         {
 #if UNITTEST

@@ -53,7 +53,9 @@ namespace Hive5
 		HttpStatusHttpVersionNotSupported = 505,
 		InvalidParameter 			= 1001,	
 		DataDoesNotExist 			= 1002,
+
 		InvalidReward 				= 2101, 
+
 		InvalidPurchaseStatus 		= 2201,
 		InvalidPaymentSequence 		= 2202,
 		InvalidAppleReceipt 		= 2203, 
@@ -61,13 +63,22 @@ namespace Hive5
 		InvalidGoogleSignature 		= 2205, 
 		NoGoogleIapPublicKeyIsRegistered = 2206, 
 		InvalidGoogleIapPublicKey 	= 2207, 
+        NoKakaoAppAuthInfo          = 2208,
+
 		NoIapConversion 			= 2303, 
+
 		MissionAlreadyCompleted 	= 2401, 
-		InvalidRoundStatus 			= 2601, 
+
+        PromotionCodeAlreadyConsumed = 2501,
+        InvalidPromotionCode = 2502,
+
+		//InvalidRoundStatus 			= 2601, 
+
 		NotFriend 					= 2701, 
 		TheItemIsNotAbleToGift 		= 2702, 
 		TheItemCannotGiftBecauseItHasRecentlyGifted = 2703, 
 		TooManyCountToGift 			= 2704, 
+
 		AlreadyExistingNickname		= 2801,
 		ForbiddenNickname			= 2802,
 
@@ -98,9 +109,17 @@ namespace Hive5
 		AlreadyExistingPlatformUserEmail 	= 4002,
         InvalidNameOrPassword               = 4003,
 
-		TheUserHasBeenDisabled 		= 8001,
+        InvalidPayload                  = 5001,
 
-		UnknownError 				= 9999
+		TheUserHasBeenBlocked 		    = 8001,
+
+        InvalidAppConfiguration         = 9001,
+        InvalidServiceName              = 9002,
+        InvalidJobItem                  = 9003,
+
+        NotImplemented                  = 9998,
+
+		UnknownError 				    = 9999
 	}
 }
 

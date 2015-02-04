@@ -14,6 +14,7 @@ namespace Hive5.Model
 	{
 		public long 	UserId;
 		public string 	AccessToken;
+        public string   SessionKey;
 		public int 		MailboxNewItemCount;
 
 		public string Platform;
@@ -35,6 +36,7 @@ namespace Hive5.Model
 				return null;
 
 			var userId 				= (int)json["user_id"];
+            var sessionKey = (string)json["session_key"];
 			var mailboxNewItemCount = (int)json["mailbox_new_item_count"];
 			var accessToken 		= (string)json["access_token"];
 			var completedMissions	= Mission.LoadList( json["completed_missions"] );
@@ -47,6 +49,7 @@ namespace Hive5.Model
 			return new LoginResponseBody ()
 			{
 				AccessToken = accessToken, 
+                SessionKey = sessionKey,
 				MailboxNewItemCount = mailboxNewItemCount, 
 				UserId = userId, 
 				Platform = platform,

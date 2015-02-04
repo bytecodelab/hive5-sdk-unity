@@ -35,6 +35,7 @@ namespace Hive5
             headers.Add(HeaderKey.AppKey, this.AppKey);
             headers.Add(HeaderKey.Uuid, this.Uuid);
             headers.Add(HeaderKey.Token, this.AccessToken);
+            headers.Add(HeaderKey.SessionKey, this.SessionKey);
             headers.Add(HeaderKey.XPlatformKey, Hive5Config.XPlatformKey);
             headers.Add(HeaderKey.ContentType, HeaderValue.ContentType);
 
@@ -69,6 +70,7 @@ namespace Hive5
             headers.Add(HeaderKey.AppKey, this.AppKey);
             headers.Add(HeaderKey.Uuid, this.Uuid);
             headers.Add(HeaderKey.Token, this.AccessToken);
+            headers.Add(HeaderKey.SessionKey, this.SessionKey);
             headers.Add(HeaderKey.XPlatformKey, Hive5Config.XPlatformKey);
             headers.Add(HeaderKey.ContentType, HeaderValue.ContentType);
 

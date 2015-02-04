@@ -112,6 +112,7 @@ namespace Hive5
         InvalidPayload                  = 5001,
 
 		TheUserHasBeenBlocked 		    = 8001,
+        TheSessionKeyIsInvalid          = 8002,
 
         InvalidAppConfiguration         = 9001,
         InvalidServiceName              = 9002,

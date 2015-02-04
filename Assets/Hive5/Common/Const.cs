@@ -115,7 +115,8 @@ namespace Hive5
 		public static string Token 			= "X-AUTH-TOKEN"; 	// 서버에서 발급한 인증 token. 사용자 식별이 필요한 API호출에 필요
 		public static string ContentType	= "Content-Type";	// 요청 ContentType
 		public static string AcceptEncoding = "Accept-Encoding"; // 압축여부
-		public static string XPlatformKey 	= "X-PLATFORM-KEY"; 	// Account Platform
+		public static string XPlatformKey  	= "X-PLATFORM-KEY"; 	// Account Platform
+        public static string SessionKey     = "X-SESSION-KEY";  // 중복 로그인 방지를 위한 세션키
 	}	
 
 	/// <summary>

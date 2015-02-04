@@ -33,6 +33,7 @@ namespace Hive5
         public string AppKey { get; private set; }
 		public string Uuid			{ get; private set; }
 		public string AccessToken 	{ get; private set; }
+        public string SessionKey { get; private set; }
 
 		private bool initState 	= false;
 		private bool loginState = false; 
@@ -251,6 +252,9 @@ namespace Hive5
 
 			if (this.AccessToken.Length > 0)
 				result.Add(HeaderKey.Token, this.AccessToken);
+
+            if (string.IsNullOrEmpty(this.SessionKey) == false)
+                result.Add(HeaderKey.SessionKey, this.SessionKey);
 			
 			return result;
 		}
@@ -259,9 +263,10 @@ namespace Hive5
 		/// Sets the access token.
 		/// </summary>
 		/// <param name="accessToken">Access token.</param>
-		public void SetAccessToken(string accessToken)
+		public void SetAccessToken(string accessToken, string sessionKey)
 		{
 			this.AccessToken = accessToken;
+            this.SessionKey = sessionKey;
 		}
 
 		/// <summary>

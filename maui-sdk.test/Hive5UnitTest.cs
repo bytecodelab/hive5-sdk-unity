@@ -162,6 +162,37 @@ namespace maui_sdk.test
         //}
 
         [TestMethod, TestCategory("Auth")]
+        public void TestSessionKey()
+        {
+            try
+            {
+                 Login();
+                string oldSessionKey = this.ApiClient.SessionKey;
+
+                Login();
+                string newSessionKey = this.ApiClient.SessionKey;
+
+                Assert.AreNotEqual(oldSessionKey, newSessionKey);
+
+                this.ApiClient.SetAccessToken(this.ApiClient.AccessToken, oldSessionKey);
+                var completion = new ManualResetEvent(false);
+
+                this.ApiClient.CheckNicknameAvailability("불량사과", (response) =>
+                {
+                    Assert.IsTrue(response.ResultCode != Hive5ResultCode.Success);
+                    completion.Set();
+                });
+
+                completion.WaitOne();
+                
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        [TestMethod, TestCategory("Auth")]
         public void Test닉네임확인CheckNicknameAvailability()
         {
             try

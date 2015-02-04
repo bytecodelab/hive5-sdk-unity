@@ -78,7 +78,11 @@ namespace Hive5
             {
                 if (response.ResultCode == Hive5ResultCode.Success)
                 {
-                    SetAccessToken(((LoginResponseBody)response.ResultData).AccessToken);
+                    var body = response.ResultData as LoginResponseBody;
+                    if(body != null)
+                    {
+                        SetAccessToken(body.AccessToken, body.SessionKey);
+                    }
                 }
                 this.loginState = true;
                 callback(response);
@@ -106,7 +110,8 @@ namespace Hive5
         */
         public void Logout(string userId, Callback callback)
         {
-            string accessToken = this.AccessToken;
+            string accessToken = string.Empty;
+            this.SessionKey = string.Empty;
 
             throw new NotImplementedException();
         }

@@ -1315,6 +1315,52 @@ namespace maui_sdk.test
             }
         }
 
+        [TestMethod, TestCategory("Procedure")]
+        public void TestCallProcedureInJson()
+        {
+            Login();
+
+             var completion = new ManualResetEvent(false);
+
+            List<Item> items = new List<Item>()
+            {
+                new Item() { Id = 1, Grade = 1, Rate = 1 },
+                new Item() { Id = 2, Grade = 2, Rate = 2 },
+                new Item() { Id = 3, Grade = 3, Rate = 3 },
+            };
+            var parameterObject = new { 
+                gamble_items = items
+            };
+
+            // alpha 서버에서는 없는 프로시저 오류발생할 수 있음.
+            this.ApiClient.CallProcedure("z_unittest_callee", parameterObject, (response) =>
+            {
+                if (response.ResultCode != Hive5ResultCode.Success)
+                {
+                    // handle error here
+                    return;
+                }
+
+                var body = response.ResultData as CallProcedureResponseBody;
+
+                Assert.AreEqual("{\"params\":{\"gamble_items\":[{\"Id\":1,\"Grade\":1,\"Rate\":1},{\"Id\":2,\"Grade\":2,\"Rate\":2},{\"Id\":3,\"Grade\":3,\"Rate\":3}]}}",
+                    body.CallReturn);
+
+                var jsonData = LitJson.JsonMapper.ToObject(body.CallReturn);
+
+                Assert.IsTrue(jsonData.IsObject == true);
+                Assert.IsTrue(jsonData["params"].IsObject == true);
+                Assert.IsTrue(jsonData["params"]["gamble_items"].IsArray == true);
+                Assert.IsTrue(jsonData["params"]["gamble_items"].Count == 3);
+                Assert.IsTrue((int)jsonData["params"]["gamble_items"][0]["Id"] == 1);
+
+                // code here
+                completion.Set();
+            });
+
+            completion.WaitOne();
+        }
+
 
         #endregion PROCEDURE
 
@@ -1903,6 +1949,21 @@ namespace maui_sdk.test
 
         #endregion SOCIALGRAPH
 
+        [TestMethod, TestCategory("Etc")]
+        public void TestToJson()
+        {
+            List<Item> items = new List<Item>()
+            {
+                new Item() { Id = 1, Grade = 2, Rate = 2 },
+                new Item() { Id = 2, Grade = 3, Rate = 1 },
+                new Item() { Id = 3, Grade = 4, Rate = 0 },
+            };
 
+            string jsonString = LitJson.JsonMapper.ToJson(items);
+            string final_json = string.Format("{{ items: {0} }}", jsonString);
+            Console.WriteLine(final_json);
+        }
+
+        
     }
 }

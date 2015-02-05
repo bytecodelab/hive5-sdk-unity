@@ -52,6 +52,7 @@
     <Compile Include="Assets\Hive5\Common\Enum.cs" />
     <Compile Include="Assets\Hive5\Common\Exceptions.cs" />
     <Compile Include="Assets\Hive5\Common\Hive5Extensions.cs" />
+    <Compile Include="Assets\Hive5\Extensions\JsonDataExtensions.cs" />
     <Compile Include="Assets\Hive5\Hive5Client.cs" />
     <Compile Include="Assets\Hive5\Hive5ClientAuth.cs" />
     <Compile Include="Assets\Hive5\Hive5ClientHttp.cs" />

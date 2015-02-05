@@ -48,6 +48,7 @@ namespace Hive5
 
 		private Hive5TimeZone timezone 	= Hive5TimeZone.UTC;
 		private Hive5APIZone zone		= Hive5APIZone.Beta;
+        public Hive5APIZone Zone { get { return zone; } }
 		private string host;
 		private string version;
 
@@ -156,6 +157,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.CallProcedure(procedureName, parameters, callback)
 		*/
+        [Obsolete("CallProcedure is deprecated, please use CallProcedure(string procedureName, string parameters,  Callback callback) instead.")]
 		public void CallProcedure(string procedureName, TupleList<string, string> parameters,  Callback callback)
 		{
 			if (!InitState)
@@ -175,6 +177,25 @@ namespace Hive5
 				PostHttpAsync(url, parameters.data, new {}, CallProcedureResponseBody.Load, callback);
 			}
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="procedureName"></param>
+        /// <param name="parameterObject">내부적으로 json화 되어 전송된다.</param>
+        /// <param name="callback"></param>
+        public void CallProcedure(string procedureName, object parameterObject,  Callback callback)
+		{
+			if (!InitState)
+				return;
+			
+			// Hive5 API URL 초기화
+			var url = InitializeUrl(String.Format(APIPath.CallProcedure, WWW.EscapeURL(procedureName)));
+			
+			// WWW 호출
+			PostHttpAsync(url, null, parameterObject, CallProcedureResponseBody.Load, callback);	
+		}
+
 
 		/// <summary>
 		/// Hive5 client.

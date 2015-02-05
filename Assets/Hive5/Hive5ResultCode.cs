@@ -88,6 +88,7 @@ namespace Hive5
 		ProtectedProcedure				= 3102,
 		ProtectedMethodClassDescriptor	= 3103,
 		UndefinedLibrary				= 3104,
+        UndefinedLibraryMethod          = 3105,
 
 		ObjectNoFound					= 3201,
 		SingletonCanNotBeDestroyed		= 3202,

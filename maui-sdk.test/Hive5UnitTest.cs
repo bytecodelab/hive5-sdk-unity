@@ -96,6 +96,7 @@ namespace maui_sdk.test
             try
             {
                 client.Init(appKey, uuid, Hive5UnitTest.TestZone);
+                client.SetDebug();
                 this.ApiClient = client;
             }
             catch (Exception ex)
@@ -179,7 +180,7 @@ namespace maui_sdk.test
 
                 this.ApiClient.CheckNicknameAvailability("불량사과", (response) =>
                 {
-                    Assert.IsTrue(response.ResultCode != Hive5ResultCode.Success);
+                    Assert.IsTrue(response.ResultCode == Hive5ResultCode.TheSessionKeyIsInvalid);
                     completion.Set();
                 });
 

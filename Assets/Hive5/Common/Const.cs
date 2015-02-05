@@ -113,10 +113,10 @@ namespace Hive5
 		public static string AppKey 		= "X-APP-KEY";		// 게임에 발급된 app key. 모든 API 호출에 필요. ex) a40e4122-XXXX-44a6-b916-68ed756f7XXX
 		public static string Uuid 			= "X-AUTH-UUID";	// 디바이스 고유의 UUID. 모든 API 호출에 필요.
 		public static string Token 			= "X-AUTH-TOKEN"; 	// 서버에서 발급한 인증 token. 사용자 식별이 필요한 API호출에 필요
+        public static string SessionKey     = "X-AUTH-SESSION";  // 중복 로그인 방지를 위한 세션키
 		public static string ContentType	= "Content-Type";	// 요청 ContentType
 		public static string AcceptEncoding = "Accept-Encoding"; // 압축여부
 		public static string XPlatformKey  	= "X-PLATFORM-KEY"; 	// Account Platform
-        public static string SessionKey     = "X-SESSION-KEY";  // 중복 로그인 방지를 위한 세션키
 	}	
 
 	/// <summary>

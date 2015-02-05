@@ -1,6 +1,8 @@
 TestResults
 obj
 bin
+*.meta
+Library
 *.suo
 temp
 Library/

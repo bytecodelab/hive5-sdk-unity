@@ -72,10 +72,15 @@ namespace Hive5
             headers.Add(HeaderKey.Token, this.AccessToken);
             headers.Add(HeaderKey.SessionKey, this.SessionKey);
             headers.Add(HeaderKey.XPlatformKey, Hive5Config.XPlatformKey);
-            headers.Add(HeaderKey.ContentType, HeaderValue.ContentType);
+           
 
             // Hive5 API json body 변환
-            string jsonString = JsonMapper.ToJson(requestBody);
+            string jsonString = requestBody == null ? "" : JsonMapper.ToJson(requestBody);
+
+            if (string.IsNullOrEmpty(jsonString) == false)
+            { 
+                headers.Add(HeaderKey.ContentType, HeaderValue.ContentType);
+            }
 
             if (this.isDebug) Logger.Log("www reuqest URL = " + url);
             if (this.isDebug) Logger.Log("www request jsonBody= " + jsonString);
@@ -94,7 +99,22 @@ namespace Hive5
                     callback(Hive5Response.Load(loader, responseText));
                 };
 
-            wc.UploadDataAsync(new Uri(url, UriKind.RelativeOrAbsolute), Encoding.UTF8.GetBytes(jsonString));
+            //wc.DownloadDataCompleted += (s, e) =>
+            //    {
+            //         string responseText = Encoding.UTF8.GetString(e.Result);
+            //        if (this.isDebug) Logger.Log("www response = " , responseText);
+
+            //        callback(Hive5Response.Load(loader, responseText));
+            //    };
+
+            //if (string.IsNullOrEmpty(jsonString) == true)
+            //{
+            //    wc.DownloadDataAsync(new Uri(url, UriKind.RelativeOrAbsolute));
+            //}
+            //else
+            //{ 
+                wc.UploadDataAsync(new Uri(url, UriKind.RelativeOrAbsolute), Encoding.UTF8.GetBytes(jsonString));
+           // }
         }
 
          /// <summary>
@@ -201,13 +221,18 @@ namespace Hive5
 			headers.Add(HeaderKey.XPlatformKey, Hive5Config.XPlatformKey);
 			headers.Add (HeaderKey.AcceptEncoding, HeaderValue.Gzip);
 
-			if (string.IsNullOrEmpty (this.AccessToken) == false) {
-							headers.Add (HeaderKey.Token, this.AccessToken);
-					}
-            headers.Add(HeaderKey.ContentType, HeaderValue.ContentType);
+            if (string.IsNullOrEmpty(this.AccessToken) == false)
+            {
+                headers.Add(HeaderKey.Token, this.AccessToken);
+            }
 
             // Hive5 API json body 변환
-            string jsonString = JsonMapper.ToJson(requestBody);
+            string jsonString = requestBody == null ? "" : JsonMapper.ToJson(requestBody);
+
+            if (string.IsNullOrEmpty(jsonString) == false)
+            { 
+                headers.Add(HeaderKey.ContentType, HeaderValue.ContentType);
+            }
 
             var encoding = new System.Text.UTF8Encoding();
 

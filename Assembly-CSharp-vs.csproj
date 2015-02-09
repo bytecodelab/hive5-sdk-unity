@@ -130,6 +130,7 @@
     <Compile Include="Assets\Hive5\Model\ResponseBody\SubmitScoreResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\SwitchPlatformResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\UpdateFriendsResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\UpdateTogglePushAcceptResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\UpdatePushTokenResponseBody.cs" />
     <Compile Include="Assets\Hive5\Spider\CallUris.cs" />
     <Compile Include="Assets\Hive5\Spider\Details\CallOptions.cs" />

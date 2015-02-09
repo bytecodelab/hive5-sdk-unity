@@ -135,6 +135,29 @@ namespace Hive5
             PostHttpAsync(url, requestBody, UpdatePushTokenResponseBody.Load, callback);
 		}
 
+        /** 
+		* @api {POST} UpdatePushToken Push 토큰 등록 및 업데이트
+		* @apiVersion 0.4.4-beta
+		* @apiName TogglePushAccept
+		* @apiGroup Push
+		*
+		* @apiParam {bool} 수신여부
+		* @apiParam {Callback} callback 콜백 함수
+		*
+		* @apiSuccess {String} resultCode Error Code 참고
+		* @apiSuccess {String} resultMessage 요청 실패시 메시지
+		* @apiExample Example usage:
+		* Hive5Client hive5 = Hive5Client.Instance;
+		* hive5.TogglePushAccept( true, callback)
+		*/
+		public void TogglePushAccept(bool accept, Callback callback)
+		{
+			// Hive5 API URL 초기화
+            var url = string.Format(InitializeUrl(APIPath.TogglePushAccept), accept.ToString().ToLower());
+			
+			// WWW 호출
+            PostHttpAsync(url, null, UpdateTogglePushAcceptResponseBody.Load, callback);
+		}
 
 		/********************************************************************************
 			Procedures API Group

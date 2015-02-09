@@ -1665,6 +1665,36 @@ namespace maui_sdk.test
             }
         }
 
+        [TestMethod, TestCategory("Push")]
+        public void Test푸쉬수신여부설정TogglePushAccept()
+        {
+            try
+            {
+                Login();
+
+                var completion = new ManualResetEvent(false);
+
+                this.ApiClient.TogglePushAccept(true, (response) =>
+                {
+                    // 1. 기본 반환값 검증
+                    Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                    Assert.IsTrue(response.ResultData is UpdatePushTokenResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                    // 2. 프로퍼티 검증
+                    UpdateTogglePushAcceptResponseBody body = response.ResultData as UpdateTogglePushAcceptResponseBody;
+
+                    completion.Set();
+                });
+
+                completion.WaitOne();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
+            }
+        }
+
         #endregion PUSH
 
 
@@ -1923,9 +1953,9 @@ namespace maui_sdk.test
 
                 var completion = new ManualResetEvent(false);
 
-                var friend_ids = new string[] { "881979482072261763", "881979482072261765" };
+                var friend_ids = new string[] { "-881979482072261763", "-881979482072261765" };
 
-                this.ApiClient.UpdateFriends("default", friend_ids, (response) =>
+                this.ApiClient.UpdateFriends("default", "kakao", friend_ids, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공

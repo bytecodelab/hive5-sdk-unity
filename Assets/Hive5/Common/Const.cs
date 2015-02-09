@@ -53,7 +53,8 @@ namespace Hive5
 		public static string CompleteGooglePurchase = "google_purchases/complete/{0}";
 		public static string CreateApplePurchase 	= "apple_purchases";
 		public static string CompleteApplePurchase 	= "apple_purchases/complete/{0}";
-		public static string UpdatePushToken 		= "push_tokens";
+		public static string UpdatePushToken 		= "pushes/register";
+        public static string TogglePushAccept 		= "pushes/activate/{0}";
 	 	public static string Reward 				= "rewards/{0}";
 		public static string ApplyReward 			= "rewards/apply/{0}";
 	 	public static string ApplyAllReward 		= "rewards/apply_all";

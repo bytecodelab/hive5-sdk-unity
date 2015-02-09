@@ -53,10 +53,15 @@ namespace LitJson
             return ParseDateTime(jsonData.ToString());
         }
 
-        public static List<T> ToArray<T>(this JsonData jsonData)
+        public static List<T> ToList<T>(this JsonData jsonData)
         {
             List<T> list = new List<T>();
             return jsonData.Cast<T>().ToList<T>();
+        }
+
+        public static T[] ToArray<T>(this JsonData jsonData)
+        {
+            return jsonData.ToList<T>().ToArray<T>();
         }
 
 

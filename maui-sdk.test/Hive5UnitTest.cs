@@ -1994,6 +1994,27 @@ namespace maui_sdk.test
             Console.WriteLine(final_json);
         }
 
-        
+        [TestMethod, TestCategory("JsonData")]
+        public void TestJsonDataToArray()
+        {
+            string testJson = "{\"result\":0,\"kakao\":{\"today_invites\":7,\"show_profile_image\":true,\"id\":null,\"total_invites\":7,\"reset\":{\"hour\":0,\"max\":1,\"nextTime\":1423699200,\"value\":0,\"period\":1},\"class\":\"kakao\",\"invited_ids\":[\"-000000016\",\"-000000084\",\"-000000065\"],\"numbers\":[1,2,3],\"bools\":[true, false, true]}}}";
+            var jsonData = LitJson.JsonMapper.ToObject(testJson);
+
+            var partJson = jsonData["kakao"]["invited_ids"];
+            var idsList = partJson.ToList<string>();
+            Assert.AreEqual(idsList.Count, 3);
+            var ids = partJson.ToArray<string>();
+            Assert.AreEqual(ids.Length, 3);
+
+             var numbersJson = jsonData["kakao"]["numbers"];
+             var intList = numbersJson.ToList<int>();
+            Assert.AreEqual(intList.Count, 3);
+            var longList = numbersJson.ToList<long>();
+            Assert.AreEqual(longList.Count, 3);
+
+            var boolsJson = jsonData["kakao"]["bools"];
+            var boolList = boolsJson.ToList<bool>();
+            Assert.AreEqual(boolList.Count, 3);
+        }
     }
 }

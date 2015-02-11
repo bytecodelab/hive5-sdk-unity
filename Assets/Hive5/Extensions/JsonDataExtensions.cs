@@ -56,7 +56,29 @@ namespace LitJson
         public static List<T> ToList<T>(this JsonData jsonData)
         {
             List<T> list = new List<T>();
-            return jsonData.Cast<T>().ToList<T>();
+            if (jsonData == null)
+                return list;
+
+            if (jsonData.IsArray == false)
+                throw new InvalidCastException(jsonData.ToJson() + " is not array");
+
+            List<object> tempList = new List<object>();
+            for (int i = 0; i < jsonData.Count; i++)
+            {
+                var item = jsonData[i];
+                if (typeof(T) == typeof(String) && item.IsString == true)
+                    tempList.Add(item.ToString());
+                else if (typeof(T) == typeof(int) && item.IsInt == true)
+                    tempList.Add(item.ToInt());
+                else if (typeof(T) == typeof(long) && (item.IsInt || item.IsLong))
+                    tempList.Add(item.ToLong());
+                else if (typeof(T) == typeof(bool) && item.IsBoolean)
+                    tempList.Add((bool)item);
+                else
+                    throw new InvalidCastException(item.ToJson() + "is not " + typeof(T));
+            }
+
+            return tempList.OfType<T>().ToList();
         }
 
         public static T[] ToArray<T>(this JsonData jsonData)

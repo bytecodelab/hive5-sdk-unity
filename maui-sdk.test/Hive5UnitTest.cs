@@ -18,7 +18,7 @@ namespace maui_sdk.test
         #region 설정값들
 
 #if DEBUG
-        public static Hive5APIZone TestZone = Hive5APIZone.Alpha;
+        public static Hive5APIZone TestZone = Hive5APIZone.Beta;
 #else
         public static Hive5APIZone TestZone = Hive5APIZone.Production;
 #endif
@@ -1294,6 +1294,43 @@ namespace maui_sdk.test
                 parameters.Add("echo", "gilbok");
 
                 this.ApiClient.CallProcedure("echo", parameters, (response) =>
+                {
+                    // 1. 기본 반환값 검증
+                    Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                    Assert.IsTrue(response.ResultData is CallProcedureResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                    // 2. 프로퍼티 검증
+                    CallProcedureResponseBody body = response.ResultData as CallProcedureResponseBody;
+                    Assert.IsTrue(string.IsNullOrEmpty(body.CallReturn) == false);
+
+                    completion.Set();
+                });
+
+                completion.WaitOne();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
+            }
+        }
+
+         [TestMethod, TestCategory("Procedure")]
+        public void Test플레이어정보없이프로시저호출CallProcedureWithoutAuth()
+        {
+            //Assert.Inconclusive("404에러 발생하는 것으로 알고 있음");
+            //return;
+
+            try
+            {
+                Login();
+
+                var completion = new ManualResetEvent(false);
+
+                var someValue = "dummy";
+                var parameters = new { echo =  someValue};
+
+                this.ApiClient.CallProcedureWithoutAuth("echo", parameters, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공

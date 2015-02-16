@@ -219,6 +219,37 @@ namespace Hive5
 			PostHttpAsync(url, null, parameterObject, CallProcedureResponseBody.Load, callback);	
 		}
 
+        /** 
+		* @api {POST} CallProcedureWithoutAuth 로그인하지 않고 Procedure 호출
+		* @apiVersion 0.3.11-beta
+		* @apiName CallProcedure
+		* @apiGroup Procedure
+		*
+		* @apiParam {String} procedureName 호출 Procedure 이름
+		* @apiParam {parameterObject} parameters 파라미터 오브젝트(내부적으로 JSON화 됨)
+		* @apiParam {Callback} callback 콜백 함수
+		*
+		* @apiSuccess {String} resultCode Error Code 참고
+		* @apiSuccess {String} resultMessage 요청 실패시 메시지
+		* @apiExample Example usage:
+        * var parameters = new {
+        *     value1 = 1,
+        *     value2 = "abc",
+        * }
+		* Hive5Client hive5 = Hive5Client.Instance;
+		* hive5.CallProcedureWithoutAuth(procedureName, parameters, callback)
+		*/
+        public void CallProcedureWithoutAuth(string procedureName, object parameterObject,  Callback callback)
+		{
+			if (!InitState)
+				return;
+			
+			// Hive5 API URL 초기화
+			var url = InitializeUrl(String.Format(APIPath.CallProcedureWithoutAuth, WWW.EscapeURL(procedureName)));
+			
+			// WWW 호출
+			PostHttpAsync(url, null, parameterObject, CallProcedureResponseBody.Load, callback);	
+		}
 
 		/// <summary>
 		/// Hive5 client.

@@ -70,6 +70,7 @@ namespace Hive5
 
 	 	public static string GetFriendsInfo 		= "friends/info";
 		public static string CallProcedure			= "procedures/call/{0}";
+        public static string CallProcedureWithoutAuth	= "procedures/check/{0}";
 		public static string GetObjects				= "objects";
 		public static string CreateObjects 			= "objects/create";
 		public static string SetObjects				= "objects/set";

@@ -33,6 +33,11 @@ SDK를 이용하실 수 있습니다.
 ### 테스트 실행 시 빌드에러 발생한 경우
 테스트를 처음 열어서 실행하려고 하는 경우, Unity Editor가 설치된 개발 환경이라 하더라도, Unity관련 참조들이 끊겨 있는 경우가 있습니다. 이럴 땐 소스 중 Assets\Hive5.unity를 Unity Editor에서 한번 열었다가 닫아주시면 손상된 참조들이 부활되는 놀라운 광경을 목격하실 수도 있습니다.
 
+### Unit Test와 Hive5
+Unit Test는 원칙적으로 Hive5 Alpha 서버에 대해 진행합니다. 테스트를 위해 데이터를 초기화하는 작동이 필수적이기 때문에 Alpha 서버에 대해 진행하는 것이 안전합니다. 따라서 Unit Test 작성에 필요한 프로시저 등은 Hive5 Alpha 콘솔에 접속하여 작성해야 합니다.
+
+Hive5 Alpha 콘솔의 주소는 다음과 같습니다.
+[http://alpha.console.hive5.io/](http://alpha.console.hive5.io/)
 
 ## See also
 [SDK 사용가이드](https://github.com/bytecodelab/maui-sdk/wiki/Guide%20for%20Unity)

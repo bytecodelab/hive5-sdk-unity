@@ -15,6 +15,32 @@ SDK를 이용하실 수 있습니다.
 ## 환경
 •Unity 4.5 이상
 
+## 접속 서버 변경
+
+### v0.4.7-beta 이상 버전에서
+
+Hive5Config.cs 파일을 이용한 방법으로 설명할 예정
+
+### v0.4.6-beta 이하 버전에서
+
+Hive5/Common/Const.cs 파일의 APIServer에서 ProductionHost, BetaHost, AlphaHost를 적절한 값으로 변경한다. 
+```c#
+public class APIServer
+{
+	public static string ProductionHost	= "https://hornet.hive5.io";
+	public static string BetaHost 		  = "https://beta.hornet.hive5.io";
+  public static string AlphaHost      = "https://alpha.hornet.hive5.io";
+	public static string Version 		    = "v5";
+}
+```
+
+Hive5Client 를 초기화하는 곳에서 ApiZone을 의도한대로 잘 설정하고 있는지 확인한다.
+
+```c#
+var hive5 = Hive5Client.Instance;
+hive5.Init(appKey, uuid, Hive5APIZone.Production);
+```
+
 
 ## Unit Test on Visual Studio
 

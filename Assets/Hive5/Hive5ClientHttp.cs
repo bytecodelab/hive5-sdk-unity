@@ -1,4 +1,5 @@
-﻿using LitJson;
+﻿using Assets.Hive5.Model;
+using LitJson;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,13 +15,26 @@ namespace Hive5
 #else
 	public partial class Hive5Client : MonoSingleton<Hive5Client> {
 #endif
+        public string BuildResponseWith(Hive5ResultCode code)
+        {
+            return string.Format("{{\"result_code\":{0}}}", (int)code);
+        }
+        private void RaiseClientError(Hive5ResultCode resultCode, Hive5Response.dataLoader loader, Callback callback)
+        {
+            callback(Hive5Response.Load(loader, BuildResponseWith(resultCode)));
+        }
+
 
 #if UNITTEST
+
 
 		string GetErrorResponseWithError (string error)
 		{
 			throw new NotImplementedException ();
 		}
+
+
+
          /// <summary>
         /// Https the get.
         /// </summary>
@@ -30,6 +44,15 @@ namespace Hive5
         /// <param name="callback">Callback.</param>
         private void GetHttp(string url, List<KeyValuePair<string, string>> parameters, Hive5Response.dataLoader loader, Callback callback)
         {
+            string queryString = GetQueryString(parameters);
+            var rid = new Rid(url, queryString, "");
+
+            if (ApiRequestManager.Instance.CheckRequestAllowed(rid) == false)
+            {
+                RaiseClientError(Hive5ResultCode.DuplicatedApiCall, loader, callback);
+                return;
+            }
+
             // Hive5 API Header 설정
             var headers = new WebHeaderCollection();
             headers.Add(HeaderKey.AppKey, this.AppKey);
@@ -38,8 +61,8 @@ namespace Hive5
             headers.Add(HeaderKey.SessionKey, this.SessionKey);
             headers.Add(HeaderKey.XPlatformKey, Hive5Config.XPlatformKey);
             headers.Add(HeaderKey.ContentType, HeaderValue.ContentType);
+            headers.Add(HeaderKey.RequestId, rid.RequestId);
 
-            string queryString = GetQueryString(parameters);
             string newUrl = url;
 
             if (queryString.Length > 0)
@@ -55,27 +78,42 @@ namespace Hive5
             };
             wc.DownloadStringCompleted += (s, e) =>
                 {
-                    if (this.isDebug) Logger.Log("WebClient response = " + e.Result);
+                    var requestId = e.UserState != null ? e.UserState.ToString() : "";
+                    ApiRequestManager.Instance.RemoveByRequestId(requestId);
 
+                    if (this.isDebug) Logger.Log("WebClient response = " + e.Result);
+                    
                     callback(Hive5Response.Load(loader, e.Result));
                 };
 
-            wc.DownloadStringAsync(new Uri(newUrl, UriKind.RelativeOrAbsolute));
+            wc.DownloadStringAsync(new Uri(newUrl, UriKind.RelativeOrAbsolute), rid.RequestId);
         }
+
+
 
         private void PostHttp(string url, object requestBody, Hive5Response.dataLoader loader, Callback callback)
         {
-            // Hive5 API Header 설정
+            // Hive5 API json body 변환
+            string jsonString = requestBody == null ? "" : JsonMapper.ToJson(requestBody);
+            var rid = new Rid(url, "", jsonString);
+
+            if (ApiRequestManager.Instance.CheckRequestAllowed(rid) == false)
+            {
+                RaiseClientError(Hive5ResultCode.DuplicatedApiCall, loader, callback);
+                return;
+            }
+
+            // Hive5 API Header fi설정
             var headers = new WebHeaderCollection();
             headers.Add(HeaderKey.AppKey, this.AppKey);
             headers.Add(HeaderKey.Uuid, this.Uuid);
             headers.Add(HeaderKey.Token, this.AccessToken);
             headers.Add(HeaderKey.SessionKey, this.SessionKey);
             headers.Add(HeaderKey.XPlatformKey, Hive5Config.XPlatformKey);
+            headers.Add(HeaderKey.RequestId, rid.RequestId);
            
 
-            // Hive5 API json body 변환
-            string jsonString = requestBody == null ? "" : JsonMapper.ToJson(requestBody);
+          
 
             if (string.IsNullOrEmpty(jsonString) == false)
             { 
@@ -93,6 +131,9 @@ namespace Hive5
             };
             wc.UploadDataCompleted+= (s, e) => 
                 {
+                    var requestId = e.UserState != null ? e.UserState.ToString() : "";
+                    ApiRequestManager.Instance.RemoveByRequestId(requestId);
+
                     string responseText = Encoding.UTF8.GetString(e.Result);
                     if (this.isDebug) Logger.Log("www response = " , responseText);
 
@@ -113,7 +154,7 @@ namespace Hive5
             //}
             //else
             //{ 
-                wc.UploadDataAsync(new Uri(url, UriKind.RelativeOrAbsolute), Encoding.UTF8.GetBytes(jsonString));
+                wc.UploadDataAsync(new Uri(url, UriKind.RelativeOrAbsolute), "POST", Encoding.UTF8.GetBytes(jsonString), "42000300");
            // }
         }
 
@@ -146,6 +187,15 @@ namespace Hive5
         /// <param name="callback">Callback.</param>
         private IEnumerator GetHttp(string url, List<KeyValuePair<string, string>> parameters, Hive5Response.dataLoader loader, Callback callback)
         {
+            string queryString = GetQueryString(parameters);
+            var rid = new Rid(url, queryString, "");
+
+            if (ApiRequestManager.Instance.CheckRequestAllowed(rid) == false)
+            {
+                RaiseClientError(Hive5ResultCode.DuplicatedApiCall, loader, callback);
+                yield return null;
+            }
+
             // Hive5 API Header 설정
             var headers = new Hashtable();
             headers.Add(HeaderKey.AppKey, this.AppKey);
@@ -154,10 +204,11 @@ namespace Hive5
 			if (string.IsNullOrEmpty (this.AccessToken) == false) {
 				headers.Add (HeaderKey.Token, this.AccessToken);
 			}
+            headers.Add(HeaderKey.SessionKey, this.SessionKey);
             headers.Add(HeaderKey.XPlatformKey, Hive5Config.XPlatformKey);
             headers.Add(HeaderKey.ContentType, HeaderValue.ContentType);
-
-            string queryString = GetQueryString(parameters);
+            headers.Add(HeaderKey.RequestId, rid.RequestId);
+            
             string newUrl = url;
 
             if (queryString.Length > 0)
@@ -166,13 +217,16 @@ namespace Hive5
             }
 
 
-				WWW www = new WWW(newUrl, null, headers);
+			WWW www = new WWW(newUrl, null, headers);
 			yield return www;
 
             if (this.isDebug) Logger.Log("www reuqest URL = " + newUrl);
             if (this.isDebug) Logger.Log("www response = " + www.text);
 
 			string httpResponse = www.text;
+
+            var requestId = www.responseHeaders.ContainsKey(HeaderKey.RequestId) == true ? www.responseHeaders[HeaderKey.RequestId] : "";
+            ApiRequestManager.Instance.RemoveByRequestId(requestId);
 
 			if (string.IsNullOrEmpty(www.error) == false) {
 					httpResponse = GetErrorResponseWithError(www.error);
@@ -214,20 +268,29 @@ namespace Hive5
 
         private IEnumerator PostHttp(string url, object requestBody, Hive5Response.dataLoader loader, Callback callback)
         {
+            // Hive5 API json body 변환
+            string jsonString = requestBody == null ? "" : JsonMapper.ToJson(requestBody);
+            var rid = new Rid(url, "", jsonString);
+
+            if (ApiRequestManager.Instance.CheckRequestAllowed(rid) == false)
+            {
+                RaiseClientError(Hive5ResultCode.DuplicatedApiCall, loader, callback);
+                yield return null;
+            }
+
             // Hive5 API Header 설정
             var headers = new Hashtable();
             headers.Add(HeaderKey.AppKey, this.AppKey);
             headers.Add(HeaderKey.Uuid, this.Uuid);
 			headers.Add(HeaderKey.XPlatformKey, Hive5Config.XPlatformKey);
-			headers.Add (HeaderKey.AcceptEncoding, HeaderValue.Gzip);
+            headers.Add(HeaderKey.SessionKey, this.SessionKey);
+			headers.Add(HeaderKey.AcceptEncoding, HeaderValue.Gzip);
+            headers.Add(HeaderKey.RequestId, "42000300");
 
             if (string.IsNullOrEmpty(this.AccessToken) == false)
             {
                 headers.Add(HeaderKey.Token, this.AccessToken);
             }
-
-            // Hive5 API json body 변환
-            string jsonString = requestBody == null ? "" : JsonMapper.ToJson(requestBody);
 
             if (string.IsNullOrEmpty(jsonString) == false)
             { 
@@ -245,7 +308,10 @@ namespace Hive5
             if (this.isDebug) Logger.Log("www response = " + www.text);
 
 				string httpResponse = www.text;
-				
+			
+	            var requestId = www.responseHeaders.ContainsKey(HeaderKey.RequestId) == true ? www.responseHeaders[HeaderKey.RequestId] : "";
+                ApiRequestManager.Instance.RemoveByRequestId(requestId);
+
 				if (string.IsNullOrEmpty(www.error) == false) {
 					httpResponse = GetErrorResponseWithError(www.error);
 					Logger.Log(httpResponse);
@@ -301,6 +367,8 @@ namespace Hive5
 
         private void PostHttpAsync(string url, List<KeyValuePair<string, string>> parameters, object requestBody, Hive5Response.dataLoader loader, Callback callback)
         {
+            //Rid rid = new 
+            //GetIsDuplicatedCall
 
 #if UNITTEST
             PostHttp(url, parameters, requestBody, loader, callback);

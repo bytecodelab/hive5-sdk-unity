@@ -22,7 +22,7 @@ namespace maui_sdk.test
         [TestInitialize]
         public void InitTest()
         {
-            TestValues = TestValueSet.AinaRod;
+            TestValues = TestValueSet.Default;
              
             if (this.apiClient == null)
             {

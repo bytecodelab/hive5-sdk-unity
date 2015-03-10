@@ -55,6 +55,7 @@
     <Compile Include="Assets\Hive5\Extensions\JsonDataExtensions.cs" />
     <Compile Include="Assets\Hive5\Hive5Client.cs" />
     <Compile Include="Assets\Hive5\Hive5ClientAuth.cs" />
+    <Compile Include="Assets\Hive5\Hive5ClientCoupon.cs" />
     <Compile Include="Assets\Hive5\Hive5ClientHttp.cs" />
     <Compile Include="Assets\Hive5\Hive5ClientLeaderboard.cs" />
     <Compile Include="Assets\Hive5\Hive5ClientMail.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="Assets\Hive5\Hive5ClientSocialgraph.cs" />
     <Compile Include="Assets\Hive5\Hive5Response.cs" />
     <Compile Include="Assets\Hive5\Hive5ResultCode.cs" />
+    <Compile Include="Assets\Hive5\Model\ApiRequestManager.cs" />
     <Compile Include="Assets\Hive5\Model\Data\Agreement.cs" />
     <Compile Include="Assets\Hive5\Model\Data\CompletedMission.cs" />
     <Compile Include="Assets\Hive5\Model\Data\Config.cs" />
@@ -118,6 +120,7 @@
     <Compile Include="Assets\Hive5\Model\ResponseBody\GetMyScoreResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\GetObjectsResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\GetRewardInfoResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\ApplyCouponResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\GetScoresResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\GetSocialScoresResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\GiftItemResponseBody.cs" />
@@ -132,6 +135,7 @@
     <Compile Include="Assets\Hive5\Model\ResponseBody\UpdateFriendsResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\UpdateTogglePushAcceptResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\UpdatePushTokenResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\Rid.cs" />
     <Compile Include="Assets\Hive5\Spider\CallUris.cs" />
     <Compile Include="Assets\Hive5\Spider\Details\CallOptions.cs" />
     <Compile Include="Assets\Hive5\Spider\Details\ChannelPublishOptions.cs" />

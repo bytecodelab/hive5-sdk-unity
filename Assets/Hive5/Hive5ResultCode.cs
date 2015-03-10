@@ -69,8 +69,12 @@ namespace Hive5
 
 		MissionAlreadyCompleted 	= 2401, 
 
-        PromotionCodeAlreadyConsumed = 2501,
-        InvalidPromotionCode = 2502,
+        //PromotionCodeAlreadyConsumed = 2501,
+        //InvalidPromotionCode = 2502,
+        ExpiredCoupon = 2504,
+        ThePlayerHasAlreadyConsumedTheCoupon = 2505,
+        TheCouponIsNoMoreApplicable = 2506,
+
 
 		//InvalidRoundStatus 			= 2601, 
 
@@ -121,7 +125,10 @@ namespace Hive5
 
         NotImplemented                  = 9998,
 
-		UnknownError 				    = 9999
+		UnknownError 				    = 9999,
+
+        // SDK(client-side) error code: 99xxx
+        DuplicatedApiCall               = 990001
 	}
 }
 

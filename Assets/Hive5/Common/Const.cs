@@ -3,17 +3,6 @@ using System;
 namespace Hive5
 {
 	/// <summary>
-	/// Hive5 API V5 server.
-	/// </summary>
-	public class APIServer
-	{
-		public static string ProductionHost	= "https://hornet.hive5.io";
-		public static string BetaHost 		= "https://beta.hornet.hive5.io";
-        public static string AlphaHost = "https://alpha.hornet.hive5.io";
-		public static string Version 		= "v5";
-	}
-
-	/// <summary>
 	/// Hive5 API path.
 	/// </summary>
 	public class APIPath
@@ -39,6 +28,7 @@ namespace Hive5
 		public static string LeaderboardScores 			= "leaderboards/{0}/scores";
 		public static string LeaderboardMyScore 		= "leaderboards/{0}/my_score";
 		public static string LeaderboardSocialScores 	= "leaderboards/{0}/social_scores";
+        public static string ApplyCoupon            = "coupons/{0}/apply";
 		public static string MailCount 				= "mails/count";
 		public static string UpdateMail 			= "mails/update/{0}";
 		public static string DeleteMail 			= "mails/delete/{0}";
@@ -119,6 +109,7 @@ namespace Hive5
 		public static string ContentType	= "Content-Type";	// 요청 ContentType
 		public static string AcceptEncoding = "Accept-Encoding"; // 압축여부.
 		public static string XPlatformKey  	= "X-PLATFORM-KEY"; 	// Account Platform
+        public static string RequestId = "X-REQUEST-ID";
 	}	
 
 	/// <summary>

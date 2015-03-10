@@ -9,6 +9,7 @@ using LitJson;
 using Hive5;
 using Hive5.Model;
 using Hive5.Util;
+using Assets.Hive5.Model;
 
 
 namespace Hive5
@@ -26,14 +27,13 @@ namespace Hive5
 #endif
 
         
-#if !UNITTEST
-        protected Hive5Client() { }
-#endif
+
 
         public string AppKey { get; private set; }
 		public string Uuid			{ get; private set; }
 		public string AccessToken 	{ get; private set; }
         public string SessionKey { get; private set; }
+        public bool BlockDuplicatedCall { get; set;  }
 
 		private bool initState 	= false;
 		private bool loginState = false; 
@@ -47,10 +47,32 @@ namespace Hive5
 		}
 
 		private Hive5TimeZone timezone 	= Hive5TimeZone.UTC;
-		private Hive5APIZone zone		= Hive5APIZone.Beta;
-        public Hive5APIZone Zone { get { return zone; } }
+        public Hive5APIZone Zone { get; private set; }
 		private string host;
 		private string version;
+
+#if !UNITTEST
+        protected Hive5Client()
+#else
+        public Hive5Client()
+            :base()
+        
+#endif 
+        {
+            ApiRequestManager.Instance.Ttl = Hive5Config.DuplicationApiCallExpirationPeriod;
+            BlockDuplicatedCall = false;
+        }
+
+        public bool GetIsDuplicatedCall(Rid rid)
+        {
+            if (this.BlockDuplicatedCall == false)
+                return false;
+
+            if (rid == null)
+                return false;
+
+            return ApiRequestManager.Instance.CheckRequestAllowed(rid);
+        }
 
 		/********************************************************************************
 			Init API Group
@@ -76,28 +98,29 @@ namespace Hive5
 		{
 			this.AppKey 	= appKey;
 			this.Uuid 		= uuid;
+            this.Zone       = zone;
 
             switch (zone)
             {
                 default:
                 case Hive5APIZone.Alpha:
                     {
-                        this.host = APIServer.AlphaHost;
+                        this.host = Hive5Config.AlphaHost;
                     }
                     break;
                 case Hive5APIZone.Beta:
                     {
-                        this.host = APIServer.BetaHost;
+                        this.host = Hive5Config.BetaHost;
                     }
                     break;
                 case Hive5APIZone.Production:
                     {
-                        this.host = APIServer.ProductionHost;
+                        this.host = Hive5Config.ProductionHost;
                     }
                     break;
             }
 
-			this.version 	= APIServer.Version;
+			this.version 	= Hive5Config.Version;
 			this.initState 	= true;
 		}
 
@@ -292,12 +315,12 @@ namespace Hive5
 			{
 				// Beta Server
 				case Hive5APIZone.Beta:
-					host = APIServer.BetaHost;
+					host = Hive5Config.BetaHost;
 				break;
 
 				// Real Server
 				case Hive5APIZone.Production:
-					host = APIServer.ProductionHost;
+					host = Hive5Config.ProductionHost;
 				break;
 			}
 

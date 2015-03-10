@@ -86,7 +86,7 @@ namespace Hive5.Util
 
 			switch(command)
 			{
-				case "sec":
+				case "set":
 					returnCommand = CommandType.SET;
 					break;
 				case "inc":

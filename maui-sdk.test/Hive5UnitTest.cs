@@ -18,7 +18,7 @@ namespace maui_sdk.test
         #region 설정값들
 
 #if DEBUG
-        public static Hive5APIZone TestZone = Hive5APIZone.Beta;
+        public static Hive5APIZone TestZone = Hive5APIZone.Alpha;
 #else
         public static Hive5APIZone TestZone = Hive5APIZone.Production;
 #endif
@@ -36,8 +36,8 @@ namespace maui_sdk.test
         {
             //TestValues = TestValueSet.AinaRod;
             TestValues = TestValueSet.Default;
-            Hive5.Hive5Config.CustomAccountPlatformName = "bigfoot";
-            Hive5.Hive5Config.XPlatformKey = "4b9ea368-2809-4e57-91a1-d9ce7ac39534";
+            Hive5.Hive5Config.CustomAccountPlatformName = "test";
+            Hive5.Hive5Config.XPlatformKey = "4b9ea368-2809-4e57-91a1-d9ce7ac39534"; // alpha: UnitTest Game
             if (this.ApiClient == null)
             {
                 TestInit();
@@ -178,6 +178,11 @@ namespace maui_sdk.test
                 this.ApiClient.SetAccessToken(this.ApiClient.AccessToken, oldSessionKey);
                 var completion = new ManualResetEvent(false);
 
+                //var parameters = new TupleList<string, string>();
+                //parameters.Add("echo", "gilbok");
+                //parameters.Add("echo", "gilbok");
+                //this.ApiClient.CallProcedure("echo", parameters, (response) =>
+                //{
                 this.ApiClient.CheckNicknameAvailability("불량사과", (response) =>
                 {
                     Assert.IsTrue(response.ResultCode == Hive5ResultCode.TheSessionKeyIsInvalid);
@@ -311,7 +316,7 @@ namespace maui_sdk.test
 
                 // 2. 프로퍼티 검증
                 CreatePlatformAccountResponseBody body = response.ResultData as CreatePlatformAccountResponseBody;
-                Assert.IsTrue(body.Id > 0);
+                Assert.IsTrue(string.IsNullOrEmpty(body.Id) == false);
 
                 completion.Set();
             }, "tester", email);
@@ -349,7 +354,7 @@ namespace maui_sdk.test
 
                 // 2. 프로퍼티 검증
                 CreatePlatformAccountResponseBody body = response.ResultData as CreatePlatformAccountResponseBody;
-                Assert.IsTrue(body.Id > 0);
+                Assert.IsTrue(string.IsNullOrEmpty(body.Id) == false);
 
                 completion2.Set();
             }, "tester", email);
@@ -401,7 +406,7 @@ namespace maui_sdk.test
 
                 // 2. 프로퍼티 검증
                 CreatePlatformAccountResponseBody body = response.ResultData as CreatePlatformAccountResponseBody;
-                Assert.IsTrue(body.Id > 0);
+                Assert.IsTrue(string.IsNullOrEmpty(body.Id) == false);
 
                 completion2.Set();
             }, "tester", email);
@@ -431,7 +436,7 @@ namespace maui_sdk.test
             string password = "12345678";
             string wrongPassword = "00000000";
 
-            int platformUserId = 0;
+            string platformUserId = "";
 
             var completion1 = new ManualResetEvent(false);
             this.ApiClient.CreatePlatformAccount(name, password, (response) =>
@@ -444,7 +449,7 @@ namespace maui_sdk.test
 
                 // 2. 프로퍼티 검증
                 CreatePlatformAccountResponseBody body = response.ResultData as CreatePlatformAccountResponseBody;
-                Assert.IsTrue(body.Id > 0);
+                Assert.IsTrue(string.IsNullOrEmpty(body.Id) == false);
                 platformUserId = body.Id;
 
                 completion1.Set();
@@ -1669,6 +1674,54 @@ namespace maui_sdk.test
 
         #endregion PURCHASE
 
+        #region COUPON
+
+        [TestMethod, TestCategory("Push")]
+        public void Test쿠폰적용ApplyCoupon()
+        {
+            try
+            {
+                Login();
+
+                var completion1 = new ManualResetEvent(false);
+
+                var coupon = "555NL985DDLBBYGN"; // 테스트 전에 알파서버서 발급하기
+                
+                this.ApiClient.ApplyCoupon(coupon, (response) =>
+                {
+                    // 1. 기본 반환값 검증
+                    Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                    Assert.IsTrue(response.ResultData is CallProcedureResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                    // 2. 프로퍼티 검증
+                    CallProcedureResponseBody body = response.ResultData as CallProcedureResponseBody;
+
+                    completion1.Set();
+                });
+
+                completion1.WaitOne();
+
+                var completion2 = new ManualResetEvent(false);
+
+                this.ApiClient.ApplyCoupon(coupon, (response) =>
+                {
+                    // 1. 기본 반환값 검증
+                    Assert.IsTrue(response.ResultCode == Hive5ResultCode.ThePlayerHasAlreadyConsumedTheCoupon); // 일단 반환성공
+                    Assert.IsTrue(response.ResultData == null); // 반환데이터는 null이면 안 됨
+               
+                    completion2.Set();
+                });
+
+                completion2.WaitOne();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
+            }
+        }
+
+        #endregion COUPON
 
         #region PUSH
 

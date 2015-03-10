@@ -15,6 +15,17 @@ namespace Hive5
 		public static string AppKey 		= "a40e4122-99d9-44a6-b916-68ed756f79d6"; // Sample game
 		public static string XPlatformKey 	= ""; // If you need it, request us 
 		public static string CustomAccountPlatformName = ""; 
-	}
+	
+    	public static string ProductionHost	= "https://tbahjakv.api.hive5.io";
+		public static string BetaHost 		= "https://beta.hornet.hive5.io";
+        public static string AlphaHost      = "https://alpha.hornet.hive5.io";
+		public static string Version 		= "v5";
+
+        /// <summary>
+        /// 중복호출로 단정하지 않는 시간 차이
+        /// 순수 서버프로시저 수행 타임아웃 + Http request/response에 대한 latency고려된 값(단위:ms)
+        /// </summary>
+        public static int DuplicationApiCallExpirationPeriod = 2500;
+    }
 }
 

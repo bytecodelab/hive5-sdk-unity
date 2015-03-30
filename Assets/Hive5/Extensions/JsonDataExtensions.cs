@@ -1,5 +1,6 @@
 ﻿using LitJson;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -98,5 +99,23 @@ namespace LitJson
             return intValue;
         }
 
+        public static bool ContainsKey(JsonData data,string key)
+        {
+            bool result = false;
+            if(data == null)
+                return result;
+            if(!data.IsObject)
+            {
+                return result;
+            }
+            IDictionary tdictionary = data as IDictionary;
+            if(tdictionary == null)
+                return result;
+            if(tdictionary.Contains(key))
+            {
+                result = true;
+            }
+            return result;
+        }
     }
 }

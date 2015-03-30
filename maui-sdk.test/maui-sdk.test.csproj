@@ -82,6 +82,11 @@
       <Name>Assembly-CSharp-vs</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="fixtures\status\normal.json" />
+    <None Include="fixtures\status\shutdown.json" />
+    <None Include="fixtures\status\warning.json" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

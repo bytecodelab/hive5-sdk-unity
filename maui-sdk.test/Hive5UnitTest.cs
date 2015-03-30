@@ -493,8 +493,6 @@ namespace maui_sdk.test
 
         #endregion AUTH
 
-
-
         #region LEADERBOARD
 
         [TestMethod, TestCategory("Leader Board")]
@@ -655,7 +653,6 @@ namespace maui_sdk.test
         }
 
         #endregion LEADERBOARD
-
 
         #region MAIL
 
@@ -971,8 +968,6 @@ namespace maui_sdk.test
 
         #endregion MAIL
 
-
-
         #region MISSION
 
         [TestMethod, TestCategory("Mission")]
@@ -1050,7 +1045,6 @@ namespace maui_sdk.test
         }
 
         #endregion MISSION
-
 
         #region OBJECT
 
@@ -1280,7 +1274,6 @@ namespace maui_sdk.test
 
         #endregion OBJECT
 
-
         #region PROCEDURE
 
         [TestMethod, TestCategory("Procedure")]
@@ -1405,7 +1398,6 @@ namespace maui_sdk.test
 
 
         #endregion PROCEDURE
-
 
         #region PURCHASE
 
@@ -1787,7 +1779,6 @@ namespace maui_sdk.test
 
         #endregion PUSH
 
-
         #region REWARD
 
         [TestMethod, TestCategory("Reward")]
@@ -1952,7 +1943,6 @@ namespace maui_sdk.test
 
 
         #endregion REWARD
-
 
         #region SOCIALGRAPH
 

@@ -26,6 +26,10 @@ namespace Hive5
         /// 순수 서버프로시저 수행 타임아웃 + Http request/response에 대한 latency고려된 값(단위:ms)
         /// </summary>
         public static int DuplicationApiCallExpirationPeriod = 2500;
+
+        public static string ProductionHealthUrl = "http://health.hive5.io/public-test/status-normal.json";
+        public static string BetaHealthUrl = "http://health.hive5.io/public-test/status-warning.json";
+        public static string AlphaHealthUrl = "http://health.hive5.io/public-test/status-shutdown.json";
     }
 }
 

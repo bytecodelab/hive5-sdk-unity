@@ -177,6 +177,8 @@
     <Compile Include="Assets\Hive5\Spider\TopicUris.cs" />
     <Compile Include="Assets\Hive5\Test\Logger.cs" />
     <Compile Include="Assets\Hive5\Test\MockMonoSingleton.cs" />
+    <Compile Include="Assets\Hive5\Util\HealthCheck.cs" />
+    <Compile Include="Assets\Hive5\Util\IHealthChecker.cs" />
     <Compile Include="Assets\Hive5\Util\Util.cs" />
     <Compile Include="Assets\Hive5\lib\MonoSingleton.cs" />
     <Compile Include="Assets\Hive5Config.cs" />

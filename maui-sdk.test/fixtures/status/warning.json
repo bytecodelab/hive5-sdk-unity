@@ -1,0 +1,16 @@
+﻿{
+    "maintenance" : {
+        "execution" : null,
+        "plans":[
+            {
+                "start":"2015-02-05T14:00:00.000Z",
+                "end":"2015-02-05T17:00:00.000Z",
+                "messsage":{
+                    "default":"system ...",
+                    "en":"system ...",
+                    "kr":"1~4am 까지 시스템 점검입니다"
+                }
+            }             
+        ]
+    }
+}

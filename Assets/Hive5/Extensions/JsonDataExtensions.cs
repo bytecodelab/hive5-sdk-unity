@@ -99,7 +99,7 @@ namespace LitJson
             return intValue;
         }
 
-        public static bool ContainsKey(JsonData data,string key)
+        public static bool ContainsKey(this JsonData data,string key)
         {
             bool result = false;
             if(data == null)

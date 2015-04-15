@@ -53,6 +53,8 @@
     <Compile Include="Assets\Hive5\Common\Exceptions.cs" />
     <Compile Include="Assets\Hive5\Common\Hive5Extensions.cs" />
     <Compile Include="Assets\Hive5\Extensions\JsonDataExtensions.cs" />
+    <Compile Include="Assets\Hive5\HealthCheck\Maintenance.cs" />
+    <Compile Include="Assets\Hive5\HealthCheck\Plan.cs" />
     <Compile Include="Assets\Hive5\Hive5Client.cs" />
     <Compile Include="Assets\Hive5\Hive5ClientAuth.cs" />
     <Compile Include="Assets\Hive5\Hive5ClientCoupon.cs" />
@@ -177,8 +179,7 @@
     <Compile Include="Assets\Hive5\Spider\TopicUris.cs" />
     <Compile Include="Assets\Hive5\Test\Logger.cs" />
     <Compile Include="Assets\Hive5\Test\MockMonoSingleton.cs" />
-    <Compile Include="Assets\Hive5\Util\HealthCheck.cs" />
-    <Compile Include="Assets\Hive5\Util\IHealthChecker.cs" />
+    <Compile Include="Assets\Hive5\HealthCheck\HealthCheck.cs" />
     <Compile Include="Assets\Hive5\Util\Util.cs" />
     <Compile Include="Assets\Hive5\lib\MonoSingleton.cs" />
     <Compile Include="Assets\Hive5Config.cs" />
@@ -297,13 +298,13 @@
       <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.2/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="NGUI">
-      <HintPath>C:/Users/Gilbert Lee/github/bytecodelab/maui-sdk/Assets/Plugins/NGUI.dll</HintPath>
+      <HintPath>Assets\Plugins\NGUI.dll</HintPath>
     </Reference>
     <Reference Include="LitJson">
-      <HintPath>C:/Users/Gilbert Lee/github/bytecodelab/maui-sdk/Assets/Plugins/LitJson.dll</HintPath>
+      <HintPath>Assets\Plugins\LitJson.dll</HintPath>
     </Reference>
     <Reference Include="websocket-sharp">
-      <HintPath>C:/Users/Gilbert Lee/github/bytecodelab/maui-sdk/Assets/Plugins/websocket-sharp.dll</HintPath>
+      <HintPath>Assets\Plugins\websocket-sharp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

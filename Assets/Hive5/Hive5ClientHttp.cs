@@ -197,7 +197,7 @@ namespace Hive5
             }
 
             // Hive5 API Header 설정
-            var headers = new Hashtable();
+            var headers = new Dictionary<string, string>();
             headers.Add(HeaderKey.AppKey, this.AppKey);
             headers.Add(HeaderKey.Uuid, this.Uuid);
 			headers.Add (HeaderKey.AcceptEncoding, HeaderValue.Gzip);
@@ -279,7 +279,7 @@ namespace Hive5
             }
 
             // Hive5 API Header 설정
-            var headers = new Hashtable();
+            var headers = new Dictionary<string, string>();
             headers.Add(HeaderKey.AppKey, this.AppKey);
             headers.Add(HeaderKey.Uuid, this.Uuid);
 			headers.Add(HeaderKey.XPlatformKey, Hive5Config.XPlatformKey);

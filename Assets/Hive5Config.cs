@@ -27,6 +27,11 @@ namespace Hive5
         /// </summary>
         public static int DuplicationApiCallExpirationPeriod = 2500;
 
+        /// <summary>
+        /// 헬스체크 자동업데이트 주기 (단위: ms)
+        /// </summary>
+        public static int AutoHealthCheckInterval = 3000000;
+
         public static string ProductionHealthUrl = "http://health.hive5.io/public-test/status-normal.json";
         public static string BetaHealthUrl = "http://health.hive5.io/public-test/status-warning.json";
         public static string AlphaHealthUrl = "http://health.hive5.io/public-test/status-shutdown.json";

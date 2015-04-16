@@ -3,7 +3,7 @@
         "execution" : {
             "start":"2015-02-04T14:00:00.000Z",
             "end":"2015-02-04T17:00:00.000Z",
-            "messsage":{
+            "message":{
                 "default":"system ...",
                 "en":"system ...",
                 "kr":"2~3am 까지 시스템 점검입니다"

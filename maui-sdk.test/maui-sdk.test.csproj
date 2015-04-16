@@ -70,6 +70,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Hive5HealthCheckUnitTest.cs" />
     <Compile Include="Hive5SpiderUnitTest.cs" />
     <Compile Include="Hive5UnitTest.cs" />
     <Compile Include="Item.cs" />
@@ -83,9 +84,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="fixtures\status\normal.json" />
-    <None Include="fixtures\status\shutdown.json" />
-    <None Include="fixtures\status\warning.json" />
+    <None Include="fixtures\status\normal.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="fixtures\status\shutdown.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="fixtures\status\warning.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

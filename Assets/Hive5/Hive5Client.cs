@@ -48,6 +48,7 @@ namespace Hive5
 
 		private Hive5TimeZone timezone 	= Hive5TimeZone.UTC;
         public Hive5APIZone Zone { get; private set; }
+        public string HealthCheckUrl { get; private set; }
 		private string host;
 		private string version;
 
@@ -106,16 +107,19 @@ namespace Hive5
                 case Hive5APIZone.Alpha:
                     {
                         this.host = Hive5Config.AlphaHost;
+                        this.HealthCheckUrl = Hive5Config.AlphaHealthUrl;
                     }
                     break;
                 case Hive5APIZone.Beta:
                     {
                         this.host = Hive5Config.BetaHost;
+                        this.HealthCheckUrl = Hive5Config.BetaHealthUrl;
                     }
                     break;
                 case Hive5APIZone.Production:
                     {
                         this.host = Hive5Config.ProductionHost;
+                        this.HealthCheckUrl = Hive5Config.ProductionHealthUrl;
                     }
                     break;
             }

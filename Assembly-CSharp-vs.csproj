@@ -47,6 +47,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Hive5HealthCheckerListener.cs" />
     <Compile Include="Assets\Hive5\APIZone.cs" />
     <Compile Include="Assets\Hive5\Common\Const.cs" />
     <Compile Include="Assets\Hive5\Common\Enum.cs" />
@@ -179,7 +180,7 @@
     <Compile Include="Assets\Hive5\Spider\TopicUris.cs" />
     <Compile Include="Assets\Hive5\Test\Logger.cs" />
     <Compile Include="Assets\Hive5\Test\MockMonoSingleton.cs" />
-    <Compile Include="Assets\Hive5\HealthCheck\HealthCheck.cs" />
+    <Compile Include="Assets\Hive5\HealthCheck\HealthChecker.cs" />
     <Compile Include="Assets\Hive5\Util\Util.cs" />
     <Compile Include="Assets\Hive5\lib\MonoSingleton.cs" />
     <Compile Include="Assets\Hive5Config.cs" />

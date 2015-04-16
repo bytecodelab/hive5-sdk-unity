@@ -5,7 +5,7 @@ using System.Text;
 using LitJson;
 using System.Collections;
 
-namespace Assets.Hive5
+namespace Hive5
 {
     public class Maintenance
     {

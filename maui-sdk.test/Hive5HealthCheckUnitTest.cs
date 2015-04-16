@@ -1,10 +1,12 @@
 ﻿using Assets.Hive5;
+using Hive5;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace maui_sdk.test
@@ -16,6 +18,29 @@ namespace maui_sdk.test
         public static string BetaHealthUrl = "http://health.hive5.io/public-test/status-warning.json";
         public static string AlphaHealthUrl = "http://health.hive5.io/public-test/status-shutdown.json";
 
+        public Hive5Client ApiClient { get; set; }
+
+
+        public void InitClient(Hive5APIZone zone)
+        {
+            TestValueSet testValues = TestValueSet.Default;
+
+            var client = Hive5Client.Instance;
+            //client.SetDebug();
+            string appKey = testValues.AppKey;
+            string uuid = testValues.Uuid;
+
+            try
+            {
+                client.Init(appKey, uuid, zone);
+                client.SetDebug();
+                this.ApiClient = client;
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
+            }
+        }
 
         [TestMethod, TestCategory("HealthCheck")]
         public void TestHealthCheckNormal()
@@ -148,6 +173,28 @@ namespace maui_sdk.test
             Assert.IsTrue(plan2.Message == "system ...");
 
             Assert.IsTrue(shutdownMaintenance.PendingPlans == null || shutdownMaintenance.PendingPlans.Count == 0);
+        }
+
+        [TestMethod, TestCategory("HealthCheck")]
+        public void TestStartMonitorWithCritical()
+        {
+            InitClient(Hive5APIZone.Alpha);
+
+            var completion = new ManualResetEvent(false);
+
+            HealthChecker.Instance.StatusChanged += (s, e) =>
+            {
+                Assert.IsTrue(HealthChecker.Instance.Status == ServerStatus.Critical);
+
+                if (HealthChecker.Instance.Status == ServerStatus.Critical)
+                { 
+                    completion.Set();
+                }
+            };
+
+            HealthChecker.Instance.StartMonitor();
+
+             completion.WaitOne();
         }
     }
 }

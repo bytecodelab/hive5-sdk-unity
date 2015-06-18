@@ -81,7 +81,7 @@ namespace Hive5
 
 		/** 
 		* @api {POST} Init SDK 초기화
-		* @apiVersion 2.0.0
+		* @apiVersion 1.0.0-alpha
 		* @apiName Init
 		* @apiGroup Init
 		*
@@ -134,7 +134,7 @@ namespace Hive5
 
 		/** 
 		* @api {POST} UpdatePushToken Push 토큰 등록 및 업데이트
-		* @apiVersion 0.3.11-beta
+		* @apiVersion 1.0.0-alpha
 		* @apiName UpdatePushToken
 		* @apiGroup Push
 		*
@@ -164,7 +164,7 @@ namespace Hive5
 
         /** 
 		* @api {POST} UpdatePushToken Push 토큰 등록 및 업데이트
-		* @apiVersion 0.4.4-beta
+		* @apiVersion 1.0.0-alpha
 		* @apiName TogglePushAccept
 		* @apiGroup Push
 		*
@@ -193,7 +193,7 @@ namespace Hive5
 		
 		/** 
 		* @api {POST} CallProcedure Procedure 호출
-		* @apiVersion 0.3.11-beta
+		* @apiVersion 1.0.0-alpha
 		* @apiName CallProcedure
 		* @apiGroup Procedure
 		*
@@ -248,7 +248,7 @@ namespace Hive5
 
         /** 
 		* @api {POST} CallProcedureWithoutAuth 로그인하지 않고 Procedure 호출
-		* @apiVersion 0.3.11-beta
+		* @apiVersion 1.0.0-alpha
 		* @apiName CallProcedure
 		* @apiGroup Procedure
 		*

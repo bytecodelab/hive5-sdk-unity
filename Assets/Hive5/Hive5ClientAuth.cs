@@ -1,4 +1,4 @@
-ï»¿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -27,54 +27,47 @@ namespace Hive5
 		*********************************************************************************/
 
         /** 
-        * @api {GET} Login ë¡œê·¸ì¸
-        * @apiVersion 0.3.11-beta
+        * @api {GET} Login ·Î±×ÀÎ
+        * @apiVersion 1.0.0-alpha
         * @apiName Login
         * @apiGroup Auth
         *
-        * @apiParam {string} os OSType
-        * @apiParam {string[]} objectKeys object key ë¦¬ìŠ¤íŠ¸
-        * @apiParam {string[]} configKeys config key ë¦¬ìŠ¤íŠ¸
-        * @apiParam {string} platform í”Œë«í¼ Type
-        * @apiParam {string} platformUserId í”Œë«í¼ UserId(ì¹´ì¹´ì˜¤ ID, GOOGLE ID, FACEBOOK ID ....)
-        * @apiParam {string} platformSDKVersion í”Œë«í¼ Version( 3, 4, 5...)
-        * @apiParam {Callback} callback ì½œë°± í•¨ìˆ˜
+        * @apiParam {string} os OSType(android, ios)
+        * @apiParam {string} userPlatform ÇÃ·§Æû Type
+        * @apiParam {string} userId ÇÃ·§Æû UserId(Ä«Ä«¿À ID, GOOGLE ID, FACEBOOK ID ....)
+        * @apiParam {Callback} callback Äİ¹é ÇÔ¼ö
         *
-        * @apiSuccess {String} resultCode Error Code ì°¸ê³ 
-        * @apiSuccess {String} resultMessage ìš”ì²­ ì‹¤íŒ¨ì‹œ ë©”ì‹œì§€
+        * @apiSuccess {String} resultCode Error Code Âü°í
+        * @apiSuccess {String} resultMessage ¿äÃ» ½ÇÆĞ½Ã ¸Ş½ÃÁö
         * @apiExample Example usage:
+        * string userPlatform = "kakao";
         * string userId 		= "88197xxxx07226176";
-        * string sdkVersion 	= "3";
-        * 
-        * var objectKeys 	= new string[] {""};
-        * var configKeys 	= new string[] {"time_event","last_version"};
         * 
         * Hive5Client hive5 = Hive5Client.Instance;
-        * hive5.Login (OSType.Android, objectKeys, configKeys, PlatformType.Google, userId, sdkVersion, response => {
+        * hive5.Login (OSType.Android, userPlatform, userId, response => {
         * 	Logger.Log ("response = "+ response.ResultData);
         * });
         */
-        public void Login(string os, string[] objectKeys, string[] configKeys, string platform, string platformUserId, string platformSDKVersion, Callback callback)
+        public void Login(string os, string userPlatform, string userId, Callback callback)
         {
             if (!InitState)
                 return;
 
-            // Hive5 API URL ì´ˆê¸°í™”
+            // Hive5 API URL ÃÊ±âÈ­
             var url = InitializeUrl(APIPath.PlatformLogin);
 
             Logger.Log("login LoginState=" + LoginState);
 
-            // Hive5 API íŒŒë¼ë¯¸í„° ì…‹íŒ…
-            TupleList<string, string> parameters = new TupleList<string, string>();
-            parameters.Add(ParameterKey.PlatformUserId, platformUserId);
-            parameters.Add(ParameterKey.PlatformSdkVersion, platformSDKVersion);
-            parameters.Add(ParameterKey.Platform, platform);
-            parameters.Add(ParameterKey.OS, os);
+            var requestBody = new
+            {
+                user = new { 
+                    userPlatform = userPlatform,
+                    userId = userId,
+                },
+                os = os,
+            };'
 
-            Array.ForEach(objectKeys, key => { parameters.Add(ParameterKey.ObjectKey, key); });
-            Array.ForEach(configKeys, key => { parameters.Add(ParameterKey.ConfigKey, key); });
-
-            GetHttpAsync(url, parameters.data, LoginResponseBody.Load, (response) =>
+            PostHttpAsync(url, requestBody, LoginResponseBody.Load, (response) =>
             {
                 if (response.ResultCode == Hive5ResultCode.Success)
                 {
@@ -86,24 +79,21 @@ namespace Hive5
                 }
                 this.loginState = true;
                 callback(response);
-            }
-        );
-
+            });
         }
 
-
         /** 
-        * @api {post} Logout ë¡œê·¸ì•„ì›ƒ
-        * @apiVersion 0.3.11-beta
+        * @api {post} Logout ·Î±×¾Æ¿ô
+        * @apiVersion 1.0.0-alpha
         * @apiName Logout
         * @apiGroup Auth
         *
-        * @apiParam {String} userId ìœ ì € ID
-        * @apiParam {String} accessToken Login SDK ì—ì„œ ì‘ë‹µ ë°›ì€ accessToken
-        * @apiParam {Callback} callback ì½œë°± í•¨ìˆ˜
+        * @apiParam {String} userId À¯Àú ID
+        * @apiParam {String} accessToken Login SDK ¿¡¼­ ÀÀ´ä ¹ŞÀº accessToken
+        * @apiParam {Callback} callback Äİ¹é ÇÔ¼ö
         *
-        * @apiSuccess {String} resultCode Error Code ì°¸ê³ 
-        * @apiSuccess {String} resultMessage ìš”ì²­ ì‹¤íŒ¨ì‹œ ë©”ì‹œì§€
+        * @apiSuccess {String} resultCode Error Code Âü°í
+        * @apiSuccess {String} resultMessage ¿äÃ» ½ÇÆĞ½Ã ¸Ş½ÃÁö
         * @apiExample Example usage:
         * Hive5Client hive5 = Hive5Client.Instance;
         * hive5.Logout(userId, accessToken, callback);
@@ -117,15 +107,15 @@ namespace Hive5
         }
 
         /** 
-        * @api {POST} Unregister íƒˆí‡´
-        * @apiVersion 0.3.11-beta
+        * @api {POST} Unregister Å»Åğ
+        * @apiVersion 1.0.0-alpha
         * @apiName Unregister
         * @apiGroup Auth
         *
-        * @apiParam {Callback} callback ì½œë°± í•¨ìˆ˜
+        * @apiParam {Callback} callback Äİ¹é ÇÔ¼ö
         *
-        * @apiSuccess {String} resultCode Error Code ì°¸ê³ 
-        * @apiSuccess {String} resultMessage ìš”ì²­ ì‹¤íŒ¨ì‹œ ë©”ì‹œì§€
+        * @apiSuccess {String} resultCode Error Code Âü°í
+        * @apiSuccess {String} resultMessage ¿äÃ» ½ÇÆĞ½Ã ¸Ş½ÃÁö
         * @apiExample Example usage:
         * Hive5Client hive5 = Hive5Client.Instance;
         * hive5.Unregister(callback);
@@ -134,22 +124,22 @@ namespace Hive5
         {
             var url = InitializeUrl(APIPath.Unregister);
 
-            // WWW í˜¸ì¶œ
+            // WWW È£Ãâ
             PostHttpAsync(url, new { }, CommonResponseBody.Load, callback);
         }
 
         /** 
-        * @api {POST} SubmitAgreements ì•½ê´€ ë™ì˜
-        * @apiVersion 0.3.11-beta
+        * @api {POST} SubmitAgreements ¾à°ü µ¿ÀÇ
+        * @apiVersion 1.0.0-alpha
         * @apiName SubmitAgreements
         * @apiGroup Auth
         *
-        * @apiParam {string} generalVersion ì•½ê´€ ë²„ì „
-        * @apiParam {string} partnershipVersion íŒŒíŠ¸ë„ˆì‰½ ë²„ì „
-        * @apiParam {Callback} callback ì½œë°± í•¨ìˆ˜
+        * @apiParam {string} generalVersion ¾à°ü ¹öÀü
+        * @apiParam {string} partnershipVersion ÆÄÆ®³Ê½± ¹öÀü
+        * @apiParam {Callback} callback Äİ¹é ÇÔ¼ö
         *
-        * @apiSuccess {String} resultCode Error Code ì°¸ê³ 
-        * @apiSuccess {String} resultMessage ìš”ì²­ ì‹¤íŒ¨ì‹œ ë©”ì‹œì§€
+        * @apiSuccess {String} resultCode Error Code Âü°í
+        * @apiSuccess {String} resultMessage ¿äÃ» ½ÇÆĞ½Ã ¸Ş½ÃÁö
         * @apiExample Example usage:
         * Hive5Client hive5 = Hive5Client.Instance;
         * hive5.SubmitAgreements(generalVersion, partnershipVersion, callback);
@@ -164,20 +154,20 @@ namespace Hive5
                 partnership_agreement = partnershipVersion
             };
 
-            // WWW í˜¸ì¶œ
+            // WWW È£Ãâ
             PostHttpAsync(url, requestBody, CommonResponseBody.Load, callback);
         }
 
         /** 
-        * @api {GET} GetAgreements ì•½ê´€ ë™ì˜ ë‚´ì—­ë³´ê¸°
-        * @apiVersion 0.3.11-beta
+        * @api {GET} GetAgreements ¾à°ü µ¿ÀÇ ³»¿ªº¸±â
+        * @apiVersion 1.0.0-alpha
         * @apiName GetAgreements
         * @apiGroup Auth
         *
-        * @apiParam {Callback} callback ì½œë°± í•¨ìˆ˜
+        * @apiParam {Callback} callback Äİ¹é ÇÔ¼ö
         *
-        * @apiSuccess {String} resultCode Error Code ì°¸ê³ 
-        * @apiSuccess {String} resultMessage ìš”ì²­ ì‹¤íŒ¨ì‹œ ë©”ì‹œì§€
+        * @apiSuccess {String} resultCode Error Code Âü°í
+        * @apiSuccess {String} resultMessage ¿äÃ» ½ÇÆĞ½Ã ¸Ş½ÃÁö
         * @apiExample Example usage:
         * Hive5Client hive5 = Hive5Client.Instance;
         * hive5.GetAgreements(callback);
@@ -186,25 +176,25 @@ namespace Hive5
         {
             var url = InitializeUrl(APIPath.Agreement);
 
-            // Hive5 API íŒŒë¼ë¯¸í„° ì…‹íŒ…
+            // Hive5 API ÆÄ¶ó¹ÌÅÍ ¼ÂÆÃ
             TupleList<string, string> parameters = new TupleList<string, string>();
 
-            // WWW í˜¸ì¶œ           
+            // WWW È£Ãâ           
             GetHttpAsync(url, parameters.data, GetAgreementsResponseBody.Load, callback);
         }
 
         /** 
-        * @api {POST} SwitchPlatform ë¡œê·¸ì¸ í”Œë«í¼ ë°”ê¾¸ê¸°
-        * @apiVersion 0.3.11-beta
+        * @api {POST} SwitchPlatform ·Î±×ÀÎ ÇÃ·§Æû ¹Ù²Ù±â
+        * @apiVersion 1.0.0-alpha
         * @apiName SwitchPlatform
         * @apiGroup Auth
         *
-        * @apiParam {string} platformType í”Œë«í¼íƒ€ì… PlatformType.Kakao ë“±
-        * @apiParam {string} platformUserId í”Œë«í¼ ì‚¬ìš©ì ì•„ì´ë””
-        * @apiParam {Callback} callback ì½œë°± í•¨ìˆ˜
+        * @apiParam {string} platformType ÇÃ·§ÆûÅ¸ÀÔ PlatformType.Kakao µî
+        * @apiParam {string} platformUserId ÇÃ·§Æû »ç¿ëÀÚ ¾ÆÀÌµğ
+        * @apiParam {Callback} callback Äİ¹é ÇÔ¼ö
         *
-        * @apiSuccess {String} resultCode Error Code ì°¸ê³ 
-        * @apiSuccess {String} resultMessage ìš”ì²­ ì‹¤íŒ¨ì‹œ ë©”ì‹œì§€
+        * @apiSuccess {String} resultCode Error Code Âü°í
+        * @apiSuccess {String} resultMessage ¿äÃ» ½ÇÆĞ½Ã ¸Ş½ÃÁö
         * @apiExample Example usage:
         * Hive5Client hive5 = Hive5Client.Instance;
         * hive5.SwitchPlatform(PlatformType.Kakao, platformUserId, callback);
@@ -224,7 +214,7 @@ namespace Hive5
 
             Logger.Log(url);
 
-            // WWW í˜¸ì¶œ
+            // WWW È£Ãâ
             PostHttpAsync(url, requestBody, SwitchPlatformResponseBody.Load, callback);
         }
 
@@ -248,7 +238,7 @@ namespace Hive5
 			
 			Logger.Log(url);
 			
-			// WWW í˜¸ì¶œ
+			// WWW È£Ãâ
 			PostHttpAsync(url, requestBody, CreatePlatformAccountResponseBody.Load, callback);
 		}
 
@@ -263,7 +253,7 @@ namespace Hive5
 		
 			Logger.Log(url);
 		
-			// WWW í˜¸ì¶œ           
+			// WWW È£Ãâ           
 			GetHttpAsync(url, null, CheckPlatformNameAvailabilityResponseBody.Load, callback);
 		}
 
@@ -278,7 +268,7 @@ namespace Hive5
 			
 			Logger.Log(url);
 			
-			// WWW í˜¸ì¶œ           
+			// WWW È£Ãâ           
 			GetHttpAsync(url, null, CheckPlatformEmailAvailabilityResponseBody.Load, callback);
 		}
 
@@ -299,7 +289,7 @@ namespace Hive5
 			
 			Logger.Log(url);
 			
-			// WWW í˜¸ì¶œ
+			// WWW È£Ãâ
 			PostHttpAsync(url, requestBody, AuthenticatePlatformAccountResponseBody.Load, callback);
 		}
     }

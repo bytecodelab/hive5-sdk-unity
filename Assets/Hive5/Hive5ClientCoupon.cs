@@ -27,7 +27,7 @@ namespace Hive5
 
 		/** 
 		* @api {POST} ApplyCoupon 쿠폰 적용하기
-		* @apiVersion 0.3.11-beta
+		* @apiVersion 1.0.0-alpha
 		* @apiName ApplyCoupon
 		* @apiGroup Coupon
 		*

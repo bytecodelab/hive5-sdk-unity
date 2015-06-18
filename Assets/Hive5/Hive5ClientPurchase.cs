@@ -27,7 +27,7 @@ namespace Hive5
 		
 		/** 
 		* @api {POST} CreateNaverPurchase 네이버 결제 시작
-		* @apiVersion 0.3.11-beta
+		* @apiVersion 1.0.0-alpha
 		* @apiName CreateNaverPurchase
 		* @apiGroup Purchase
 		*
@@ -57,7 +57,7 @@ namespace Hive5
 		
 		/** 
 		* @api {POST} CompleteNaverPurchase 네이버 결제 완료
-		* @apiVersion 0.3.11-beta
+		* @apiVersion 1.0.0-alpha
 		* @apiName CompleteNaverPurchase
 		* @apiGroup Purchase
 		*
@@ -90,7 +90,7 @@ namespace Hive5
 		
 		/** 
 		* @api {POST} CreateGooglePurchase 구글 결제 시작(deprecated)
-		* @apiVersion 0.3.11-beta
+		* @apiVersion 1.0.0-alpha
 		* @apiName CreateGooglePurchase-deprecated
 		* @apiGroup Purchase
 		*
@@ -123,7 +123,7 @@ namespace Hive5
          
         /** 
 		* @api {POST} CreateGooglePurchase 구글 결제 시작 (자신에게 선물)
-		* @apiVersion 0.3.11-beta
+		* @apiVersion 1.0.0-alpha
 		* @apiName CreateGooglePurchase
 		* @apiGroup Purchase
 		*
@@ -151,7 +151,7 @@ namespace Hive5
 
 		/** 
 		* @api {POST} CreateGooglePurchase 구글 결제 시작
-		* @apiVersion 0.3.11-beta
+		* @apiVersion 1.0.0-alpha
 		* @apiName CreateGooglePurchase
 		* @apiGroup Purchase
 		*
@@ -185,7 +185,7 @@ namespace Hive5
 		
 		/** 
 		* @api {POST} CompleteGooglePurchase 구글 결제 완료
-		* @apiVersion 0.3.11-beta
+		* @apiVersion 1.0.0-alpha
 		* @apiName CompleteGooglePurchase
 		* @apiGroup Purchase
 		*
@@ -222,7 +222,7 @@ namespace Hive5
 	
 		/** 
 		* @api {POST} CreateApplePurchase 애플 결제 시작(deprecated)
-		* @apiVersion 0.3.11-beta
+		* @apiVersion 1.0.0-alpha
 		* @apiName CreateApplePurchase-deprecated
 		* @apiGroup Purchase
 		*
@@ -255,7 +255,7 @@ namespace Hive5
 
         /** 
 		* @api {POST} CreateApplePurchase 애플 결제 시작 (자신에게 선물)
-		* @apiVersion 0.3.11-beta
+		* @apiVersion 1.0.0-alpha
 		* @apiName CreateApplePurchase
 		* @apiGroup Purchase
 		*
@@ -283,7 +283,7 @@ namespace Hive5
 
 		/** 
 		* @api {POST} CreateApplePurchase 애플 결제 시작
-		* @apiVersion 0.3.11-beta
+		* @apiVersion 1.0.0-alpha
 		* @apiName CreateApplePurchase
 		* @apiGroup Purchase
 		*
@@ -317,7 +317,7 @@ namespace Hive5
 		
 		/** 
 		* @api {POST} CompleteApplePurchase 애플 결제 완료
-		* @apiVersion 0.3.11-beta
+		* @apiVersion 1.0.0-alpha
 		* @apiName CompleteApplePurchase
 		* @apiGroup Purchase
 		*

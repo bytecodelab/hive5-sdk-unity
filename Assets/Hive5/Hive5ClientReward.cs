@@ -28,7 +28,7 @@ namespace Hive5
 
 		/** 
 		* @api {GET} GetRewardInfo 보상 정보
-		* @apiVersion 0.3.11-beta
+		* @apiVersion 1.0.0-alpha
 		* @apiName GetRewardInfo
 		* @apiGroup Reward
 		*
@@ -54,7 +54,7 @@ namespace Hive5
 		
 		/** 
 		* @api {POST} ApplyReward 보상 받기
-		* @apiVersion 0.3.11-beta
+		* @apiVersion 1.0.0-alpha
 		* @apiName ApplyReward
 		* @apiGroup Reward
 		*
@@ -83,7 +83,7 @@ namespace Hive5
 		
 		/** 
 		* @api {POST} ApplyReward 보상 전체 받기
-		* @apiVersion 0.3.11-beta
+		* @apiVersion 1.0.0-alpha
 		* @apiName ApplyAllRewards
 		* @apiGroup Reward
 		*
@@ -111,7 +111,7 @@ namespace Hive5
 		
 		/** 
 		* @api {POST} InvalidateReward 보상 무효화
-		* @apiVersion 0.3.11-beta
+		* @apiVersion 1.0.0-alpha
 		* @apiName InvalidateReward
 		* @apiGroup Reward
 		*

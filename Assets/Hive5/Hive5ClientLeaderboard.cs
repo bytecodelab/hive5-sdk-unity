@@ -28,7 +28,7 @@ namespace Hive5
 
         /** 
         * @api {POST} SubmitScore 점수 기록
-        * @apiVersion 0.3.11-beta
+        * @apiVersion 1.0.0-alpha
         * @apiName SubmitScore
         * @apiGroup Leaderboard
         *
@@ -59,7 +59,7 @@ namespace Hive5
 
         /** 
         * @api {GET} GetScores 랭킹 가져오기
-        * @apiVersion 0.3.11-beta
+        * @apiVersion 1.0.0-alpha
         * @apiName GetScores
         * @apiGroup Leaderboard
         *
@@ -106,7 +106,7 @@ namespace Hive5
 
         /** 
         * @api {GET} GetMyScore 내 랭킹 확인
-        * @apiVersion 0.3.11-beta
+        * @apiVersion 1.0.0-alpha
         * @apiName GetMyScore
         * @apiGroup Leaderboard
         *
@@ -139,7 +139,7 @@ namespace Hive5
 
         /** 
         * @api {GET} GetSocialScores 친구 랭킹 가져오기
-        * @apiVersion 0.3.11-beta
+        * @apiVersion 1.0.0-alpha
         * @apiName GetSocialScores
         * @apiGroup Leaderboard
         *

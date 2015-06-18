@@ -27,7 +27,7 @@ namespace Hive5
 
 		/** 
 		* @api {POST} CreateMail 메일 생성하기(deprecated)
-		* @apiVersion 0.3.11-beta
+		* @apiVersion 1.0.0-alpha
 		* @apiName CreateMail-deprecated
 		* @apiGroup Mail
 		*
@@ -60,7 +60,7 @@ namespace Hive5
 
 		/** 
 		* @api {POST} CreateMail 메일 생성하기
-		* @apiVersion 0.3.11-beta
+		* @apiVersion 1.0.0-alpha
 		* @apiName CreateMail
 		* @apiGroup Mail
 		*
@@ -97,7 +97,7 @@ namespace Hive5
 
 		/** 
 		* @api {GET} GetMails 메일 리스트 가져오기
-		* @apiVersion 0.3.11-beta
+		* @apiVersion 1.0.0-alpha
 		* @apiName GetMails
 		* @apiGroup Mail
 		*
@@ -133,7 +133,7 @@ namespace Hive5
 		
 		/** 
 		* @api {GET} GetMailCount 메일 갯수 확인
-		* @apiVersion 0.3.11-beta
+		* @apiVersion 1.0.0-alpha
 		* @apiName GetMailCount
 		* @apiGroup Mail
 		*
@@ -166,7 +166,7 @@ namespace Hive5
 		
 		/** 
 		* @api {POST} UpdateMail 메일 수정
-		* @apiVersion 0.3.11-beta
+		* @apiVersion 1.0.0-alpha
 		* @apiName UpdateMail
 		* @apiGroup Mail
 		*
@@ -195,7 +195,7 @@ namespace Hive5
 
 		/** 
 		* @api {POST} DeleteMail 메일 삭제
-		* @apiVersion 0.3.11-beta
+		* @apiVersion 1.0.0-alpha
 		* @apiName DeleteMail
 		* @apiGroup Mail
 		*
@@ -220,7 +220,7 @@ namespace Hive5
 
 		/** 
 		* @api {POST} DeleteAllMail 메일 전체(특정범위) 삭제
-		* @apiVersion 0.3.11-beta
+		* @apiVersion 1.0.0-alpha
 		* @apiName DeleteAllMail
 		* @apiGroup Mail
 		*
@@ -250,7 +250,7 @@ namespace Hive5
 
 		/** 
 		* @api {POST} AttachMailTags 메일 TAG 추가
-		* @apiVersion 0.3.11-beta
+		* @apiVersion 1.0.0-alpha
 		* @apiName AttachMailTags
 		* @apiGroup Mail
 		*
@@ -279,7 +279,7 @@ namespace Hive5
 
 		/** 
 		* @api {POST} DetachMailTags 메일 TAG 제거
-		* @apiVersion 0.3.11-beta
+		* @apiVersion 1.0.0-alpha
 		* @apiName DetachMailTags
 		* @apiGroup Mail
 		*

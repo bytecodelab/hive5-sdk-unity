@@ -136,7 +136,8 @@ namespace Hive5
 	/// </summary>
 	public class PlatformType
 	{
-		public static string None 		= "none";
+		public static string Anonymous 		= "anonymous";
+        public static string Hive5 = "hive5";
 		public static string Kakao 		= "kakao";
 		public static string Naver 		= "naver";
 		public static string Facebook 	= "facebook";

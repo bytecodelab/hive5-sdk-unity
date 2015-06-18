@@ -61,8 +61,8 @@ namespace Hive5
             var requestBody = new
             {
                 user = new { 
-                    userPlatform = userPlatform,
-                    userId = userId,
+                    platform = userPlatform,
+                    id = userId,
                 },
                 os = os,
             };

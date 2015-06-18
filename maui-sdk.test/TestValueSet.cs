@@ -24,7 +24,7 @@ namespace maui_sdk.test
         {
             Default = new TestValueSet()
             {
-                AppKey = "4f81f92c-7cbf-47c5-a2a4-fdec156076a8",
+                AppKey = "d8444735-15e3-4198-9179-102ba68776fc",
                 Uuid = "46018",
                 ValidPlatformUserId = "88197948207226176",
                 LeaderBoardKey = "3",

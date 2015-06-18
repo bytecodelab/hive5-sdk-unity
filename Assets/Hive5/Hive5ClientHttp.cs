@@ -154,7 +154,7 @@ namespace Hive5
             //}
             //else
             //{ 
-                wc.UploadDataAsync(new Uri(url, UriKind.RelativeOrAbsolute), "POST", Encoding.UTF8.GetBytes(jsonString), "42000300");
+                wc.UploadDataAsync(new Uri(url, UriKind.RelativeOrAbsolute), "POST", Encoding.UTF8.GetBytes(jsonString));
            // }
         }
 

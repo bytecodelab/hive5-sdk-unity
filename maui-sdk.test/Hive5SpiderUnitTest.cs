@@ -516,7 +516,6 @@ namespace maui_sdk.test
                     Assert.IsTrue(string.IsNullOrEmpty(body.AccessToken) == false); // 잘못된 아이디로 로그인했으니
                     Assert.IsTrue(body.Agreements != null);
                     Assert.IsTrue(body.NewMailCount >= 0);
-                    Assert.IsTrue(body.Promotions != null);
 
                     completion.Set();
                 });

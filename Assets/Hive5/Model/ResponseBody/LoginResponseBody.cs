@@ -20,7 +20,6 @@ namespace Hive5.Model
 		public string PlatformUserId;
 
 		public List<Agreement> 	Agreements;			
-		public List<Promotion> 	Promotions;			
 		
 		/// <summary>
 		/// Load the specified json.
@@ -35,7 +34,6 @@ namespace Hive5.Model
 			var newMailCount = (int)json["new_mail_count"];
 			var accessToken 		= (string)json["access_token"];
 
-            var promotions			= Promotion.LoadList ( json ["promotions"] );
 			var agreements 			= Agreement.LoadList ( json ["agreements"] );
 			var platform = (string)json["user"]["platform"];
 			var platformUserId = (string)json ["user"]["id"];
@@ -47,7 +45,6 @@ namespace Hive5.Model
 				NewMailCount = newMailCount, 
 				Platform = platform,
 				PlatformUserId = platformUserId,
-				Promotions = promotions, 
 				Agreements = agreements,
 			};
 		}

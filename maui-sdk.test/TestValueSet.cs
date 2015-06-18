@@ -16,8 +16,6 @@ namespace maui_sdk.test
 
         public string ValidPlatformUserId { get; set; }
 
-        public string GoogleSdkVersion { get; set; }
-
         public string LeaderBoardKey { get; set; }
 
         public List<string> ObjectClasses { get; set; }
@@ -29,7 +27,6 @@ namespace maui_sdk.test
                 AppKey = "4f81f92c-7cbf-47c5-a2a4-fdec156076a8",
                 Uuid = "46018",
                 ValidPlatformUserId = "88197948207226176",
-                GoogleSdkVersion = "3",
                 LeaderBoardKey = "3",
                 ObjectClasses = new List<string> { "" }, 
             };

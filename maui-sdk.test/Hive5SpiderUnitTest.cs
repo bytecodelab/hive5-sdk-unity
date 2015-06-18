@@ -499,15 +499,12 @@ namespace maui_sdk.test
         private void Login()
         {
             string userId = TestValues.ValidPlatformUserId;
-            string sdkVersion = TestValues.GoogleSdkVersion;
-            string[] objectKeys = new string[] { "" };		// 로그인 후 가져와야할 사용자 object의 key 목록
-            string[] configKeys = new string[] { "time_event1" };	// 로그인 후 가져와야할 사용자 configuration의 key
 
             try
             {
                 var completion = new ManualResetEvent(false);
 
-                this.apiClient.Login(OSType.Android, objectKeys, configKeys, PlatformType.Google, userId, sdkVersion, (response) =>
+                this.apiClient.Login(OSType.Android, PlatformType.Google, userId, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공

@@ -23,8 +23,6 @@ namespace maui_sdk.test
         public static Hive5APIZone TestZone = Hive5APIZone.Production;
 #endif
         
-        public const string GoogleSdkVersion = "3";
-
         public static TestValueSet TestValues { get; set; }
 
         #endregion 설정값들
@@ -46,16 +44,14 @@ namespace maui_sdk.test
 
         private void Login()
         {
+            string userPlatform = PlatformType.Google;
             string userId = TestValues.ValidPlatformUserId;
-            string sdkVersion = TestValues.GoogleSdkVersion;
-            string[] objectKeys = new string[] { "" };		// 로그인 후 가져와야할 사용자 object의 key 목록
-            string[] configKeys = new string[] { "time_event1" };	// 로그인 후 가져와야할 사용자 configuration의 key
 
             try
             {
                 var completion = new ManualResetEvent(false);
 
-                this.ApiClient.Login(OSType.Android, objectKeys, configKeys, PlatformType.Google, userId, sdkVersion, (response) =>
+                this.ApiClient.Login(OSType.Android, userPlatform, userId, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공

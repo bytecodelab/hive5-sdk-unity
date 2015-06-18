@@ -65,7 +65,7 @@ namespace Hive5
                     userId = userId,
                 },
                 os = os,
-            };'
+            };
 
             PostHttpAsync(url, requestBody, LoginResponseBody.Load, (response) =>
             {

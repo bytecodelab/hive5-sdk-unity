@@ -34,7 +34,7 @@ namespace maui_sdk.test
         {
             //TestValues = TestValueSet.AinaRod;
             TestValues = TestValueSet.Default;
-            Hive5.Hive5Config.CustomAccountPlatformName = "test";
+            Hive5.Hive5Config.CustomAccountPlatformName = "hive5";
             Hive5.Hive5Config.XPlatformKey = "4b9ea368-2809-4e57-91a1-d9ce7ac39534"; // alpha: UnitTest Game
             if (this.ApiClient == null)
             {
@@ -62,11 +62,8 @@ namespace maui_sdk.test
                     LoginResponseBody body = response.ResultData as LoginResponseBody;
                     Assert.IsTrue(string.IsNullOrEmpty(body.AccessToken) == false); // 잘못된 아이디로 로그인했으니
                     Assert.IsTrue(body.Agreements != null);
-                    Assert.IsTrue(body.CompletedMissions != null);
-                    Assert.IsTrue(body.Configs != null);
                     Assert.IsTrue(body.NewMailCount >= 0);
                     Assert.IsTrue(body.Promotions != null);
-                    Assert.IsTrue(body.UserId > 0); // 잘못된 아이디로 로그인했으니
 
                     completion.Set();
                 });
@@ -203,7 +200,9 @@ namespace maui_sdk.test
 
                 var completion = new ManualResetEvent(false);
 
-                this.ApiClient.CheckNicknameAvailability("불량사과", (response) =>
+                string randomNickname = Environment.TickCount.ToString();
+
+                this.ApiClient.CheckNicknameAvailability(randomNickname, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     if (response.ResultCode != Hive5ResultCode.Success)
@@ -212,8 +211,10 @@ namespace maui_sdk.test
                     }
 
                     Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                    Assert.IsTrue(response.ResultData is CommonResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
-
+                    Assert.IsTrue(response.ResultData is CheckNicknameAvailabilityResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+                    
+                    var responseBody = response.ResultData as CheckNicknameAvailabilityResponseBody;
+                    Assert.AreEqual(responseBody.Available, true);
 
                     completion.Set();
                 });
@@ -866,7 +867,7 @@ namespace maui_sdk.test
             string[] tags = new string[] { sampleTag };
             long createMailId = 0;
 
-            this.ApiClient.CreateMail(content, TestValues.ValidPlatformUserId, tags, (response) =>
+            this.ApiClient.CreateMail(content, PlatformType.Google, TestValues.ValidPlatformUserId, tags, (response) =>
             {
                 // 1. 기본 반환값 검증
                 Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
@@ -1757,11 +1758,10 @@ namespace maui_sdk.test
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
                     Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                    Assert.IsTrue(response.ResultData is UpdatePushTokenResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+                    Assert.IsTrue(response.ResultData is UpdateTogglePushAcceptResponseBody ); // 제대로 된 반환데이터가 오는지 타입체크
 
                     // 2. 프로퍼티 검증
-                    UpdateTogglePushAcceptResponseBody body = response.ResultData as UpdateTogglePushAcceptResponseBody;
-
+                    
                     completion.Set();
                 });
 

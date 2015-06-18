@@ -44,7 +44,7 @@ namespace Hive5
 			TupleList<string, string> parameters = new TupleList<string, string> ();
 
 			// WWW 호출
-            GetHttpAsync(url, parameters.data, CommonResponseBody.Load, callback);
+            GetHttpAsync(url, parameters.data,  CheckNicknameAvailabilityResponseBody.Load, callback);
 		}
 
 		/** 

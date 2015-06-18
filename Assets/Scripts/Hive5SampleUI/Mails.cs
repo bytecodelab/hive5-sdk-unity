@@ -44,7 +44,7 @@ public class Mails : MonoBehaviour {
 	public void createMail()
 	{
 		var hive5 = Hive5Client.Instance;
-		hive5.CreateMail("test mail", null, null, response => {
+		hive5.CreateMail("test mail", null,  null, null, response => {
 			Debug.Log ("onCreateMail");
 			
 			// 성공

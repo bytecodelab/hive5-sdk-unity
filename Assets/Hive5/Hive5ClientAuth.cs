@@ -189,17 +189,17 @@ namespace Hive5
         * @apiName SwitchPlatform
         * @apiGroup Auth
         *
-        * @apiParam {string} platformType 플랫폼타입 PlatformType.Kakao 등
-        * @apiParam {string} platformUserId 플랫폼 사용자 아이디
+        * @apiParam {string} userPlatform 플랫폼타입 PlatformType.Kakao 등
+        * @apiParam {string} userId 플랫폼 사용자 아이디
         * @apiParam {Callback} callback 콜백 함수
         *
         * @apiSuccess {String} resultCode Error Code 참고
         * @apiSuccess {String} resultMessage 요청 실패시 메시지
         * @apiExample Example usage:
         * Hive5Client hive5 = Hive5Client.Instance;
-        * hive5.SwitchPlatform(PlatformType.Kakao, platformUserId, callback);
+        * hive5.SwitchPlatform(PlatformType.Kakao, userId, callback);
         */
-        public void SwitchPlatform(string platformType, string platformUserId, Callback callback)
+        public void SwitchPlatform(string userPlatform, string userId, Callback callback)
         {
             
             Logger.Log("SwitchPlatform called");
@@ -208,8 +208,10 @@ namespace Hive5
 
             var requestBody = new
             {
-                platform = platformType,
-                platform_user_id = platformUserId
+                user = new {
+                    platform = userPlatform,
+                    id = userId,
+                },
             };
 
             Logger.Log(url);

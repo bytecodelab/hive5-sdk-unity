@@ -73,7 +73,6 @@
     <Compile Include="Assets\Hive5\Model\ApiRequestManager.cs" />
     <Compile Include="Assets\Hive5\Model\Data\Agreement.cs" />
     <Compile Include="Assets\Hive5\Model\Data\CompletedMission.cs" />
-    <Compile Include="Assets\Hive5\Model\Data\Config.cs" />
     <Compile Include="Assets\Hive5\Model\Data\Friend.cs" />
     <Compile Include="Assets\Hive5\Model\Data\HObject.cs" />
     <Compile Include="Assets\Hive5\Model\Data\Mail.cs" />
@@ -101,6 +100,7 @@
     <Compile Include="Assets\Hive5\Model\ResponseBody\AuthenticatePlatformAccountResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\CallProcedureResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\CheckPlatformEmailAvailablityResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Model\ResponseBody\CheckNicknameAvailabilityResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\CheckPlatformNameAvailabilityResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\CommonResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\CompleteApplePurchaseResponseBody.cs" />

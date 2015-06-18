@@ -13,8 +13,9 @@ using LitJson;
 
 namespace Hive5.Model
 {
-	public class CheckPlatformEmailAvailabilityResponseBody : IResponseBody			 
-	{	
+	public class CheckNicknameAvailabilityResponseBody : IResponseBody
+	{
+        public bool Available { get; set; }
 		
 		/// <summary>
 		/// Load the specified json.
@@ -24,9 +25,9 @@ namespace Hive5.Model
 		{
 			if (json == null)
 				return null;
-					
-			return new CheckPlatformEmailAvailabilityResponseBody() {
-			    
+			
+			return new CheckNicknameAvailabilityResponseBody() {                
+				Available = (bool)json["available"]	
 			};
 		}
 		

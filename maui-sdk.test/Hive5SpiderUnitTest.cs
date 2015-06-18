@@ -515,11 +515,8 @@ namespace maui_sdk.test
                     LoginResponseBody body = response.ResultData as LoginResponseBody;
                     Assert.IsTrue(string.IsNullOrEmpty(body.AccessToken) == false); // 잘못된 아이디로 로그인했으니
                     Assert.IsTrue(body.Agreements != null);
-                    Assert.IsTrue(body.CompletedMissions != null);
-                    Assert.IsTrue(body.Configs != null);
                     Assert.IsTrue(body.NewMailCount >= 0);
                     Assert.IsTrue(body.Promotions != null);
-                    Assert.IsTrue(body.UserId > 0); // 잘못된 아이디로 로그인했으니
 
                     completion.Set();
                 });

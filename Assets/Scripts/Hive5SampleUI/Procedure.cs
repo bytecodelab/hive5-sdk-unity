@@ -16,7 +16,7 @@ public class Procedure : MonoBehaviour {
         parameters.Add("echo", "gilbok");
 
 		//hive5.CallProcedure("echo", parameters, response => {
-		hive5.CallProcedure("", parameters, response => {
+		hive5.RunScript("", parameters, response => {
 			Debug.Log ("onCallProcedure");
 			Debug.Log ("result data = "+response.ResultData);
 

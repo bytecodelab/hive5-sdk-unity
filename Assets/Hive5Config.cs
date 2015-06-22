@@ -12,14 +12,14 @@ namespace Hive5
 {
 	public static class Hive5Config
 	{
-		public static string AppKey 		= "your_app_key"; // Sample game
+		public static string AppKey 		= "d8444735-15e3-4198-9179-102ba68776fc"; // Sample game
 		public static string XPlatformKey 	= ""; // If you need it, request us 
 		public static string CustomAccountPlatformName = ""; 
 	
-    	public static string ProductionHost	= "your_prod_server_domain";
-		public static string BetaHost 		= "your_beta_server_domain";
-        public static string AlphaHost      = "your_alpha_server_domain";
-		public static string Version 		= "v5";
+    	public static string ProductionHost	= "https://hornet.hive5.io";
+		public static string BetaHost 		= "https://beta.hornet.hive5.io";
+        public static string AlphaHost      = "http://alpha.hornet.hive5.io";
+		public static string Version 		= "v6";
 
         /// <summary>
         /// 중복호출로 단정하지 않는 시간 차이

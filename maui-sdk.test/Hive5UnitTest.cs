@@ -22,7 +22,7 @@ namespace maui_sdk.test
 #else
         public static Hive5APIZone TestZone = Hive5APIZone.Production;
 #endif
-        
+
         public static TestValueSet TestValues { get; set; }
 
         #endregion 설정값들
@@ -159,7 +159,7 @@ namespace maui_sdk.test
         {
             try
             {
-                 Login();
+                Login();
                 string oldSessionKey = this.ApiClient.SessionKey;
 
                 Login();
@@ -182,7 +182,7 @@ namespace maui_sdk.test
                 });
 
                 completion.WaitOne();
-                
+
             }
             catch (Exception ex)
             {
@@ -205,13 +205,13 @@ namespace maui_sdk.test
                 {
                     // 1. 기본 반환값 검증
                     if (response.ResultCode != Hive5ResultCode.Success)
-                    { 
-                        Assert.IsTrue(string.IsNullOrEmpty(response.ResultMessage) == false); 
+                    {
+                        Assert.IsTrue(string.IsNullOrEmpty(response.ResultMessage) == false);
                     }
 
                     Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
                     Assert.IsTrue(response.ResultData is CheckNicknameAvailabilityResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
-                    
+
                     var responseBody = response.ResultData as CheckNicknameAvailabilityResponseBody;
                     Assert.AreEqual(responseBody.Available, true);
 
@@ -332,7 +332,7 @@ namespace maui_sdk.test
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
                     Assert.IsTrue(string.IsNullOrEmpty(response.ResultMessage));
-                    
+
                     // 2. 프로퍼티 검증
 
                     completion1.Set();
@@ -364,7 +364,7 @@ namespace maui_sdk.test
                 // 1. 기본 반환값 검증
                 Assert.IsTrue(response.ResultCode == Hive5ResultCode.AlreadyExistingPlatformUserName); // 일단 반환성공
                 Assert.IsFalse(string.IsNullOrEmpty(response.ResultMessage));
-               
+
                 // 2. 프로퍼티 검증
 
                 completion3.Set();
@@ -478,7 +478,7 @@ namespace maui_sdk.test
                 Assert.IsTrue(response.ResultCode == Hive5ResultCode.InvalidNameOrPassword); // 일단 반환성공
                 Assert.IsFalse(string.IsNullOrEmpty(response.ResultMessage));
                 Assert.IsTrue(response.ResultData == null); // 반환데이터는 null이면 안 됨
-              
+
                 // 2. 프로퍼티 검증
 
                 completion3.Set();
@@ -500,7 +500,7 @@ namespace maui_sdk.test
 
                 var completion = new ManualResetEvent(false);
 
-                this.ApiClient.GetMyScore("3", 0, 100, (response) =>
+                this.ApiClient.GetMyScore(TestValues.LeaderBoardKey, 0, 100, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
@@ -578,7 +578,12 @@ namespace maui_sdk.test
 
                 var completion = new ManualResetEvent(false);
 
-                this.ApiClient.SubmitScore("3", 100, (response) =>
+                var extras = new
+                {
+                    hero = 0,
+                };
+
+                this.ApiClient.SubmitScore(TestValues.LeaderBoardKey, 100, extras, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
@@ -616,7 +621,7 @@ namespace maui_sdk.test
                 {
                     "sword",
                 };
-                this.ApiClient.GetSocialScores("3", objectClasses, (response) =>
+                this.ApiClient.GetSocialScores(TestValues.LeaderBoardKey, objectClasses, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
@@ -964,10 +969,10 @@ namespace maui_sdk.test
 
         #endregion MAIL
 
-        #region OBJECT
+        #region SCRIPT
 
-        [TestMethod, TestCategory("Object")]
-        public void Test오브젝트리스트GetObjects()
+        [TestMethod, TestCategory("Script")]
+        public void Test스크립트호출RunScript()
         {
             //Assert.Inconclusive("404에러 발생하는 것으로 알고 있음");
             //return;
@@ -977,239 +982,12 @@ namespace maui_sdk.test
                 Login();
 
                 var completion = new ManualResetEvent(false);
-
-                string sampleClassType = "sword";
-
-                List<HObject> objects = new List<HObject>()
+                var parameters = new
                 {
-                    new HObject() { @class = sampleClassType },
+                    echo = "gilbok"
                 };
 
-                this.ApiClient.GetObjects(objects, (response) =>
-                {
-                    // 1. 기본 반환값 검증
-                    Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success ||
-                                  response.ResultCode == Hive5ResultCode.DataDoesNotExist); // 일단 반환성공
-                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                    Assert.IsTrue(response.ResultData is GetObjectsResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
-
-                    // 2. 프로퍼티 검증
-                    GetObjectsResponseBody body = response.ResultData as GetObjectsResponseBody;
-                    if (body.Objects != null)
-                    {
-                        Assert.IsTrue(body.Objects.Count >= 0);
-                    }
-
-                    completion.Set();
-                });
-
-                completion.WaitOne();
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
-            }
-        }
-
-        [TestMethod, TestCategory("Object")]
-        public void Test오브젝트생성CreateObjects()
-        {
-            //Assert.Inconclusive("404에러 발생하는 것으로 알고 있음");
-            //return;
-
-            try
-            {
-                Login();
-
-
-                string sampleClassType = "sword";
-                string sampleClassType2 = "shield";
-
-                List<HObject> objects = new List<HObject>()
-                {
-                    new HObject() 
-                    { 
-                        @class = sampleClassType, 
-                    },
-                    new HObject() 
-                    { 
-                        @class = sampleClassType2, 
-                    },
-                };
-
-                CreateObjects(objects);
-
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
-            }
-        }
-
-        private CreateObjectsResponseBody CreateObjects(List<HObject> objects)
-        {
-            var completion = new ManualResetEvent(false);
-
-            CreateObjectsResponseBody body = null;
-
-            this.ApiClient.CreateObjects(objects, (response) =>
-            {
-                // 1. 기본 반환값 검증
-                Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success ||
-                              response.ResultCode == Hive5ResultCode.DataDoesNotExist); // 일단 반환성공
-                Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                Assert.IsTrue(response.ResultData is CreateObjectsResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
-
-                // 2. 프로퍼티 검증
-                body = response.ResultData as CreateObjectsResponseBody;
-                if (body.Objects != null)
-                {
-                    Assert.IsTrue(body.Objects.Count >= 0);
-                }
-
-                completion.Set();
-            });
-
-            completion.WaitOne();
-            return body;
-        }
-
-        [TestMethod, TestCategory("Object")]
-        public void Test오브젝트저장SetObjects()
-        {
-            //Assert.Inconclusive("404에러 발생하는 것으로 알고 있음");
-            //return;
-
-            try
-            {
-                Login();
-
-                string sampleClassType = "sword";
-                string sampleClassType2 = "shield";
-
-                List<HObject> objects = new List<HObject>()
-                {
-                    new HObject() 
-                    { 
-                        @class = sampleClassType, 
-                    },
-                    new HObject() 
-                    { 
-                        @class = sampleClassType2, 
-                    },
-                };
-
-                SetObjects(objects);
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
-            }
-        }
-
-        public CommonResponseBody SetObjects(List<HObject> objects)
-        {
-            CommonResponseBody body = null;
-            var completion = new ManualResetEvent(false);
-            this.ApiClient.SetObjects(objects, (response) =>
-            {
-                // 1. 기본 반환값 검증
-                Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
-                Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                Assert.IsTrue(response.ResultData is CommonResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
-
-                // 2. 프로퍼티 검증
-                body = response.ResultData as CommonResponseBody;
-
-                completion.Set();
-            });
-
-            completion.WaitOne();
-            return body;
-        }
-
-
-        [TestMethod, TestCategory("Object")]
-        public void Test오브젝트제거DestroyObjects()
-        {
-            try
-            {
-                Login();
-
-                // 오브젝트 생성하기
-                string sampleClassType = "sword";
-                string sampleClassType2 = "shield";
-
-                List<HObject> objects = new List<HObject>()
-                {
-                    new HObject() 
-                    { 
-                        @class = sampleClassType, 
-                    },
-                    new HObject() 
-                    { 
-                        @class = sampleClassType2, 
-                    },
-                };
-
-                CreateObjects(objects);
-
-                // 오브젝트 지우기
-                var completion = new ManualResetEvent(false);
-
-                List<HObject> destroyObjects = new List<HObject>()
-                {
-                    new HObject() 
-                    { 
-                        @class = sampleClassType, 
-                    },
-                    new HObject() 
-                    { 
-                        @class = sampleClassType2, 
-                    },
-                };
-
-                this.ApiClient.DestroyObjects(destroyObjects, (response) =>
-                {
-                    // 1. 기본 반환값 검증
-                    Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
-                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                    Assert.IsTrue(response.ResultData is CommonResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
-
-                    // 2. 프로퍼티 검증
-                    CommonResponseBody body = response.ResultData as CommonResponseBody;
-
-                    completion.Set();
-                });
-
-                completion.WaitOne();
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
-            }
-        }
-
-        #endregion OBJECT
-
-        #region PROCEDURE
-
-        [TestMethod, TestCategory("Procedure")]
-        public void Test프로시저호출CallProcedure()
-        {
-            //Assert.Inconclusive("404에러 발생하는 것으로 알고 있음");
-            //return;
-
-            try
-            {
-                Login();
-
-                var completion = new ManualResetEvent(false);
-                var parameters = new TupleList<string, string>();
-                parameters.Add("echo", "gilbok");
-                parameters.Add("echo", "gilbok");
-
-                this.ApiClient.CallProcedure("echo", parameters, (response) =>
+                this.ApiClient.RunScript("echo", parameters, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
@@ -1231,8 +1009,8 @@ namespace maui_sdk.test
             }
         }
 
-         [TestMethod, TestCategory("Procedure")]
-        public void Test플레이어정보없이프로시저호출CallProcedureWithoutAuth()
+        [TestMethod, TestCategory("Script")]
+        public void Test플레이어정보없이스크립트호출RunScriptWithoutAuth()
         {
             //Assert.Inconclusive("404에러 발생하는 것으로 알고 있음");
             //return;
@@ -1244,9 +1022,9 @@ namespace maui_sdk.test
                 var completion = new ManualResetEvent(false);
 
                 var someValue = "dummy";
-                var parameters = new { echo =  someValue};
+                var parameters = new { echo = someValue };
 
-                this.ApiClient.CallProcedureWithoutAuth("echo", parameters, (response) =>
+                this.ApiClient.RunScriptWithoutAuth("echo", parameters, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
@@ -1268,12 +1046,12 @@ namespace maui_sdk.test
             }
         }
 
-        [TestMethod, TestCategory("Procedure")]
-        public void TestCallProcedureInJson()
+        [TestMethod, TestCategory("Script")]
+        public void TestRunScriptInJson()
         {
             Login();
 
-             var completion = new ManualResetEvent(false);
+            var completion = new ManualResetEvent(false);
 
             List<Item> items = new List<Item>()
             {
@@ -1281,12 +1059,13 @@ namespace maui_sdk.test
                 new Item() { Id = 2, Grade = 2, Rate = 2 },
                 new Item() { Id = 3, Grade = 3, Rate = 3 },
             };
-            var parameterObject = new { 
+            var parameterObject = new
+            {
                 gamble_items = items
             };
 
             // alpha 서버에서는 없는 프로시저 오류발생할 수 있음.
-            this.ApiClient.CallProcedure("z_unittest_callee", parameterObject, (response) =>
+            this.ApiClient.RunScript("z_unittest_callee", parameterObject, (response) =>
             {
                 if (response.ResultCode != Hive5ResultCode.Success)
                 {
@@ -1314,8 +1093,7 @@ namespace maui_sdk.test
             completion.WaitOne();
         }
 
-
-        #endregion PROCEDURE
+        #endregion SCRIPT
 
         #region PURCHASE
 
@@ -1586,7 +1364,7 @@ namespace maui_sdk.test
 
         #region COUPON
 
-        [TestMethod, TestCategory("Push")]
+        [TestMethod, TestCategory("Coupon")]
         public void Test쿠폰적용ApplyCoupon()
         {
             try
@@ -1596,7 +1374,7 @@ namespace maui_sdk.test
                 var completion1 = new ManualResetEvent(false);
 
                 var coupon = "555NL985DDLBBYGN"; // 테스트 전에 알파서버서 발급하기
-                
+
                 this.ApiClient.ApplyCoupon(coupon, (response) =>
                 {
                     // 1. 기본 반환값 검증
@@ -1619,7 +1397,7 @@ namespace maui_sdk.test
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ResultCode.ThePlayerHasAlreadyConsumedTheCoupon); // 일단 반환성공
                     Assert.IsTrue(response.ResultData == null); // 반환데이터는 null이면 안 됨
-               
+
                     completion2.Set();
                 });
 
@@ -1679,10 +1457,10 @@ namespace maui_sdk.test
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
                     Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                    Assert.IsTrue(response.ResultData is UpdateTogglePushAcceptResponseBody ); // 제대로 된 반환데이터가 오는지 타입체크
+                    Assert.IsTrue(response.ResultData is UpdateTogglePushAcceptResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
 
                     // 2. 프로퍼티 검증
-                    
+
                     completion.Set();
                 });
 
@@ -1699,45 +1477,6 @@ namespace maui_sdk.test
         #region SOCIALGRAPH
 
         [TestMethod, TestCategory("Social Graph")]
-        public void Test친구들정보가져오기GetFriendsInfo()
-        {
-            //Assert.Inconclusive("InvalidParameter 발생");
-            //return;
-
-            try
-            {
-                Login();
-
-                var completion = new ManualResetEvent(false);
-
-                var friend_ids = new string[] { "881979482072261763", "881979482072261765" };
-                var objectClasses = new List<string>()
-                {
-                    "sword",
-                };
-
-                this.ApiClient.GetFriendsInfo(friend_ids, objectClasses, (response) =>
-                {
-                    // 1. 기본 반환값 검증
-                    Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
-                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                    Assert.IsTrue(response.ResultData is GetFriendsInfoResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
-
-                    // 2. 프로퍼티 검증
-                    GetFriendsInfoResponseBody body = response.ResultData as GetFriendsInfoResponseBody;
-
-                    completion.Set();
-                });
-
-                completion.WaitOne();
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
-            }
-        }
-
-         [TestMethod, TestCategory("Social Graph")]
         public void Test친구목록가져오기GetFriends()
         {
             //Assert.Inconclusive("InvalidParameter 발생");
@@ -1785,9 +1524,12 @@ namespace maui_sdk.test
 
                 var completion = new ManualResetEvent(false);
 
-                var friend_ids = new string[] { "-881979482072261763", "-881979482072261765" };
+                var friends = new List<Friend> {
+                    new Friend() { platform="kakao", id = "-881979482072261763"},
+                    new Friend() { platform="kakao", id = "-881979482072261765"},
+                };
 
-                this.ApiClient.UpdateFriends("default", "kakao", friend_ids, (response) =>
+                this.ApiClient.UpdateFriends("default", friends, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
@@ -1838,8 +1580,8 @@ namespace maui_sdk.test
             var ids = partJson.ToArray<string>();
             Assert.AreEqual(ids.Length, 3);
 
-             var numbersJson = jsonData["kakao"]["numbers"];
-             var intList = numbersJson.ToList<int>();
+            var numbersJson = jsonData["kakao"]["numbers"];
+            var intList = numbersJson.ToList<int>();
             Assert.AreEqual(intList.Count, 3);
             var longList = numbersJson.ToList<long>();
             Assert.AreEqual(longList.Count, 3);

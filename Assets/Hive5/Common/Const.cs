@@ -24,7 +24,7 @@ namespace Hive5
 		public static string SetNickname 		= "settings/nickname/set";
 		public static string ConvertItem 		= "items/convert/{0}";
 		public static string GiftItem 			= "items/gift";
-		public static string LeaderboardSubmitScores 	= "leaderboards/{0}/scores/{1}";
+		public static string LeaderboardSubmitScores 	= "leaderboards/{0}/scores";
 		public static string LeaderboardScores 			= "leaderboards/{0}/scores";
 		public static string LeaderboardMyScore 		= "leaderboards/{0}/my_score";
 		public static string LeaderboardSocialScores 	= "leaderboards/{0}/social_scores";
@@ -59,8 +59,8 @@ namespace Hive5
 		public static string GetFriends 			= "friends";
 
 	 	public static string GetFriendsInfo 		= "friends/info";
-		public static string CallProcedure			= "procedures/call/{0}";
-        public static string CallProcedureWithoutAuth	= "procedures/check/{0}";
+		public static string RunScript			= "scripts/run/{0}";
+        public static string RunScriptWithoutAuth	= "scripts/check/{0}";
 		public static string GetObjects				= "objects";
 		public static string CreateObjects 			= "objects/create";
 		public static string SetObjects				= "objects/set";

@@ -34,6 +34,7 @@ namespace Hive5
         *
         * @apiParam {string} leaderboardKey 리더보드 Key
         * @apiParam {long} score 기록 점수
+        * @apiParam {long} extras 보조데이터(JSON)
         * @apiParam {Callback} callback 콜백 함수
         *
         * @apiSuccess {String} resultCode Error Code 참고
@@ -42,15 +43,15 @@ namespace Hive5
         * Hive5Client hive5 = Hive5Client.Instance;
         * hive5.SubmitScore(leaderboardKey, score, callback);
         */
-        public void SubmitScore(string leaderboardKey, long score, Callback callback)
+        public void SubmitScore(string leaderboardKey, long score, object extras, Callback callback)
         {
-			var url = InitializeUrl(string.Format(APIPath.LeaderboardSubmitScores, leaderboardKey, score));
+			var url = InitializeUrl(string.Format(APIPath.LeaderboardSubmitScores, leaderboardKey));
 
             // Hive5 API 파라미터 셋팅
             var requestBody = new
             {
-				leaderboard_key = leaderboardKey,
-                score = score
+                score = score,
+                extras = extras == null ? "" : extras
             };
 
             // WWW 호출

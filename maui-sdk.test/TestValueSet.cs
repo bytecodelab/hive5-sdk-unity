@@ -27,7 +27,7 @@ namespace maui_sdk.test
                 AppKey = "d8444735-15e3-4198-9179-102ba68776fc",
                 Uuid = "46018",
                 ValidPlatformUserId = "88197948207226176",
-                LeaderBoardKey = "3",
+                LeaderBoardKey = "leader1",
                 ObjectClasses = new List<string> { "" }, 
             };
         }

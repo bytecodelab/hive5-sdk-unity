@@ -192,13 +192,13 @@ namespace Hive5
 
 		
 		/** 
-		* @api {POST} CallProcedure Procedure 호출
+		* @api {POST} RunScript Script 호출
 		* @apiVersion 1.0.0-alpha
-		* @apiName CallProcedure
-		* @apiGroup Procedure
+		* @apiName RunScript
+		* @apiGroup Script
 		*
-		* @apiParam {String} procedureName 호출 Procedure 이름
-		* @apiParam {TupleList&#60;string, string&#62;} parameters 파라미터
+		* @apiParam {String} scriptName 호출 Script 이름
+		* @apiParam {object} parameterObject 파라미터 오브젝트(내부적으로 JSON화 됨)
 		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
@@ -207,53 +207,26 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.CallProcedure(procedureName, parameters, callback)
 		*/
-        [Obsolete("CallProcedure is deprecated, please use CallProcedure(string procedureName, string parameters,  Callback callback) instead.")]
-		public void CallProcedure(string procedureName, TupleList<string, string> parameters,  Callback callback)
+        public void RunScript(string scriptName, object parameterObject,  Callback callback)
 		{
 			if (!InitState)
 				return;
 			
 			// Hive5 API URL 초기화
-			var url = InitializeUrl(String.Format(APIPath.CallProcedure, WWW.EscapeURL(procedureName)));
-			
-			// WWW 호출
-
-		    if (parameters == null)
-			{
-				PostHttpAsync(url, null, new {}, CallProcedureResponseBody.Load, callback);	
-			}
-			else
-			{
-				PostHttpAsync(url, parameters.data, new {}, CallProcedureResponseBody.Load, callback);
-			}
-		}
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="procedureName"></param>
-        /// <param name="parameterObject">내부적으로 json화 되어 전송된다.</param>
-        /// <param name="callback"></param>
-        public void CallProcedure(string procedureName, object parameterObject,  Callback callback)
-		{
-			if (!InitState)
-				return;
-			
-			// Hive5 API URL 초기화
-			var url = InitializeUrl(String.Format(APIPath.CallProcedure, WWW.EscapeURL(procedureName)));
+			var url = InitializeUrl(String.Format(APIPath.RunScript, WWW.EscapeURL(scriptName)));
 			
 			// WWW 호출
 			PostHttpAsync(url, null, parameterObject, CallProcedureResponseBody.Load, callback);	
 		}
 
         /** 
-		* @api {POST} CallProcedureWithoutAuth 로그인하지 않고 Procedure 호출
+		* @api {POST} RunScriptWithoutAuth 로그인하지 않고 Script 호출
 		* @apiVersion 1.0.0-alpha
-		* @apiName CallProcedure
-		* @apiGroup Procedure
+		* @apiName RunScriptWithoutAuth
+		* @apiGroup Script
 		*
-		* @apiParam {String} procedureName 호출 Procedure 이름
-		* @apiParam {parameterObject} parameters 파라미터 오브젝트(내부적으로 JSON화 됨)
+		* @apiParam {String} scriptName 호출 Script 이름
+		* @apiParam {object} parameterObject 파라미터 오브젝트(내부적으로 JSON화 됨)
 		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {String} resultCode Error Code 참고
@@ -264,15 +237,15 @@ namespace Hive5
         *     value2 = "abc",
         * }
 		* Hive5Client hive5 = Hive5Client.Instance;
-		* hive5.CallProcedureWithoutAuth(procedureName, parameters, callback)
+		* hive5.RunScriptWithoutAuth(scriptName, parameters, callback)
 		*/
-        public void CallProcedureWithoutAuth(string procedureName, object parameterObject,  Callback callback)
+        public void RunScriptWithoutAuth(string scriptName, object parameterObject,  Callback callback)
 		{
 			if (!InitState)
 				return;
 			
 			// Hive5 API URL 초기화
-			var url = InitializeUrl(String.Format(APIPath.CallProcedureWithoutAuth, WWW.EscapeURL(procedureName)));
+			var url = InitializeUrl(String.Format(APIPath.RunScriptWithoutAuth, WWW.EscapeURL(scriptName)));
 			
 			// WWW 호출
 			PostHttpAsync(url, null, parameterObject, CallProcedureResponseBody.Load, callback);	

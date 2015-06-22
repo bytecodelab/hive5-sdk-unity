@@ -62,7 +62,6 @@
     <Compile Include="Assets\Hive5\Hive5ClientHttp.cs" />
     <Compile Include="Assets\Hive5\Hive5ClientLeaderboard.cs" />
     <Compile Include="Assets\Hive5\Hive5ClientMail.cs" />
-    <Compile Include="Assets\Hive5\Hive5ClientObject.cs" />
     <Compile Include="Assets\Hive5\Hive5ClientPurchase.cs" />
     <Compile Include="Assets\Hive5\Hive5ClientSettings.cs" />
     <Compile Include="Assets\Hive5\Hive5ClientSocialgraph.cs" />
@@ -102,7 +101,6 @@
     <Compile Include="Assets\Hive5\Model\ResponseBody\CreateGooglePurchaseResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\CreateMailResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\CreateNaverPurchaseResponseBody.cs" />
-    <Compile Include="Assets\Hive5\Model\ResponseBody\CreateObjectsResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\CreatePlatformAccountResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\DetachMailTagsResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\GetAgreementsResponseBody.cs" />
@@ -111,7 +109,6 @@
     <Compile Include="Assets\Hive5\Model\ResponseBody\GetMailCountResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\GetMailsResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\GetMyScoreResponseBody.cs" />
-    <Compile Include="Assets\Hive5\Model\ResponseBody\GetObjectsResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\ApplyCouponResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\GetScoresResponseBody.cs" />
     <Compile Include="Assets\Hive5\Model\ResponseBody\GetSocialScoresResponseBody.cs" />

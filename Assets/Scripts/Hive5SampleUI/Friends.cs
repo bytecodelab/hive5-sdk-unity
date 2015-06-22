@@ -2,6 +2,8 @@
 using System.Collections;
 using LitJson;
 using Hive5;
+using Hive5.Model;
+using System.Collections.Generic;
 
 public class Friends : MonoBehaviour {
 
@@ -15,13 +17,15 @@ public class Friends : MonoBehaviour {
 	public void UpdateFriends()
 	{
 		H5 = Hive5Client.Instance;    // Hive5Client 호출
-		
-		var friend_ids = new string[] {"881979482072261763"};
+
+        var friends = new List<Friend>() {
+            new Friend { platform="kakao", id="881979482072261763"}
+        };
 
 		Callback callback = onUpdateFriends;
 		H5.SetZone (Hive5APIZone.Beta);
 		H5.SetDebug ();
-		H5.UpdateFriends (this.GroupName, friend_ids, callback);
+		H5.UpdateFriends (this.GroupName, friends, callback);
 	}
 	
 	/// <summary>

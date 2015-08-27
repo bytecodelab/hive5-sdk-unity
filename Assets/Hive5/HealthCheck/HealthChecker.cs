@@ -26,7 +26,7 @@ namespace Hive5
 
 
 
-    public class HealthChecker : MonoBehaviour
+    public class HealthChecker
     {
         public const string DefaultCountryCode = "default";
         public string CountryCode { get; set; }

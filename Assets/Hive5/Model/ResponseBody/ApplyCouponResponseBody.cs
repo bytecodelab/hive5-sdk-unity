@@ -6,7 +6,6 @@ using Hive5.Util;
 
 namespace Hive5.Model
 {
-
 	/// <summary>
 	/// Result of Apply Coupon
 	/// </summary>

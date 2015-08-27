@@ -6,27 +6,22 @@ using Hive5.Util;
 
 namespace Hive5.Model
 {
-
 	/// <summary>
 	/// Login data.
 	/// </summary>
-	public class CreateMailResponseBody : IResponseBody
+	public class PushActivateResponseBody : IResponseBody
 	{
-		public long Id	{ set; get; }
-
 		/// <summary>
 		/// Load the specified json.
 		/// </summary>
 		/// <param name="json">Json.</param>
-		public static CreateMailResponseBody Load(JsonData json)
+		public static IResponseBody Load(JsonData json)
 		{
 			if (json == null)
 				return null;
 
-			long id = (long)json ["id"];
+			return new PushActivateResponseBody() {
 
-			return new CreateMailResponseBody() {
-				Id	= id
 			};
 		}
 

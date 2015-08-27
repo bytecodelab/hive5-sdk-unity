@@ -12,14 +12,18 @@ namespace Hive5
 {
 	public static class Hive5Config
 	{
-		public static string AppKey 		= "your_app_key"; // Sample game
-		public static string XPlatformKey 	= ""; // If you need it, request us 
+        public static string Host	= "your_prod_server_domain";
+		public static string AppKey = "your_app_key"; 
+        public static string HealthCheckUrl = "your-health-check-url";
+        /// <summary>
+        /// Optional
+        /// </summary>
+		public static string XPlatformKey 	= ""; 
+
+        /// <summary>
+        /// Optional
+        /// </summary>
 		public static string CustomAccountPlatformName = ""; 
-	
-    	public static string ProductionHost	= "your_prod_server_domain";
-		public static string BetaHost 		= "your_beta_server_domain";
-        public static string AlphaHost      = "your_alpha_server_domain";
-		public static string Version 		= "v5";
 
         /// <summary>
         /// 중복호출로 단정하지 않는 시간 차이
@@ -31,10 +35,6 @@ namespace Hive5
         /// 헬스체크 자동업데이트 주기 (단위: ms)
         /// </summary>
         public static int AutoHealthCheckInterval = 3000000;
-
-        public static string ProductionHealthUrl = "http://health.hive5.io/public-test/status-normal.json";
-        public static string BetaHealthUrl = "http://health.hive5.io/public-test/status-warning.json";
-        public static string AlphaHealthUrl = "http://health.hive5.io/public-test/status-shutdown.json";
     }
 }
 

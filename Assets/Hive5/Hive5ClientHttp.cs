@@ -10,16 +10,24 @@ using UnityEngine;
 
 namespace Hive5
 {
+    public enum HttpVerbs
+    {
+        GET = 0,
+        POST = 1, 
+        PUT = 2, 
+        DELETE = 3
+    }
+
 #if UNITTEST
     public partial class Hive5Client : MockMonoSingleton<Hive5Client> {
 #else
 	public partial class Hive5Client : MonoSingleton<Hive5Client> {
 #endif
-        public string BuildResponseWith(Hive5ResultCode code)
+        public string BuildResponseWith(Hive5ErrorCode code)
         {
             return string.Format("{{\"result_code\":{0}}}", (int)code);
         }
-        private void RaiseClientError(Hive5ResultCode resultCode, Hive5Response.dataLoader loader, Callback callback)
+        private void RaiseClientError(Hive5ErrorCode resultCode, Hive5Response.dataLoader loader, Callback callback)
         {
             callback(Hive5Response.Load(loader, BuildResponseWith(resultCode)));
         }
@@ -49,7 +57,7 @@ namespace Hive5
 
             if (ApiRequestManager.Instance.CheckRequestAllowed(rid) == false)
             {
-                RaiseClientError(Hive5ResultCode.DuplicatedApiCall, loader, callback);
+                RaiseClientError(Hive5ErrorCode.DuplicatedApiCall, loader, callback);
                 return;
             }
 
@@ -69,7 +77,7 @@ namespace Hive5
             {
                 newUrl = url + "?" + queryString;
             }
-            if (this.isDebug) Logger.Log("WebClient reuqest URL = " + newUrl);
+            if (this._IsDebugMode) Logger.Log("WebClient reuqest URL = " + newUrl);
 
             WebClient wc = new WebClient() 
             {
@@ -81,7 +89,7 @@ namespace Hive5
                     var requestId = e.UserState != null ? e.UserState.ToString() : "";
                     ApiRequestManager.Instance.RemoveByRequestId(requestId);
 
-                    if (this.isDebug) Logger.Log("WebClient response = " + e.Result);
+                    if (this._IsDebugMode) Logger.Log("WebClient response = " + e.Result);
                     
                     callback(Hive5Response.Load(loader, e.Result));
                 };
@@ -89,9 +97,7 @@ namespace Hive5
             wc.DownloadStringAsync(new Uri(newUrl, UriKind.RelativeOrAbsolute), rid.RequestId);
         }
 
-
-
-        private void PostHttp(string url, object requestBody, Hive5Response.dataLoader loader, Callback callback)
+        private void PostHttp(string url, object requestBody, Hive5Response.dataLoader loader, Callback callback, HttpVerbs verb = HttpVerbs.POST)
         {
             // Hive5 API json body 변환
             string jsonString = requestBody == null ? "" : JsonMapper.ToJson(requestBody);
@@ -99,7 +105,7 @@ namespace Hive5
 
             if (ApiRequestManager.Instance.CheckRequestAllowed(rid) == false)
             {
-                RaiseClientError(Hive5ResultCode.DuplicatedApiCall, loader, callback);
+                RaiseClientError(Hive5ErrorCode.DuplicatedApiCall, loader, callback);
                 return;
             }
 
@@ -111,17 +117,14 @@ namespace Hive5
             headers.Add(HeaderKey.SessionKey, this.SessionKey);
             headers.Add(HeaderKey.XPlatformKey, Hive5Config.XPlatformKey);
             headers.Add(HeaderKey.RequestId, rid.RequestId);
-           
-
-          
 
             if (string.IsNullOrEmpty(jsonString) == false)
             { 
                 headers.Add(HeaderKey.ContentType, HeaderValue.ContentType);
             }
 
-            if (this.isDebug) Logger.Log("www reuqest URL = " + url);
-            if (this.isDebug) Logger.Log("www request jsonBody= " + jsonString);
+            if (this._IsDebugMode) Logger.Log("www reuqest URL = " + url);
+            if (this._IsDebugMode) Logger.Log("www request jsonBody= " + jsonString);
 
             // Hive5 API Request
             WebClient wc = new WebClient() 
@@ -135,27 +138,12 @@ namespace Hive5
                     ApiRequestManager.Instance.RemoveByRequestId(requestId);
 
                     string responseText = Encoding.UTF8.GetString(e.Result);
-                    if (this.isDebug) Logger.Log("www response = " , responseText);
+                    if (this._IsDebugMode) Logger.Log("www response = " , responseText);
 
                     callback(Hive5Response.Load(loader, responseText));
                 };
 
-            //wc.DownloadDataCompleted += (s, e) =>
-            //    {
-            //         string responseText = Encoding.UTF8.GetString(e.Result);
-            //        if (this.isDebug) Logger.Log("www response = " , responseText);
-
-            //        callback(Hive5Response.Load(loader, responseText));
-            //    };
-
-            //if (string.IsNullOrEmpty(jsonString) == true)
-            //{
-            //    wc.DownloadDataAsync(new Uri(url, UriKind.RelativeOrAbsolute));
-            //}
-            //else
-            //{ 
-                wc.UploadDataAsync(new Uri(url, UriKind.RelativeOrAbsolute), "POST", Encoding.UTF8.GetBytes(jsonString), "42000300");
-           // }
+                wc.UploadDataAsync(new Uri(url, UriKind.RelativeOrAbsolute), verb.ToString(), Encoding.UTF8.GetBytes(jsonString), "42000300");
         }
 
          /// <summary>
@@ -164,7 +152,7 @@ namespace Hive5
         /// <returns>The post.</returns>
         /// <param name="url">URL.</param>
         /// <param name="parameters">Parameters.</param>
-        private void PostHttp(string url, List<KeyValuePair<string, string>> parameters, object requestBody, Hive5Response.dataLoader loader, Callback callback)
+        private void PostHttp(string url, List<KeyValuePair<string, string>> parameters, object requestBody, Hive5Response.dataLoader loader, Callback callback, HttpVerbs verb = HttpVerbs.POST)
         {
             string queryString = GetQueryString(parameters);
 
@@ -175,7 +163,7 @@ namespace Hive5
                 newUrl = url + "?" + queryString;
             }
 
-            PostHttp(newUrl, requestBody, loader, callback);
+            PostHttp(newUrl, requestBody, loader, callback, verb);
         }
 #else
          /// <summary>
@@ -266,8 +254,19 @@ namespace Hive5
 				return httpResponse;
 		}
 
-        private IEnumerator PostHttp(string url, object requestBody, Hive5Response.dataLoader loader, Callback callback)
+        private IEnumerator PostHttp(string url, object requestBody, Hive5Response.dataLoader loader, Callback callback, HttpVerbs verb = HttpVerbs.POST)
         {
+            switch (verb)
+            {
+                case HttpVerbs.PUT:
+                case HttpVerbs.DELETE:
+                    {
+                        url += url.Contains("?") ? "&" : "?";
+                        url += "_method=" + verb.ToString();
+                    }
+                    break;
+            }
+
             // Hive5 API json body 변환
             string jsonString = requestBody == null ? "" : JsonMapper.ToJson(requestBody);
             var rid = new Rid(url, "", jsonString);
@@ -326,7 +325,7 @@ namespace Hive5
         /// <returns>The post.</returns>
         /// <param name="url">URL.</param>
         /// <param name="parameters">Parameters.</param>
-        private IEnumerator PostHttp(string url, List<KeyValuePair<string, string>> parameters, object requestBody, Hive5Response.dataLoader loader, Callback callback)
+        private IEnumerator PostHttp(string url, List<KeyValuePair<string, string>> parameters, object requestBody, Hive5Response.dataLoader loader, Callback callback, HttpVerbs verb = HttpVerbs.POST)
         {
             string queryString = GetQueryString(parameters);
 
@@ -342,7 +341,7 @@ namespace Hive5
 #endif
 
 
-        private void GetHttpAsync(string url, List<KeyValuePair<string, string>> parameters, Hive5Response.dataLoader loader, Callback callback)
+        internal void GetHttpAsync(string url, List<KeyValuePair<string, string>> parameters, Hive5Response.dataLoader loader, Callback callback)
         {
 #if UNITTEST
             GetHttp(url, parameters, loader, callback);
@@ -353,8 +352,10 @@ namespace Hive5
 #endif
         }
 
-        private void PostHttpAsync(string url, object requestBody, Hive5Response.dataLoader loader, Callback callback)
+        internal void PostHttpAsync(string url, object requestBody, Hive5Response.dataLoader loader, Callback callback)
         {
+            if (!IsInitialized)
+                throw new Exception("Not initialized. Please call Init method.");
 
 #if UNITTEST
             PostHttp(url, requestBody, loader, callback);
@@ -365,10 +366,10 @@ namespace Hive5
 #endif
         }
 
-        private void PostHttpAsync(string url, List<KeyValuePair<string, string>> parameters, object requestBody, Hive5Response.dataLoader loader, Callback callback)
+        internal void PostHttpAsync(string url, List<KeyValuePair<string, string>> parameters, object requestBody, Hive5Response.dataLoader loader, Callback callback)
         {
-            //Rid rid = new 
-            //GetIsDuplicatedCall
+             if (!IsInitialized)
+                throw new Exception("Not initialized. Please call Init method.");
 
 #if UNITTEST
             PostHttp(url, parameters, requestBody, loader, callback);
@@ -379,8 +380,35 @@ namespace Hive5
 #endif
         }
 
+        internal void PutHttpAsync(string url, object requestBody, Hive5Response.dataLoader loader, Callback callback)
+        {
+            if (!IsInitialized)
+                throw new Exception("Not initialized. Please call Init method.");
 
-        		/// <summary>
+#if UNITTEST
+            PostHttp(url, requestBody, loader, callback, HttpVerbs.PUT);
+#else
+            StartCoroutine(
+                PostHttp(url, requestBody, loader, callback, HttpVerbs.PUT)
+            );
+#endif
+        }
+
+        internal void DeleteHttpAsync(string url, object requestBody, Hive5Response.dataLoader loader, Callback callback)
+        {
+            if (!IsInitialized)
+                throw new Exception("Not initialized. Please call Init method.");
+
+#if UNITTEST
+            PostHttp(url, requestBody, loader, callback, HttpVerbs.DELETE);
+#else
+            StartCoroutine(
+                PostHttp(url, requestBody, loader, callback, HttpVerbs.DELETE)
+            );
+#endif
+        }
+
+        /// <summary>
 		/// Build QueryString
 		/// </summary>
 		/// <returns>The query string.</returns>

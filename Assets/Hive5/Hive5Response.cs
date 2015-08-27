@@ -12,7 +12,7 @@ namespace Hive5
 	{
 		public delegate IResponseBody dataLoader (JsonData response);
 
-		public Hive5ResultCode 	ResultCode { set; get; }
+		public Hive5ErrorCode 	ResultCode { set; get; }
 		public string 			ResultMessage { set; get; }
 		public IResponseBody	ResultData { set; get; }
 
@@ -25,7 +25,7 @@ namespace Hive5
 		{
 			JsonData response = JsonMapper.ToObject (json);
 
-			Hive5ResultCode resultCode 	= (Hive5ResultCode) ((int)response[ResponseKey.ResultCode]);
+			Hive5ErrorCode resultCode 	= (Hive5ErrorCode) ((int)response[ResponseKey.ResultCode]);
 			string resultMessage;
 
 			try

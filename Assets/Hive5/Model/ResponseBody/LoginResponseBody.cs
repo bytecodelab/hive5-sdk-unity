@@ -16,8 +16,7 @@ namespace Hive5.Model
         public string   SessionKey;
 		public int 		NewMailCount;
 
-		public string UserPlatform;
-		public string UserId;
+        public User User;
 
 		public List<Agreement> 	Agreements;				
 		
@@ -43,8 +42,10 @@ namespace Hive5.Model
 				AccessToken = accessToken, 
                 SessionKey = sessionKey,
 				NewMailCount = newMailCount, 
-				UserPlatform = userPlatform,
-				UserId = userId,
+                User = new User() {
+                    platform = userPlatform,
+                    id = userId,
+                },
 				Agreements = agreements,
 			};
 		}

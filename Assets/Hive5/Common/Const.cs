@@ -11,7 +11,7 @@ namespace Hive5
         {
             public static string LogIn = "auth/log_in";
             public static string SwitchPlatform = "auth/switch";
-            public static string Unregister = "auth/delete";
+            public static string Unregister = "auth/unregister";
             public static string Agreement = "agreements";
             public static string CreatePlatformAccount = "accounts";
             public static string CheckPlatformNameAvailability = "accounts/is_available_name/{0}";

@@ -32,13 +32,15 @@ namespace hive5_sdk_unity.test
             }
         }
 
-        private void Login()
+        private User LoggedInUser;
+
+        private void Login(User user)
         {
             try
             {
                 var completion = new ManualResetEvent(false);
 
-                this.ApiClient.LogIn(OSType.Android, "1.0", "ko-KR", CurrentConfig.TestUser.platform, CurrentConfig.TestUser.id, (response) =>
+                this.ApiClient.LogIn(OSType.Android, "1.0", "ko-KR", user, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -50,9 +52,10 @@ namespace hive5_sdk_unity.test
                     Assert.IsTrue(string.IsNullOrEmpty(body.AccessToken) == false); // 잘못된 아이디로 로그인했으니
                     Assert.IsTrue(body.Agreements != null);
                     Assert.IsTrue(body.NewMailCount >= 0);
-                    Assert.IsFalse(string.IsNullOrEmpty(body.UserPlatform));
-                    Assert.IsFalse(string.IsNullOrEmpty(body.UserId)); // 잘못된 아이디로 로그인했으니
+                    Assert.IsFalse(string.IsNullOrEmpty(body.User.platform));
+                    Assert.IsFalse(string.IsNullOrEmpty(body.User.id)); // 잘못된 아이디로 로그인했으니
 
+                    LoggedInUser = body.User;
                     completion.Set();
                 });
 
@@ -100,7 +103,7 @@ namespace hive5_sdk_unity.test
         {
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
             }
             catch
             {
@@ -153,10 +156,10 @@ namespace hive5_sdk_unity.test
         {
             try
             {
-                 Login();
+                 Login(CurrentConfig.TestUser);
                 string oldSessionKey = this.ApiClient.SessionKey;
 
-                Login();
+                Login(CurrentConfig.TestUser);
                 string newSessionKey = this.ApiClient.SessionKey;
 
                 Assert.AreNotEqual(oldSessionKey, newSessionKey);
@@ -184,7 +187,7 @@ namespace hive5_sdk_unity.test
         {
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 var completion = new ManualResetEvent(false);
 
@@ -217,7 +220,7 @@ namespace hive5_sdk_unity.test
         {
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 var completion = new ManualResetEvent(false);
 
@@ -249,7 +252,7 @@ namespace hive5_sdk_unity.test
         {
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 var completion = new ManualResetEvent(false);
 
@@ -277,7 +280,22 @@ namespace hive5_sdk_unity.test
         [TestMethod, TestCategory("Auth")]
         public void Test탈퇴Unregister()
         {
-            Assert.Inconclusive("테스트 구현 안함 - 가입API가 없는데, 소중한 유저 탈퇴를 호출하기 겁남");
+            try
+            {
+                Hive5.Hive5Client.Instance.Init("unregister_test");
+                Login(null);
+                Hive5.Hive5Client.Instance.Unregister((response) => {
+                    // 1. 기본 반환값 검증
+                    Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
+                    Assert.IsTrue(string.IsNullOrEmpty(response.ResultMessage));
+                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                    Assert.IsTrue(response.ResultData is CreatePlatformAccountResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+                });
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
+            }
         }
 
         [TestMethod, TestCategory("Auth")]
@@ -482,7 +500,7 @@ namespace hive5_sdk_unity.test
         {
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 var completion = new ManualResetEvent(false);
 
@@ -515,7 +533,7 @@ namespace hive5_sdk_unity.test
         {
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 var completion = new ManualResetEvent(false);
 
@@ -557,7 +575,7 @@ namespace hive5_sdk_unity.test
         {
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 var completion = new ManualResetEvent(false);
 
@@ -588,7 +606,7 @@ namespace hive5_sdk_unity.test
         {
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 var completion = new ManualResetEvent(false);
 
@@ -640,7 +658,7 @@ namespace hive5_sdk_unity.test
 
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 var completion = new ManualResetEvent(false);
 
@@ -693,7 +711,7 @@ namespace hive5_sdk_unity.test
         {
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 string sampleTag = "reward";
                 string[] tags = new string[] {  sampleTag };
@@ -724,7 +742,7 @@ namespace hive5_sdk_unity.test
         {
              try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 var completion = new ManualResetEvent(false);
 
@@ -757,7 +775,7 @@ namespace hive5_sdk_unity.test
         {
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 var completion = new ManualResetEvent(false);
 
@@ -791,7 +809,7 @@ namespace hive5_sdk_unity.test
         {
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 var completion = new ManualResetEvent(false);
 
@@ -826,7 +844,7 @@ namespace hive5_sdk_unity.test
         {
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 string createdMailId = CreateMail("메일생성 테스트메일입니다.", CurrentConfig.TestUser, "", null);
                 Assert.IsTrue(string.IsNullOrEmpty(createdMailId) == false);
@@ -867,7 +885,7 @@ namespace hive5_sdk_unity.test
         {
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 var completion = new ManualResetEvent(false);
 
@@ -902,7 +920,7 @@ namespace hive5_sdk_unity.test
         {
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 var completion = new ManualResetEvent(false);
                 var parameters = new {
@@ -937,7 +955,7 @@ namespace hive5_sdk_unity.test
         {
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 var completion = new ManualResetEvent(false);
 
@@ -969,7 +987,7 @@ namespace hive5_sdk_unity.test
         [TestMethod, TestCategory("Procedure")]
         public void TestCallProcedureInJson()
         {
-            Login();
+            Login(CurrentConfig.TestUser);
 
              var completion = new ManualResetEvent(false);
 
@@ -1022,7 +1040,7 @@ namespace hive5_sdk_unity.test
         {
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 var body = CreateGooglePurchase();
 
@@ -1070,7 +1088,7 @@ namespace hive5_sdk_unity.test
 
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 var googlePurchaseBody = CreateGooglePurchase();
 
@@ -1111,7 +1129,7 @@ namespace hive5_sdk_unity.test
 
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 var body = CreateNaverPurchase();
             }
@@ -1157,7 +1175,7 @@ namespace hive5_sdk_unity.test
 
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 var purchaseBody = CreateNaverPurchase();
 
@@ -1196,7 +1214,7 @@ namespace hive5_sdk_unity.test
 
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 var body = CreateApplePurchase();
             }
@@ -1241,7 +1259,7 @@ namespace hive5_sdk_unity.test
 
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 var purchaseBody = CreateApplePurchase();
 
@@ -1288,7 +1306,7 @@ namespace hive5_sdk_unity.test
 
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 var completion1 = new ManualResetEvent(false);
 
@@ -1336,7 +1354,7 @@ namespace hive5_sdk_unity.test
         {
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 var completion = new ManualResetEvent(false);
 
@@ -1366,7 +1384,7 @@ namespace hive5_sdk_unity.test
         {
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 var completion = new ManualResetEvent(false);
 
@@ -1396,7 +1414,7 @@ namespace hive5_sdk_unity.test
         {
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 var completion = new ManualResetEvent(false);
 
@@ -1429,7 +1447,7 @@ namespace hive5_sdk_unity.test
         {
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 var completion = new ManualResetEvent(false);
 
@@ -1460,7 +1478,7 @@ namespace hive5_sdk_unity.test
         {
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 var completion = new ManualResetEvent(false);
 
@@ -1498,7 +1516,7 @@ namespace hive5_sdk_unity.test
            
             try
             {
-                Login();
+                Login(CurrentConfig.TestUser);
 
                 var completion = new ManualResetEvent(false);
 

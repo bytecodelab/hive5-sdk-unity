@@ -30,8 +30,7 @@ namespace Hive5
         * @apiParam {string} os OSType
         * @apiParam {string} build 클라이언트 빌드버전
         * @apiParam {string} locale 국가언어코드
-        * @apiParam {string} platform 플랫폼 Type
-        * @apiParam {string} userId 플랫폼 UserId(카카오 ID, GOOGLE ID, FACEBOOK ID ....)
+        * @apiParam {User} 로그인 사용자
         * @apiParam {Callback} callback 콜백 함수
         *
         * @apiSuccess {string} resultCode Error Code 참고
@@ -46,7 +45,7 @@ namespace Hive5
         * 	Logger.Log ("response = "+ response.ResultData);
         * });
         */
-        public void LogIn(string os, string build, string locale, string platform, string userId, Callback callback)
+        public void LogIn(string os, string build, string locale, User user, Callback callback)
         {
             // Hive5 API URL 초기화
             var url = this.ComposeRequestUrl(ApiPath.Auth.LogIn);
@@ -55,11 +54,7 @@ namespace Hive5
 
             var requestBody = new
             {
-                user = new
-                {
-                    platform = platform,
-                    id = userId,
-                },
+                user = user,
                 os = os,
                 build = build,
                 locale = locale
@@ -98,7 +93,7 @@ namespace Hive5
         {
             var url = this.ComposeRequestUrl(ApiPath.Auth.Unregister);
 
-            PostHttpAsync(url, new { }, CommonResponseBody.Load, callback);
+            PostHttpAsync(url, null, CommonResponseBody.Load, callback);
         }
 
         /** 

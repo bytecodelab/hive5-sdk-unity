@@ -15,7 +15,7 @@ namespace Hive5.Model
 {
 	public class CreatePlatformAccountResponseBody : IResponseBody
 		{	
-			public string Id { get; set; }
+			public User User { get; set; }
 
 			/// <summary>
 			/// Load the specified json.
@@ -27,7 +27,11 @@ namespace Hive5.Model
 					return null;
 
 				return new CreatePlatformAccountResponseBody() {
-					Id = (string)json["id"]
+                    User = new User()
+                    {
+                        platform = (string)json["user"]["platform"],
+                         id = (string)json["user"]["id"],
+                    },
 				};
 			}
 		}

@@ -29,8 +29,7 @@ namespace Hive5
 		* @apiGroup Mail
 		*
 		* @apiParam {string} content 메일 본문
-		* @apiParam {string} friendPlatform 받는사람 플랫폼
-		* @apiParam {string} friendUserId 받는사람 플랫폼 UserId
+		* @apiParam {User} receiver 받는사람
          * @apiParam {string} extrasJson 추가데이터 (JSON)
 		* @apiParam {string[]} tags 메일 Tags
 		* @apiParam {Callback} callback 콜백 함수
@@ -39,11 +38,11 @@ namespace Hive5
 		* @apiSuccess {string} resultMessage 요청 실패시 메시지
 		* @apiExample Example usage:
 		* Hive5Client hive5 = Hive5Client.Instance;
-		* hive5.CreateMail(content, PlatformType.Google, friendPlatformUserId, tags, callback);
+		* hive5.CreateMail(content, receiver, tags, callback);
 		*/
-        public void CreateMail(string content, string friendPlatform, string friendUserId, string extrasJson, string[] tags, Callback callback)
+        public void CreateMail(string content, User receiver, string extrasJson, string[] tags, Callback callback)
 		{
-			if (string.IsNullOrEmpty (friendPlatform) == true)
+			if (string.IsNullOrEmpty (receiver.platform) == true)
 				throw new NullReferenceException ("friendPlatform should not be empty!");
 
 			// Hive5 API URL 초기화
@@ -52,8 +51,8 @@ namespace Hive5
 			var requestBody = new {
 				content	= content,
                 user = new {
-				    platform = friendPlatform,
-				    id = friendUserId,
+				    platform = receiver.platform,
+				    id = receiver.id,
                 },
                 extrasJson = extrasJson,
 				tags = tags
@@ -114,15 +113,15 @@ namespace Hive5
         * Hive5Client hive5 = Hive5Client.Instance;
         * hive5.CountMail(order, afterMailId, tag, callback);
         */
-        public void CountMail(OrderType order, long afterMailId, string tag, Callback callback)
+        public void CountMail(OrderType order, string afterMailId, string tag, Callback callback)
         {
             // Hive5 API URL 초기화
             var url = Hive5Client.Instance.ComposeRequestUrl(ApiPath.Mail.Count);
 
             TupleList<string, string> parameters = new TupleList<string, string>();
             parameters.Add("order", Tool.OrderToString(order));
-            if (afterMailId > 0)
-                parameters.Add("after_mail_id", afterMailId.ToString());
+            if (string.IsNullOrEmpty(afterMailId) == false)
+                parameters.Add("after_mail_id", afterMailId);
             if (string.IsNullOrEmpty(tag) == false)
                 parameters.Add("tag", tag);
 
@@ -135,7 +134,7 @@ namespace Hive5
         * @apiName UpdateMail
         * @apiGroup Mail
         *
-        * @apiParam {long} mailId 특정 메일 이후의 리스트 받기 위한 mail id
+        * @apiParam {string} mailId 특정 메일 이후의 리스트 받기 위한 mail id
         * @apiParam {string} content 메일 본문
         * @apiParam {string} extrasJson 보조데이터 (JSON) 
         * @apiParam {Callback} callback 콜백 함수
@@ -146,17 +145,17 @@ namespace Hive5
         * Hive5Client hive5 = Hive5Client.Instance;
         * hive5.UpdateMail(mailId, content, callback);
         */
-        public void UpdateMail(long mailId, string content, string extrasJson, Callback callback)
+        public void UpdateMail(string mailId, string content, string extrasJson, Callback callback)
         {
             var url = Hive5Client.Instance.ComposeRequestUrl(string.Format(ApiPath.Mail.Update, mailId));
 
             var requestBody = new
             {
                 content = content,
-                extrasJson = extrasJson,
+                extras = extrasJson,
             };
 
-            PostHttpAsync(url, requestBody, CommonResponseBody.Load, callback);
+            PutHttpAsync(url, requestBody, CommonResponseBody.Load, callback);
         }
 
         /** 
@@ -165,7 +164,7 @@ namespace Hive5
         * @apiName DeleteMail
         * @apiGroup Mail
         *
-        * @apiParam {long} mailId 특정 메일 이후의 리스트 받기 위한 mail id
+        * @apiParam {string} mailId 특정 메일 이후의 리스트 받기 위한 mail id
         * @apiParam {Callback} callback 콜백 함수
         *
         * @apiSuccess {string} resultCode Error Code 참고
@@ -174,7 +173,7 @@ namespace Hive5
         * Hive5Client hive5 = Hive5Client.Instance;
         * hive5.DeleteMail(mailId, callback);
         */
-        public void DeleteMail(long mailId, Callback callback)
+        public void DeleteMail(string mailId, Callback callback)
         {
             var url = Hive5Client.Instance.ComposeRequestUrl(string.Format(ApiPath.Mail.Delete, mailId));
 
@@ -231,7 +230,7 @@ namespace Hive5
         * @apiName AddTags
         * @apiGroup Mail
         *
-        * @apiParam {long} mailId 메일 ID
+        * @apiParam {string} mailId 메일 ID
         * @apiParam {string[]} tags 추가할 TAG
         * @apiParam {Callback} callback 콜백 함수
         *
@@ -241,7 +240,7 @@ namespace Hive5
         * Hive5Client hive5 = Hive5Client.Instance;
         * hive5.AddTags(mailId, tags, callback);
         */
-        public void AddTags(long mailId, string[] tags, Callback callback)
+        public void AddTags(string mailId, string[] tags, Callback callback)
         {
             var url = Hive5Client.Instance.ComposeRequestUrl(string.Format(ApiPath.Mail.AddTags, mailId));
 
@@ -259,7 +258,7 @@ namespace Hive5
         * @apiName RemoveTags
         * @apiGroup Mail
         *
-        * @apiParam {long} mailId 메일 ID
+        * @apiParam {string} mailId 메일 ID
         * @apiParam {string[]} tags 제거할 TAGS
         * @apiParam {Callback} callback 콜백 함수
         *
@@ -269,7 +268,7 @@ namespace Hive5
         * Hive5Client hive5 = Hive5Client.Instance;
         * hive5.RemoveTags(mailId, tags, callback);
         */
-        public void RemoveTags(long mailId, string[] tags, Callback callback)
+        public void RemoveTags(string mailId, string[] tags, Callback callback)
         {
             var url = Hive5Client.Instance.ComposeRequestUrl(string.Format(ApiPath.Mail.RemoveTags, mailId));
 

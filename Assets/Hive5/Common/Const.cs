@@ -9,7 +9,7 @@ namespace Hive5
     {
         public static class Auth
         {
-            public static string LogIn = "auth/login";
+            public static string LogIn = "auth/log_in";
             public static string SwitchPlatform = "auth/switch";
             public static string Unregister = "auth/delete";
             public static string Agreement = "agreements";
@@ -43,7 +43,7 @@ namespace Hive5
             public static string GetMyScore = "leaderboards/{0}/my_score";
             public static string ListScores = "leaderboards/{0}/scores";
             public static string ListSocialScores = "leaderboards/{0}/social_scores";
-            public static string SubmitScore = "leaderboards/{0}/scores/{1}";
+            public static string SubmitScore = "leaderboards/{0}/scores";
         }
 
         public static class Mail
@@ -52,12 +52,12 @@ namespace Hive5
             public static string AcceptReward = "mails/{0}/rewards/apply";
             public static string Count = "mails/count";
             public static string Create = "mails";
-            public static string Delete = "mails/delete/{0}";
+            public static string Delete = "mails/{0}";
             public static string DeleteOverLimit = "mails/delete_more_than/{0}";
             public static string DeleteOlderThan = "mails/delete_older_than/{0}";
             public static string List = "mails";
             public static string RemoveTags = "mails/{0}/remove_tags";
-            public static string Update = "mails/update/{0}";
+            public static string Update = "mails/{0}";
         }
 
         public static class Misc
@@ -81,8 +81,9 @@ namespace Hive5
         {
             public static string CheckNicknameAvailability = "settings/nickname/is_available/{0}";
             public static string SetNickname = "settings/nickname/set";
-            public static string UpdatePushToken = "push_tokens/update";
-            public static string TogglePushAccept = "pushes/activate/{0}";
+            public static string UpdatePushToken = "settings/push_tokens/update";
+            public static string ActivatePush = "settings/pushes/activate";
+            public static string DeactivatePush = "settings/pushes/deactivate";
         }
 
         public static class Script { 

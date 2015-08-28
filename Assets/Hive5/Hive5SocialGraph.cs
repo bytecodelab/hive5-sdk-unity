@@ -65,7 +65,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.AddFriends(groupName, friends, callback);
 		*/
-		public void AddFriends(string groupName, List<Friend> friends, Callback callback)
+		public void AddFriends(string groupName, List<User> friends, Callback callback)
 		{
 			var url = Hive5Client.Instance.ComposeRequestUrl(ApiPath.SocialGraph.AddFriends);
 			
@@ -129,7 +129,7 @@ namespace Hive5
 			requestParam.Add ("group", groupName);
 
 			// WWW 호출
-            GetHttpAsync(url, requestParam.data, GetFriendsResponseBody.Load, callback);
+            GetHttpAsync(url, requestParam.data, ListFriendsResponseBody.Load, callback);
 		}
 	}
 

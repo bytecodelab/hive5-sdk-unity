@@ -39,9 +39,12 @@ namespace Hive5
 		*/
         public void RunScript(string name, object parameters,  Callback callback)
 		{
-			var url = Hive5Client.Instance.ComposeRequestUrl(String.Format(ApiPath.Script.RunScript, WWW.EscapeURL(name)));
+            string paramsString = LitJson.JsonMapper.ToJson(parameters);
+            string scriptParams = string.Format("{{\"params\":{0} }}", paramsString);
 
-			PostHttpAsync(url, null, parameters, CallProcedureResponseBody.Load, callback);	
+			var url = Hive5Client.Instance.ComposeRequestUrl(String.Format(ApiPath.Script.RunScript, Hive5.Hive5Client.EscapeData(name)));
+
+			PostHttpAsync(url, null, scriptParams, RunScriptResponseBody.Load, callback);	
 		}
 
         /** 
@@ -62,9 +65,12 @@ namespace Hive5
 		*/
         public void CheckScript(string name, object parameters,  Callback callback)
 		{
-			var url = Hive5Client.Instance.ComposeRequestUrl(String.Format(ApiPath.Script.CheckScript, WWW.EscapeURL(name)));
+            string paramsString = LitJson.JsonMapper.ToJson(parameters);
+            string scriptParams = string.Format("{{\"params\":{0} }}", paramsString);
 
-			PostHttpAsync(url, null, parameters, CallProcedureResponseBody.Load, callback);	
+			var url = Hive5Client.Instance.ComposeRequestUrl(String.Format(ApiPath.Script.CheckScript, Hive5Client.EscapeData(name)));
+
+			PostHttpAsync(url, null, scriptParams, RunScriptResponseBody.Load, callback);	
 		}
     }
 }

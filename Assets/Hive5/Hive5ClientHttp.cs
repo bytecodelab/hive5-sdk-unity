@@ -97,10 +97,19 @@ namespace Hive5
             wc.DownloadStringAsync(new Uri(newUrl, UriKind.RelativeOrAbsolute), rid.RequestId);
         }
 
+        private string ObjectToJson(object obj)
+        {
+            if (obj == null )
+                return string.Empty;
+
+            string jsonString = obj is string ? (string)obj : JsonMapper.ToJson(obj);
+            return jsonString;
+        }
+
         private void PostHttp(string url, object requestBody, Hive5Response.dataLoader loader, Callback callback, HttpVerbs verb = HttpVerbs.POST)
         {
             // Hive5 API json body 변환
-            string jsonString = requestBody == null ? "" : JsonMapper.ToJson(requestBody);
+            string jsonString = ObjectToJson(requestBody);
             var rid = new Rid(url, "", jsonString);
 
             if (ApiRequestManager.Instance.CheckRequestAllowed(rid) == false)
@@ -427,11 +436,20 @@ namespace Hive5
 					sb.Append("&");
 				}
 				
-				sb.Append(parameter.Key + "=" + WWW.EscapeURL(parameter.Value));
+				sb.Append(parameter.Key + "=" + EscapeData(parameter.Value));
 			}
 
 			return sb.ToString ();
 		}
 
+        private static string EscapeData(string data)
+        {
+#if UNITTEST
+            return Uri.EscapeDataString(data);
+#else
+            return WWW.EscapeURL(data);
+#endif
+
+        }
     }
 }

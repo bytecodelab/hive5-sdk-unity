@@ -8,29 +8,27 @@ using Hive5.Util;
 
 namespace Hive5.Model
 {
-	/// <summary>
-	/// Config data.
-	/// </summary>
-	public class SocialScore
-	{
-		public string platform { get; set; }
-		public string platformUserId { set; get; }
-		public DateTime? scoredAt { set; get; }
-		public long? value { set; get; }
-		public long? rank { set; get; }
-		public List<HObject> objects { set; get; }
+    /// <summary>
+    /// Config data.
+    /// </summary>
+    public class SocialScore
+    {
+        public User User { get; set; }
+        public long? value { set; get; }
+        public long? rank { set; get; }
+        public List<HObject> objects { set; get; }
+        public string extras { get; set; }
 
-
-		/// <summary>
-		/// Load the specified json.
-		/// </summary>
-		/// <param name="json">Json.</param>
-		public static SocialScore Load(JsonData json)
-		{
+        /// <summary>
+        /// Load the specified json.
+        /// </summary>
+        /// <param name="json">Json.</param>
+        public static SocialScore Load(JsonData json)
+        {
             long? value = 0;
             long? rank = 0;
-            DateTime? scoredAt;
             List<HObject> objects;
+            string extrasJson = "";
 
             try
             {
@@ -51,15 +49,11 @@ namespace Hive5.Model
                 rank = null;
             }
 
-
-             try
+            try
             {
-                scoredAt = Date.ParseDateTime((string)json["scored_at"]);
+                extrasJson = (string)json["extras"];
             }
-            catch
-            {
-                scoredAt = null;
-            }
+            catch { }
 
             try
             {
@@ -70,40 +64,34 @@ namespace Hive5.Model
                 objects = new List<HObject>();
             }
 
+            return new SocialScore()
+            {
+                User = new User()
+                {
+                    platform = (string)json["user"]["platform"],
+                    id = (string)json["user"]["id"],
+                },
+                value = value,
+                rank = rank,
+                extras = extrasJson,
+                objects = objects,
+            };
+        }
 
 
-			if (json ["scored_at"] != null) {
-				return new SocialScore () {
-					platform = (string)json["platform"],
-					platformUserId = (string)json["platform_user_id"],
-					value = value,
-					rank = rank,
-					scoredAt = scoredAt,
-                    objects = objects,
-				};
-			} 
-			else 
-			{
-				return new SocialScore();
-			}
+        public static List<SocialScore> LoadList(JsonData json)
+        {
+            var scores = new List<SocialScore>();
 
 
-		}
+            var scoresCount = json.Count;
+            for (int currentCount = 0; currentCount < scoresCount; currentCount++)
+            {
+                scores.Add(SocialScore.Load(json[currentCount]));
+            }
 
 
-		public static List<SocialScore> LoadList(JsonData json)
-		{
-			var scores = new List<SocialScore> ();
-
-
-			var scoresCount = json.Count;
-			for (int currentCount = 0; currentCount < scoresCount; currentCount++) 
-			{
-				scores.Add(SocialScore.Load(json[currentCount]));
-			}
-
-
-			return scores;
-		}
-	}
+            return scores;
+        }
+    }
 }

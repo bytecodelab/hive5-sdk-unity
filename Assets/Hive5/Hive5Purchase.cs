@@ -123,26 +123,22 @@ namespace Hive5
 		* @apiGroup Purchase
 		*
 		* @apiParam {string} productCode 상품 코드
-		* @apiParam {string} receiverPlatform 선물 받을 플랫폼, 자신에게 보낼 경우 비움
-		* @apiParam {long} receiverId 선물 받을 플랫폼 User ID, 자신에게 보낼 경우 비움
+		* @apiParam {User} receiver 선물 받을 유저
 		* @apiParam {Callback} callback 콜백 함수
 		*
 		* @apiSuccess {string} resultCode Error Code 참고
 		* @apiSuccess {string} resultMessage 요청 실패시 메시지
 		* @apiExample Example usage:
 		* Hive5Client hive5 = Hive5Client.Instance;
-		* hive5.CreateGooglePurchase(productCode, PlatformType.Google, receiverId, callback);
+		* hive5.CreateGooglePurchase(productCode, PlatformType.Google, receiver, callback);
 		*/
-		public void CreateGooglePurchase(string productCode, string receiverPlatform, long receiverId, Callback callback)
+		public void CreateGooglePurchase(string productCode, User receiver, Callback callback)
 		{
 			var url = Hive5Client.Instance.ComposeRequestUrl(ApiPath.Purchase.CreateGooglePurchase);
 			
 			var requestBody = new {
-				product_code 				= productCode,
-				receiver = new {
-                    platform = receiverPlatform,
-				    id	= receiverId,
-                },
+				product_code = productCode,
+				receiver = receiver,
 			};
 			
             PostHttpAsync(url, requestBody, CreateGooglePurchaseResponseBody.Load, callback);
@@ -168,7 +164,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.CompleteGooglePurchase(id, listPrice, purchasedPrice, currency, purchaseData, signature, callback);
 		*/
-		public void CompleteGooglePurchase(long id, long listPrice, long purchasedPrice, string currency, string purchaseData, string signature, string paramsJson, Callback callback)
+		public void CompleteGooglePurchase(string id, long listPrice, long purchasedPrice, string currency, string purchaseData, string signature, string paramsJson, Callback callback)
 		{
 			var url = Hive5Client.Instance.ComposeRequestUrl(string.Format(ApiPath.Purchase.CompleteGooglePurchase, id));
 			

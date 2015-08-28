@@ -9,7 +9,7 @@ namespace Hive5.Model
 	/// <summary>
 	/// Result of Apply Coupon
 	/// </summary>
-	public class ApplyCouponResponseBody : CallProcedureResponseBody
+	public class ApplyCouponResponseBody : RunScriptResponseBody
 	{
 	}
 }

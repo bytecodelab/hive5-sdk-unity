@@ -12,8 +12,7 @@ namespace Hive5.Model
 	/// </summary>
 	public class Score
 	{
-		public string platform { get; set; }
-		public string platformUserId { set; get; }
+		public User User { get; set; }
 		public long? value { set; get; }
 		public long? rank { set; get; }
         public List<HObject> objects { get; set; }
@@ -57,8 +56,11 @@ namespace Hive5.Model
 
 
 			return new Score () {
-				platform = (string)json["platform"],
-				platformUserId = (string)json["platform_user_id"],
+                User = new User()
+                {
+                    platform = (string)json["user"]["platform"],
+				    id = (string)json["user"]["id"],
+				},
 				value = value,
 				rank = rank,
                 objects = objects,

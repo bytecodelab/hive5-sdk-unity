@@ -23,11 +23,16 @@ namespace hive5_sdk_unity.test
 
         public void InitClient()
         {
-            TestValueSet testValues = TestValueSet.Default;
+            TestConfig testValues = TestConfig.HealthCheck;
 
             var client = Hive5Client.Instance;
-            //client.SetDebug();
-            string appKey = testValues.AppKey;
+           
+            Hive5.Hive5Config.AppKey = testValues.AppKey;
+            Hive5.Hive5Config.Host = testValues.Host;
+            Hive5.Hive5Config.XPlatformKey = testValues.XPlatformKey;
+            Hive5.Hive5Config.CustomAccountPlatformName = testValues.CustomAccountPlatformName;
+            Hive5.Hive5Config.HealthCheckUrl = testValues.HealthCheckUrl;
+
             string uuid = testValues.Uuid;
 
             try

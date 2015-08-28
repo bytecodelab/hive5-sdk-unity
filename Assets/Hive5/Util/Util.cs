@@ -18,8 +18,9 @@ namespace Hive5.Util
 		/// <param name="dateTimeString">Date time string.</param>
 		public static DateTime ParseDateTime(string dateTimeString)
 		{
-			string format = "yyyy-MM-dd'T'HH:mm:ss";
-			return DateTime.ParseExact(dateTimeString, format, CultureInfo.InvariantCulture);
+            return DateTime.Parse(dateTimeString);
+            //string format = "yyyy-MM-dd'T'HH:mm:ss";
+            //return DateTime.ParseExact(dateTimeString, format, CultureInfo.InvariantCulture);
 		}
 	}
 

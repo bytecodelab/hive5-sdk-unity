@@ -16,9 +16,7 @@ namespace hive5_sdk_unity.test
 
         #region 설정값들
 
-        public const string GoogleSdkVersion = "3";
-
-        public static TestValueSet TestValues { get; set; }
+        public static TestConfig CurrentConfig { get; set; }
 
         #endregion 설정값들
 
@@ -27,10 +25,7 @@ namespace hive5_sdk_unity.test
         [TestInitialize]
         public void InitializeTests()
         {
-            //TestValues = TestValueSet.AinaRod;
-            TestValues = TestValueSet.Default;
-            Hive5.Hive5Config.CustomAccountPlatformName = "test";
-            Hive5.Hive5Config.XPlatformKey = "4b9ea368-2809-4e57-91a1-d9ce7ac39534"; // alpha: UnitTest Game
+            CurrentConfig = TestConfig.Default;
             if (this.ApiClient == null)
             {
                 TestInit();
@@ -39,13 +34,11 @@ namespace hive5_sdk_unity.test
 
         private void Login()
         {
-            string userId = TestValues.ValidPlatformUserId;
-           
             try
             {
                 var completion = new ManualResetEvent(false);
 
-                this.ApiClient.LogIn(OSType.Android, "1.0", "ko-KR", PlatformType.Google, userId, (response) =>
+                this.ApiClient.LogIn(OSType.Android, "1.0", "ko-KR", CurrentConfig.TestUser.platform, CurrentConfig.TestUser.id, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -56,11 +49,9 @@ namespace hive5_sdk_unity.test
                     LoginResponseBody body = response.ResultData as LoginResponseBody;
                     Assert.IsTrue(string.IsNullOrEmpty(body.AccessToken) == false); // 잘못된 아이디로 로그인했으니
                     Assert.IsTrue(body.Agreements != null);
-                    Assert.IsTrue(body.CompletedMissions != null);
-                    Assert.IsTrue(body.Configs != null);
-                    Assert.IsTrue(body.MailboxNewItemCount >= 0);
-                    Assert.IsTrue(body.Promotions != null);
-                    Assert.IsTrue(body.UserId > 0); // 잘못된 아이디로 로그인했으니
+                    Assert.IsTrue(body.NewMailCount >= 0);
+                    Assert.IsFalse(string.IsNullOrEmpty(body.UserPlatform));
+                    Assert.IsFalse(string.IsNullOrEmpty(body.UserId)); // 잘못된 아이디로 로그인했으니
 
                     completion.Set();
                 });
@@ -79,9 +70,14 @@ namespace hive5_sdk_unity.test
         public void TestInit()
         {
             var client = Hive5Client.Instance;
-            //client.SetDebug();
-            string appKey = TestValues.AppKey;
-            string uuid = TestValues.Uuid;
+            
+            Hive5.Hive5Config.AppKey = CurrentConfig.AppKey;
+            Hive5.Hive5Config.Host = CurrentConfig.Host;
+            Hive5.Hive5Config.XPlatformKey = CurrentConfig.XPlatformKey;
+            Hive5.Hive5Config.CustomAccountPlatformName = CurrentConfig.CustomAccountPlatformName;
+            Hive5.Hive5Config.HealthCheckUrl = CurrentConfig.HealthCheckUrl;
+            
+            string uuid = CurrentConfig.Uuid;
 
             try
             {
@@ -168,11 +164,6 @@ namespace hive5_sdk_unity.test
                 this.ApiClient.SetAccessToken(this.ApiClient.AccessToken, oldSessionKey);
                 var completion = new ManualResetEvent(false);
 
-                //var parameters = new TupleList<string, string>();
-                //parameters.Add("echo", "gilbok");
-                //parameters.Add("echo", "gilbok");
-                //this.ApiClient.CallProcedure("echo", parameters, (response) =>
-                //{
                 this.ApiClient.CheckNicknameAvailability("불량사과", (response) =>
                 {
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.TheSessionKeyIsInvalid);
@@ -306,8 +297,8 @@ namespace hive5_sdk_unity.test
 
                 // 2. 프로퍼티 검증
                 CreatePlatformAccountResponseBody body = response.ResultData as CreatePlatformAccountResponseBody;
-                Assert.IsTrue(string.IsNullOrEmpty(body.Id) == false);
-
+                Assert.IsTrue(string.IsNullOrEmpty(body.User.id) == false);
+                Assert.IsTrue(string.IsNullOrEmpty(body.User.platform) == false);
                 completion.Set();
             }, "tester", email);
 
@@ -344,8 +335,8 @@ namespace hive5_sdk_unity.test
 
                 // 2. 프로퍼티 검증
                 CreatePlatformAccountResponseBody body = response.ResultData as CreatePlatformAccountResponseBody;
-                Assert.IsTrue(string.IsNullOrEmpty(body.Id) == false);
-
+                Assert.IsTrue(string.IsNullOrEmpty(body.User.id) == false);
+                Assert.IsTrue(string.IsNullOrEmpty(body.User.platform) == false);
                 completion2.Set();
             }, "tester", email);
 
@@ -396,8 +387,8 @@ namespace hive5_sdk_unity.test
 
                 // 2. 프로퍼티 검증
                 CreatePlatformAccountResponseBody body = response.ResultData as CreatePlatformAccountResponseBody;
-                Assert.IsTrue(string.IsNullOrEmpty(body.Id) == false);
-
+                Assert.IsTrue(string.IsNullOrEmpty(body.User.id) == false);
+                Assert.IsTrue(string.IsNullOrEmpty(body.User.platform) == false);
                 completion2.Set();
             }, "tester", email);
 
@@ -439,8 +430,9 @@ namespace hive5_sdk_unity.test
 
                 // 2. 프로퍼티 검증
                 CreatePlatformAccountResponseBody body = response.ResultData as CreatePlatformAccountResponseBody;
-                Assert.IsTrue(string.IsNullOrEmpty(body.Id) == false);
-                platformUserId = body.Id;
+                Assert.IsTrue(string.IsNullOrEmpty(body.User.id) == false);
+                Assert.IsTrue(string.IsNullOrEmpty(body.User.platform) == false);
+                platformUserId = body.User.id;
 
                 completion1.Set();
             }, "tester", email);
@@ -458,7 +450,7 @@ namespace hive5_sdk_unity.test
 
                 // 2. 프로퍼티 검증
                 AuthenticatePlatformAccountResponseBody body = response.ResultData as AuthenticatePlatformAccountResponseBody;
-                Assert.IsTrue(body.Id == platformUserId);
+                Assert.IsTrue(body.User.id == platformUserId);
 
                 completion2.Set();
             });
@@ -494,7 +486,7 @@ namespace hive5_sdk_unity.test
 
                 var completion = new ManualResetEvent(false);
 
-                this.ApiClient.GetMyScore("3", 0, 100, (response) =>
+                this.ApiClient.GetMyScore(CurrentConfig.LeaderBoardKey, 0, 100, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -527,23 +519,23 @@ namespace hive5_sdk_unity.test
 
                 var completion = new ManualResetEvent(false);
 
-                this.ApiClient.ListScores(TestValues.LeaderBoardKey, TestValues.ObjectClasses, 0, 100, null, null, (response) =>
+                this.ApiClient.ListScores(CurrentConfig.LeaderBoardKey, CurrentConfig.ObjectClasses, 0, 100, null, null, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
                     Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                    Assert.IsTrue(response.ResultData is GetScoresResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+                    Assert.IsTrue(response.ResultData is ListScoresResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
 
                     // 2. 프로퍼티 검증
-                    GetScoresResponseBody body = response.ResultData as GetScoresResponseBody;
+                    ListScoresResponseBody body = response.ResultData as ListScoresResponseBody;
                     Assert.IsTrue(body.Scores != null);
                     Assert.IsTrue(body.Scores.Count >= 0);
 
                     if (body.Scores.Count > 0)
                     {
                         var score = body.Scores[0];
-                        Assert.IsTrue(string.IsNullOrEmpty(score.platform) == false);
-                        Assert.IsTrue(string.IsNullOrEmpty(score.platformUserId) == false);
+                        Assert.IsTrue(string.IsNullOrEmpty(score.User.platform) == false);
+                        Assert.IsTrue(string.IsNullOrEmpty(score.User.id) == false);
                         Assert.IsTrue(score.rank >= -1);
                         Assert.IsTrue(score.value != null);
                         Assert.IsTrue(score.objects != null);
@@ -563,16 +555,13 @@ namespace hive5_sdk_unity.test
         [TestMethod, TestCategory("Leader Board")]
         public void Test점수기록SubmitScore()
         {
-            //Assert.Inconclusive("404에러 발생하는 것으로 알고 있음");
-            //return;
-
             try
             {
                 Login();
 
                 var completion = new ManualResetEvent(false);
 
-                this.ApiClient.SubmitScore("3", 100, (response) =>
+                this.ApiClient.SubmitScore(CurrentConfig.LeaderBoardKey, 100, "", (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -597,9 +586,6 @@ namespace hive5_sdk_unity.test
         [TestMethod, TestCategory("Leader Board")]
         public void Test친구랭킹가져오기ListSocialScores()
         {
-            //Assert.Inconclusive("404에러 발생하는 것으로 알고 있음");
-            //return;
-
             try
             {
                 Login();
@@ -610,7 +596,7 @@ namespace hive5_sdk_unity.test
                 {
                     "sword",
                 };
-                this.ApiClient.ListSocialScores("3", objectClasses, (response) =>
+                this.ApiClient.ListSocialScores(CurrentConfig.LeaderBoardKey, objectClasses, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -624,8 +610,8 @@ namespace hive5_sdk_unity.test
                     if (body.Scores.Count > 0)
                     {
                         var score = body.Scores[0];
-                        Assert.IsTrue(string.IsNullOrEmpty(score.platform) == false);
-                        Assert.IsTrue(string.IsNullOrEmpty(score.platformUserId) == false);
+                        Assert.IsTrue(string.IsNullOrEmpty(score.User.platform) == false);
+                        Assert.IsTrue(string.IsNullOrEmpty(score.User.id) == false);
                         Assert.IsTrue(score.rank >= -1);
                         Assert.IsTrue(score.value != null);
                         Assert.IsTrue(score.objects != null);
@@ -647,7 +633,7 @@ namespace hive5_sdk_unity.test
         #region MAIL
 
         [TestMethod, TestCategory("Mail")]
-        public void Test메일태그제거DetachMailTags()
+        public void Test메일태그제거RemoveMailTags()
         {
             //Assert.Inconclusive("404에러 발생하는 것으로 알고 있음");
             //return;
@@ -658,9 +644,12 @@ namespace hive5_sdk_unity.test
 
                 var completion = new ManualResetEvent(false);
 
-                string[] tags = new string[] { "reward" };
-
-                this.ApiClient.RemoveTags(1, tags, (response) =>
+                string[] initialTags = new string[] { "reward", "notice" };
+                
+                string createdMailId = CreateMail("aaaa", CurrentConfig.TestUser, "", initialTags);
+                
+                string[] removeTags = new string[] { "reward" };
+                this.ApiClient.RemoveTags(createdMailId, removeTags, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -670,7 +659,7 @@ namespace hive5_sdk_unity.test
                     // 2. 프로퍼티 검증
                     DetachMailTagsResponseBody body = response.ResultData as DetachMailTagsResponseBody;
                     Assert.IsTrue(body.Tags != null);
-                    Assert.IsTrue(body.Tags.Count >= 0);
+                    Assert.IsTrue(body.Tags.Count == 1);
 
                     completion.Set();
                 });
@@ -681,40 +670,47 @@ namespace hive5_sdk_unity.test
             {
                 Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
             }
+        }
+
+        private Hive5Response AddTags(string mailId, string[] tags)
+        {
+            var completion = new ManualResetEvent(false);
+
+            Hive5Response body = null;
+             
+            this.ApiClient.AddTags(mailId, tags, (response) =>
+            {
+                body = response;        
+                completion.Set();
+            });
+
+            completion.WaitOne();
+            return body;
         }
 
         [TestMethod, TestCategory("Mail")]
         public void Test메일태그추가AttachMailTags()
         {
-            //Assert.Inconclusive("404에러 발생하는 것으로 알고 있음");
-            //return;
-
             try
             {
                 Login();
 
-                var completion = new ManualResetEvent(false);
-
                 string sampleTag = "reward";
-                string[] tags = new string[] { sampleTag };
+                string[] tags = new string[] {  sampleTag };
 
-                this.ApiClient.AddTags(1, tags, (response) =>
-                {
-                    // 1. 기본 반환값 검증
-                    Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
-                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                    Assert.IsTrue(response.ResultData is AttachMailTagsResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+                var createdMailId = CreateMail("abcd", CurrentConfig.TestUser, "", tags);
+                
+                var response = AddTags(createdMailId, tags);
+                // 1. 기본 반환값 검증
+                Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
+                Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                Assert.IsTrue(response.ResultData is AttachMailTagsResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
 
-                    // 2. 프로퍼티 검증
-                    AttachMailTagsResponseBody body = response.ResultData as AttachMailTagsResponseBody;
-                    Assert.IsTrue(body.Tags != null);
-                    Assert.IsTrue(body.Tags.Count >= 1);
-                    Assert.IsTrue(body.Tags.Contains(sampleTag) == true);
-
-                    completion.Set();
-                });
-
-                completion.WaitOne();
+                // 2. 프로퍼티 검증
+                AttachMailTagsResponseBody body = response.ResultData as AttachMailTagsResponseBody;
+                Assert.IsTrue(body.Tags != null);
+                Assert.IsTrue(body.Tags.Count == 1);
+                Assert.IsTrue(body.Tags.Contains(sampleTag) == true);
             }
             catch (Exception ex)
             {
@@ -724,12 +720,9 @@ namespace hive5_sdk_unity.test
 
 
         [TestMethod, TestCategory("Mail")]
-        public void Test메일개수확인GetMailCount()
+        public void Test메일개수확인CountMail()
         {
-            //Assert.Inconclusive("404에러 발생하는 것으로 알고 있음");
-            //return;
-
-            try
+             try
             {
                 Login();
 
@@ -737,7 +730,7 @@ namespace hive5_sdk_unity.test
 
                 string sampleTag = "reward";
 
-                this.ApiClient.CountMail(OrderType.DESC, 0, sampleTag, (response) =>
+                this.ApiClient.CountMail(OrderType.DESC, "0", sampleTag, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -760,11 +753,8 @@ namespace hive5_sdk_unity.test
         }
 
         [TestMethod, TestCategory("Mail")]
-        public void Test메일리스트가져오기GetMails()
+        public void Test메일리스트가져오기ListMails()
         {
-            //Assert.Inconclusive("404에러 발생하는 것으로 알고 있음");
-            //return;
-
             try
             {
                 Login();
@@ -799,9 +789,6 @@ namespace hive5_sdk_unity.test
         [TestMethod, TestCategory("Mail")]
         public void Test메일삭제DeleteMail()
         {
-            //Assert.Inconclusive("404에러 발생하는 것으로 알고 있음");
-            //return;
-
             try
             {
                 Login();
@@ -809,7 +796,7 @@ namespace hive5_sdk_unity.test
                 var completion = new ManualResetEvent(false);
 
                 // 지울 메일을 미리 생성
-                long createMailId = CreateMail("메일삭제 테스트메일입니다.");
+                string createMailId = CreateMail("메일삭제 테스트메일입니다.", CurrentConfig.TestUser, "", null);
 
                 // 그 다음 삭제
                 this.ApiClient.DeleteMail(createMailId, (response) =>
@@ -837,14 +824,12 @@ namespace hive5_sdk_unity.test
         [TestMethod, TestCategory("Mail")]
         public void Test메일생성CreateMail()
         {
-            //Assert.Inconclusive("404에러 발생하는 것으로 알고 있음");
-            //return;
-
             try
             {
                 Login();
 
-                CreateMail("메일생성 테스트메일입니다.");
+                string createdMailId = CreateMail("메일생성 테스트메일입니다.", CurrentConfig.TestUser, "", null);
+                Assert.IsTrue(string.IsNullOrEmpty(createdMailId) == false);
             }
             catch (Exception ex)
             {
@@ -852,15 +837,12 @@ namespace hive5_sdk_unity.test
             }
         }
 
-        public long CreateMail(string content)
+        public string CreateMail(string content, User receiver, string extraJson, string[] tags)
         {
+            string createdMailId = null;
             var completion = new ManualResetEvent(false);
 
-            string sampleTag = "reward";
-            string[] tags = new string[] { sampleTag };
-            long createMailId = 0;
-
-            this.ApiClient.CreateMail(content, "hive5", TestValues.ValidPlatformUserId, "", tags, (response) =>
+            this.ApiClient.CreateMail(content, receiver, extraJson, tags, (response) =>
             {
                 // 1. 기본 반환값 검증
                 Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -869,33 +851,28 @@ namespace hive5_sdk_unity.test
 
                 // 2. 프로퍼티 검증
                 CreateMailResponseBody body = response.ResultData as CreateMailResponseBody;
-                Assert.IsTrue(body.Id >= 0);
+                Assert.IsTrue(string.IsNullOrEmpty(body.Id) == false);
 
-                createMailId = body.Id;
+                createdMailId = body.Id;
                 completion.Set();
             });
 
             completion.WaitOne();
 
-            return createMailId;
+            return createdMailId;
         }
 
         [TestMethod, TestCategory("Mail")]
         public void Test메일수정UpdateMail()
         {
-            //Assert.Inconclusive("404에러 발생하는 것으로 알고 있음");
-            //return;
-
             try
             {
                 Login();
 
                 var completion = new ManualResetEvent(false);
 
-                // 지울 메일을 미리 생성
-                long createMailId = CreateMail("메일수정 테스트메일입니다.");
+                string createMailId = CreateMail("메일수정 테스트메일입니다.", CurrentConfig.TestUser, "", null);
 
-                // 그 다음 삭제
                 this.ApiClient.UpdateMail(createMailId, "수정된 메일수정 테스트메일입니다.", "", (response) =>
                 {
                     // 1. 기본 반환값 검증
@@ -905,7 +882,6 @@ namespace hive5_sdk_unity.test
 
                     // 2. 프로퍼티 검증
                     CommonResponseBody body = response.ResultData as CommonResponseBody;
-
                     completion.Set();
                 });
 
@@ -924,28 +900,26 @@ namespace hive5_sdk_unity.test
         [TestMethod, TestCategory("Procedure")]
         public void Test프로시저호출CallProcedure()
         {
-            //Assert.Inconclusive("404에러 발생하는 것으로 알고 있음");
-            //return;
-
             try
             {
                 Login();
 
                 var completion = new ManualResetEvent(false);
-                var parameters = new TupleList<string, string>();
-                parameters.Add("echo", "gilbok");
-                parameters.Add("echo", "gilbok");
+                var parameters = new {
+                    echo = "gilbok"
+                };
 
                 this.ApiClient.RunScript("echo", parameters, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
                     Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                    Assert.IsTrue(response.ResultData is CallProcedureResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+                    Assert.IsTrue(response.ResultData is RunScriptResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
 
                     // 2. 프로퍼티 검증
-                    CallProcedureResponseBody body = response.ResultData as CallProcedureResponseBody;
+                    RunScriptResponseBody body = response.ResultData as RunScriptResponseBody;
                     Assert.IsTrue(string.IsNullOrEmpty(body.CallReturn) == false);
+                    Assert.AreEqual(body.CallReturn, parameters.echo);
 
                     completion.Set();
                 });
@@ -961,9 +935,6 @@ namespace hive5_sdk_unity.test
          [TestMethod, TestCategory("Procedure")]
         public void Test플레이어정보없이프로시저호출CallProcedureWithoutAuth()
         {
-            //Assert.Inconclusive("404에러 발생하는 것으로 알고 있음");
-            //return;
-
             try
             {
                 Login();
@@ -978,10 +949,10 @@ namespace hive5_sdk_unity.test
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
                     Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                    Assert.IsTrue(response.ResultData is CallProcedureResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+                    Assert.IsTrue(response.ResultData is RunScriptResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
 
                     // 2. 프로퍼티 검증
-                    CallProcedureResponseBody body = response.ResultData as CallProcedureResponseBody;
+                    RunScriptResponseBody body = response.ResultData as RunScriptResponseBody;
                     Assert.IsTrue(string.IsNullOrEmpty(body.CallReturn) == false);
 
                     completion.Set();
@@ -1017,11 +988,11 @@ namespace hive5_sdk_unity.test
             {
                 if (response.ResultCode != Hive5ErrorCode.Success)
                 {
-                    // handle error here
+                    completion.Set();
                     return;
                 }
 
-                var body = response.ResultData as CallProcedureResponseBody;
+                var body = response.ResultData as RunScriptResponseBody;
 
                 Assert.AreEqual("{\"params\":{\"gamble_items\":[{\"Id\":1,\"Grade\":1,\"Rate\":1},{\"Id\":2,\"Grade\":2,\"Rate\":2},{\"Id\":3,\"Grade\":3,\"Rate\":3}]}}",
                     body.CallReturn);
@@ -1049,14 +1020,14 @@ namespace hive5_sdk_unity.test
         [TestMethod, TestCategory("Purchase")]
         public void Test구글결제시작CreateGooglePurchase()
         {
-            //Assert.Inconclusive("404에러 발생하는 것으로 알고 있음");
-            //return;
-
             try
             {
                 Login();
 
                 var body = CreateGooglePurchase();
+
+                Assert.IsNotNull(body);
+                Assert.IsTrue(string.IsNullOrEmpty(body.Id) == false);
             }
             catch (Exception ex)
             {
@@ -1072,7 +1043,7 @@ namespace hive5_sdk_unity.test
 
             CreateGooglePurchaseResponseBody body = null;
 
-            this.ApiClient.CreateGooglePurchase(productCode, "hive5", 1, (response) =>
+            this.ApiClient.CreateGooglePurchase(productCode, CurrentConfig.Friend, (response) =>
             {
                 // 1. 기본 반환값 검증
                 Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -1081,7 +1052,7 @@ namespace hive5_sdk_unity.test
 
                 // 2. 프로퍼티 검증
                 body = response.ResultData as CreateGooglePurchaseResponseBody;
-                Assert.IsTrue(body.Id >= 0);
+                Assert.IsTrue(string.IsNullOrEmpty(body.Id)== false);
 
                 completion.Set();
             });
@@ -1105,7 +1076,7 @@ namespace hive5_sdk_unity.test
 
                 var completion = new ManualResetEvent(false);
 
-                long id = googlePurchaseBody.Id;
+                string id = googlePurchaseBody.Id;
                 long listPrice = 1100;
                 long purchasePrice = 1100;
                 string currency = null;
@@ -1243,7 +1214,7 @@ namespace hive5_sdk_unity.test
 
             CreateApplePurchaseResponseBody body = null;
 
-            this.ApiClient.CreateGooglePurchase(productCode, "hive5", 1, (response) =>
+            this.ApiClient.CreateGooglePurchase(productCode, CurrentConfig.Friend, (response) =>
             {
                 // 1. 기본 반환값 검증
                 Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -1309,9 +1280,12 @@ namespace hive5_sdk_unity.test
 
         #region COUPON
 
-        [TestMethod, TestCategory("Push")]
-        public void Test쿠폰적용ApplyCoupon()
+        [TestMethod, TestCategory("Coupon")]
+        public void Test쿠폰적용RedeemCoupon()
         {
+            Assert.Inconclusive("현재 alpha 서버에서는 적용할 수 있는 쿠폰 발행이 불가 발생");
+            return;
+
             try
             {
                 Login();
@@ -1325,10 +1299,10 @@ namespace hive5_sdk_unity.test
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
                     Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                    Assert.IsTrue(response.ResultData is CallProcedureResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+                    Assert.IsTrue(response.ResultData is RunScriptResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
 
                     // 2. 프로퍼티 검증
-                    CallProcedureResponseBody body = response.ResultData as CallProcedureResponseBody;
+                    RunScriptResponseBody body = response.ResultData as RunScriptResponseBody;
 
                     completion1.Set();
                 });
@@ -1356,9 +1330,8 @@ namespace hive5_sdk_unity.test
 
         #endregion COUPON
 
-        #region PUSH
-
-        [TestMethod, TestCategory("Push")]
+        #region SETTINGS
+         [TestMethod, TestCategory("Settings")]
         public void Test푸쉬토큰등록및업데이트UpdatePushToken()
         {
             try
@@ -1388,8 +1361,8 @@ namespace hive5_sdk_unity.test
             }
         }
 
-        [TestMethod, TestCategory("Push")]
-        public void Test푸쉬수신여부설정TogglePushAccept()
+        [TestMethod, TestCategory("Settings")]
+        public void Test푸쉬수신활성화ActivatePush()
         {
             try
             {
@@ -1397,12 +1370,12 @@ namespace hive5_sdk_unity.test
 
                 var completion = new ManualResetEvent(false);
 
-                this.ApiClient.Activate(true, (response) =>
+                this.ApiClient.ActivatePush((response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
                     Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                    Assert.IsTrue(response.ResultData is UpdatePushTokenResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+                    Assert.IsTrue(response.ResultData is PushActivateResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
 
                     // 2. 프로퍼티 검증
                     PushActivateResponseBody body = response.ResultData as PushActivateResponseBody;
@@ -1418,16 +1391,42 @@ namespace hive5_sdk_unity.test
             }
         }
 
-        #endregion PUSH
+        [TestMethod, TestCategory("Settings")]
+        public void Test푸쉬수신비활성화DeactivatePush()
+        {
+            try
+            {
+                Login();
+
+                var completion = new ManualResetEvent(false);
+
+                this.ApiClient.DeactivatePush((response) =>
+                {
+                    // 1. 기본 반환값 검증
+                    Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
+                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                    Assert.IsTrue(response.ResultData is PushActivateResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                    // 2. 프로퍼티 검증
+                    PushActivateResponseBody body = response.ResultData as PushActivateResponseBody;
+
+                    completion.Set();
+                });
+
+                completion.WaitOne();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
+            }
+        }
+        #endregion SETTINGS
 
         #region SOCIALGRAPH
 
-         [TestMethod, TestCategory("Social Graph")]
+        [TestMethod, TestCategory("Social Graph")]
         public void Test친구목록가져오기GetFriends()
         {
-            //Assert.Inconclusive("InvalidParameter 발생");
-            //return;
-
             try
             {
                 Login();
@@ -1439,10 +1438,10 @@ namespace hive5_sdk_unity.test
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
                     Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                    Assert.IsTrue(response.ResultData is GetFriendsResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+                    Assert.IsTrue(response.ResultData is ListFriendsResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
 
                     // 2. 프로퍼티 검증
-                    GetFriendsResponseBody body = response.ResultData as GetFriendsResponseBody;
+                    ListFriendsResponseBody body = response.ResultData as ListFriendsResponseBody;
                     Assert.IsTrue(body.Friends != null);
 
                     completion.Set();
@@ -1457,11 +1456,46 @@ namespace hive5_sdk_unity.test
         }
 
         [TestMethod, TestCategory("Social Graph")]
+        public void Test친구추가AddFriends()
+        {
+            try
+            {
+                Login();
+
+                var completion = new ManualResetEvent(false);
+
+                var friends = new List<User>()
+                { 
+                    new User() { platform = "anonymous", id = "13" }, 
+                    new User() { platform = "kakao", id = "-881979482072261765" },
+                };
+
+                this.ApiClient.AddFriends("default", friends, (response) =>
+                {
+                    // 1. 기본 반환값 검증
+                    Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
+                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                    Assert.IsTrue(response.ResultData is AddFriendsResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+
+                    // 2. 프로퍼티 검증
+                    AddFriendsResponseBody body = response.ResultData as AddFriendsResponseBody;
+                   
+                    completion.Set();
+                });
+
+                completion.WaitOne();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
+            }
+        }
+
+
+        [TestMethod, TestCategory("Social Graph")]
         public void Test친구리스트업데이트UpdateFriends()
         {
-            //Assert.Inconclusive("InvalidParameter 발생");
-            //return;
-
+           
             try
             {
                 Login();

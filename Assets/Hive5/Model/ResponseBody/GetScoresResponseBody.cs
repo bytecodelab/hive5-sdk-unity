@@ -10,7 +10,7 @@ namespace Hive5.Model
 	/// <summary>
 	/// Login data.
 	/// </summary>
-	public class GetScoresResponseBody : IResponseBody
+	public class ListScoresResponseBody : IResponseBody
 	{
 		public List<Score> Scores { set; get; }			
 
@@ -34,7 +34,7 @@ namespace Hive5.Model
 				scores = null;
 			}
 
-			return new GetScoresResponseBody() {
+			return new ListScoresResponseBody() {
 				Scores = scores
 			};
 		}

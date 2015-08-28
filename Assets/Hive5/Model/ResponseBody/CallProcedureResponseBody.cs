@@ -10,7 +10,7 @@ namespace Hive5.Model
 	/// <summary>
 	/// Login data.
 	/// </summary>
-	public class CallProcedureResponseBody : IResponseBody
+	public class RunScriptResponseBody : IResponseBody
 	{
 		public string CallReturn { get; set; }
 
@@ -23,18 +23,9 @@ namespace Hive5.Model
 			if (json == null)
 				return null;
 
-			string callReturn = string.Empty;
-
-			try
-			{
-				callReturn =  json["call_return"].ToJson();
-			}
-			catch (KeyNotFoundException)
-			{
-			}
-
-			return new CallProcedureResponseBody() {
-				CallReturn			= callReturn,
+            JsonData callReturnJson = json["call_return"];
+			return new RunScriptResponseBody() {
+				CallReturn = callReturnJson == null? null : (callReturnJson.IsObject ?  callReturnJson.ToJson() : (string)callReturnJson),
 			};
 		}
 

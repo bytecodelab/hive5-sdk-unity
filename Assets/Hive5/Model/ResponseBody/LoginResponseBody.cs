@@ -12,18 +12,14 @@ namespace Hive5.Model
 	/// </summary>
 	public class LoginResponseBody : IResponseBody
 	{
-		public long 	UserId;
 		public string 	AccessToken;
         public string   SessionKey;
-		public int 		MailboxNewItemCount;
+		public int 		NewMailCount;
 
-		public string Platform;
-		public string PlatformUserId;
+		public string UserPlatform;
+		public string UserId;
 
-		public List<Config> 	Configs;				
-		public List<Mission> 	CompletedMissions;	
-		public List<Agreement> 	Agreements;			
-		public List<Promotion> 	Promotions;			
+		public List<Agreement> 	Agreements;				
 		
 		/// <summary>
 		/// Load the specified json.
@@ -36,26 +32,20 @@ namespace Hive5.Model
 				return null;
 
             var sessionKey = (string)json["session_key"];
-			var mailboxNewItemCount = (int)json["mailbox_new_item_count"];
-			var accessToken 		= (string)json["access_token"];
-			var completedMissions	= Mission.LoadList( json["completed_missions"] );
-			var configs 			= Config.LoadList( json ["configs"] );
-			var promotions			= Promotion.LoadList ( json ["promotions"] );
-			var agreements 			= Agreement.LoadList ( json ["agreements"] );
-			var platform = (string)json ["platform"];
-			var platformUserId = (string)json ["platform_user_id"];
+			var newMailCount = (int)json["new_mail_count"];
+			var accessToken = (string)json["access_token"];
+			var agreements = Agreement.LoadList ( json ["agreements"] );
+			var userPlatform = (string)json["user"]["platform"];
+			var userId = (string)json ["user"]["id"];
 			
 			return new LoginResponseBody ()
 			{
 				AccessToken = accessToken, 
                 SessionKey = sessionKey,
-				MailboxNewItemCount = mailboxNewItemCount, 
-				Platform = platform,
-				PlatformUserId = platformUserId,
-				CompletedMissions = completedMissions, 
-				Promotions = promotions, 
+				NewMailCount = newMailCount, 
+				UserPlatform = userPlatform,
+				UserId = userId,
 				Agreements = agreements,
-				Configs = configs,
 			};
 		}
 		

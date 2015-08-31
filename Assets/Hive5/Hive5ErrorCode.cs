@@ -57,6 +57,8 @@ namespace Hive5
 		DataDoesNotExist = 1002,
 
 		InvalidReward = 2101, 
+        AlreadyAcceptedReward = 2102,
+        InvalidTagPattern = 2103,
 		InvalidPurchaseStatus = 2201,
 		InvalidPaymentSequence = 2202,
 		InvalidAppleReceipt = 2203, 

@@ -25,9 +25,12 @@ namespace Hive5
     } 
 
 
+    #if UNITTEST
+    public class HealthChecker : MockMonoSingleton<Hive5Http> {
+#else
+	public class HealthChecker : MonoSingleton<Hive5Http> {
+#endif
 
-    public class HealthChecker
-    {
         public const string DefaultCountryCode = "default";
         public string CountryCode { get; set; }
 

@@ -49,20 +49,15 @@ namespace Hive5
         public static class Mail
         {
             public static string AddTags = "mails/{0}/add_tags";
-            public static string AcceptReward = "mails/{0}/rewards/apply";
+            public static string AcceptReward = "mails/{0}/rewards/accept";
             public static string Count = "mails/count";
             public static string Create = "mails";
             public static string Delete = "mails/{0}";
-            public static string DeleteOverLimit = "mails/delete_more_than/{0}";
+            public static string DeleteOverLimit = "mails/delete_over_limit/{0}";
             public static string DeleteOlderThan = "mails/delete_older_than/{0}";
             public static string List = "mails";
             public static string RemoveTags = "mails/{0}/remove_tags";
             public static string Update = "mails/{0}";
-        }
-
-        public static class Misc
-        {
-             public static string Logs = "logs"; 
         }
 
         public static class Purchase {

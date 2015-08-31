@@ -18,9 +18,9 @@ namespace Hive5
     public class Hive5DataTable
     {
         /** 
-		* @api {POST} GetDataTable 쿠폰 적용하기
+		* @api {POST} Get 데이터 테이블 가져오기
 		* @apiVersion 0.3.11-beta
-		* @apiName GetDataTable
+		* @apiName Get
 		* @apiGroup DataTable
 		*
 		* @apiParam {string} name 데이터 테이블 이름
@@ -33,7 +33,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.GetDataTable(code callback);
 		*/
-		public void GetDataTable(string name, int? revision, Callback callback)
+		public void Get(string name, int? revision, Callback callback)
 		{
             var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.DataTable.GetDataTable, name));
 

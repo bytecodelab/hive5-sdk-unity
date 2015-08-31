@@ -18,9 +18,9 @@ namespace Hive5
     public class Hive5Coupon
     {
 		/** 
-		* @api {POST} RedeemCoupon 쿠폰 적용하기
+		* @api {POST} Redeem 쿠폰 적용하기
 		* @apiVersion 0.3.11-beta
-		* @apiName RedeemCoupon
+		* @apiName Redeem
 		* @apiGroup Coupon
 		*
 		* @apiParam {string} serial 쿠폰 시리얼 코드
@@ -32,7 +32,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.ApplyCoupon(code callback);
 		*/
-		public void RedeemCoupon(string serial, Callback callback)
+		public void Redeem(string serial, Callback callback)
 		{
             var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Coupon.RedeemCoupon, serial));
 

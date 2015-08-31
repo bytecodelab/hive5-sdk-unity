@@ -70,11 +70,11 @@ namespace hive5_sdk_unity.test
         [TestMethod, TestCategory("Init")]
         public void TestInit()
         {
-            Hive5.Hive5Config.AppKey = CurrentConfig.AppKey;
-            Hive5.Hive5Config.Host = CurrentConfig.Host;
-            Hive5.Hive5Config.XPlatformKey = CurrentConfig.XPlatformKey;
-            Hive5.Hive5Config.CustomAccountPlatformName = CurrentConfig.CustomAccountPlatformName;
-            Hive5.Hive5Config.HealthCheckUrl = CurrentConfig.HealthCheckUrl;
+            Hive5Config.AppKey = CurrentConfig.AppKey;
+            Hive5Config.Host = CurrentConfig.Host;
+            Hive5Config.XPlatformKey = CurrentConfig.XPlatformKey;
+            Hive5Config.CustomAccountPlatformName = CurrentConfig.CustomAccountPlatformName;
+            Hive5Config.HealthCheckUrl = CurrentConfig.HealthCheckUrl;
             
             string uuid = CurrentConfig.Uuid;
 
@@ -121,7 +121,7 @@ namespace hive5_sdk_unity.test
         //        this.ApiClient.Login(OSType.Android, objectKeys, configKeys, PlatformType.Google, userId, sdkVersion, (response) => 
         //        {
         //            // 1. 기본 반환값 검증
-        //            Assert.IsTrue(response.ResultCode == Hive5ResultCode.Success); // 일단 반환성공
+        //            Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
         //            Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
         //            Assert.IsTrue(response.ResultData is LoginResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
 
@@ -776,7 +776,7 @@ namespace hive5_sdk_unity.test
 
                 string sampleTag = "reward";
 
-                Hive5Client.Mail.ListMails(10, sampleTag, OrderType.DESC, 0, (response) =>
+                Hive5Client.Mail.List(10, sampleTag, OrderType.DESC, 0, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -855,7 +855,7 @@ namespace hive5_sdk_unity.test
             string createdMailId = null;
             var completion = new ManualResetEvent(false);
 
-            Hive5Client.Mail.CreateMail(content, receiver, extraJson, tags, (response) =>
+            Hive5Client.Mail.Create(content, receiver, extraJson, tags, (response) =>
             {
                 // 1. 기본 반환값 검증
                 Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -1311,7 +1311,7 @@ namespace hive5_sdk_unity.test
 
                 var coupon = "555NL985DDLBBYGN"; // 테스트 전에 알파서버서 발급하기
                 
-                Hive5Client.Coupon.RedeemCoupon(coupon, (response) =>
+                Hive5Client.Coupon.Redeem(coupon, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -1328,7 +1328,7 @@ namespace hive5_sdk_unity.test
 
                 var completion2 = new ManualResetEvent(false);
 
-                Hive5Client.Coupon.RedeemCoupon(coupon, (response) =>
+                Hive5Client.Coupon.Redeem(coupon, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.ThePlayerHasAlreadyConsumedTheCoupon); // 일단 반환성공

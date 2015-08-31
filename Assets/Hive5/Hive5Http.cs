@@ -1,4 +1,4 @@
-﻿using Assets.Hive5.Model;
+﻿using Hive5.Model;
 using LitJson;
 using System;
 using System.Collections;
@@ -21,7 +21,7 @@ namespace Hive5
 #if UNITTEST
     public class Hive5Http : MockMonoSingleton<Hive5Http> {
 #else
-	public class Hive5Http : MonoSingleton<Hive5Client> {
+	public class Hive5Http : MonoSingleton<Hive5Http> {
 #endif
         public string BuildResponseWith(Hive5ErrorCode code)
         {
@@ -34,14 +34,6 @@ namespace Hive5
 
 
 #if UNITTEST
-
-
-		string GetErrorResponseWithError (string error)
-		{
-			throw new NotImplementedException ();
-		}
-
-
 
          /// <summary>
         /// Https the get.
@@ -189,19 +181,19 @@ namespace Hive5
 
             if (ApiRequestManager.Instance.CheckRequestAllowed(rid) == false)
             {
-                RaiseClientError(Hive5ResultCode.DuplicatedApiCall, loader, callback);
+                RaiseClientError(Hive5ErrorCode.DuplicatedApiCall, loader, callback);
                 yield return null;
             }
 
             // Hive5 API Header 설정
             var headers = new Dictionary<string, string>();
-            headers.Add(HeaderKey.AppKey, this.AppKey);
-            headers.Add(HeaderKey.Uuid, this.Uuid);
+            headers.Add(HeaderKey.AppKey, Hive5Client.AppKey);
+            headers.Add(HeaderKey.Uuid, Hive5Client.Uuid);
 			headers.Add (HeaderKey.AcceptEncoding, HeaderValue.Gzip);
-			if (string.IsNullOrEmpty (this.AccessToken) == false) {
-				headers.Add (HeaderKey.Token, this.AccessToken);
+			if (string.IsNullOrEmpty (Hive5Client.Auth.AccessToken) == false) {
+				headers.Add (HeaderKey.Token, Hive5Client.Auth.AccessToken);
 			}
-            headers.Add(HeaderKey.SessionKey, this.SessionKey);
+            headers.Add(HeaderKey.SessionKey, Hive5Client.Auth.SessionKey);
             headers.Add(HeaderKey.XPlatformKey, Hive5Config.XPlatformKey);
             headers.Add(HeaderKey.ContentType, HeaderValue.ContentType);
             headers.Add(HeaderKey.RequestId, rid.RequestId);
@@ -217,8 +209,8 @@ namespace Hive5
 			WWW www = new WWW(newUrl, null, headers);
 			yield return www;
 
-            if (this.isDebug) Logger.Log("www reuqest URL = " + newUrl);
-            if (this.isDebug) Logger.Log("www response = " + www.text);
+            if (Hive5Client.IsDebugMode) Logger.Log("www reuqest URL = " + newUrl);
+            if (Hive5Client.IsDebugMode) Logger.Log("www response = " + www.text);
 
 			string httpResponse = www.text;
 
@@ -236,7 +228,7 @@ namespace Hive5
 		string GetErrorResponseWithError (string error)
 		{
 				string trimmedError = error.Trim();
-				int errorCode = (int)Hive5ResultCode.UnknownError;
+				int errorCode = (int)Hive5ErrorCode.UnknownError;
 				string resultMessage = string.Empty;
 				int index = trimmedError.IndexOf(" ");
 				if (index != -1)
@@ -250,7 +242,7 @@ namespace Hive5
 					}
 					else
 					{
-						errorCode = (int)Hive5ResultCode.NetworkError;
+						errorCode = (int)Hive5ErrorCode.NetworkError;
 						resultMessage = trimmedError;
 					}
 				}
@@ -282,22 +274,22 @@ namespace Hive5
 
             if (ApiRequestManager.Instance.CheckRequestAllowed(rid) == false)
             {
-                RaiseClientError(Hive5ResultCode.DuplicatedApiCall, loader, callback);
+                RaiseClientError(Hive5ErrorCode.DuplicatedApiCall, loader, callback);
                 yield return null;
             }
 
             // Hive5 API Header 설정
             var headers = new Dictionary<string, string>();
-            headers.Add(HeaderKey.AppKey, this.AppKey);
-            headers.Add(HeaderKey.Uuid, this.Uuid);
+            headers.Add(HeaderKey.AppKey, Hive5Client.AppKey);
+            headers.Add(HeaderKey.Uuid, Hive5Client.Uuid);
 			headers.Add(HeaderKey.XPlatformKey, Hive5Config.XPlatformKey);
-            headers.Add(HeaderKey.SessionKey, this.SessionKey);
+            headers.Add(HeaderKey.SessionKey, Hive5Client.Auth.SessionKey);
 			headers.Add(HeaderKey.AcceptEncoding, HeaderValue.Gzip);
             headers.Add(HeaderKey.RequestId, "42000300");
 
-            if (string.IsNullOrEmpty(this.AccessToken) == false)
+            if (string.IsNullOrEmpty(Hive5Client.Auth.AccessToken) == false)
             {
-                headers.Add(HeaderKey.Token, this.AccessToken);
+                headers.Add(HeaderKey.Token, Hive5Client.Auth.AccessToken);
             }
 
             if (string.IsNullOrEmpty(jsonString) == false)
@@ -311,9 +303,9 @@ namespace Hive5
             WWW www = new WWW(url, encoding.GetBytes(jsonString), headers);
             yield return www;
 
-            if (this.isDebug) Logger.Log("www reuqest URL = " + url);
-            if (this.isDebug) Logger.Log("www request jsonBody= " + jsonString);
-            if (this.isDebug) Logger.Log("www response = " + www.text);
+            if (Hive5Client.IsDebugMode) Logger.Log("www reuqest URL = " + url);
+            if (Hive5Client.IsDebugMode) Logger.Log("www request jsonBody= " + jsonString);
+            if (Hive5Client.IsDebugMode) Logger.Log("www response = " + www.text);
 
 				string httpResponse = www.text;
 			

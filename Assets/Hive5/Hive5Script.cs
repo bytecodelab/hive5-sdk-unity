@@ -39,7 +39,7 @@ namespace Hive5
             string paramsString = LitJson.JsonMapper.ToJson(parameters);
             string scriptParams = string.Format("{{\"params\":{0} }}", paramsString);
 
-			var url = Hive5Client.ComposeRequestUrl(String.Format(ApiPath.Script.RunScript, Hive5.Hive5Http.EscapeData(name)));
+			var url = Hive5Client.ComposeRequestUrl(String.Format(ApiPath.Script.RunScript, Hive5Http.EscapeData(name)));
 
 			Hive5Http.Instance.PostHttpAsync(url, null, scriptParams, RunScriptResponseBody.Load, callback);	
 		}

@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>
     </RootNamespace>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Hive5.Unity</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>Assets</BaseDirectory>
@@ -55,8 +55,7 @@
     <Compile Include="Assets\Hive5\Extensions\JsonDataExtensions.cs" />
     <Compile Include="Assets\Hive5\HealthCheck\Maintenance.cs" />
     <Compile Include="Assets\Hive5\HealthCheck\Plan.cs" />
-    <Compile Include="Assets\Hive5\Hive5Misc.cs" />
-    <Compile Include="Assets\Hive5\Hive5Client.cs" />
+    <Compile Include="Assets\Hive5\Hive5.cs" />
     <Compile Include="Assets\Hive5\Hive5DataTable.cs" />
     <Compile Include="Assets\Hive5\Hive5Forum.cs" />
     <Compile Include="Assets\Hive5\Hive5Script.cs" />

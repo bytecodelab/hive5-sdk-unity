@@ -19,9 +19,9 @@ namespace Hive5
     public class Hive5Mail
     {
         /** 
-		* @api {POST} CreateMail 메일 생성하기
+		* @api {POST} Create 메일 생성하기
 		* @apiVersion 0.3.11-beta
-		* @apiName CreateMail
+		* @apiName Create
 		* @apiGroup Mail
 		*
 		* @apiParam {string} content 메일 본문
@@ -36,7 +36,7 @@ namespace Hive5
 		* Hive5Client hive5 = Hive5Client.Instance;
 		* hive5.CreateMail(content, receiver, tags, callback);
 		*/
-        public void CreateMail(string content, User receiver, string extrasJson, string[] tags, Callback callback)
+        public void Create(string content, User receiver, string extrasJson, string[] tags, Callback callback)
 		{
 			if (string.IsNullOrEmpty (receiver.platform) == true)
 				throw new NullReferenceException ("friendPlatform should not be empty!");
@@ -58,9 +58,9 @@ namespace Hive5
 		}
 
         /** 
-        * @api {GET} ListMails 메일 리스트 가져오기
+        * @api {GET} List 메일 리스트 가져오기
         * @apiVersion 0.3.11-beta
-        * @apiName ListMails
+        * @apiName List
         * @apiGroup Mail
         *
         * @apiParam {int} limit 받을 메일 갯수
@@ -76,7 +76,7 @@ namespace Hive5
         * Hive5Client hive5 = Hive5Client.Instance;
         * hive5.ListMails(limit, tag, order, afterMailId, callback);
         */
-        public void ListMails(int limit, string tag, OrderType order, long afterMailId, Callback callback)
+        public void List(int limit, string tag, OrderType order, long afterMailId, Callback callback)
         {
             var url = Hive5Client.ComposeRequestUrl(ApiPath.Mail.List);
 

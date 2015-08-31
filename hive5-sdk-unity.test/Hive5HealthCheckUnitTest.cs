@@ -1,5 +1,4 @@
-﻿using Assets.Hive5;
-using Hive5;
+﻿using Hive5;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -23,11 +22,11 @@ namespace hive5_sdk_unity.test
         {
             TestConfig testValues = TestConfig.HealthCheck;
 
-            Hive5.Hive5Config.AppKey = testValues.AppKey;
-            Hive5.Hive5Config.Host = testValues.Host;
-            Hive5.Hive5Config.XPlatformKey = testValues.XPlatformKey;
-            Hive5.Hive5Config.CustomAccountPlatformName = testValues.CustomAccountPlatformName;
-            Hive5.Hive5Config.HealthCheckUrl = testValues.HealthCheckUrl;
+            Hive5Config.AppKey = testValues.AppKey;
+            Hive5Config.Host = testValues.Host;
+            Hive5Config.XPlatformKey = testValues.XPlatformKey;
+            Hive5Config.CustomAccountPlatformName = testValues.CustomAccountPlatformName;
+            Hive5Config.HealthCheckUrl = testValues.HealthCheckUrl;
 
             string uuid = testValues.Uuid;
 

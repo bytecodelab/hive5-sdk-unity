@@ -9,7 +9,7 @@ using LitJson;
 using Hive5;
 using Hive5.Model;
 using Hive5.Util;
-using Assets.Hive5.Model;
+using Hive5.Model;
 
 namespace Hive5
 {
@@ -50,7 +50,6 @@ namespace Hive5
         public static Hive5Forum Forum { get; private set; }
         public static Hive5Leaderboard Leaderboard { get; private set; }
         public static Hive5Mail Mail { get; private set; }
-        public static Hive5Misc Misc { get; private set; }
         public static Hive5Purchase Purchase { get; private set; }
         public static Hive5Script Script { get; private set; }
         public static Hive5Settings Settings { get; private set; }
@@ -67,7 +66,6 @@ namespace Hive5
             Forum = new Hive5Forum();
             Leaderboard = new Hive5Leaderboard();
             Mail = new Hive5Mail();
-            Misc = new Hive5Misc();
             Purchase = new Hive5Purchase();
             Script = new Hive5Script();
             Settings = new Hive5Settings();

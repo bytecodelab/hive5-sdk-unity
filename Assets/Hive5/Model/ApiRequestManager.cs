@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Assets.Hive5.Model
+namespace Hive5.Model
 {
     public class ApiRequestManager
     {

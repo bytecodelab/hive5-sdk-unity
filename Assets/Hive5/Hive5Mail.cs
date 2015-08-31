@@ -13,15 +13,11 @@ using Hive5.Util;
 
 namespace Hive5
 {
-    /// <summary>
-    /// Hive5 client.
-    /// </summary>
-#if UNITTEST
-    public partial class Hive5Client : MockMonoSingleton<Hive5Client>
+	/// <summary>
+	/// Hive5 Mail features
+	/// </summary>
+    public class Hive5Mail
     {
-#else
-	public partial class Hive5Client : MonoSingleton<Hive5Client> {
-#endif
         /** 
 		* @api {POST} CreateMail 메일 생성하기
 		* @apiVersion 0.3.11-beta
@@ -46,7 +42,7 @@ namespace Hive5
 				throw new NullReferenceException ("friendPlatform should not be empty!");
 
 			// Hive5 API URL 초기화
-			var url = Hive5Client.Instance.ComposeRequestUrl(string.Format(ApiPath.Mail.Create));
+			var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Mail.Create));
 			
 			var requestBody = new {
 				content	= content,
@@ -58,7 +54,7 @@ namespace Hive5
 				tags = tags
 			};
 			
-			PostHttpAsync(url, requestBody, CreateMailResponseBody.Load, callback);
+			Hive5Http.Instance.PostHttpAsync(url, requestBody, CreateMailResponseBody.Load, callback);
 		}
 
         /** 
@@ -82,7 +78,7 @@ namespace Hive5
         */
         public void ListMails(int limit, string tag, OrderType order, long afterMailId, Callback callback)
         {
-            var url = Hive5Client.Instance.ComposeRequestUrl(ApiPath.Mail.List);
+            var url = Hive5Client.ComposeRequestUrl(ApiPath.Mail.List);
 
             TupleList<string, string> parameters = new TupleList<string, string>();
             parameters.Add("limit", limit.ToString());
@@ -93,7 +89,7 @@ namespace Hive5
             if (string.IsNullOrEmpty(tag) == false)
                 parameters.Add("tag", tag);
 
-            GetHttpAsync(url, parameters.data, GetMailsResponseBody.Load, callback);
+            Hive5Http.Instance.GetHttpAsync(url, parameters.data, GetMailsResponseBody.Load, callback);
         }
 
         /** 
@@ -116,7 +112,7 @@ namespace Hive5
         public void CountMail(OrderType order, string afterMailId, string tag, Callback callback)
         {
             // Hive5 API URL 초기화
-            var url = Hive5Client.Instance.ComposeRequestUrl(ApiPath.Mail.Count);
+            var url = Hive5Client.ComposeRequestUrl(ApiPath.Mail.Count);
 
             TupleList<string, string> parameters = new TupleList<string, string>();
             parameters.Add("order", Tool.OrderToString(order));
@@ -125,7 +121,7 @@ namespace Hive5
             if (string.IsNullOrEmpty(tag) == false)
                 parameters.Add("tag", tag);
 
-            GetHttpAsync(url, parameters.data, GetMailCountResponseBody.Load, callback);
+            Hive5Http.Instance.GetHttpAsync(url, parameters.data, GetMailCountResponseBody.Load, callback);
         }
 
         /** 
@@ -147,7 +143,7 @@ namespace Hive5
         */
         public void UpdateMail(string mailId, string content, string extrasJson, Callback callback)
         {
-            var url = Hive5Client.Instance.ComposeRequestUrl(string.Format(ApiPath.Mail.Update, mailId));
+            var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Mail.Update, mailId));
 
             var requestBody = new
             {
@@ -155,7 +151,7 @@ namespace Hive5
                 extras = extrasJson,
             };
 
-            PutHttpAsync(url, requestBody, CommonResponseBody.Load, callback);
+            Hive5Http.Instance.PutHttpAsync(url, requestBody, CommonResponseBody.Load, callback);
         }
 
         /** 
@@ -175,9 +171,9 @@ namespace Hive5
         */
         public void DeleteMail(string mailId, Callback callback)
         {
-            var url = Hive5Client.Instance.ComposeRequestUrl(string.Format(ApiPath.Mail.Delete, mailId));
+            var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Mail.Delete, mailId));
 
-            DeleteHttpAsync(url, new { }, CommonResponseBody.Load, callback);
+            Hive5Http.Instance.DeleteHttpAsync(url, new { }, CommonResponseBody.Load, callback);
         }
 
         /** 
@@ -197,9 +193,9 @@ namespace Hive5
         */
         public void DeleteMailOverLimit(int limit, Callback callback)
         {
-            var url = Hive5Client.Instance.ComposeRequestUrl(string.Format(ApiPath.Mail.DeleteOverLimit, limit));
+            var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Mail.DeleteOverLimit, limit));
 
-            PostHttpAsync(url, new { }, CommonResponseBody.Load, callback);
+            Hive5Http.Instance.PostHttpAsync(url, new { }, CommonResponseBody.Load, callback);
         }
 
         /** 
@@ -219,9 +215,9 @@ namespace Hive5
         */
         public void DeleteMailOlderThan(int days, Callback callback)
         {
-            var url = Hive5Client.Instance.ComposeRequestUrl(string.Format(ApiPath.Mail.DeleteOlderThan, days));
+            var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Mail.DeleteOlderThan, days));
 
-            PostHttpAsync(url, new { }, CommonResponseBody.Load, callback);
+            Hive5Http.Instance.PostHttpAsync(url, new { }, CommonResponseBody.Load, callback);
         }
 
         /** 
@@ -242,14 +238,14 @@ namespace Hive5
         */
         public void AddTags(string mailId, string[] tags, Callback callback)
         {
-            var url = Hive5Client.Instance.ComposeRequestUrl(string.Format(ApiPath.Mail.AddTags, mailId));
+            var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Mail.AddTags, mailId));
 
             var requestBody = new
             {
                 tags = tags
             };
 
-            PostHttpAsync(url, requestBody, AttachMailTagsResponseBody.Load, callback);
+            Hive5Http.Instance.PostHttpAsync(url, requestBody, AttachMailTagsResponseBody.Load, callback);
         }
 
         /** 
@@ -270,14 +266,14 @@ namespace Hive5
         */
         public void RemoveTags(string mailId, string[] tags, Callback callback)
         {
-            var url = Hive5Client.Instance.ComposeRequestUrl(string.Format(ApiPath.Mail.RemoveTags, mailId));
+            var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Mail.RemoveTags, mailId));
 
             var requestBody = new
             {
                 tags = tags
             };
 
-            PostHttpAsync(url, requestBody, DetachMailTagsResponseBody.Load, callback);
+            Hive5Http.Instance.PostHttpAsync(url, requestBody, DetachMailTagsResponseBody.Load, callback);
         }
     }
 }

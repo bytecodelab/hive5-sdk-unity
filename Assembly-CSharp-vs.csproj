@@ -55,13 +55,14 @@
     <Compile Include="Assets\Hive5\Extensions\JsonDataExtensions.cs" />
     <Compile Include="Assets\Hive5\HealthCheck\Maintenance.cs" />
     <Compile Include="Assets\Hive5\HealthCheck\Plan.cs" />
+    <Compile Include="Assets\Hive5\Hive5Misc.cs" />
     <Compile Include="Assets\Hive5\Hive5Client.cs" />
     <Compile Include="Assets\Hive5\Hive5DataTable.cs" />
     <Compile Include="Assets\Hive5\Hive5Forum.cs" />
     <Compile Include="Assets\Hive5\Hive5Script.cs" />
     <Compile Include="Assets\Hive5\Hive5Auth.cs" />
     <Compile Include="Assets\Hive5\Hive5Coupon.cs" />
-    <Compile Include="Assets\Hive5\Hive5ClientHttp.cs" />
+    <Compile Include="Assets\Hive5\Hive5Http.cs" />
     <Compile Include="Assets\Hive5\Hive5Leaderboard.cs" />
     <Compile Include="Assets\Hive5\Hive5Mail.cs" />
     <Compile Include="Assets\Hive5\Hive5Purchase.cs" />

@@ -18,15 +18,11 @@ namespace hive5_sdk_unity.test
         public static string BetaHealthUrl = "http://health.hive5.io/public-test/status-warning.json";
         public static string AlphaHealthUrl = "http://health.hive5.io/public-test/status-shutdown.json";
 
-        public Hive5Client ApiClient { get; set; }
-
 
         public void InitClient()
         {
             TestConfig testValues = TestConfig.HealthCheck;
 
-            var client = Hive5Client.Instance;
-           
             Hive5.Hive5Config.AppKey = testValues.AppKey;
             Hive5.Hive5Config.Host = testValues.Host;
             Hive5.Hive5Config.XPlatformKey = testValues.XPlatformKey;
@@ -37,9 +33,8 @@ namespace hive5_sdk_unity.test
 
             try
             {
-                client.Init(uuid);
-                client.SetDebug();
-                this.ApiClient = client;
+                Hive5Client.Initialize(uuid);
+                Hive5Client.SetDebug();
             }
             catch (Exception ex)
             {

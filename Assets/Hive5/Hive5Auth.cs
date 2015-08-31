@@ -14,13 +14,14 @@ using Hive5.Util;
 namespace Hive5
 {
 	/// <summary>
-	/// Hive5 client.
+	/// Hive5 Auth features
 	/// </summary>
-#if UNITTEST
-    public partial class Hive5Client : MockMonoSingleton<Hive5Client> {
-#else
-	public partial class Hive5Client : MonoSingleton<Hive5Client> {
-#endif
+    public class Hive5Auth
+    {
+        public string AccessToken { get; private set; }
+        public string SessionKey { get; private set; }
+        public bool IsLoggedIn { get; private set; }
+
         /** 
         * @api {GET} Login 로그인
         * @apiVersion 0.3.11-beta
@@ -48,7 +49,7 @@ namespace Hive5
         public void LogIn(string os, string build, string locale, User user, Callback callback)
         {
             // Hive5 API URL 초기화
-            var url = this.ComposeRequestUrl(ApiPath.Auth.LogIn);
+            var url = Hive5Client.ComposeRequestUrl(ApiPath.Auth.LogIn);
 
             Logger.Log("login LoginState=" + this.IsLoggedIn);
 
@@ -60,12 +61,12 @@ namespace Hive5
                 locale = locale
             };
 
-            this.PostHttpAsync(url, requestBody, LoginResponseBody.Load, (response) =>
+            Hive5Http.Instance.PostHttpAsync(url, requestBody, LoginResponseBody.Load, (response) =>
             {
                 if (response.ResultCode == Hive5ErrorCode.Success)
                 {
                     var body = response.ResultData as LoginResponseBody;
-                    if(body != null)
+                    if (body != null)
                     {
                         this.SetAccessToken(body.AccessToken, body.SessionKey);
                     }
@@ -75,25 +76,25 @@ namespace Hive5
             });
         }
 
-       /** 
-        * @api {POST} Unregister 탈퇴
-        * @apiVersion 0.3.11-beta
-        * @apiName Unregister
-        * @apiGroup Auth
-        *
-        * @apiParam {Callback} callback 콜백 함수
-        *
-        * @apiSuccess {string} resultCode Error Code 참고
-        * @apiSuccess {string} resultMessage 요청 실패시 메시지
-        * @apiExample Example usage:
-        * Hive5Client hive5 = Hive5Client.Instance;
-        * hive5.Unregister(callback);
-        */
+        /** 
+         * @api {POST} Unregister 탈퇴
+         * @apiVersion 0.3.11-beta
+         * @apiName Unregister
+         * @apiGroup Auth
+         *
+         * @apiParam {Callback} callback 콜백 함수
+         *
+         * @apiSuccess {string} resultCode Error Code 참고
+         * @apiSuccess {string} resultMessage 요청 실패시 메시지
+         * @apiExample Example usage:
+         * Hive5Client hive5 = Hive5Client.Instance;
+         * hive5.Unregister(callback);
+         */
         public void Unregister(Callback callback)
         {
-            var url = this.ComposeRequestUrl(ApiPath.Auth.Unregister);
+            var url = Hive5Client.ComposeRequestUrl(ApiPath.Auth.Unregister);
 
-            PostHttpAsync(url, null, CommonResponseBody.Load, callback);
+            Hive5Http.Instance.PostHttpAsync(url, null, CommonResponseBody.Load, callback);
         }
 
         /** 
@@ -114,7 +115,7 @@ namespace Hive5
         */
         public void AcceptAgreement(string agreementName, string agreementValue, Callback callback)
         {
-            var url = this.ComposeRequestUrl(ApiPath.Auth.Agreement);
+            var url = Hive5Client.ComposeRequestUrl(ApiPath.Auth.Agreement);
 
             var requestBody = new
             {
@@ -122,8 +123,7 @@ namespace Hive5
                 partnership_agreement = agreementValue
             };
 
-            // WWW 호출
-            PostHttpAsync(url, requestBody, CommonResponseBody.Load, callback);
+            Hive5Http.Instance.PostHttpAsync(url, requestBody, CommonResponseBody.Load, callback);
         }
 
         /** 
@@ -142,13 +142,11 @@ namespace Hive5
         */
         public void ListAgreements(Callback callback)
         {
-            var url = this.ComposeRequestUrl(ApiPath.Auth.Agreement);
+            var url = Hive5Client.ComposeRequestUrl(ApiPath.Auth.Agreement);
 
-            // Hive5 API 파라미터 셋팅
             TupleList<string, string> parameters = new TupleList<string, string>();
 
-            // WWW 호출           
-            GetHttpAsync(url, parameters.data, GetAgreementsResponseBody.Load, callback);
+            Hive5Http.Instance.GetHttpAsync(url, parameters.data, GetAgreementsResponseBody.Load, callback);
         }
 
         /** 
@@ -171,11 +169,12 @@ namespace Hive5
         {
             Logger.Log("SwitchPlatform called");
 
-            var url = this.ComposeRequestUrl(ApiPath.Auth.SwitchPlatform);
+            var url = Hive5Client.ComposeRequestUrl(ApiPath.Auth.SwitchPlatform);
 
             var requestBody = new
             {
-                user = new {
+                user = new
+                {
                     platform = platform,
                     id = userId
                 }
@@ -183,80 +182,88 @@ namespace Hive5
 
             Logger.Log(url);
 
-            PostHttpAsync(url, requestBody, SwitchPlatformResponseBody.Load, callback);
+            Hive5Http.Instance.PostHttpAsync(url, requestBody, SwitchPlatformResponseBody.Load, callback);
         }
 
-		public void CreatePlatformAccount(string name, string password, Callback callback, string displayName = "", string email = "")
-		{
-			Logger.Log("CreatePlatformAccount called");
-			
-			if (string.IsNullOrEmpty (Hive5Config.XPlatformKey) == true)
-				throw new NullReferenceException ("Please fill Hive5Config.XPlatformKey"); 
+        public void CreatePlatformAccount(string name, string password, Callback callback, string displayName = "", string email = "")
+        {
+            Logger.Log("CreatePlatformAccount called");
+
+            if (string.IsNullOrEmpty(Hive5Config.XPlatformKey) == true)
+                throw new NullReferenceException("Please fill Hive5Config.XPlatformKey");
 
 
-			var url = this.ComposeRequestUrl(ApiPath.Auth.CreatePlatformAccount);
-			
-			var requestBody = new
-			{
-				name = name,
-				password = password,
-				display_name = displayName,
-				email = email,
-			};
-			
-			Logger.Log(url);
-			
-			PostHttpAsync(url, requestBody, CreatePlatformAccountResponseBody.Load, callback);
-		}
+            var url = Hive5Client.ComposeRequestUrl(ApiPath.Auth.CreatePlatformAccount);
 
-		public void CheckPlatformNameAvailability(string name, Callback callback)
-		{
-			Logger.Log("CheckPlatformNameAvailability called");
-			
-			if (string.IsNullOrEmpty (Hive5Config.XPlatformKey) == true)
-				throw new NullReferenceException ("Please fill Hive5Config.XPlatformKey"); 
+            var requestBody = new
+            {
+                name = name,
+                password = password,
+                display_name = displayName,
+                email = email,
+            };
 
-			var url = string.Format(ComposeRequestUrl(ApiPath.Auth.CheckPlatformNameAvailability), name);
-		
-			Logger.Log(url);
-		        
-			GetHttpAsync(url, null, CheckPlatformNameAvailabilityResponseBody.Load, callback);
-		}
+            Logger.Log(url);
 
-		public void CheckPlatformEmailAvailablity(string email, Callback callback)
-		{
-			Logger.Log("CheckPlatformEmailAvailablity called");
-			
-			if (string.IsNullOrEmpty (Hive5Config.XPlatformKey) == true)
-				throw new NullReferenceException ("Please fill Hive5Config.XPlatformKey"); 
+            Hive5Http.Instance.PostHttpAsync(url, requestBody, CreatePlatformAccountResponseBody.Load, callback);
+        }
 
-			var url = string.Format(ComposeRequestUrl(ApiPath.Auth.CheckPlatformEmailAvailability), email);
-			
-			Logger.Log(url);
-			
-			// WWW 호출           
-			GetHttpAsync(url, null, CheckPlatformEmailAvailabilityResponseBody.Load, callback);
-		}
+        public void CheckPlatformNameAvailability(string name, Callback callback)
+        {
+            Logger.Log("CheckPlatformNameAvailability called");
 
-		public void AuthenticatePlatformAccount(string name, string password, Callback callback)
-		{
-			Logger.Log("AuthenticatePlatformAccount called");
-			
-			if (string.IsNullOrEmpty (Hive5Config.XPlatformKey) == true)
-				throw new NullReferenceException ("Please fill Hive5Config.XPlatformKey"); 
+            if (string.IsNullOrEmpty(Hive5Config.XPlatformKey) == true)
+                throw new NullReferenceException("Please fill Hive5Config.XPlatformKey");
 
-			var url = this.ComposeRequestUrl(ApiPath.Auth.AuthenticatePlatformAccount);
-			
-			var requestBody = new
-			{
-				name = name,
-				password = password,
-			};
-			
-			Logger.Log(url);
-			
-			// WWW 호출
-			PostHttpAsync(url, requestBody, AuthenticatePlatformAccountResponseBody.Load, callback);
-		}
+            var url = string.Format(Hive5Client.ComposeRequestUrl(ApiPath.Auth.CheckPlatformNameAvailability), name);
+
+            Logger.Log(url);
+
+            Hive5Http.Instance.GetHttpAsync(url, null, CheckPlatformNameAvailabilityResponseBody.Load, callback);
+        }
+
+        public void CheckPlatformEmailAvailablity(string email, Callback callback)
+        {
+            Logger.Log("CheckPlatformEmailAvailablity called");
+
+            if (string.IsNullOrEmpty(Hive5Config.XPlatformKey) == true)
+                throw new NullReferenceException("Please fill Hive5Config.XPlatformKey");
+
+            var url = string.Format(Hive5Client.ComposeRequestUrl(ApiPath.Auth.CheckPlatformEmailAvailability), email);
+
+            Logger.Log(url);
+
+            Hive5Http.Instance.GetHttpAsync(url, null, CheckPlatformEmailAvailabilityResponseBody.Load, callback);
+        }
+
+        public void AuthenticatePlatformAccount(string name, string password, Callback callback)
+        {
+            Logger.Log("AuthenticatePlatformAccount called");
+
+            if (string.IsNullOrEmpty(Hive5Config.XPlatformKey) == true)
+                throw new NullReferenceException("Please fill Hive5Config.XPlatformKey");
+
+            var url = Hive5Client.ComposeRequestUrl(ApiPath.Auth.AuthenticatePlatformAccount);
+
+            var requestBody = new
+            {
+                name = name,
+                password = password,
+            };
+
+            Logger.Log(url);
+
+            Hive5Http.Instance.PostHttpAsync(url, requestBody, AuthenticatePlatformAccountResponseBody.Load, callback);
+        }
+
+        /// <summary>
+        /// Sets the access token.
+        /// </summary>
+        /// <param name="accessToken">Access token.</param>
+        public void SetAccessToken(string accessToken, string sessionKey)
+        {
+            this.AccessToken = accessToken;
+            this.SessionKey = sessionKey;
+        }
     }
 }

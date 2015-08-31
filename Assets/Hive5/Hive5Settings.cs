@@ -14,13 +14,10 @@ using Hive5.Util;
 namespace Hive5
 {
 	/// <summary>
-	/// Hive5 client.
+	/// Hive5 Settings features
 	/// </summary>
-#if UNITTEST
-    public partial class Hive5Client : MockMonoSingleton<Hive5Client> {
-#else
-	public partial class Hive5Client : MonoSingleton<Hive5Client> {
-#endif
+    public class Hive5Settings
+    {
 		/** 
         * @api {GET} CheckNicknameAvailability 닉네임 사용 가능여부 확인
         * @apiVersion 0.3.11-beta
@@ -38,9 +35,9 @@ namespace Hive5
         */
 		public void CheckNicknameAvailability(string nickname, Callback callback)
 		{
-			var url = Hive5Client.Instance.ComposeRequestUrl (String.Format(ApiPath.Settings.CheckNicknameAvailability, Hive5Client.EscapeData(nickname)));
+			var url = Hive5Client.ComposeRequestUrl (String.Format(ApiPath.Settings.CheckNicknameAvailability, Hive5Http.EscapeData(nickname)));
 
-			GetHttpAsync(url, null, CommonResponseBody.Load, callback);
+			Hive5Http.Instance.GetHttpAsync(url, null, CommonResponseBody.Load, callback);
 		}
 
 		/** 
@@ -60,13 +57,13 @@ namespace Hive5
         */
 		public void SetNickname(string nickname, Callback callback)
 		{
-			var url = Hive5Client.Instance.ComposeRequestUrl (ApiPath.Settings.SetNickname);
+			var url = Hive5Client.ComposeRequestUrl (ApiPath.Settings.SetNickname);
 			
 			var requestBody = new {
 				nickname = nickname,
 			};
 
-            PostHttpAsync(url, requestBody, SetNicknameResponseBody.Load, callback);
+            Hive5Http.Instance.PostHttpAsync(url, requestBody, SetNicknameResponseBody.Load, callback);
 		}
 
         /** 
@@ -85,8 +82,8 @@ namespace Hive5
 		*/
 		public void ActivatePush(Callback callback)
 		{
-		    var url = Hive5Client.Instance.ComposeRequestUrl(ApiPath.Settings.ActivatePush);
-		    Hive5Client.Instance.PostHttpAsync(url, null, PushActivateResponseBody.Load, callback);
+		    var url = Hive5Client.ComposeRequestUrl(ApiPath.Settings.ActivatePush);
+		    Hive5Http.Instance.PostHttpAsync(url, null, PushActivateResponseBody.Load, callback);
 		}
 
         /** 
@@ -105,8 +102,8 @@ namespace Hive5
 		*/
 		public void DeactivatePush(Callback callback)
 		{
-		    var url = Hive5Client.Instance.ComposeRequestUrl(ApiPath.Settings.DeactivatePush);
-		    Hive5Client.Instance.PostHttpAsync(url, null, PushActivateResponseBody.Load, callback);
+		    var url = Hive5Client.ComposeRequestUrl(ApiPath.Settings.DeactivatePush);
+		    Hive5Http.Instance.PostHttpAsync(url, null, PushActivateResponseBody.Load, callback);
 		}
 
 	   /** 
@@ -127,14 +124,14 @@ namespace Hive5
 		*/
 		public void UpdatePushToken(string platform, string token, Callback callback)
 		{
-			var url = Hive5Client.Instance.ComposeRequestUrl(ApiPath.Settings.UpdatePushToken);
+			var url = Hive5Client.ComposeRequestUrl(ApiPath.Settings.UpdatePushToken);
 			
 			var requestBody = new {
 				push_platform 	= platform,
 				push_token = token
 			};
 			
-			Hive5Client.Instance.PostHttpAsync(url, requestBody, UpdatePushTokenResponseBody.Load, callback);
+			Hive5Http.Instance.PostHttpAsync(url, requestBody, UpdatePushTokenResponseBody.Load, callback);
 		}
 	}
 }

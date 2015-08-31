@@ -166,7 +166,7 @@ namespace Hive5
 
             while (_ForceStopMonitor == false)
             {
-                var maintenance = GetMaintenance(Hive5Client.Instance.HealthCheckUrl);
+                var maintenance = GetMaintenance(Hive5Client.HealthCheckUrl);
                 bw.ReportProgress(0, maintenance);
                 Thread.Sleep(Hive5Config.AutoHealthCheckInterval);
             }

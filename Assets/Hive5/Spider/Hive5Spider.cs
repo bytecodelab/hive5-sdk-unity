@@ -43,25 +43,19 @@ namespace Hive5
         private SpiderCallback connectedCallback;
         private SpiderCallback disconnectedCallback;
 
-        private Hive5Client hive5Client { get; set; }
         private WebSocket mySocket { get; set; }
 
         #endregion 멤버들
 
         #region 생성자들
 
-        public Hive5Spider(Hive5Client client)
+        public Hive5Spider()
         {
-            if (client == null)
-                throw new NullReferenceException();
-
             this.mySocket = new WebSocket(Hive5Spider.RouterEndPoint);
             this.mySocket.OnOpen += mySocket_OnOpen;
             this.mySocket.OnError += mySocket_OnError;
             this.mySocket.OnMessage += mySocket_OnMessage;
             this.mySocket.OnClose += mySocket_OnClose;
-
-            this.hive5Client = client;
         }
 
         #endregion 생성자들
@@ -82,10 +76,10 @@ namespace Hive5
                 Realm = new Realm(channelNumber),
                 Detail = new HelloDetail()
                 {
-                    app_key = this.hive5Client.AppKey,
-                    auth_token = this.hive5Client.AccessToken,
+                    app_key = Hive5Client.AppKey,
+                    auth_token = Hive5Client.Auth.AccessToken,
                     channel_id = channelNumber,
-                    uuid = this.hive5Client.Uuid,
+                    uuid = Hive5Client.Uuid,
                 },
             };
 

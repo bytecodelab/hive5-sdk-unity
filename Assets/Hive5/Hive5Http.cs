@@ -19,9 +19,9 @@ namespace Hive5
     }
 
 #if UNITTEST
-    public partial class Hive5Client : MockMonoSingleton<Hive5Client> {
+    public class Hive5Http : MockMonoSingleton<Hive5Http> {
 #else
-	public partial class Hive5Client : MonoSingleton<Hive5Client> {
+	public class Hive5Http : MonoSingleton<Hive5Client> {
 #endif
         public string BuildResponseWith(Hive5ErrorCode code)
         {
@@ -63,10 +63,10 @@ namespace Hive5
 
             // Hive5 API Header 설정
             var headers = new WebHeaderCollection();
-            headers.Add(HeaderKey.AppKey, this.AppKey);
-            headers.Add(HeaderKey.Uuid, this.Uuid);
-            headers.Add(HeaderKey.Token, this.AccessToken);
-            headers.Add(HeaderKey.SessionKey, this.SessionKey);
+            headers.Add(HeaderKey.AppKey, Hive5Client.AppKey);
+            headers.Add(HeaderKey.Uuid, Hive5Client.Uuid);
+            headers.Add(HeaderKey.Token, Hive5Client.Auth.AccessToken);
+            headers.Add(HeaderKey.SessionKey, Hive5Client.Auth.SessionKey);
             headers.Add(HeaderKey.XPlatformKey, Hive5Config.XPlatformKey);
             headers.Add(HeaderKey.ContentType, HeaderValue.ContentType);
             headers.Add(HeaderKey.RequestId, rid.RequestId);
@@ -77,7 +77,7 @@ namespace Hive5
             {
                 newUrl = url + "?" + queryString;
             }
-            if (this._IsDebugMode) Logger.Log("WebClient reuqest URL = " + newUrl);
+            if (Hive5Client.IsDebugMode) Logger.Log("WebClient reuqest URL = " + newUrl);
 
             WebClient wc = new WebClient() 
             {
@@ -89,7 +89,7 @@ namespace Hive5
                     var requestId = e.UserState != null ? e.UserState.ToString() : "";
                     ApiRequestManager.Instance.RemoveByRequestId(requestId);
 
-                    if (this._IsDebugMode) Logger.Log("WebClient response = " + e.Result);
+                    if (Hive5Client.IsDebugMode) Logger.Log("WebClient response = " + e.Result);
                     
                     callback(Hive5Response.Load(loader, e.Result));
                 };
@@ -97,7 +97,7 @@ namespace Hive5
             wc.DownloadStringAsync(new Uri(newUrl, UriKind.RelativeOrAbsolute), rid.RequestId);
         }
 
-        private string ObjectToJson(object obj)
+        public static string ObjectToJson(object obj)
         {
             if (obj == null )
                 return string.Empty;
@@ -120,10 +120,10 @@ namespace Hive5
 
             // Hive5 API Header fi설정
             var headers = new WebHeaderCollection();
-            headers.Add(HeaderKey.AppKey, this.AppKey);
-            headers.Add(HeaderKey.Uuid, this.Uuid);
-            headers.Add(HeaderKey.Token, this.AccessToken);
-            headers.Add(HeaderKey.SessionKey, this.SessionKey);
+            headers.Add(HeaderKey.AppKey, Hive5Client.AppKey);
+            headers.Add(HeaderKey.Uuid, Hive5Client.Uuid);
+            headers.Add(HeaderKey.Token, Hive5Client.Auth.AccessToken);
+            headers.Add(HeaderKey.SessionKey, Hive5Client.Auth.SessionKey);
             headers.Add(HeaderKey.XPlatformKey, Hive5Config.XPlatformKey);
             headers.Add(HeaderKey.RequestId, rid.RequestId);
 
@@ -132,8 +132,8 @@ namespace Hive5
                 headers.Add(HeaderKey.ContentType, HeaderValue.ContentType);
             }
 
-            if (this._IsDebugMode) Logger.Log("www reuqest URL = " + url);
-            if (this._IsDebugMode) Logger.Log("www request jsonBody= " + jsonString);
+            if (Hive5Client.IsDebugMode) Logger.Log("www reuqest URL = " + url);
+            if (Hive5Client.IsDebugMode) Logger.Log("www request jsonBody= " + jsonString);
 
             // Hive5 API Request
             WebClient wc = new WebClient() 
@@ -147,7 +147,7 @@ namespace Hive5
                     ApiRequestManager.Instance.RemoveByRequestId(requestId);
 
                     string responseText = Encoding.UTF8.GetString(e.Result);
-                    if (this._IsDebugMode) Logger.Log("www response = " , responseText);
+                    if (Hive5Client.IsDebugMode) Logger.Log("www response = " , responseText);
 
                     callback(Hive5Response.Load(loader, responseText));
                 };
@@ -363,7 +363,7 @@ namespace Hive5
 
         internal void PostHttpAsync(string url, object requestBody, Hive5Response.dataLoader loader, Callback callback)
         {
-            if (!IsInitialized)
+            if (!Hive5Client.IsInitialized)
                 throw new Exception("Not initialized. Please call Init method.");
 
 #if UNITTEST
@@ -377,7 +377,7 @@ namespace Hive5
 
         internal void PostHttpAsync(string url, List<KeyValuePair<string, string>> parameters, object requestBody, Hive5Response.dataLoader loader, Callback callback)
         {
-             if (!IsInitialized)
+             if (!Hive5Client.IsInitialized)
                 throw new Exception("Not initialized. Please call Init method.");
 
 #if UNITTEST
@@ -391,7 +391,7 @@ namespace Hive5
 
         internal void PutHttpAsync(string url, object requestBody, Hive5Response.dataLoader loader, Callback callback)
         {
-            if (!IsInitialized)
+            if (!Hive5Client.IsInitialized)
                 throw new Exception("Not initialized. Please call Init method.");
 
 #if UNITTEST
@@ -405,7 +405,7 @@ namespace Hive5
 
         internal void DeleteHttpAsync(string url, object requestBody, Hive5Response.dataLoader loader, Callback callback)
         {
-            if (!IsInitialized)
+            if (!Hive5Client.IsInitialized)
                 throw new Exception("Not initialized. Please call Init method.");
 
 #if UNITTEST
@@ -422,7 +422,7 @@ namespace Hive5
 		/// </summary>
 		/// <returns>The query string.</returns>
 		/// <param name="parameters">Parameters.</param>
-		private string GetQueryString(List<KeyValuePair<string, string>> parameters)
+		public static string GetQueryString(List<KeyValuePair<string, string>> parameters)
 		{
 			if (parameters == null)
 			    return string.Empty;
@@ -442,7 +442,7 @@ namespace Hive5
 			return sb.ToString ();
 		}
 
-        private static string EscapeData(string data)
+        public static string EscapeData(string data)
         {
 #if UNITTEST
             return Uri.EscapeDataString(data);

@@ -20,13 +20,11 @@ namespace hive5_sdk_unity.test
 
         #endregion 설정값들
 
-        public Hive5Client ApiClient { get; set; }
-
         [TestInitialize]
         public void InitializeTests()
         {
             CurrentConfig = TestConfig.Default;
-            if (this.ApiClient == null)
+            if (Hive5Client.IsInitialized == false)
             {
                 TestInit();
             }
@@ -40,7 +38,7 @@ namespace hive5_sdk_unity.test
             {
                 var completion = new ManualResetEvent(false);
 
-                this.ApiClient.LogIn(OSType.Android, "1.0", "ko-KR", user, (response) =>
+                Hive5Client.Auth.LogIn(OSType.Android, "1.0", "ko-KR", user, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -72,8 +70,6 @@ namespace hive5_sdk_unity.test
         [TestMethod, TestCategory("Init")]
         public void TestInit()
         {
-            var client = Hive5Client.Instance;
-            
             Hive5.Hive5Config.AppKey = CurrentConfig.AppKey;
             Hive5.Hive5Config.Host = CurrentConfig.Host;
             Hive5.Hive5Config.XPlatformKey = CurrentConfig.XPlatformKey;
@@ -84,9 +80,8 @@ namespace hive5_sdk_unity.test
 
             try
             {
-                client.Init(uuid);
-                client.SetDebug();
-                this.ApiClient = client;
+                Hive5Client.Initialize(uuid);
+                Hive5Client.SetDebug();
             }
             catch (Exception ex)
             {
@@ -157,17 +152,17 @@ namespace hive5_sdk_unity.test
             try
             {
                  Login(CurrentConfig.TestUser);
-                string oldSessionKey = this.ApiClient.SessionKey;
+                string oldSessionKey = Hive5Client.Auth.SessionKey;
 
                 Login(CurrentConfig.TestUser);
-                string newSessionKey = this.ApiClient.SessionKey;
+                string newSessionKey = Hive5Client.Auth.SessionKey;
 
                 Assert.AreNotEqual(oldSessionKey, newSessionKey);
 
-                this.ApiClient.SetAccessToken(this.ApiClient.AccessToken, oldSessionKey);
+                Hive5Client.Auth.SetAccessToken(Hive5Client.Auth.AccessToken, oldSessionKey);
                 var completion = new ManualResetEvent(false);
 
-                this.ApiClient.CheckNicknameAvailability("불량사과", (response) =>
+                Hive5Client.Settings.CheckNicknameAvailability("불량사과", (response) =>
                 {
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.TheSessionKeyIsInvalid);
                     completion.Set();
@@ -191,7 +186,7 @@ namespace hive5_sdk_unity.test
 
                 var completion = new ManualResetEvent(false);
 
-                this.ApiClient.CheckNicknameAvailability("불량사과", (response) =>
+                Hive5Client.Settings.CheckNicknameAvailability("불량사과", (response) =>
                 {
                     // 1. 기본 반환값 검증
                     if (response.ResultCode != Hive5ErrorCode.Success)
@@ -224,7 +219,7 @@ namespace hive5_sdk_unity.test
 
                 var completion = new ManualResetEvent(false);
 
-                this.ApiClient.ListAgreements((response) =>
+                Hive5Client.Auth.ListAgreements((response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -256,7 +251,7 @@ namespace hive5_sdk_unity.test
 
                 var completion = new ManualResetEvent(false);
 
-                this.ApiClient.AcceptAgreement("1.0", "1.0", (response) =>
+                Hive5Client.Auth.AcceptAgreement("1.0", "1.0", (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -282,9 +277,9 @@ namespace hive5_sdk_unity.test
         {
             try
             {
-                Hive5.Hive5Client.Instance.Init("unregister_test");
+                Hive5Client.Initialize("unregister_test");
                 Login(null);
-                Hive5.Hive5Client.Instance.Unregister((response) => {
+                Hive5Client.Auth.Unregister((response) => {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
                     Assert.IsTrue(string.IsNullOrEmpty(response.ResultMessage));
@@ -305,7 +300,7 @@ namespace hive5_sdk_unity.test
 
             string name = DateTime.Now.Ticks.ToString().ToString();
             string email = string.Format("{0}@example.com", name);
-            this.ApiClient.CreatePlatformAccount(name, "12345678", (response) =>
+            Hive5Client.Auth.CreatePlatformAccount(name, "12345678", (response) =>
             {
                 // 1. 기본 반환값 검증
                 Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -330,7 +325,7 @@ namespace hive5_sdk_unity.test
             string email = string.Format("{0}@example.com", name);
 
             var completion1 = new ManualResetEvent(false);
-            this.ApiClient.CheckPlatformNameAvailability(name, (response) =>
+            Hive5Client.Auth.CheckPlatformNameAvailability(name, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -343,7 +338,7 @@ namespace hive5_sdk_unity.test
             completion1.WaitOne();
 
             var completion2 = new ManualResetEvent(false);
-            this.ApiClient.CreatePlatformAccount(name, "12345678", (response) =>
+            Hive5Client.Auth.CreatePlatformAccount(name, "12345678", (response) =>
             {
                 // 1. 기본 반환값 검증
                 Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -362,7 +357,7 @@ namespace hive5_sdk_unity.test
             completion2.WaitOne();
 
             var completion3 = new ManualResetEvent(false);
-            this.ApiClient.CheckPlatformNameAvailability(name, (response) =>
+            Hive5Client.Auth.CheckPlatformNameAvailability(name, (response) =>
             {
                 // 1. 기본 반환값 검증
                 Assert.IsTrue(response.ResultCode == Hive5ErrorCode.AlreadyExistingPlatformUserName); // 일단 반환성공
@@ -382,7 +377,7 @@ namespace hive5_sdk_unity.test
             string email = string.Format("{0}@example.com", name);
 
             var completion1 = new ManualResetEvent(false);
-            this.ApiClient.CheckPlatformEmailAvailablity(email, (response) =>
+            Hive5Client.Auth.CheckPlatformEmailAvailablity(email, (response) =>
             {
                 // 1. 기본 반환값 검증
                 Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -395,7 +390,7 @@ namespace hive5_sdk_unity.test
             completion1.WaitOne();
 
             var completion2 = new ManualResetEvent(false);
-            this.ApiClient.CreatePlatformAccount(name, "12345678", (response) =>
+            Hive5Client.Auth.CreatePlatformAccount(name, "12345678", (response) =>
             {
                 // 1. 기본 반환값 검증
                 Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -414,7 +409,7 @@ namespace hive5_sdk_unity.test
             completion2.WaitOne();
 
             var completion3 = new ManualResetEvent(false);
-            this.ApiClient.CheckPlatformEmailAvailablity(email, (response) =>
+            Hive5Client.Auth.CheckPlatformEmailAvailablity(email, (response) =>
             {
                 // 1. 기본 반환값 검증
                 Assert.IsTrue(response.ResultCode == Hive5ErrorCode.AlreadyExistingPlatformUserEmail); // 일단 반환성공
@@ -438,7 +433,7 @@ namespace hive5_sdk_unity.test
             string platformUserId = "";
 
             var completion1 = new ManualResetEvent(false);
-            this.ApiClient.CreatePlatformAccount(name, password, (response) =>
+            Hive5Client.Auth.CreatePlatformAccount(name, password, (response) =>
             {
                 // 1. 기본 반환값 검증
                 Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -458,7 +453,7 @@ namespace hive5_sdk_unity.test
             completion1.WaitOne();
 
             var completion2 = new ManualResetEvent(false);
-            this.ApiClient.AuthenticatePlatformAccount(name, password, (response) =>
+            Hive5Client.Auth.AuthenticatePlatformAccount(name, password, (response) =>
             {
                 // 1. 기본 반환값 검증
                 Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -476,7 +471,7 @@ namespace hive5_sdk_unity.test
             completion2.WaitOne();
 
             var completion3 = new ManualResetEvent(false);
-            this.ApiClient.AuthenticatePlatformAccount(name, wrongPassword, (response) =>
+            Hive5Client.Auth.AuthenticatePlatformAccount(name, wrongPassword, (response) =>
             {
                 // 1. 기본 반환값 검증
                 Assert.IsTrue(response.ResultCode == Hive5ErrorCode.InvalidNameOrPassword); // 일단 반환성공
@@ -504,7 +499,7 @@ namespace hive5_sdk_unity.test
 
                 var completion = new ManualResetEvent(false);
 
-                this.ApiClient.GetMyScore(CurrentConfig.LeaderBoardKey, 0, 100, (response) =>
+                Hive5Client.Leaderboard.GetMyScore(CurrentConfig.LeaderBoardKey, 0, 100, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -537,7 +532,7 @@ namespace hive5_sdk_unity.test
 
                 var completion = new ManualResetEvent(false);
 
-                this.ApiClient.ListScores(CurrentConfig.LeaderBoardKey, CurrentConfig.ObjectClasses, 0, 100, null, null, (response) =>
+                Hive5Client.Leaderboard.ListScores(CurrentConfig.LeaderBoardKey, CurrentConfig.ObjectClasses, 0, 100, null, null, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -579,7 +574,7 @@ namespace hive5_sdk_unity.test
 
                 var completion = new ManualResetEvent(false);
 
-                this.ApiClient.SubmitScore(CurrentConfig.LeaderBoardKey, 100, "", (response) =>
+                Hive5Client.Leaderboard.SubmitScore(CurrentConfig.LeaderBoardKey, 100, "", (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -614,7 +609,7 @@ namespace hive5_sdk_unity.test
                 {
                     "sword",
                 };
-                this.ApiClient.ListSocialScores(CurrentConfig.LeaderBoardKey, objectClasses, (response) =>
+                Hive5Client.Leaderboard.ListSocialScores(CurrentConfig.LeaderBoardKey, objectClasses, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -667,7 +662,7 @@ namespace hive5_sdk_unity.test
                 string createdMailId = CreateMail("aaaa", CurrentConfig.TestUser, "", initialTags);
                 
                 string[] removeTags = new string[] { "reward" };
-                this.ApiClient.RemoveTags(createdMailId, removeTags, (response) =>
+                Hive5Client.Mail.RemoveTags(createdMailId, removeTags, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -696,7 +691,7 @@ namespace hive5_sdk_unity.test
 
             Hive5Response body = null;
              
-            this.ApiClient.AddTags(mailId, tags, (response) =>
+            Hive5Client.Mail.AddTags(mailId, tags, (response) =>
             {
                 body = response;        
                 completion.Set();
@@ -748,7 +743,7 @@ namespace hive5_sdk_unity.test
 
                 string sampleTag = "reward";
 
-                this.ApiClient.CountMail(OrderType.DESC, "0", sampleTag, (response) =>
+                Hive5Client.Mail.CountMail(OrderType.DESC, "0", sampleTag, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -781,7 +776,7 @@ namespace hive5_sdk_unity.test
 
                 string sampleTag = "reward";
 
-                this.ApiClient.ListMails(10, sampleTag, OrderType.DESC, 0, (response) =>
+                Hive5Client.Mail.ListMails(10, sampleTag, OrderType.DESC, 0, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -817,7 +812,7 @@ namespace hive5_sdk_unity.test
                 string createMailId = CreateMail("메일삭제 테스트메일입니다.", CurrentConfig.TestUser, "", null);
 
                 // 그 다음 삭제
-                this.ApiClient.DeleteMail(createMailId, (response) =>
+                Hive5Client.Mail.DeleteMail(createMailId, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -860,7 +855,7 @@ namespace hive5_sdk_unity.test
             string createdMailId = null;
             var completion = new ManualResetEvent(false);
 
-            this.ApiClient.CreateMail(content, receiver, extraJson, tags, (response) =>
+            Hive5Client.Mail.CreateMail(content, receiver, extraJson, tags, (response) =>
             {
                 // 1. 기본 반환값 검증
                 Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -891,7 +886,7 @@ namespace hive5_sdk_unity.test
 
                 string createMailId = CreateMail("메일수정 테스트메일입니다.", CurrentConfig.TestUser, "", null);
 
-                this.ApiClient.UpdateMail(createMailId, "수정된 메일수정 테스트메일입니다.", "", (response) =>
+                Hive5Client.Mail.UpdateMail(createMailId, "수정된 메일수정 테스트메일입니다.", "", (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -927,7 +922,7 @@ namespace hive5_sdk_unity.test
                     echo = "gilbok"
                 };
 
-                this.ApiClient.RunScript("echo", parameters, (response) =>
+                Hive5Client.Script.RunScript("echo", parameters, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -962,7 +957,7 @@ namespace hive5_sdk_unity.test
                 var someValue = "dummy";
                 var parameters = new { echo =  someValue};
 
-                this.ApiClient.CheckScript("echo", parameters, (response) =>
+                Hive5Client.Script.CheckScript("echo", parameters, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -1002,7 +997,7 @@ namespace hive5_sdk_unity.test
             };
 
             // alpha 서버에서는 없는 프로시저 오류발생할 수 있음.
-            this.ApiClient.RunScript("z_unittest_callee", parameterObject, (response) =>
+            Hive5Client.Script.RunScript("z_unittest_callee", parameterObject, (response) =>
             {
                 if (response.ResultCode != Hive5ErrorCode.Success)
                 {
@@ -1041,6 +1036,8 @@ namespace hive5_sdk_unity.test
             try
             {
                 Login(CurrentConfig.TestUser);
+                List<User> friends = new List<User>() {CurrentConfig.Friend};
+                AddFriends("default", friends);
 
                 var body = CreateGooglePurchase();
 
@@ -1061,7 +1058,9 @@ namespace hive5_sdk_unity.test
 
             CreateGooglePurchaseResponseBody body = null;
 
-            this.ApiClient.CreateGooglePurchase(productCode, CurrentConfig.Friend, (response) =>
+            
+
+            Hive5Client.Purchase.CreateGooglePurchase(productCode, CurrentConfig.Friend, (response) =>
             {
                 // 1. 기본 반환값 검증
                 Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -1101,7 +1100,7 @@ namespace hive5_sdk_unity.test
                 string purchaseData = "{\"purchaseToken\":\"\",\"developerPayload\":\"\",\"packageName\":\"\",\"purchaseState\":,\"orderId\":\"\",\"purchaseTime\":,\"productId\":\"\"}";
                 string signature = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx==";
 
-                this.ApiClient.CompleteGooglePurchase(id, listPrice, purchasePrice, currency, purchaseData, signature, "", (response) =>
+                Hive5Client.Purchase.CompleteGooglePurchase(id, listPrice, purchasePrice, currency, purchaseData, signature, "", (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -1148,7 +1147,7 @@ namespace hive5_sdk_unity.test
 
             CreateNaverPurchaseResponseBody body = null;
 
-            this.ApiClient.CreateNaverPurchase(productCode, payement_sequence, "hive5", 1, (response) =>
+            Hive5Client.Purchase.CreateNaverPurchase(productCode, payement_sequence, "hive5", 1, (response) =>
             {
                 // 1. 기본 반환값 검증
                 Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -1186,7 +1185,7 @@ namespace hive5_sdk_unity.test
                 long purchasePrice = 1100;
                 string currency = null;
 
-                this.ApiClient.CompleteNaverPurchase(id, listPrice, purchasePrice, currency, "", (response) =>
+                Hive5Client.Purchase.CompleteNaverPurchase(id, listPrice, purchasePrice, currency, "", (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -1232,7 +1231,7 @@ namespace hive5_sdk_unity.test
 
             CreateApplePurchaseResponseBody body = null;
 
-            this.ApiClient.CreateGooglePurchase(productCode, CurrentConfig.Friend, (response) =>
+            Hive5Client.Purchase.CreateGooglePurchase(productCode, CurrentConfig.Friend, (response) =>
             {
                 // 1. 기본 반환값 검증
                 Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -1272,7 +1271,7 @@ namespace hive5_sdk_unity.test
                 string receipt = "{\"purchaseToken\":\"\",\"developerPayload\":\"\",\"packageName\":\"\",\"purchaseState\":,\"orderId\":\"\",\"purchaseTime\":,\"productId\":\"\"}";
                 bool isSandbox = false;
 
-                this.ApiClient.CompleteApplePurchase(id, listPrice, purchasePrice, currency, receipt, isSandbox, "", (response) =>
+                Hive5Client.Purchase.CompleteApplePurchase(id, listPrice, purchasePrice, currency, receipt, isSandbox, "", (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -1312,7 +1311,7 @@ namespace hive5_sdk_unity.test
 
                 var coupon = "555NL985DDLBBYGN"; // 테스트 전에 알파서버서 발급하기
                 
-                this.ApiClient.RedeemCoupon(coupon, (response) =>
+                Hive5Client.Coupon.RedeemCoupon(coupon, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -1329,7 +1328,7 @@ namespace hive5_sdk_unity.test
 
                 var completion2 = new ManualResetEvent(false);
 
-                this.ApiClient.RedeemCoupon(coupon, (response) =>
+                Hive5Client.Coupon.RedeemCoupon(coupon, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.ThePlayerHasAlreadyConsumedTheCoupon); // 일단 반환성공
@@ -1358,7 +1357,7 @@ namespace hive5_sdk_unity.test
 
                 var completion = new ManualResetEvent(false);
 
-                this.ApiClient.UpdatePushToken (PlatformType.Kakao, "test_token", (response) =>
+                Hive5Client.Settings.UpdatePushToken (PlatformType.Kakao, "test_token", (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -1388,7 +1387,7 @@ namespace hive5_sdk_unity.test
 
                 var completion = new ManualResetEvent(false);
 
-                this.ApiClient.ActivatePush((response) =>
+                Hive5Client.Settings.ActivatePush((response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -1418,7 +1417,7 @@ namespace hive5_sdk_unity.test
 
                 var completion = new ManualResetEvent(false);
 
-                this.ApiClient.DeactivatePush((response) =>
+                Hive5Client.Settings.DeactivatePush((response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -1451,7 +1450,7 @@ namespace hive5_sdk_unity.test
 
                 var completion = new ManualResetEvent(false);
 
-                this.ApiClient.ListFriends("default", (response) =>
+                Hive5Client.SocialGraph.ListFriends("default", (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -1480,28 +1479,21 @@ namespace hive5_sdk_unity.test
             {
                 Login(CurrentConfig.TestUser);
 
-                var completion = new ManualResetEvent(false);
-
                 var friends = new List<User>()
                 { 
-                    new User() { platform = "anonymous", id = "13" }, 
+                    new User() { platform = "anonymous", id = "14" }, 
                     new User() { platform = "kakao", id = "-881979482072261765" },
                 };
 
-                this.ApiClient.AddFriends("default", friends, (response) =>
-                {
-                    // 1. 기본 반환값 검증
-                    Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
-                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                    Assert.IsTrue(response.ResultData is AddFriendsResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+                var response = AddFriends("default", friends);
 
-                    // 2. 프로퍼티 검증
-                    AddFriendsResponseBody body = response.ResultData as AddFriendsResponseBody;
-                   
-                    completion.Set();
-                });
+                // 1. 기본 반환값 검증
+                Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
+                Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                Assert.IsTrue(response.ResultData is AddFriendsResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
 
-                completion.WaitOne();
+                // 2. 프로퍼티 검증
+                AddFriendsResponseBody body = response.ResultData as AddFriendsResponseBody;
             }
             catch (Exception ex)
             {
@@ -1509,6 +1501,20 @@ namespace hive5_sdk_unity.test
             }
         }
 
+        private Hive5Response AddFriends(string group, List<User> friends)
+        {
+            Hive5Response responseReturn = null;
+            var completion = new ManualResetEvent(false);
+            Hive5Client.SocialGraph.AddFriends(group, friends, (response) =>
+            {
+                responseReturn = response;
+                completion.Set();
+            });
+
+            completion.WaitOne();
+
+            return responseReturn;
+        }
 
         [TestMethod, TestCategory("Social Graph")]
         public void Test친구리스트업데이트UpdateFriends()
@@ -1526,7 +1532,7 @@ namespace hive5_sdk_unity.test
                     new Friend() { platform = "kakao", id = "-881979482072261765" },
                 };
 
-                this.ApiClient.UpdateFriends("default", friends, (response) =>
+                Hive5Client.SocialGraph.UpdateFriends("default", friends, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공

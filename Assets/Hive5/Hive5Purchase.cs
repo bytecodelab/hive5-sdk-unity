@@ -14,13 +14,10 @@ using Hive5.Util;
 namespace Hive5
 {
 	/// <summary>
-	/// Hive5 client.
+	/// Hive5 Purchase features
 	/// </summary>
-#if UNITTEST
-    public partial class Hive5Client : MockMonoSingleton<Hive5Client> {
-#else
-	public partial class Hive5Client : MonoSingleton<Hive5Client> {
-#endif
+    public class Hive5Purchase
+    {
 		/** 
 		* @api {POST} CreateNaverPurchase 네이버 결제 시작
 		* @apiVersion 0.3.11-beta
@@ -42,7 +39,7 @@ namespace Hive5
 		public void CreateNaverPurchase(string productCode, string paymentSequence, string receiverPlatform, long receiverId, Callback callback)
 		{
 			// Hive5 API URL 초기화
-			var url = Hive5Client.Instance.ComposeRequestUrl(ApiPath.Purchase.CreateNaverPurchase);
+			var url = Hive5Client.ComposeRequestUrl(ApiPath.Purchase.CreateNaverPurchase);
 			
 			var requestBody = new {
 				product_code 		= productCode,
@@ -55,7 +52,7 @@ namespace Hive5
 			};
 			
 			// WWW 호출
-            PostHttpAsync(url, requestBody, CreateNaverPurchaseResponseBody.Load, callback);
+            Hive5Http.Instance.PostHttpAsync(url, requestBody, CreateNaverPurchaseResponseBody.Load, callback);
 		}
 		
 		/** 
@@ -79,7 +76,7 @@ namespace Hive5
 		*/
 		public void CompleteNaverPurchase(long id, long listPrice, long purchasedPrice, string currency, string paramsJson, Callback callback)
 		{
-			var url = Hive5Client.Instance.ComposeRequestUrl(string.Format(ApiPath.Purchase.CompleteNaverPurchase, id));
+			var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Purchase.CompleteNaverPurchase, id));
 			
             // params 란 predefined 를 사용하기 힘들기 때문에
             // List<KeyValuePair<string, string>>를 쓸 수 밖에 없음
@@ -91,7 +88,7 @@ namespace Hive5
                 new KeyValuePair<string, string>("params", paramsJson.ToString()),
             };
 
-            PostHttpAsync(url, requestBody, CompleteNaverPurchaseResponseBody.Load, callback);
+            Hive5Http.Instance.PostHttpAsync(url, requestBody, CompleteNaverPurchaseResponseBody.Load, callback);
 		}
 
         /** 
@@ -111,9 +108,9 @@ namespace Hive5
 		*/
         public void GetNaverPurchaseStatus(long id, Callback callback)
         {
-            var url = Hive5Client.Instance.ComposeRequestUrl(string.Format(ApiPath.Purchase.GetNaverPurchaseStatus, id));
+            var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Purchase.GetNaverPurchaseStatus, id));
 
-            GetHttpAsync(url, null, GetPurchaseStatusResponseBody.Load, callback);
+            Hive5Http.Instance.GetHttpAsync(url, null, GetPurchaseStatusResponseBody.Load, callback);
         }
          
 		/** 
@@ -134,14 +131,14 @@ namespace Hive5
 		*/
 		public void CreateGooglePurchase(string productCode, User receiver, Callback callback)
 		{
-			var url = Hive5Client.Instance.ComposeRequestUrl(ApiPath.Purchase.CreateGooglePurchase);
+			var url = Hive5Client.ComposeRequestUrl(ApiPath.Purchase.CreateGooglePurchase);
 			
 			var requestBody = new {
 				product_code = productCode,
 				receiver = receiver,
 			};
 			
-            PostHttpAsync(url, requestBody, CreateGooglePurchaseResponseBody.Load, callback);
+            Hive5Http.Instance.PostHttpAsync(url, requestBody, CreateGooglePurchaseResponseBody.Load, callback);
 		}
 		
 		/** 
@@ -166,7 +163,7 @@ namespace Hive5
 		*/
 		public void CompleteGooglePurchase(string id, long listPrice, long purchasedPrice, string currency, string purchaseData, string signature, string paramsJson, Callback callback)
 		{
-			var url = Hive5Client.Instance.ComposeRequestUrl(string.Format(ApiPath.Purchase.CompleteGooglePurchase, id));
+			var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Purchase.CompleteGooglePurchase, id));
 			
             // params 란 predefined 를 사용하기 힘들기 때문에
             // List<KeyValuePair<string, string>>를 쓸 수 밖에 없음
@@ -180,7 +177,7 @@ namespace Hive5
                 new KeyValuePair<string, string>("params", paramsJson.ToString()),
             };
 			
-            PostHttpAsync(url, requestBody, CompleteGooglePurchaseResponseBody.Load, callback);
+            Hive5Http.Instance.PostHttpAsync(url, requestBody, CompleteGooglePurchaseResponseBody.Load, callback);
 		}
 
         /** 
@@ -200,9 +197,9 @@ namespace Hive5
 		*/
         public void GetGooglePurchaseStatus(long id, Callback callback)
         {
-            var url = Hive5Client.Instance.ComposeRequestUrl(string.Format(ApiPath.Purchase.GetGooglePurchaseStatus, id));
+            var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Purchase.GetGooglePurchaseStatus, id));
 
-            GetHttpAsync(url, null, GetPurchaseStatusResponseBody.Load, callback);
+            Hive5Http.Instance.GetHttpAsync(url, null, GetPurchaseStatusResponseBody.Load, callback);
         }
 
 		/** 
@@ -224,7 +221,7 @@ namespace Hive5
 		*/
 		public void CreateApplePurchase(string productCode, string receiverPlatform, long receiverId, Callback callback)
 		{
-			var url = Hive5Client.Instance.ComposeRequestUrl(ApiPath.Purchase.CreateApplePurchase);
+			var url = Hive5Client.ComposeRequestUrl(ApiPath.Purchase.CreateApplePurchase);
 			
 			var requestBody = new {
 				product_code = productCode,
@@ -234,7 +231,7 @@ namespace Hive5
                 }
 			};
 			
-            PostHttpAsync(url, requestBody, CreateApplePurchaseResponseBody.Load, callback);
+            Hive5Http.Instance.PostHttpAsync(url, requestBody, CreateApplePurchaseResponseBody.Load, callback);
 		}
 		
 	   /** 
@@ -260,7 +257,7 @@ namespace Hive5
 		*/
 		public void CompleteApplePurchase(long id, long listPrice, long purchasedPrice, string currency, string receipt, bool isSandbox, string paramsJson, Callback callback)
 		{
-			var url = Hive5Client.Instance.ComposeRequestUrl(string.Format(ApiPath.Purchase.CompleteApplePurchase, id));
+			var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Purchase.CompleteApplePurchase, id));
 			
             // params 란 predefined 를 사용하기 힘들기 때문에
             // List<KeyValuePair<string, string>>를 쓸 수 밖에 없음
@@ -274,7 +271,7 @@ namespace Hive5
                 new KeyValuePair<string, string>("params", paramsJson.ToString()),
             };
 			
-            PostHttpAsync(url, requestBody, CompleteApplePurchaseResponseBody.Load, callback);
+            Hive5Http.Instance.PostHttpAsync(url, requestBody, CompleteApplePurchaseResponseBody.Load, callback);
 		}
 
        /** 
@@ -294,9 +291,9 @@ namespace Hive5
 		*/
         public void GetApplePurchaseStatus(long id, Callback callback)
         {
-            var url = Hive5Client.Instance.ComposeRequestUrl(string.Format(ApiPath.Purchase.GetApplePurchaseStatus, id));
+            var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Purchase.GetApplePurchaseStatus, id));
 
-            GetHttpAsync(url, null, GetPurchaseStatusResponseBody.Load, callback);
+            Hive5Http.Instance.GetHttpAsync(url, null, GetPurchaseStatusResponseBody.Load, callback);
         }
 	}
 }

@@ -13,15 +13,11 @@ using Hive5.Util;
 
 namespace Hive5
 {
-    /// <summary>
-    /// Hive5 client.
-    /// </summary>
-#if UNITTEST
-    public partial class Hive5Client : MockMonoSingleton<Hive5Client>
+	/// <summary>
+	/// Hive5 Leaderboard features
+	/// </summary>
+    public class Hive5Leaderboard
     {
-#else
-	public partial class Hive5Client : MonoSingleton<Hive5Client> {
-#endif
        /** 
         * @api {POST} SubmitScore 점수 기록
         * @apiVersion 0.3.11-beta
@@ -41,7 +37,7 @@ namespace Hive5
         */
         public void SubmitScore(string leaderboardKey, int score, string extrasJson, Callback callback)
         {
-			var url = Hive5Client.Instance.ComposeRequestUrl(string.Format(ApiPath.Leaderboard.SubmitScore, leaderboardKey));
+			var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Leaderboard.SubmitScore, leaderboardKey));
 
             var requestBody = new
             {
@@ -49,7 +45,7 @@ namespace Hive5
                 extras = extrasJson,
             };
 
-            PostHttpAsync(url, requestBody, SubmitScoreResponseBody.Load, callback);
+            Hive5Http.Instance.PostHttpAsync(url, requestBody, SubmitScoreResponseBody.Load, callback);
         }
 
         /** 
@@ -73,7 +69,7 @@ namespace Hive5
         */
         public void ListScores(string leaderboardKey, List<string> objectClasses, long rankMin, long rankMax, long? rangeMin, long? rangeMax, Callback callback)
         {
-            var url = Hive5Client.Instance.ComposeRequestUrl(string.Format(ApiPath.Leaderboard.ListScores, leaderboardKey));
+            var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Leaderboard.ListScores, leaderboardKey));
 
             // Hive5 API 파라미터 셋팅
             TupleList<string, string> parameters = new TupleList<string, string>();
@@ -96,7 +92,7 @@ namespace Hive5
                 parameters.Add("range_max", rangeMax.ToString());
 
             // WWW 호출
-            GetHttpAsync(url, parameters.data, ListScoresResponseBody.Load, callback);
+            Hive5Http.Instance.GetHttpAsync(url, parameters.data, ListScoresResponseBody.Load, callback);
         }
 
         /** 
@@ -120,7 +116,7 @@ namespace Hive5
         */
         public void GetMyScore(string leaderboardKey, long rangeMin, long rangeMax, Callback callback)
         {
-            var url = Hive5Client.Instance.ComposeRequestUrl(string.Format(ApiPath.Leaderboard.GetMyScore, leaderboardKey));
+            var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Leaderboard.GetMyScore, leaderboardKey));
 
             // Hive5 API 파라미터 셋팅
             TupleList<string, string> parameters = new TupleList<string, string>();
@@ -129,7 +125,7 @@ namespace Hive5
             parameters.Add("range_max", rangeMax.ToString());
 
             // WWW 호출
-            GetHttpAsync(url, parameters.data, GetMyScoreResponseBody.Load, callback);
+            Hive5Http.Instance.GetHttpAsync(url, parameters.data, GetMyScoreResponseBody.Load, callback);
         }
 
         /** 
@@ -149,7 +145,7 @@ namespace Hive5
         */
         public void ListSocialScores(string leaderboardKey, List<string> objectClasses, Callback callback)
         {
-            var url = Hive5Client.Instance.ComposeRequestUrl(string.Format(ApiPath.Leaderboard.ListSocialScores, leaderboardKey));
+            var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Leaderboard.ListSocialScores, leaderboardKey));
 
             // Hive5 API 파라미터 셋팅
             TupleList<string, string> parameters = new TupleList<string, string>();
@@ -164,7 +160,7 @@ namespace Hive5
             }
 
             // WWW 호출
-            GetHttpAsync(url, parameters.data, GetSocialScoresResponseBody.Load, callback);
+            Hive5Http.Instance.GetHttpAsync(url, parameters.data, GetSocialScoresResponseBody.Load, callback);
         }
     }
 }

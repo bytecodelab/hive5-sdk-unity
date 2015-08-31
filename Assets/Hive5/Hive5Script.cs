@@ -12,14 +12,11 @@ using Hive5.Util;
 
 namespace Hive5
 {
-   	/// <summary>
-	/// Hive5 client.
+	/// <summary>
+	/// Hive5 Script features
 	/// </summary>
-#if UNITTEST
-    public partial class Hive5Client : MockMonoSingleton<Hive5Client> {
-#else
-	public partial class Hive5Client : MonoSingleton<Hive5Client> {
-#endif
+    public class Hive5Script
+    {
         /** 
 		* @api {POST} RunScript 구글 결제 상태확인
 		* @apiVersion 0.3.11-beta
@@ -42,9 +39,9 @@ namespace Hive5
             string paramsString = LitJson.JsonMapper.ToJson(parameters);
             string scriptParams = string.Format("{{\"params\":{0} }}", paramsString);
 
-			var url = Hive5Client.Instance.ComposeRequestUrl(String.Format(ApiPath.Script.RunScript, Hive5.Hive5Client.EscapeData(name)));
+			var url = Hive5Client.ComposeRequestUrl(String.Format(ApiPath.Script.RunScript, Hive5.Hive5Http.EscapeData(name)));
 
-			PostHttpAsync(url, null, scriptParams, RunScriptResponseBody.Load, callback);	
+			Hive5Http.Instance.PostHttpAsync(url, null, scriptParams, RunScriptResponseBody.Load, callback);	
 		}
 
         /** 
@@ -68,9 +65,9 @@ namespace Hive5
             string paramsString = LitJson.JsonMapper.ToJson(parameters);
             string scriptParams = string.Format("{{\"params\":{0} }}", paramsString);
 
-			var url = Hive5Client.Instance.ComposeRequestUrl(String.Format(ApiPath.Script.CheckScript, Hive5Client.EscapeData(name)));
+			var url = Hive5Client.ComposeRequestUrl(String.Format(ApiPath.Script.CheckScript, Hive5Http.EscapeData(name)));
 
-			PostHttpAsync(url, null, scriptParams, RunScriptResponseBody.Load, callback);	
+			Hive5Http.Instance.PostHttpAsync(url, null, scriptParams, RunScriptResponseBody.Load, callback);	
 		}
     }
 }

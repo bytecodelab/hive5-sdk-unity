@@ -14,13 +14,10 @@ using Hive5.Util;
 namespace Hive5
 {
 	/// <summary>
-	/// Hive5 client.
+	/// Hive5 SocialGraph features
 	/// </summary>
-#if UNITTEST
-    public partial class Hive5Client : MockMonoSingleton<Hive5Client> {
-#else
-	public partial class Hive5Client : MonoSingleton<Hive5Client> {
-#endif
+    public class Hive5SocialGraph
+    {
 		/** 
 		* @api {POST} UpdateFriends 친구 리스트 업데이트
 		* @apiVersion 0.3.11-beta
@@ -39,14 +36,14 @@ namespace Hive5
 		*/
 		public void UpdateFriends(string groupName, List<Friend> friends, Callback callback)
 		{
-			var url = Hive5Client.Instance.ComposeRequestUrl(ApiPath.SocialGraph.UpdateFriends);
+			var url = Hive5Client.ComposeRequestUrl(ApiPath.SocialGraph.UpdateFriends);
 			
 			var requestBody = new {
 				group=groupName,
 				friends = friends,
 			};
 			
-            PostHttpAsync(url, requestBody, UpdateFriendsResponseBody.Load, callback);
+            Hive5Http.Instance.PostHttpAsync(url, requestBody, UpdateFriendsResponseBody.Load, callback);
 		}
 	
 		/** 
@@ -67,14 +64,14 @@ namespace Hive5
 		*/
 		public void AddFriends(string groupName, List<User> friends, Callback callback)
 		{
-			var url = Hive5Client.Instance.ComposeRequestUrl(ApiPath.SocialGraph.AddFriends);
+			var url = Hive5Client.ComposeRequestUrl(ApiPath.SocialGraph.AddFriends);
 			
 			var requestBody = new {
 				group=groupName,
 				friends = friends,
 			};
 			
-            PostHttpAsync(url, requestBody, AddFriendsResponseBody.Load, callback);
+            Hive5Http.Instance.PostHttpAsync(url, requestBody, AddFriendsResponseBody.Load, callback);
 		}
 	
 		/** 
@@ -95,14 +92,14 @@ namespace Hive5
 		*/
 		public void RemoveFriends(string groupName, List<Friend> friends, Callback callback)
 		{
-			var url = Hive5Client.Instance.ComposeRequestUrl(ApiPath.SocialGraph.RemoveFriends);
+			var url = Hive5Client.ComposeRequestUrl(ApiPath.SocialGraph.RemoveFriends);
 			
 			var requestBody = new {
 				group=groupName,
 				friends = friends,
 			};
 		
-            PostHttpAsync(url, requestBody, RemoveFriendsResponseBody.Load, callback);
+            Hive5Http.Instance.PostHttpAsync(url, requestBody, RemoveFriendsResponseBody.Load, callback);
 		}
 
 		/** 
@@ -122,14 +119,14 @@ namespace Hive5
 		*/
 		public void ListFriends(string groupName, Callback callback)
 		{
-			var url = Hive5Client.Instance.ComposeRequestUrl (ApiPath.SocialGraph.ListFriends);
+			var url = Hive5Client.ComposeRequestUrl (ApiPath.SocialGraph.ListFriends);
 			
 			// Hive5 API 파라미터 셋팅
 			TupleList<string, string> requestParam = new TupleList<string, string>();
 			requestParam.Add ("group", groupName);
 
 			// WWW 호출
-            GetHttpAsync(url, requestParam.data, ListFriendsResponseBody.Load, callback);
+            Hive5Http.Instance.GetHttpAsync(url, requestParam.data, ListFriendsResponseBody.Load, callback);
 		}
 	}
 

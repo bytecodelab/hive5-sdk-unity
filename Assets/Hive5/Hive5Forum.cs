@@ -13,13 +13,10 @@ using Hive5.Util;
 namespace Hive5
 {
 	/// <summary>
-	/// Hive5 client.
+	/// Hive5 Forum features
 	/// </summary>
-#if UNITTEST
-    public partial class Hive5Client : MockMonoSingleton<Hive5Client> {
-#else
-	public partial class Hive5Client : MonoSingleton<Hive5Client> {
-#endif
+    public class Hive5Forum
+    {
         /** 
 		* @api {POST} ListThreads 포럼쓰레드 목록 얻어오기
 		* @apiVersion 0.3.11-beta
@@ -39,7 +36,7 @@ namespace Hive5
 		*/
 		public void ListThreads(string forumKey, int? offset, int? limit, Callback callback)
 		{
-            var url = Hive5Client.Instance.ComposeRequestUrl(string.Format(ApiPath.Forum.ListThreads, forumKey));
+            var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Forum.ListThreads, forumKey));
 
             var parameter = new List<KeyValuePair<string, string>>();
             if (offset != null)
@@ -52,7 +49,7 @@ namespace Hive5
                 parameter.Add(new KeyValuePair<string, string>("limit", limit.ToString()));
             }
          
-            GetHttpAsync(url, parameter, ListThreadsResponseBody.Load, callback);
+            Hive5Http.Instance.GetHttpAsync(url, parameter, ListThreadsResponseBody.Load, callback);
 		}	
 
         /** 
@@ -72,9 +69,9 @@ namespace Hive5
 		*/
 		public void CountThreads(string forumKey, Callback callback)
 		{
-            var url = Hive5Client.Instance.ComposeRequestUrl(string.Format(ApiPath.Forum.CountThreads, forumKey));
+            var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Forum.CountThreads, forumKey));
 
-            GetHttpAsync(url, null, CountThreadsResponseBody.Load, callback);
+            Hive5Http.Instance.GetHttpAsync(url, null, CountThreadsResponseBody.Load, callback);
 		}	
 
        /** 
@@ -97,7 +94,7 @@ namespace Hive5
 		*/
 		public void CreateThread(string forumKey, string title, string content, string extrasJson, Callback callback)
 		{
-            var url = Hive5Client.Instance.ComposeRequestUrl(string.Format(ApiPath.Forum.CreateThread, forumKey));
+            var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Forum.CreateThread, forumKey));
 
             var requestBody = new
             {
@@ -106,7 +103,7 @@ namespace Hive5
                 extras = extrasJson
             };
 
-            PostHttpAsync(url, requestBody, CreateThreadResponseBody.Load, callback);
+            Hive5Http.Instance.PostHttpAsync(url, requestBody, CreateThreadResponseBody.Load, callback);
 		}	
 
         /** 
@@ -130,7 +127,7 @@ namespace Hive5
 		*/
 		public void UpdateThread(string forumKey, long threadId, string title, string content, string extrasJson, Callback callback)
 		{
-            var url = Hive5Client.Instance.ComposeRequestUrl(string.Format(ApiPath.Forum.UpdateThread, forumKey, threadId));
+            var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Forum.UpdateThread, forumKey, threadId));
 
             var requestBody = new
             {
@@ -139,7 +136,7 @@ namespace Hive5
                 extras = extrasJson
             };
 
-            PutHttpAsync(url, requestBody, UpdateThreadResponseBody.Load, callback);
+            Hive5Http.Instance.PutHttpAsync(url, requestBody, UpdateThreadResponseBody.Load, callback);
 		}	
 
         /** 
@@ -160,9 +157,9 @@ namespace Hive5
 		*/
 		public void DeleteThread(string forumKey, long threadId, Callback callback)
 		{
-            var url = Hive5Client.Instance.ComposeRequestUrl(string.Format(ApiPath.Forum.DeleteThread, forumKey));
+            var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Forum.DeleteThread, forumKey));
 
-            DeleteHttpAsync(url, null, DeleteThreadResponseBody.Load, callback);
+            Hive5Http.Instance.DeleteHttpAsync(url, null, DeleteThreadResponseBody.Load, callback);
 		}	
     }
 }

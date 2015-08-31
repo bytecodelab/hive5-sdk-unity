@@ -13,13 +13,10 @@ using Hive5.Util;
 namespace Hive5
 {
 	/// <summary>
-	/// Hive5 client.
+	/// Hive5 Coupon features
 	/// </summary>
-#if UNITTEST
-    public partial class Hive5Client : MockMonoSingleton<Hive5Client> {
-#else
-	public partial class Hive5Client : MonoSingleton<Hive5Client> {
-#endif
+    public class Hive5Coupon
+    {
 		/** 
 		* @api {POST} RedeemCoupon 쿠폰 적용하기
 		* @apiVersion 0.3.11-beta
@@ -37,9 +34,9 @@ namespace Hive5
 		*/
 		public void RedeemCoupon(string serial, Callback callback)
 		{
-            var url = Hive5Client.Instance.ComposeRequestUrl(string.Format(ApiPath.Coupon.RedeemCoupon, serial));
+            var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Coupon.RedeemCoupon, serial));
 
-            PostHttpAsync(url, null, ApplyCouponResponseBody.Load, callback);
+            Hive5Http.Instance.PostHttpAsync(url, null, ApplyCouponResponseBody.Load, callback);
 		}	
 	}
 }

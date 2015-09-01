@@ -16,7 +16,7 @@ namespace hive5_sdk_unity.test
     public class Hive5SpiderUnitTest
     {
         public static TestConfig TestValues { get; set; }
-
+        public const string ZoneTopicUri = "io.hive5.spider.topic.zone.7.name1"; // "io.hive5.spider.topic.zone.7.testzone"
 
         [TestInitialize]
         public void InitTest()
@@ -29,6 +29,8 @@ namespace hive5_sdk_unity.test
 
             Hive5Client.Initialize(TestValues.Uuid);                
             Login();
+
+            Hive5Spider.Instance.Initialize(TestValues.KiterHost);
         }
 
 
@@ -50,17 +52,23 @@ namespace hive5_sdk_unity.test
         [TestMethod]
         public void TestConnect()
         {
-            var completion = new ManualResetEvent(false);
+            var connected = Connect();
+            Assert.AreEqual(connected, true);
+        }
 
-            Hive5Client.Initialize(TestConfig.Default.Uuid);
-            Hive5Spider spider = new Hive5Spider(TestConfig.Default.KiterHost);
+        private bool Connect()
+        {
+            var completion = new ManualResetEvent(false);
             
-            spider.Connect((result) =>
+            bool connected = false;
+            Hive5Spider.Instance.Connect((success) =>
                 {
+                    connected = success;
                     completion.Set();
                 });
 
             completion.WaitOne();
+            return connected;
         }
 
         private void Login()
@@ -97,6 +105,81 @@ namespace hive5_sdk_unity.test
             }
         }
 
+        [TestMethod]
+        public void TestEnterZone()
+        {
+            var connected = Connect();
+            Assert.AreEqual(connected, true);
+
+            var sid = EnterZone(ZoneTopicUri);
+            Assert.IsTrue(sid > 0);
+        }
+
+        private long EnterZone(string zoneTopicUri)
+        {
+            var completion = new ManualResetEvent(false);
+
+            var connected = Connect();
+            Assert.AreEqual(connected, true);
+
+            long zoneTopicSubscriptionId = -1;
+
+            Hive5Spider.Instance.EnterZone(zoneTopicUri, (success, sid) =>
+                {
+                    if (success == true)
+                    {
+                        zoneTopicSubscriptionId = sid;
+                    }
+                    
+                    completion.Set();
+                });
+
+            completion.WaitOne();
+
+            return zoneTopicSubscriptionId;
+        }
+
+        [TestMethod]
+        public void TestSendToZone()
+        {
+            var completion = new ManualResetEvent(false);
+
+            var connected = Connect();
+            Assert.AreEqual(connected, true);
+
+            var sid = EnterZone(ZoneTopicUri);
+            Assert.IsTrue(sid > 0);
+
+            Hive5Spider.Instance.SendToZone("I'm testing a unit-test.", ZoneTopicUri, (success, pid) => 
+            {
+                Assert.IsTrue(success);
+                Assert.IsTrue(pid > 0);
+                completion.Set();
+            });
+
+            completion.WaitOne();
+        }
+
+        [TestMethod]
+        public void TestSendToUser()
+        {
+            var completion = new ManualResetEvent(false);
+
+            var connected = Connect();
+            Assert.AreEqual(connected, true);
+
+            var sid = EnterZone(ZoneTopicUri);
+            Assert.IsTrue(sid > 0);
+
+            Hive5Spider.Instance.SendToUser("Hey!", new User() { platform = "anonymous", id = "362" }, (success, pid) =>
+            {
+                Assert.IsTrue(success);
+                Assert.IsTrue(pid > 0);
+                completion.Set();
+            });
+
+            completion.WaitOne();
+        }
 
         //[TestMethod, TestCategory("Spider-Basic")]
         //public void TestConnect()

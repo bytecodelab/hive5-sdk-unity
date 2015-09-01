@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LitJson;
 
 namespace Hive5
 {
@@ -29,8 +30,8 @@ namespace Hive5
                 jsonData[2].IsLong == false)
                 return null;
 
-            long requestId = JsonHelper.ToLong(jsonData[1], -1);
-            long subscriptionId = JsonHelper.ToLong(jsonData[2], -1);
+            long requestId = jsonData[1].ToLong();
+            long subscriptionId = jsonData[2].ToLong();
 
             var instance = new SubscribedMessage()
             {

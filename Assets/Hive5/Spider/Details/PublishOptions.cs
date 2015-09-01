@@ -7,5 +7,6 @@ namespace Hive5
 {
     public abstract class PublishOptions : MessageDetail
     {
+
     }
 }

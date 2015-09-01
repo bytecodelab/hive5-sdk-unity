@@ -145,7 +145,7 @@
     <Compile Include="Assets\Hive5\Spider\Details\HelloDetail.cs" />
     <Compile Include="Assets\Hive5\Spider\Details\MessageDetail.cs" />
     <Compile Include="Assets\Hive5\Spider\Details\NoticePublishOptions.cs" />
-    <Compile Include="Assets\Hive5\Spider\Details\PrivatrePublishOptions.cs" />
+    <Compile Include="Assets\Hive5\Spider\Details\PrivatePublishOptions.cs" />
     <Compile Include="Assets\Hive5\Spider\Details\PublishOptions.cs" />
     <Compile Include="Assets\Hive5\Spider\Details\SystemPublishOptions.cs" />
     <Compile Include="Assets\Hive5\Spider\ErrorUris.cs" />

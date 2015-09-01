@@ -32,11 +32,15 @@ namespace Hive5
 
             _SubscriptionResults.Remove(topicUri);
 
-            if (_SubscriptionResults.Count == 0 &&
-                _DoneCallback != null)
+            if (_SubscriptionResults.Count == 0)
             {
-                _DoneCallback(true);
-            }
+                Hive5Spider.Instance.IsConnected = true;
+
+                if (_DoneCallback != null)
+                {
+                    _DoneCallback(true);
+                } 
+            }    
         }
     }
 }

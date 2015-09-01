@@ -7,7 +7,7 @@ namespace Hive5
 {
     public class SubscribeMessage : SpiderRequestMessage
     {
-        public TopicKind TopicKind { get; set; }
+        public SpiderTopic Topic { get; set; }
 
         public Dictionary<string, object> Options { get; set;  }
 
@@ -16,13 +16,13 @@ namespace Hive5
             this.MessageCode = (int)WampMessageCode.SUBSCRIBE;
         }
 
-        public override string ToJson()
+        public override string ToMessageString()
         {
             List<object> messageObjects = new List<object>();
             messageObjects.Add(this.MessageCode);
             messageObjects.Add(this.RequestId);
             messageObjects.Add(this.Options != null ? this.Options : new Dictionary<string, object>());
-            messageObjects.Add(TopicUris.GetTopicUri(this.TopicKind));
+            messageObjects.Add(this.Topic.TopicUri);
 
             string jsonMessage = JsonHelper.ToJson(messageObjects);
             return jsonMessage;

@@ -30,6 +30,8 @@ namespace hive5_sdk_unity.test
 
         public string Host { get; set; }
 
+        public string KiterHost { get; set; }
+
         public string HealthCheckUrl { get; set; }
 
         public User Friend { get; set;  }
@@ -55,6 +57,7 @@ namespace hive5_sdk_unity.test
                     id = "13",
                     platform = "anonymous",
                 },
+                KiterHost = "http://alpha.rtapi.hive5.io/",
             };
 
             HealthCheck = new TestConfig()

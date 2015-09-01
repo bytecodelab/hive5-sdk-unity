@@ -14,7 +14,7 @@ namespace Hive5
             this.MessageCode = (int)WampMessageCode.UNSUBSCRIBE;
         }
 
-        public override string ToJson()
+        public override string ToMessageString()
         {
             List<object> messageObjects = new List<object>();
             messageObjects.Add(this.MessageCode);

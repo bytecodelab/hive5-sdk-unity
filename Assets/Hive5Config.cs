@@ -15,6 +15,8 @@ namespace Hive5
         public static string Host	= "your_prod_server_domain";
 		public static string AppKey = "your_app_key"; 
         public static string HealthCheckUrl = "your-health-check-url";
+        public static string KiterHost = "your_kiter_host_domain";
+
         /// <summary>
         /// Optional
         /// </summary>

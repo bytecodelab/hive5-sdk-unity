@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LitJson;
 
 namespace Hive5
 {
     public class WelcomeMessage : SpiderMessage
     {
         public long SessionId { get; set; }
+
+        public List<SpiderTopic> Topics { get; set; }
 
 
         public WelcomeMessage()
@@ -20,19 +23,23 @@ namespace Hive5
             if (string.IsNullOrEmpty(s) == true)
                 return null;
 
-            var parts = LitJson.JsonMapper.ToObject<List<object>>(s);
-
-            if (parts.Count != 3)
-                return null;
-
-            if (parts[1] is long == false)
-                return null;
-
-            long sessionId = (long)parts[1];
+            var jsonRoot = JsonMapper.ToObject(s);
            
+            long sessionId = jsonRoot[1].ToLong();
+
+            var topicsJson = jsonRoot[2]["topics"];
+
+            List<SpiderTopic> topics = new List<SpiderTopic>();
+            for (int i = 0; i < topicsJson.Count; i++)
+            {
+                var topicJson = topicsJson[i];
+                topics.Add(new SpiderTopic((string)topicJson));
+            }
+
             var instance = new WelcomeMessage()
             {
                  SessionId = sessionId,
+                 Topics = topics,
             };
 
             return instance;

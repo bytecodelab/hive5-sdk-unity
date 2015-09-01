@@ -12,4 +12,5 @@ namespace Hive5
         public static string GetChannels = BaseUri + "." + "list_channels";
         public static string GetPlayers = BaseUri + "." + "list_players";
     }
+
 }

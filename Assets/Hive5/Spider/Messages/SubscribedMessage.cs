@@ -20,17 +20,17 @@ namespace Hive5
             if (string.IsNullOrEmpty(s) == true)
                 return null;
 
-			var parts = LitJson.JsonMapper.ToObject<LitJson.JsonData>(s);
+			var jsonData = LitJson.JsonMapper.ToObject(s);
 
-            if (parts.Count != 3)
+            if (jsonData.Count != 3)
                 return null;
 
-            if ((parts[1].IsLong == false && parts[1].IsInt == false) ||
-                parts[2].IsLong == false)
+            if ((jsonData[1].IsLong == false && jsonData[1].IsInt == false) ||
+                jsonData[2].IsLong == false)
                 return null;
 
-            long requestId = JsonHelper.ToLong(parts[1], -1);
-            long subscriptionId = JsonHelper.ToLong(parts[2], -1);
+            long requestId = JsonHelper.ToLong(jsonData[1], -1);
+            long subscriptionId = JsonHelper.ToLong(jsonData[2], -1);
 
             var instance = new SubscribedMessage()
             {

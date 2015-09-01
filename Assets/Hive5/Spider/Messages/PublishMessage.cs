@@ -22,7 +22,7 @@ namespace Hive5
             this.Arguments = new List<object>();
         }
 
-        public override string ToJson()
+        public override string ToMessageString()
         {
             List<object> messageObjects = new List<object>();
             messageObjects.Add(this.MessageCode);

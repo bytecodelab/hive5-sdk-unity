@@ -14,7 +14,7 @@ namespace Hive5
             this.MessageCode = (int)WampMessageCode.GOODBYE;
         }
 
-        public override string ToJson()
+        public override string ToMessageString()
         {
             // format 오류발생
             //return string.Format("[{0}, {}, {}]", (int)WampMessageCode.GOODBYE);

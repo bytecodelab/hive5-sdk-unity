@@ -17,7 +17,7 @@ namespace Hive5
             this.Options = new CallOptions();
         }
 
-        public override string ToJson()
+        public override string ToMessageString()
         {
             List<object> messageObjects = new List<object>();
             messageObjects.Add(this.MessageCode);

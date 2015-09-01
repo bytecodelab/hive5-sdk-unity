@@ -7,7 +7,7 @@ namespace Hive5
 {
     public class HelloMessage : SpiderMessage
     {
-        public Realm Realm { get; set; }
+        public SpiderRealm Realm { get; set; }
 
         public HelloDetail Detail { get; set; }
 
@@ -16,7 +16,7 @@ namespace Hive5
             this.MessageCode = (int)WampMessageCode.HELLO;
         }
 
-        public override string ToJson()
+        public override string ToMessageString()
         {
             List<object> messageObjects = new List<object>();
             messageObjects.Add(this.MessageCode);
@@ -24,7 +24,6 @@ namespace Hive5
             messageObjects.Add(Detail);
 
             string jsonMessage = JsonHelper.ToJson(messageObjects);
-
             return jsonMessage;
         }
     }

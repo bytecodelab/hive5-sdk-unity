@@ -150,6 +150,7 @@
     <Compile Include="Assets\Hive5\Spider\Details\SystemPublishOptions.cs" />
     <Compile Include="Assets\Hive5\Spider\ErrorUris.cs" />
     <Compile Include="Assets\Hive5\Spider\Helpers\CallbackManager.cs" />
+    <Compile Include="Assets\Hive5\Spider\Helpers\SubscribeReserver.cs" />
     <Compile Include="Assets\Hive5\Spider\Helpers\SubscriptionManager.cs" />
     <Compile Include="Assets\Hive5\Spider\Hive5Spider.cs" />
     <Compile Include="Assets\Hive5\Spider\Loom.cs" />
@@ -171,8 +172,11 @@
     <Compile Include="Assets\Hive5\Spider\Messages\WampMessageCode.cs" />
     <Compile Include="Assets\Hive5\Spider\Messages\WelcomeMessage.cs" />
     <Compile Include="Assets\Hive5\Spider\Models\CallResultCallbackNode.cs" />
-    <Compile Include="Assets\Hive5\Spider\Models\SpiderChannel.cs" />
-    <Compile Include="Assets\Hive5\Spider\Realm.cs" />
+    <Compile Include="Assets\Hive5\Spider\Models\Data\SpiderChannel.cs" />
+    <Compile Include="Assets\Hive5\Spider\Models\Data\SpiderServer.cs" />
+    <Compile Include="Assets\Hive5\Spider\Models\Data\SpiderTopic.cs" />
+    <Compile Include="Assets\Hive5\Spider\Models\ResponseBody\PickServerResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Spider\Models\Data\SpiderRealm.cs" />
     <Compile Include="Assets\Hive5\Spider\Results\CallErrorResult.cs" />
     <Compile Include="Assets\Hive5\Spider\Results\CallResult.cs" />
     <Compile Include="Assets\Hive5\Spider\Results\GetChannelsResult.cs" />

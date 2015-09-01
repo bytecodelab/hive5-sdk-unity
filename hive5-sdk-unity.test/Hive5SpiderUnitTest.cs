@@ -150,7 +150,7 @@ namespace hive5_sdk_unity.test
             var sid = EnterZone(ZoneTopicUri);
             Assert.IsTrue(sid > 0);
 
-            Hive5Spider.Instance.SendToZone("I'm testing a unit-test.", ZoneTopicUri, (success, pid) => 
+            Hive5Spider.Instance.SendToZone("UnitTester", "I'm testing a unit-test.", ZoneTopicUri, (success, pid) => 
             {
                 Assert.IsTrue(success);
                 Assert.IsTrue(pid > 0);
@@ -171,7 +171,7 @@ namespace hive5_sdk_unity.test
             var sid = EnterZone(ZoneTopicUri);
             Assert.IsTrue(sid > 0);
 
-            Hive5Spider.Instance.SendToUser("Hey!", new User() { platform = "anonymous", id = "362" }, (success, pid) =>
+            Hive5Spider.Instance.SendToUser("UnitTester", "Hi, there!", new User() { platform = "anonymous", id = "362" }, (success, pid) =>
             {
                 Assert.IsTrue(success);
                 Assert.IsTrue(pid > 0);

@@ -376,19 +376,21 @@ namespace Hive5
             this.Subscribe(zoneTopic, callback);
         }
 
-        public void SendToZone(string message, string zoneTopicUri, SendMessageCallback callback)
+        public void SendToZone(string nickname, string message, string zoneTopicUri, SendMessageCallback callback)
         {
             var zoneTopic = new SpiderTopic(zoneTopicUri);
             var content = new Dictionary<string,string>();
-            content.Add("msg", message);
+            content.Add("nick", nickname);
+            content.Add("content", message);
             this.Publish(zoneTopic, new NoticePublishOptions(), content, callback);
         }
 
-        public void SendToUser(string message, User user, SendMessageCallback callback)
+        public void SendToUser(string nickname, string message, User user, SendMessageCallback callback)
         {
             var userTopic = SpiderTopic.CreateUserTopic(user);
             var content = new Dictionary<string,string>();
-            content.Add("msg", message);
+            content.Add("nick", nickname);
+            content.Add("content", message);
             this.Publish(userTopic, new PrivatePublishOptions(), content, callback);
         }
 

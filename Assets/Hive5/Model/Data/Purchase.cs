@@ -5,10 +5,22 @@ using System.Text;
 
 namespace Hive5.Model
 {
+    /// <summary>
+    /// 결제 모델 클래스
+    /// </summary>
     public class Purchase
     {
+        /// <summary>
+        /// 고유아이디
+        /// </summary>
         public string Id { get; set; }
+        /// <summary>
+        /// 상품코드
+        /// </summary>
         public string ProductCode { get; set; }
+        /// <summary>
+        /// 상태
+        /// </summary>
         public string Status { get; set; }
     }
 }

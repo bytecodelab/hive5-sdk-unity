@@ -136,6 +136,9 @@ namespace Hive5
 			var requestBody = new {
 				product_code = productCode,
 				receiver = receiver,
+#if UNITTEST
+                test = true,
+#endif
 			};
 			
             Hive5Http.Instance.PostHttpAsync(url, requestBody, CreateGooglePurchaseResponseBody.Load, callback);

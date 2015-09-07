@@ -13,3 +13,4 @@ Library/
 **/Temp/*
 **/Assets/**/*.meta
 *.userprefs
+.DS_Store

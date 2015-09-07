@@ -87,8 +87,6 @@ namespace Hive5
 
         #region Hello
 
-        
-
         private void Hello()
         {
             HelloMessage message = new HelloMessage()
@@ -161,12 +159,8 @@ namespace Hive5
                     {
                         if (result2 == false)
                             return;
-
-
                     });
             });
-
-            
         }
 
         private void UnlinkEvents(WebSocket ws)
@@ -190,7 +184,6 @@ namespace Hive5
             ws.OnClose += mySocket_OnClose;
         }
        
-
         public void Subscribe(SpiderTopic topic, SubscribeCallback callback)
         {
             SubscribeMessage message = new SubscribeMessage()
@@ -253,7 +246,6 @@ namespace Hive5
                     CallbackManager.UnsubscribeRequestIdToCallback.Remove(message.RequestId);
                     callback(false);
                     Logger.Log("Spider Unsubscribe 전송 실패 in unsubscribeCompleted");
-
                 }
                 else
                 {
@@ -300,7 +292,6 @@ namespace Hive5
         //{
         //    Publish(TopicKind.Private, new PrivatePublishOptions() {  platform_user_id = platformUserId }, contents, callback);
         //}
-
 
         private void Publish(SpiderTopic topic, PublishOptions options, Dictionary<string, string> content, SendMessageCallback callback)
         {

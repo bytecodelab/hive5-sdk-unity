@@ -8,54 +8,63 @@ using Hive5.Util;
 namespace Hive5.Model
 {
 	/// <summary>
-	/// Promotion data.
+	/// 게임내우편 모델 클래스
 	/// </summary>
 	public class Mail
 	{
+        /// <summary>
+        /// Mail의 고유아이디
+        /// </summary>
 		public long id { set; get; }
+        /// <summary>
+        /// 내용
+        /// </summary>
 		public string content { set; get; }
-		public long rewardId { set; get; }
+        /// <summary>
+        /// 추가 데이터
+        /// </summary>
+        public string extras { get; set; }
+        /// <summary>
+        /// 보상이 있는지의 여부
+        /// </summary>
+		public bool reward { set; get; }
+        /// <summary>
+        /// 태그 목록
+        /// </summary>
 		public string[] tags { set; get; }
 
-		public static Mail Load(JsonData json)
+        /// <summary>
+        /// Mail를 나타내는 Json 데이터를 읽어 Mail를 생성하여 반환함
+        /// </summary>
+        /// <param name="jsonData">Mail를 나타내는 Json 데이터</param>
+        /// <returns>Mail 인스턴스</returns>
+		public static Mail Load(JsonData jsonData)
 		{
-			var id 			= (long)json["id"];
-			var content 	= (string)json["content"];
-
-			long rewardId = 0;
-			try
-			{
-				rewardId 	= (long)json["reward_id"];
-			}
-			catch
-			{
-			}
-
-			var tags 		= JsonMapper.ToObject<string[]> (json ["tags"].ToJson ());
-
-			return new Mail () {
-				id = id,
-				content = content,
-				rewardId = rewardId,
-				tags = tags
+			var mail = new Mail () {
+				id =  jsonData["id"].ToLong(),
+				content = (string)jsonData["content"],
+                extras = jsonData["extras"].ToJson(),
+				reward = (bool)jsonData["reward"],
+				tags = JsonMapper.ToObject<string[]> (jsonData ["tags"].ToJson ())
 			};
+            return mail;
 		}
 
 		/// <summary>
-		/// Load the specified json.
+		/// Mail 배열을 나타내는 Json 데이터를 읽어 Mail 리스트를 생성하여 반환함
 		/// </summary>
-		/// <param name="json">Json.</param>
-		public static List<Mail> LoadList(JsonData json)
+		/// <param name="jsonData">Mail 배열을 나타내는 Json 데이터</param>
+        /// <returns>Mail 인스턴스 리스트</returns>
+		public static List<Mail> LoadList(JsonData jsonData)
 		{
 			var mails = new List<Mail>();
 			
-			if (json == null || json.IsArray == false)
+			if (jsonData == null || jsonData.IsArray == false)
 				return mails;
 
-			var listCount = json.Count;
-			for (int currentCount = 0; currentCount < listCount; currentCount++) 
+			for (int i = 0; i < jsonData.Count; i++) 
 			{
-				mails.Add(Mail.Load(JsonMapper.ToObject<LitJson.JsonData>(json[currentCount].ToJson())));
+				mails.Add(Mail.Load(jsonData[i]));
 			}
 
 			return mails;

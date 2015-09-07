@@ -24,6 +24,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
+    <DocumentationFile>Temp\bin\Debug\Hive5.Unity.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -73,13 +74,9 @@
     <Compile Include="Assets\Hive5\Model\Data\Agreement.cs" />
     <Compile Include="Assets\Hive5\Model\Data\ForumThread.cs" />
     <Compile Include="Assets\Hive5\Model\Data\Friend.cs" />
-    <Compile Include="Assets\Hive5\Model\Data\HObject.cs" />
     <Compile Include="Assets\Hive5\Model\Data\Mail.cs" />
-    <Compile Include="Assets\Hive5\Model\Data\MyScore.cs" />
     <Compile Include="Assets\Hive5\Model\Data\Purchase.cs" />
-    <Compile Include="Assets\Hive5\Model\Data\ResetInfo.cs" />
     <Compile Include="Assets\Hive5\Model\Data\Score.cs" />
-    <Compile Include="Assets\Hive5\Model\Data\SocialScore.cs" />
     <Compile Include="Assets\Hive5\Model\Data\User.cs" />
     <Compile Include="Assets\Hive5\Model\JsonHelper.cs" />
     <Compile Include="Assets\Hive5\Model\ObjectFields\ObjectField.cs" />

@@ -1,83 +1,77 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using LitJson;
 using Hive5;
 using Hive5.Util;
 
+
 namespace Hive5.Model
 {
-	/// <summary>
-	/// Config data.
-	/// </summary>
-	public class Score
-	{
-		public User User { get; set; }
-		public long? value { set; get; }
-		public long? rank { set; get; }
-        public List<HObject> objects { get; set; }
+    /// <summary>
+    /// 점수 모델 클래스
+    /// </summary>
+    public class Score
+    {
+        /// <summary>
+        /// 사용자
+        /// </summary>
+        public User User { get; set; }
+        /// <summary>
+        /// 점수
+        /// </summary>
+        public long value { set; get; }
+        /// <summary>
+        /// 순위
+        /// </summary>
+        public long rank { set; get; }
+        /// <summary>
+        /// 요청받은 HObject
+        /// </summary>
+        public string objects { set; get; }
+        /// <summary>
+        /// 추가 데이터(Submit 때 세팅한)
+        /// </summary>
+        public string extras { get; set; }
 
-		/// <summary>
-		/// Load the specified json.
-		/// </summary>
-		/// <param name="json">Json.</param>
-		public static Score Load(JsonData json)
-		{
-            long? value = 0;
-            long? rank = 0;
-            List<HObject> objects = null;
-
-            try
+        /// <summary>
+        /// Score를 나타내는 Json 데이터를 읽어 Score 인스턴스를 생성하여 반환함
+        /// </summary>
+        /// <param name="jsonData">Score를 나타내는 Json 데이터</param>
+        /// <returns>Score 인스턴스</returns>
+        public static Score Load(JsonData jsonData)
+        {
+            return new Score()
             {
-                value = (int)json["value"];
-            }
-            catch
-            {
-                value = null;
-            }
-
-            try
-            {
-                rank = (int)json["rank"];
-            }
-            catch
-            {
-                rank = null;
-            }
-
-            try
-            {
-                objects = HObject.LoadList(json["objects"]);
-            }
-            catch
-            {
-                objects = null;
-            }
-
-
-			return new Score () {
                 User = new User()
                 {
-                    platform = (string)json["user"]["platform"],
-				    id = (string)json["user"]["id"],
-				},
-				value = value,
-				rank = rank,
-                objects = objects,
-			};
-		}
+                    platform = (string)jsonData["user"]["platform"],
+                    id = (string)jsonData["user"]["id"],
+                },
+                value = jsonData["value"].ToLong(),
+                rank = jsonData["rank"].ToLong(),
+                extras = jsonData["extras"].ToJson(),
+                objects = jsonData["objects"].ToJson(),
+            };
+        }
 
-		public static List<Score> LoadList(JsonData json)
-		{
-			var scores = new List<Score> ();
+        /// <summary>
+        /// Score 배열을 나타내는 Json 데이터를 읽어 Score 인스턴스 리스트를 생성하여 반환함
+        /// </summary>
+        /// <param name="jsonData">Score 배열을 나타내는 Json 데이터</param>
+        /// <returns>Score 인스턴스 리스트</returns>
+        public static List<Score> LoadList(JsonData jsonData)
+        {
+            var scores = new List<Score>();
 
-			var scoresCount = json.Count;
-			for (int currentCount = 0; currentCount < scoresCount; currentCount++) 
-			{
-				scores.Add(Score.Load(json[currentCount]));
-			}
+            if (jsonData == null || jsonData.IsArray == false)
+				return scores;
 
-			return scores;
-		}
-	}
+            for (int i = 0; i < jsonData.Count; i++)
+            {
+                scores.Add(Score.Load(jsonData[i]));
+            }
+            return scores;
+        }
+    }
 }

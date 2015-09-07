@@ -8,32 +8,41 @@ using Hive5.Util;
 namespace Hive5.Model
 {
 	/// <summary>
-	/// Agreement data.
+	/// 약관 모델 클래스
 	/// </summary>
 	public class Agreement
 	{
-		public string 	key { set; get; }
-		public string 	version { set; get; }
-		public DateTime agreedAt { set; get; }
+        /// <summary>
+        /// 키
+        /// </summary>
+		public string Key { set; get; }
+        /// <summary>
+        /// 버전
+        /// </summary>
+		public string Version { set; get; }
+        /// <summary>
+        /// 동의한 시점
+        /// </summary>
+		public DateTime AgreedAt { set; get; }
 
 		/// <summary>
-		/// Loads the list.
+		/// Agreenment 배열에 대한 json 데이터를 읽어 Agreement 리스트를 반환합니다.
 		/// </summary>
-		/// <returns>The list.</returns>
-		/// <param name="json">Json.</param>
-		public static List<Agreement> LoadList(JsonData json)
+		/// <param name="jsonData">Agreenment 배열 json 데이터</param>
+		/// <returns>Agreement 리스트</returns>
+		public static List<Agreement> LoadList(JsonData jsonData)
 		{
 			var agreements = new List<Agreement>();
 			
-			if (json == null || json.IsObject == false)
+			if (jsonData == null || jsonData.IsObject == false)
 				return agreements;
 
-			foreach (string key in (json as System.Collections.IDictionary).Keys)
+			foreach (string key in (jsonData as System.Collections.IDictionary).Keys)
 			{
 				agreements.Add ( new Agreement() {
-					key = key,
-					version = (string)json[key]["version"],
-					agreedAt = Date.ParseDateTime((string)json[key]["agreed_at"])
+					Key = key,
+					Version = (string)jsonData[key]["version"],
+					AgreedAt = Date.ParseDateTime((string)jsonData[key]["agreed_at"])
 				});
 			}
 

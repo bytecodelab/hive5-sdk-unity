@@ -68,6 +68,11 @@ Hive5 Alpha 콘솔의 주소는 다음과 같습니다.
 ## See also
 [SDK 사용가이드](https://github.com/bytecodelab/maui-sdk/wiki/Guide%20for%20Unity)
 
+## 문서화
+
+[SandCastle Helper File Builder](https://github.com/EWSoftware/SHFB)를 이용하여 문서화합니다.
+
+
 
 ## 라이선스
 

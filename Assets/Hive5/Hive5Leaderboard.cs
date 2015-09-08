@@ -7,7 +7,7 @@ using System.IO;
 using System.Collections;
 using LitJson;
 using Hive5;
-using Hive5.Model;
+using Hive5.Models;
 using Hive5.Util;
 
 
@@ -160,7 +160,7 @@ namespace Hive5
             }
 
             // WWW 호출
-            Hive5Http.Instance.GetHttpAsync(url, parameters.data, GetSocialScoresResponseBody.Load, callback);
+            Hive5Http.Instance.GetHttpAsync(url, parameters.data, ListSocialScoresResponseBody.Load, callback);
         }
     }
 }

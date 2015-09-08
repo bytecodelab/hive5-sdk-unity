@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Hive5;
 using System.Threading;
-using Hive5.Model;
+using Hive5.Models;
 using System.Net;
 using System.Collections.Generic;
 using LitJson;
@@ -81,7 +81,7 @@ namespace hive5_sdk_unity.test
             try
             {
                 Hive5Client.Initialize(uuid);
-                Hive5Client.SetDebug();
+                Hive5Client.SetDebugMode();
             }
             catch (Exception ex)
             {
@@ -197,69 +197,6 @@ namespace hive5_sdk_unity.test
                     Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
                     Assert.IsTrue(response.ResultData is CommonResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
 
-
-                    completion.Set();
-                });
-
-                completion.WaitOne();
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
-            }
-        }
-
-
-        [TestMethod, TestCategory("Auth")]
-        public void Test약관동의내역보기GetAgreements()
-        {
-            try
-            {
-                Login(CurrentConfig.TestUser);
-
-                var completion = new ManualResetEvent(false);
-
-                Hive5Client.Auth.ListAgreements((response) =>
-                {
-                    // 1. 기본 반환값 검증
-                    Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
-                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                    Assert.IsTrue(response.ResultData is GetAgreementsResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
-
-                    // 2. 프로퍼티 검증
-                    GetAgreementsResponseBody body = response.ResultData as GetAgreementsResponseBody;
-                    Assert.IsTrue(body.Agreements != null);
-
-                    completion.Set();
-                });
-
-                completion.WaitOne();
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
-            }
-
-        }
-
-        [TestMethod, TestCategory("Auth")]
-        public void Test약관동의SubmitAgreements()
-        {
-            try
-            {
-                Login(CurrentConfig.TestUser);
-
-                var completion = new ManualResetEvent(false);
-
-                Hive5Client.Auth.AcceptAgreement("1.0", "1.0", (response) =>
-                {
-                    // 1. 기본 반환값 검증
-                    Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
-                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                    Assert.IsTrue(response.ResultData is CommonResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
-
-                    // 2. 프로퍼티 검증
-                    // 할 것이 없음
 
                     completion.Set();
                 });
@@ -614,12 +551,13 @@ namespace hive5_sdk_unity.test
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
                     Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                    Assert.IsTrue(response.ResultData is GetSocialScoresResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+                    Assert.IsTrue(response.ResultData is ListSocialScoresResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
 
                     // 2. 프로퍼티 검증
-                    GetSocialScoresResponseBody body = response.ResultData as GetSocialScoresResponseBody;
+                    ListSocialScoresResponseBody body = response.ResultData as ListSocialScoresResponseBody;
                     Assert.IsTrue(body.Scores != null);
                     Assert.IsTrue(body.Scores.Count > 0);
+
                     if (body.Scores.Count > 0)
                     {
                         var score = body.Scores[0];
@@ -667,10 +605,10 @@ namespace hive5_sdk_unity.test
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
                     Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                    Assert.IsTrue(response.ResultData is DetachMailTagsResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+                    Assert.IsTrue(response.ResultData is RemoveMailTagsResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
 
                     // 2. 프로퍼티 검증
-                    DetachMailTagsResponseBody body = response.ResultData as DetachMailTagsResponseBody;
+                    RemoveMailTagsResponseBody body = response.ResultData as RemoveMailTagsResponseBody;
                     Assert.IsTrue(body.Tags != null);
                     Assert.IsTrue(body.Tags.Count == 1);
 
@@ -717,10 +655,10 @@ namespace hive5_sdk_unity.test
                 // 1. 기본 반환값 검증
                 Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
                 Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                Assert.IsTrue(response.ResultData is AttachMailTagsResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+                Assert.IsTrue(response.ResultData is AddMailTagsResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
 
                 // 2. 프로퍼티 검증
-                AttachMailTagsResponseBody body = response.ResultData as AttachMailTagsResponseBody;
+                AddMailTagsResponseBody body = response.ResultData as AddMailTagsResponseBody;
                 Assert.IsTrue(body.Tags != null);
                 Assert.IsTrue(body.Tags.Count == 1);
                 Assert.IsTrue(body.Tags.Contains(sampleTag) == true);
@@ -748,10 +686,10 @@ namespace hive5_sdk_unity.test
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
                     Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                    Assert.IsTrue(response.ResultData is GetMailCountResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+                    Assert.IsTrue(response.ResultData is CountMailsResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
 
                     // 2. 프로퍼티 검증
-                    GetMailCountResponseBody body = response.ResultData as GetMailCountResponseBody;
+                    CountMailsResponseBody body = response.ResultData as CountMailsResponseBody;
                     Assert.IsTrue(body.Count >= 0);
 
                     completion.Set();
@@ -781,10 +719,10 @@ namespace hive5_sdk_unity.test
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
                     Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                    Assert.IsTrue(response.ResultData is GetMailsResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+                    Assert.IsTrue(response.ResultData is ListMailsResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
 
                     // 2. 프로퍼티 검증
-                    GetMailsResponseBody body = response.ResultData as GetMailsResponseBody;
+                    ListMailsResponseBody body = response.ResultData as ListMailsResponseBody;
                     Assert.IsTrue(body.Mails != null);
                     Assert.IsTrue(body.Mails.Count >= 0);
 
@@ -1392,10 +1330,10 @@ namespace hive5_sdk_unity.test
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
                     Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                    Assert.IsTrue(response.ResultData is PushActivateResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+                    Assert.IsTrue(response.ResultData is ActivatePushResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
 
                     // 2. 프로퍼티 검증
-                    PushActivateResponseBody body = response.ResultData as PushActivateResponseBody;
+                    ActivatePushResponseBody body = response.ResultData as ActivatePushResponseBody;
 
                     completion.Set();
                 });
@@ -1422,10 +1360,10 @@ namespace hive5_sdk_unity.test
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
                     Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                    Assert.IsTrue(response.ResultData is PushActivateResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+                    Assert.IsTrue(response.ResultData is ActivatePushResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
 
                     // 2. 프로퍼티 검증
-                    PushActivateResponseBody body = response.ResultData as PushActivateResponseBody;
+                    ActivatePushResponseBody body = response.ResultData as ActivatePushResponseBody;
 
                     completion.Set();
                 });

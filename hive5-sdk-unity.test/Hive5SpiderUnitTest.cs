@@ -1,5 +1,5 @@
 ﻿using Hive5;
-using Hive5.Model;
+using Hive5.Models;
 using Hive5.Spider.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;

@@ -7,7 +7,7 @@ using System.IO;
 using System.Collections;
 using LitJson;
 using Hive5;
-using Hive5.Model;
+using Hive5.Models;
 using Hive5.Util;
 
 
@@ -89,7 +89,7 @@ namespace Hive5
             if (string.IsNullOrEmpty(tag) == false)
                 parameters.Add("tag", tag);
 
-            Hive5Http.Instance.GetHttpAsync(url, parameters.data, GetMailsResponseBody.Load, callback);
+            Hive5Http.Instance.GetHttpAsync(url, parameters.data, ListMailsResponseBody.Load, callback);
         }
 
         /** 
@@ -121,7 +121,7 @@ namespace Hive5
             if (string.IsNullOrEmpty(tag) == false)
                 parameters.Add("tag", tag);
 
-            Hive5Http.Instance.GetHttpAsync(url, parameters.data, GetMailCountResponseBody.Load, callback);
+            Hive5Http.Instance.GetHttpAsync(url, parameters.data, CountMailsResponseBody.Load, callback);
         }
 
         /** 
@@ -245,7 +245,7 @@ namespace Hive5
                 tags = tags
             };
 
-            Hive5Http.Instance.PostHttpAsync(url, requestBody, AttachMailTagsResponseBody.Load, callback);
+            Hive5Http.Instance.PostHttpAsync(url, requestBody, AddMailTagsResponseBody.Load, callback);
         }
 
         /** 
@@ -273,7 +273,7 @@ namespace Hive5
                 tags = tags
             };
 
-            Hive5Http.Instance.PostHttpAsync(url, requestBody, DetachMailTagsResponseBody.Load, callback);
+            Hive5Http.Instance.PostHttpAsync(url, requestBody, RemoveMailTagsResponseBody.Load, callback);
         }
     }
 }

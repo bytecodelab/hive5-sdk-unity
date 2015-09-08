@@ -7,7 +7,7 @@ using System.IO;
 using System.Collections;
 using LitJson;
 using Hive5;
-using Hive5.Model;
+using Hive5.Models;
 using Hive5.Util;
 
 namespace Hive5

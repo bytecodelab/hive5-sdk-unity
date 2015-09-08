@@ -7,7 +7,7 @@ using System.IO;
 using System.Collections;
 using LitJson;
 using Hive5;
-using Hive5.Model;
+using Hive5.Models;
 using Hive5.Util;
 
 namespace Hive5
@@ -36,7 +36,7 @@ namespace Hive5
 		{
             var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Coupon.RedeemCoupon, serial));
 
-            Hive5Http.Instance.PostHttpAsync(url, null, ApplyCouponResponseBody.Load, callback);
+            Hive5Http.Instance.PostHttpAsync(url, null, RedeemCouponResponseBody.Load, callback);
 		}	
 	}
 }

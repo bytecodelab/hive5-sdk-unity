@@ -7,7 +7,7 @@ using System.IO;
 using System.Collections;
 using LitJson;
 using Hive5;
-using Hive5.Model;
+using Hive5.Models;
 using Hive5.Util;
 
 
@@ -83,7 +83,7 @@ namespace Hive5
 		public void ActivatePush(Callback callback)
 		{
 		    var url = Hive5Client.ComposeRequestUrl(ApiPath.Settings.ActivatePush);
-		    Hive5Http.Instance.PostHttpAsync(url, null, PushActivateResponseBody.Load, callback);
+		    Hive5Http.Instance.PostHttpAsync(url, null, ActivatePushResponseBody.Load, callback);
 		}
 
         /** 
@@ -103,7 +103,7 @@ namespace Hive5
 		public void DeactivatePush(Callback callback)
 		{
 		    var url = Hive5Client.ComposeRequestUrl(ApiPath.Settings.DeactivatePush);
-		    Hive5Http.Instance.PostHttpAsync(url, null, PushActivateResponseBody.Load, callback);
+		    Hive5Http.Instance.PostHttpAsync(url, null, ActivatePushResponseBody.Load, callback);
 		}
 
 	   /** 

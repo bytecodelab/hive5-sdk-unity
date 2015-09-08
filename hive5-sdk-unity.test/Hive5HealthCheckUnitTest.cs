@@ -33,7 +33,7 @@ namespace hive5_sdk_unity.test
             try
             {
                 Hive5Client.Initialize(uuid);
-                Hive5Client.SetDebug();
+                Hive5Client.SetDebugMode();
             }
             catch (Exception ex)
             {

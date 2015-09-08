@@ -7,45 +7,45 @@ using System.IO;
 using System.Collections;
 using LitJson;
 using Hive5;
-using Hive5.Model;
+using Hive5.Models;
 using Hive5.Util;
 
 
 namespace Hive5
 {
 	/// <summary>
-	/// Hive5 Auth features
-	/// </summary>
+	/// Hive5 인증에 관련된 모든 것을 포함한 클래스
+    /// </summary>
     public class Hive5Auth
     {
+        /// <summary>
+        /// 접근토큰
+        /// </summary>
+        /// <remarks>로그인 성공 시 유효한 값을 갖는다.</remarks>
         public string AccessToken { get; private set; }
+        /// <summary>
+        /// 세션키
+        /// </summary>
+        /// <remarks>로그인 성공 시 유효한 값을 갖는다. 중복 로그인을 감지하는 용도로 사용.</remarks>
         public string SessionKey { get; private set; }
+        /// <summary>
+        /// 로그인 여부
+        /// </summary>
         public bool IsLoggedIn { get; private set; }
 
-        /** 
-        * @api {GET} Login 로그인
-        * @apiVersion 0.3.11-beta
-        * @apiName Login
-        * @apiGroup Auth
-        *
-        * @apiParam {string} os OSType
-        * @apiParam {string} build 클라이언트 빌드버전
-        * @apiParam {string} locale 국가언어코드
-        * @apiParam {User} 로그인 사용자
-        * @apiParam {Callback} callback 콜백 함수
-        *
-        * @apiSuccess {string} resultCode Error Code 참고
-        * @apiSuccess {string} resultMessage 요청 실패시 메시지
-        * @apiExample Example usage:
-        * string userId 		= "88197xxxx07226176";
-        * string build = "1.0";
-        * string locale = "en-US";
-        * 
-        * Hive5Client hive5 = Hive5Client.Instance;
-        * hive5.Login (OSType.Android, build, locale, PlatformType.Google, userId, response => {
-        * 	Logger.Log ("response = "+ response.ResultData);
-        * });
-        */
+        /// <summary>
+        /// 로그인
+        /// </summary>
+        /// <param name="os">운영체제. 예) "android", "ios"</param>
+        /// <param name="build">클라이언트 빌드 버전. 예) "1.0.0"</param>
+        /// <param name="locale">국가언어코드. 예) "ko-KR"</param>
+        /// <param name="user">사용자</param>
+        /// <param name="callback">콜백함수</param>
+        /// <code language="cs">
+        /// Hive5Client.Auth.Login (OSType.Android, "1.0.0", "ko-KR", null, (response) => {
+        ///	  Logger.Log ("response = "+ response.ResultData);
+        ///	}
+        /// </code>
         public void LogIn(string os, string build, string locale, User user, Callback callback)
         {
             // Hive5 API URL 초기화
@@ -53,8 +53,7 @@ namespace Hive5
 
             Logger.Log("login LoginState=" + this.IsLoggedIn);
 
-            var requestBody = new
-            {
+            var requestBody = new {
                 user = user,
                 os = os,
                 build = build,
@@ -76,77 +75,15 @@ namespace Hive5
             });
         }
 
-        /** 
-         * @api {POST} Unregister 탈퇴
-         * @apiVersion 0.3.11-beta
-         * @apiName Unregister
-         * @apiGroup Auth
-         *
-         * @apiParam {Callback} callback 콜백 함수
-         *
-         * @apiSuccess {string} resultCode Error Code 참고
-         * @apiSuccess {string} resultMessage 요청 실패시 메시지
-         * @apiExample Example usage:
-         * Hive5Client hive5 = Hive5Client.Instance;
-         * hive5.Unregister(callback);
-         */
+        /// <summary>
+        /// 탈퇴
+        /// </summary>
+        /// <param name="callback">콜백 함수</param>
+        /// <code language="cs">Hive5Client.Auth.Unregister(callback)</code>
         public void Unregister(Callback callback)
         {
             var url = Hive5Client.ComposeRequestUrl(ApiPath.Auth.Unregister);
-
             Hive5Http.Instance.PostHttpAsync(url, null, CommonResponseBody.Load, callback);
-        }
-
-        /** 
-        * @api {POST} SubmitAgreements 약관 동의
-        * @apiVersion 0.3.11-beta
-        * @apiName SubmitAgreements
-        * @apiGroup Auth
-        *
-        * @apiParam {string} agreementName 약관의 이름이나 버전
-        * @apiParam {string} agreementValue 약관에 동의한 내용
-        * @apiParam {Callback} callback 콜백 함수
-        *
-        * @apiSuccess {string} resultCode Error Code 참고
-        * @apiSuccess {string} resultMessage 요청 실패시 메시지
-        * @apiExample Example usage:
-        * Hive5Client hive5 = Hive5Client.Instance;
-        * hive5.SubmitAgreements("1.5", "약관 동의내용", callback);
-        */
-        public void AcceptAgreement(string agreementName, string agreementValue, Callback callback)
-        {
-            var url = Hive5Client.ComposeRequestUrl(ApiPath.Auth.Agreement);
-
-            var requestBody = new
-            {
-                general_agreement = agreementName,
-                partnership_agreement = agreementValue
-            };
-
-            Hive5Http.Instance.PostHttpAsync(url, requestBody, CommonResponseBody.Load, callback);
-        }
-
-        /** 
-        * @api {GET} ListAgreements 약관 동의 내역보기
-        * @apiVersion 0.3.11-beta
-        * @apiName ListAgreements
-        * @apiGroup Auth
-        *
-        * @apiParam {Callback} callback 콜백 함수
-        *
-        * @apiSuccess {string} resultCode Error Code 참고
-        * @apiSuccess {string} resultMessage 요청 실패시 메시지
-        * @apiExample Example usage:
-        * Hive5Client hive5 = Hive5Client.Instance;
-        * hive5.GetAgreements(callback);
-        */
-        public void ListAgreements(Callback callback)
-        {
-            var url = Hive5Client.ComposeRequestUrl(ApiPath.Auth.Agreement);
-
-            TupleList<string, string> parameters = new TupleList<string, string>();
-
-            Hive5Http.Instance.GetHttpAsync(url, parameters.data, GetAgreementsResponseBody.Load, callback);
         }
 
         /** 
@@ -191,7 +128,6 @@ namespace Hive5
 
             if (string.IsNullOrEmpty(Hive5Config.XPlatformKey) == true)
                 throw new NullReferenceException("Please fill Hive5Config.XPlatformKey");
-
 
             var url = Hive5Client.ComposeRequestUrl(ApiPath.Auth.CreatePlatformAccount);
 

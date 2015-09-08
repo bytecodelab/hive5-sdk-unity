@@ -1,7 +1,7 @@
 using System;
 using LitJson;
 using Hive5;
-using Hive5.Model;
+using Hive5.Models;
 
 namespace Hive5
 {

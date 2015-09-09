@@ -13,8 +13,8 @@ using Hive5.Util;
 
 namespace Hive5
 {
-	/// <summary>
-	/// Hive5 인증에 관련된 모든 것을 포함한 클래스
+    /// <summary>
+    /// Hive5 인증에 관련된 모든 것을 포함한 클래스
     /// </summary>
     public class Hive5Auth
     {
@@ -53,7 +53,8 @@ namespace Hive5
 
             Logger.Log("login LoginState=" + this.IsLoggedIn);
 
-            var requestBody = new {
+            var requestBody = new
+            {
                 user = user,
                 os = os,
                 build = build,
@@ -68,9 +69,14 @@ namespace Hive5
                     if (body != null)
                     {
                         this.SetAccessToken(body.AccessToken, body.SessionKey);
+                        if (string.IsNullOrEmpty(body.AccessToken) == false &&
+                            string.IsNullOrEmpty(body.SessionKey) == false)
+                        {
+                            this.IsLoggedIn = true;
+                        }
                     }
                 }
-                this.IsLoggedIn = true;
+
                 callback(response);
             });
         }

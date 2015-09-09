@@ -147,7 +147,6 @@ namespace Hive5
         {
             var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Leaderboard.ListSocialScores, leaderboardKey));
 
-            // Hive5 API 파라미터 셋팅
             TupleList<string, string> parameters = new TupleList<string, string>();
             parameters.Add("leaderboard_key", leaderboardKey);
 
@@ -159,8 +158,7 @@ namespace Hive5
                 }
             }
 
-            // WWW 호출
-            Hive5Http.Instance.GetHttpAsync(url, parameters.data, ListSocialScoresResponseBody.Load, callback);
+            Hive5Http.Instance.GetHttpAsync(url, parameters.data, ListScoresResponseBody.Load, callback);
         }
     }
 }

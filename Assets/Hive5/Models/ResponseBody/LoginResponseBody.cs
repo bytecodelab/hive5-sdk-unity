@@ -16,9 +16,7 @@ namespace Hive5.Models
         public string   SessionKey;
 		public int 		NewMailCount;
         public string Nickname;
-        public User User;
-
-		public List<Agreement> 	Agreements;				
+        public User User;		
 		
 		/// <summary>
 		/// Load the specified json.
@@ -33,7 +31,6 @@ namespace Hive5.Models
             var sessionKey = (string)json["session_key"];
 			var newMailCount = (int)json["new_mail_count"];
 			var accessToken = (string)json["access_token"];
-			var agreements = Agreement.LoadList ( json ["agreements"] );
 			var userPlatform = (string)json["user"]["platform"];
 			var userId = (string)json ["user"]["id"];
             var nickname = json["nickname"] ==null ? string.Empty : (string)json["nickname"];
@@ -47,7 +44,6 @@ namespace Hive5.Models
                     platform = userPlatform,
                     id = userId,
                 },
-				Agreements = agreements,
                 Nickname = nickname,
 			};
 		}

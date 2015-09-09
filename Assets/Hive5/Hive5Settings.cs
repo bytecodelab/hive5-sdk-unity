@@ -35,7 +35,7 @@ namespace Hive5
         */
 		public void CheckNicknameAvailability(string nickname, Callback callback)
 		{
-			var url = Hive5Client.ComposeRequestUrl (String.Format(ApiPath.Settings.CheckNicknameAvailability, Hive5Http.EscapeData(nickname)));
+			var url = Hive5Client.ComposeRequestUrl (String.Format(ApiPath.Player.CheckNicknameAvailability, Hive5Http.EscapeData(nickname)));
 
 			Hive5Http.Instance.GetHttpAsync(url, null, CommonResponseBody.Load, callback);
 		}
@@ -57,7 +57,7 @@ namespace Hive5
         */
 		public void SetNickname(string nickname, Callback callback)
 		{
-			var url = Hive5Client.ComposeRequestUrl (ApiPath.Settings.SetNickname);
+			var url = Hive5Client.ComposeRequestUrl (ApiPath.Player.SetNickname);
 			
 			var requestBody = new {
 				nickname = nickname,

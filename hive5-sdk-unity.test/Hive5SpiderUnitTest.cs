@@ -89,7 +89,6 @@ namespace hive5_sdk_unity.test
                     // 2. 프로퍼티 검증
                     LoginResponseBody body = response.ResultData as LoginResponseBody;
                     Assert.IsTrue(string.IsNullOrEmpty(body.AccessToken) == false);
-                    Assert.IsTrue(body.Agreements != null);
                     Assert.IsTrue(body.NewMailCount >= 0);
                     Assert.IsFalse(string.IsNullOrEmpty(body.User.platform));
                     Assert.IsFalse(string.IsNullOrEmpty(body.User.id)); 

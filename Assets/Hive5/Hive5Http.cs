@@ -58,7 +58,7 @@ namespace Hive5
             headers.Add(HeaderKey.AppKey, Hive5Client.AppKey);
             headers.Add(HeaderKey.Uuid, Hive5Client.Uuid);
             headers.Add(HeaderKey.Token, Hive5Client.Auth.AccessToken);
-            headers.Add(HeaderKey.SessionKey, Hive5Client.Auth.SessionKey);
+            headers.Add(HeaderKey.SessionKey, Hive5Client.Auth.SessionKey == null ? string.Empty : Hive5Client.Auth.SessionKey);
             headers.Add(HeaderKey.XPlatformKey, Hive5Config.XPlatformKey);
             headers.Add(HeaderKey.ContentType, HeaderValue.ContentType);
             headers.Add(HeaderKey.RequestId, rid.RequestId);
@@ -115,7 +115,7 @@ namespace Hive5
             headers.Add(HeaderKey.AppKey, Hive5Client.AppKey);
             headers.Add(HeaderKey.Uuid, Hive5Client.Uuid);
             headers.Add(HeaderKey.Token, Hive5Client.Auth.AccessToken);
-            headers.Add(HeaderKey.SessionKey, Hive5Client.Auth.SessionKey);
+            headers.Add(HeaderKey.SessionKey, Hive5Client.Auth.SessionKey == null ? string.Empty : Hive5Client.Auth.SessionKey);
             headers.Add(HeaderKey.XPlatformKey, Hive5Config.XPlatformKey);
             headers.Add(HeaderKey.RequestId, rid.RequestId);
 
@@ -144,7 +144,7 @@ namespace Hive5
                     callback(Hive5Response.Load(loader, responseText));
                 };
 
-                wc.UploadDataAsync(new Uri(url, UriKind.RelativeOrAbsolute), verb.ToString(), Encoding.UTF8.GetBytes(jsonString), "42000300");
+                wc.UploadDataAsync(new Uri(url, UriKind.RelativeOrAbsolute), verb.ToString(), Encoding.UTF8.GetBytes(jsonString), rid.RequestId);
         }
 
          /// <summary>
@@ -193,7 +193,7 @@ namespace Hive5
 			if (string.IsNullOrEmpty (Hive5Client.Auth.AccessToken) == false) {
 				headers.Add (HeaderKey.Token, Hive5Client.Auth.AccessToken);
 			}
-            headers.Add(HeaderKey.SessionKey, Hive5Client.Auth.SessionKey);
+            headers.Add(HeaderKey.SessionKey, Hive5Client.Auth.SessionKey == null ? string.Empty : Hive5Client.Auth.SessionKey);
             headers.Add(HeaderKey.XPlatformKey, Hive5Config.XPlatformKey);
             headers.Add(HeaderKey.ContentType, HeaderValue.ContentType);
             headers.Add(HeaderKey.RequestId, rid.RequestId);
@@ -283,9 +283,9 @@ namespace Hive5
             headers.Add(HeaderKey.AppKey, Hive5Client.AppKey);
             headers.Add(HeaderKey.Uuid, Hive5Client.Uuid);
 			headers.Add(HeaderKey.XPlatformKey, Hive5Config.XPlatformKey);
-            headers.Add(HeaderKey.SessionKey, Hive5Client.Auth.SessionKey);
+            headers.Add(HeaderKey.SessionKey, Hive5Client.Auth.SessionKey == null ? string.Empty : Hive5Client.Auth.SessionKey);
 			headers.Add(HeaderKey.AcceptEncoding, HeaderValue.Gzip);
-            headers.Add(HeaderKey.RequestId, "42000300");
+            headers.Add(HeaderKey.RequestId, rid.RequestId);
 
             if (string.IsNullOrEmpty(Hive5Client.Auth.AccessToken) == false)
             {

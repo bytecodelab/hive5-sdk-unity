@@ -48,7 +48,6 @@ namespace hive5_sdk_unity.test
                     // 2. 프로퍼티 검증
                     LoginResponseBody body = response.ResultData as LoginResponseBody;
                     Assert.IsTrue(string.IsNullOrEmpty(body.AccessToken) == false); // 잘못된 아이디로 로그인했으니
-                    Assert.IsTrue(body.Agreements != null);
                     Assert.IsTrue(body.NewMailCount >= 0);
                     Assert.IsFalse(string.IsNullOrEmpty(body.User.platform));
                     Assert.IsFalse(string.IsNullOrEmpty(body.User.id)); // 잘못된 아이디로 로그인했으니
@@ -551,10 +550,10 @@ namespace hive5_sdk_unity.test
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
                     Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                    Assert.IsTrue(response.ResultData is ListSocialScoresResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+                    Assert.IsTrue(response.ResultData is ListScoresResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
 
                     // 2. 프로퍼티 검증
-                    ListSocialScoresResponseBody body = response.ResultData as ListSocialScoresResponseBody;
+                    ListScoresResponseBody body = response.ResultData as ListScoresResponseBody;
                     Assert.IsTrue(body.Scores != null);
                     Assert.IsTrue(body.Scores.Count > 0);
 

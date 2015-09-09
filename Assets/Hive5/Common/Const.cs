@@ -5,6 +5,7 @@ namespace Hive5
     /// <summary>
     /// Hive5 API path.
     /// </summary>
+    /// <exclude />
     public class ApiPath
     {
         public static class Auth
@@ -12,7 +13,6 @@ namespace Hive5
             public static string LogIn = "auth/log_in";
             public static string SwitchPlatform = "auth/switch";
             public static string Unregister = "auth/unregister";
-            public static string Agreement = "agreements";
             public static string CreatePlatformAccount = "accounts";
             public static string CheckPlatformNameAvailability = "accounts/is_available_name/{0}";
             public static string CheckPlatformEmailAvailability = "accounts/is_available_email/{0}";
@@ -60,6 +60,12 @@ namespace Hive5
             public static string Update = "mails/{0}";
         }
 
+        public static class Player
+        {
+            public static string CheckNicknameAvailability = "players/me/nickname/is_available/{0}";
+            public static string SetNickname = "players/me/nickname";
+        }
+
         public static class Purchase {
             public static string CreateNaverPurchase = "naver_purchases";
             public static string CompleteNaverPurchase = "naver_purchases/complete/{0}";
@@ -74,8 +80,6 @@ namespace Hive5
 
         public static class Settings
         {
-            public static string CheckNicknameAvailability = "settings/nickname/is_available/{0}";
-            public static string SetNickname = "settings/nickname/set";
             public static string UpdatePushToken = "settings/push_tokens/update";
             public static string ActivatePush = "settings/pushes/activate";
             public static string DeactivatePush = "settings/pushes/deactivate";

@@ -119,7 +119,6 @@
     <Compile Include="Assets\Hive5\Models\ResponseBody\GetMyScoreResponseBody.cs" />
     <Compile Include="Assets\Hive5\Models\ResponseBody\RedeemCouponResponseBody.cs" />
     <Compile Include="Assets\Hive5\Models\ResponseBody\ListScoresResponseBody.cs" />
-    <Compile Include="Assets\Hive5\Models\ResponseBody\ListSocialScoresResponseBody.cs" />
     <Compile Include="Assets\Hive5\Models\ResponseBody\IResponseBody.cs" />
     <Compile Include="Assets\Hive5\Models\ResponseBody\LoginResponseBody.cs" />
     <Compile Include="Assets\Hive5\Models\ResponseBody\ExecuteCountResponseBody.cs" />

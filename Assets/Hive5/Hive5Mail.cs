@@ -76,13 +76,13 @@ namespace Hive5
         * Hive5Client hive5 = Hive5Client.Instance;
         * hive5.ListMails(limit, tag, order, afterMailId, callback);
         */
-        public void List(int limit, string tag, OrderType order, long afterMailId, Callback callback)
+        public void List(int limit, string tag, DataOrder order, long afterMailId, Callback callback)
         {
             var url = Hive5Client.ComposeRequestUrl(ApiPath.Mail.List);
 
             TupleList<string, string> parameters = new TupleList<string, string>();
             parameters.Add("limit", limit.ToString());
-            parameters.Add("order", Tool.OrderToString(order));
+            parameters.Add("order", Converter.OrderToString(order));
 
             if (afterMailId > 0)
                 parameters.Add("after_mail_id", afterMailId.ToString());
@@ -98,7 +98,7 @@ namespace Hive5
         * @apiName CountMail
         * @apiGroup Mail
         *
-        * @apiParam {OrderType} order 메일 순서
+        * @apiParam {DataOrder} order 메일 순서
         * @apiParam {long} afterMailId 특정 메일 이후의 리스트 받기 위한 mail id
         * @apiParam {string} tags 메일 Tag
         * @apiParam {Callback} callback 콜백 함수
@@ -109,13 +109,13 @@ namespace Hive5
         * Hive5Client hive5 = Hive5Client.Instance;
         * hive5.CountMail(order, afterMailId, tag, callback);
         */
-        public void CountMail(OrderType order, string afterMailId, string tag, Callback callback)
+        public void CountMail(DataOrder order, string afterMailId, string tag, Callback callback)
         {
             // Hive5 API URL 초기화
             var url = Hive5Client.ComposeRequestUrl(ApiPath.Mail.Count);
 
             TupleList<string, string> parameters = new TupleList<string, string>();
-            parameters.Add("order", Tool.OrderToString(order));
+            parameters.Add("order", Converter.OrderToString(order));
             if (string.IsNullOrEmpty(afterMailId) == false)
                 parameters.Add("after_mail_id", afterMailId);
             if (string.IsNullOrEmpty(tag) == false)

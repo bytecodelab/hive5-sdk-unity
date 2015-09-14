@@ -51,9 +51,8 @@
     <Compile Include="Assets\Hive5HealthCheckerListener.cs" />
     <Compile Include="Assets\Hive5\Common\Const.cs" />
     <Compile Include="Assets\Hive5\Common\Enum.cs" />
-    <Compile Include="Assets\Hive5\Common\Exceptions.cs" />
-    <Compile Include="Assets\Hive5\Extensions\Hive5Extensions.cs" />
     <Compile Include="Assets\Hive5\Extensions\JsonDataExtensions.cs" />
+    <Compile Include="Assets\Hive5\Util\TupleList.cs" />
     <Compile Include="Assets\Hive5\HealthCheck\Maintenance.cs" />
     <Compile Include="Assets\Hive5\HealthCheck\Plan.cs" />
     <Compile Include="Assets\Hive5\Hive5.cs" />
@@ -176,7 +175,7 @@
     <Compile Include="Assets\Hive5\Test\Logger.cs" />
     <Compile Include="Assets\Hive5\Test\MockMonoSingleton.cs" />
     <Compile Include="Assets\Hive5\HealthCheck\HealthChecker.cs" />
-    <Compile Include="Assets\Hive5\Util\Util.cs" />
+    <Compile Include="Assets\Hive5\Util\Converter.cs" />
     <Compile Include="Assets\Hive5\lib\MonoSingleton.cs" />
     <Compile Include="Assets\Hive5Config.cs" />
     <Reference Include="UnityEngine.UI">
@@ -192,6 +191,7 @@
       <HintPath>Assets\Plugins\websocket-sharp.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
 	   Other similar extension points exist, see Microsoft.Common.targets.

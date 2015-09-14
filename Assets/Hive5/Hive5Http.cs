@@ -439,7 +439,7 @@ namespace Hive5
 
         public static string ObjectToJson(object obj)
         {
-            if (obj == null )
+            if (obj == null)
                 return string.Empty;
 
             string jsonString = obj is string ? (string)obj : JsonMapper.ToJson(obj);

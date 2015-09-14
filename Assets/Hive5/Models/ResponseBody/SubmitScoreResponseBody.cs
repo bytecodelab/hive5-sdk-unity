@@ -26,7 +26,7 @@ namespace Hive5.Models
             DateTime udpateAt;
             try 
             {
-                udpateAt = Date.ParseDateTime((string)json["updated_at"]);
+                udpateAt = DateTime.Parse((string)json["updated_at"]);
             }
             catch
             {

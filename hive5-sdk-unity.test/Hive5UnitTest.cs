@@ -680,7 +680,7 @@ namespace hive5_sdk_unity.test
 
                 string sampleTag = "reward";
 
-                Hive5Client.Mail.CountMail(OrderType.DESC, "0", sampleTag, (response) =>
+                Hive5Client.Mail.CountMail(DataOrder.DESC, "0", sampleTag, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -713,7 +713,7 @@ namespace hive5_sdk_unity.test
 
                 string sampleTag = "reward";
 
-                Hive5Client.Mail.List(10, sampleTag, OrderType.DESC, 0, (response) =>
+                Hive5Client.Mail.List(10, sampleTag, DataOrder.DESC, 0, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공

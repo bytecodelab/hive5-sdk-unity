@@ -42,7 +42,7 @@ namespace Hive5.Models
 				agreements.Add ( new Agreement() {
 					Key = key,
 					Version = (string)jsonData[key]["version"],
-					AgreedAt = Date.ParseDateTime((string)jsonData[key]["agreed_at"])
+					AgreedAt = DateTime.Parse((string)jsonData[key]["agreed_at"])
 				});
 			}
 

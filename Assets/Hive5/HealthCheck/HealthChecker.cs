@@ -12,8 +12,8 @@ using UnityEngine;
 namespace Hive5
 {
     /// <summary>
-    /// ServerStatus
-    /// Category는 아래 링크 내용을 참고하였음
+    /// 서버 상태 열거형
+    /// 아래 링크 내용을 참고하였음
     /// http://www.novell.com/documentation//edir88/edir88new/data/bqn2l9c.html#bqa5ntz
     /// </summary>
     public enum ServerStatus 
@@ -25,19 +25,34 @@ namespace Hive5
     } 
 
 
-    #if UNITTEST
+    /// <summary>
+    /// 서버 건상 상태를 일시적/주기적으로 확인할 수 있는 클래스
+    /// </summary>
+#if UNITTEST
     public class HealthChecker : MockMonoSingleton<Hive5Http> {
 #else
 	public class HealthChecker : MonoSingleton<Hive5Http> {
 #endif
 
+        /// <summary>
+        /// 국가코드 기본값
+        /// </summary>
         public const string DefaultCountryCode = "default";
+        /// <summary>
+        /// 국가코드
+        /// </summary>
         public string CountryCode { get; set; }
 
-
+        /// <summary>
+        /// 싱글턴 패턴의 인스턴스 접근자
+        /// </summary>
         public static HealthChecker Instance { get; private set; }
 
         private ServerStatus _Status = ServerStatus.Indeterminated;
+
+        /// <summary>
+        /// 서버 상태
+        /// </summary>
         public ServerStatus Status 
         {
             get { return _Status; }
@@ -57,10 +72,16 @@ namespace Hive5
             }
         }
 
+        /// <summary>
+        /// 현재 유지보수 내용
+        /// </summary>
         public Maintenance CurrentMaintenance { get; set; }
 
         private Hive5HealthCheckerListener _Listener = new Hive5HealthCheckerListener();
 
+        /// <summary>
+        /// 상태 변경 이벤트
+        /// </summary>
         public event EventHandler StatusChanged;
         private void OnStatusChanged()
         {
@@ -80,29 +101,44 @@ namespace Hive5
             this.CountryCode = HealthChecker.DefaultCountryCode;
         }
 
+        /// <summary>
+        /// 유지보수 내용 가져오기
+        /// </summary>
+        /// <param name="url">호출 주소</param>
+        /// <returns>유지보수 내용</returns>
         public Maintenance GetMaintenance(string url)
         {
-            string json = ReadJson(url);
+            string json = DownloadString(url);
             var maintenance = Maintenance.Parse(json);
             return maintenance;
         }
 
 #if UNITTEST
-        public string ReadJson(string url)
+        /// <summary>
+        /// Url로 웹 문자열 컨텐츠 내려받기
+        /// </summary>
+        /// <param name="url">호출 주소</param>
+        /// <returns>문자열</returns>
+        public string DownloadString(string url)
         {
             WebClient wc = new WebClient() { Encoding = Encoding.UTF8 };
-            string json = wc.DownloadString(url);
-            return json;
+            string content = wc.DownloadString(url);
+            return content;
         }
 #else
-        public string ReadJson(string url)
+        /// <summary>
+        /// Url로 웹 문자열 컨텐츠 내려받기
+        /// </summary>
+        /// <param name="url">호출 주소</param>
+        /// <returns>문자열</returns>
+        public string DownloadString(string url)
         {
             var www = GetLoadedWWW(url);
-            string json = www.text;
-            return json;
+            string content = www.text;
+            return content;
         }
 
-        public WWW GetLoadedWWW(string url)
+        private WWW GetLoadedWWW(string url)
         {
             WWW www = new WWW (url);
             StartCoroutine (WaitForRequest (www));
@@ -129,6 +165,9 @@ namespace Hive5
         private BackgroundWorker _HealthMonitorWorker = null;
         private bool _ForceStopMonitor = false;
 
+        /// <summary>
+        /// 감시를 시작합니다.
+        /// </summary>
         public void StartMonitor()
         {
             if (_MonitorStarted == true)
@@ -153,6 +192,9 @@ namespace Hive5
             _MonitorStarted = false;
         }
 
+        /// <summary>
+        /// 감시를 중단합니다.
+        /// </summary>
         public void StopMonitor()
         {
             _ForceStopMonitor = true;

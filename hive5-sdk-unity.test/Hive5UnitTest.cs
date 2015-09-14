@@ -1530,5 +1530,13 @@ namespace hive5_sdk_unity.test
             var boolList = boolsJson.ToList<bool>();
             Assert.AreEqual(boolList.Count, 3);
         }
+
+        [TestMethod]
+        public void TestJsonSerializeTupleList()
+        {
+            var parameters = new TupleList<string, string>();
+            parameters.Add("echo", "gilbok");
+            var serialized = LitJson.JsonMapper.ToJson(parameters);
+        }
     }
 }

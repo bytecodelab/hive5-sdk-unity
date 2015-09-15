@@ -7,6 +7,7 @@ using System.Net;
 using System.Collections.Generic;
 using LitJson;
 using Hive5.Util;
+using System.Diagnostics;
 
 namespace hive5_sdk_unity.test
 {
@@ -1537,6 +1538,29 @@ namespace hive5_sdk_unity.test
             var parameters = new TupleList<string, string>();
             parameters.Add("echo", "gilbok");
             var serialized = LitJson.JsonMapper.ToJson(parameters);
+        }
+
+        [TestMethod]
+        public void TestIssueRequestId()
+        {
+            Dictionary<long, bool> idDic = new Dictionary<long, bool>();
+           
+            bool duplicated = false;
+            for (int i = 0; i < 10000; i++)
+            {
+                PublishMessage message = new PublishMessage();
+                if (idDic.ContainsKey(message.RequestId) == true)
+                {
+                    Debug.WriteLine("duplicated: " + message.RequestId.ToString());
+                    duplicated = true;
+                    continue;
+                }
+
+                Debug.WriteLine(message.RequestId);
+                idDic.Add(message.RequestId, false);
+            }
+
+            Assert.IsFalse(duplicated);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Hive5
 
         public CallOptions Options { get; set; }
 
-        public CallMessage()
+        public CallMessage() : base()
         {
             this.MessageCode = (int)WampMessageCode.CALL;
             this.Options = new CallOptions();

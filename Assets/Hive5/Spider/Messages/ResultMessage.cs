@@ -17,7 +17,7 @@ namespace Hive5
         public Dictionary<string, JsonData> ArgumentsKw { get; set; }
 
 
-        public ResultMessage()
+        public ResultMessage() : base()
         {
             this.MessageCode = (int)WampMessageCode.RESULT;
         }

@@ -13,7 +13,7 @@ namespace Hive5
         public List<SpiderTopic> Topics { get; set; }
 
 
-        public WelcomeMessage()
+        public WelcomeMessage() : base()
         {
             this.MessageCode = (int)WampMessageCode.WELCOME;
         }

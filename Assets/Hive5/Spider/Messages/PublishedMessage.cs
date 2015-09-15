@@ -11,6 +11,7 @@ namespace Hive5
         public long PublicationId { get; set; }
 
         public PublishedMessage()
+            : base()
         {
             this.MessageCode = (int)WampMessageCode.PUBLISHED;
         }

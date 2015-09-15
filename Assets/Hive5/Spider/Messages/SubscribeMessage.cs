@@ -11,7 +11,7 @@ namespace Hive5
 
         public Dictionary<string, object> Options { get; set;  }
 
-        public SubscribeMessage()
+        public SubscribeMessage() : base()
         {
             this.MessageCode = (int)WampMessageCode.SUBSCRIBE;
         }

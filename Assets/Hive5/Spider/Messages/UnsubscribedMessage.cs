@@ -9,7 +9,7 @@ namespace Hive5
     {
         public long RequestId { get; set; }
 
-        public UnsubscribedMessage()
+        public UnsubscribedMessage() : base()
         {
             this.MessageCode = (int)WampMessageCode.UNSUBSCRIBED;
         }

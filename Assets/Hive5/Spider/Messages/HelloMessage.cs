@@ -11,7 +11,7 @@ namespace Hive5
 
         public HelloDetail Detail { get; set; }
 
-        public HelloMessage()
+        public HelloMessage() : base()
         {
             this.MessageCode = (int)WampMessageCode.HELLO;
         }

@@ -11,7 +11,7 @@ namespace Hive5
         public long RequestId { get; set; }
         public long SubscriptionId { get; set; }
 
-        public SubscribedMessage()
+        public SubscribedMessage() : base()
         {
             this.MessageCode = (int)WampMessageCode.SUBSCRIBED;
         }

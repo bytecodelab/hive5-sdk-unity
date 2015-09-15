@@ -5,43 +5,31 @@ using System.Text;
 
 namespace Hive5
 {
+    /// <summary>
+    /// 스파이더 요청 메시지의 추상클래스
+    /// </summary>
     public abstract class SpiderRequestMessage : SpiderMessage
     {
+        /// <summary>
+        /// 요청 고유아이디
+        /// </summary>
         public long RequestId { get; private set; }
-
-        public SpiderRequestMessage()
+       
+        /// <summary>
+        /// 기본생성자
+        /// </summary>
+        public SpiderRequestMessage() : base()
         {
-            //this.RequestId = getRequestId();
             this.RequestId = GetNextId();
         }
-       
-        private static long lastTick = 0;
-        private static object idGenLock = new Object();
+
+        private static Random _Random = new Random();
+
         private static long GetNextId() {
-          lock (idGenLock) {
-            long tick = DateTime.UtcNow.Ticks;
-            if (lastTick == tick) {
-              tick = lastTick+1;
-            }
-            lastTick = tick;
-            return tick;
-          }
+            var tickString = DateTime.UtcNow.Ticks.ToString() + DateTime.UtcNow.Millisecond.ToString();
+            var prefix = tickString.Substring(9);
+            var prefixLong = long.Parse(prefix) * 1000000;
+            return prefixLong + _Random.Next(0, 1000000); 
         }
-
-        //private long getRequestId()
-        //{
-        //    return this.LongRandom(100000000000000000, long.MaxValue, _random);
-        //}
-
-        //private static Random _random = new Random();
-
-        //private long LongRandom(long min, long max, Random rand)
-        //{
-        //    byte[] buf = new byte[8];
-        //    rand.NextBytes(buf);
-        //    long longRand = BitConverter.ToInt64(buf, 0);
-
-        //    return (Math.Abs(longRand % (max - min)) + min);
-        //}
     }
 }

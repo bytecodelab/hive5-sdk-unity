@@ -9,7 +9,7 @@ namespace Hive5
     {
         public long SubscriptionId { get; set; }
 
-        public UnsubscribeMessage()
+        public UnsubscribeMessage() : base()
         {
             this.MessageCode = (int)WampMessageCode.UNSUBSCRIBE;
         }

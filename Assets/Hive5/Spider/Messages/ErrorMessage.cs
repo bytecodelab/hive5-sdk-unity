@@ -16,7 +16,7 @@ namespace Hive5
 
         public int MessageCodeOfError { get; set; }
 
-        public ErrorMessage()
+        public ErrorMessage() : base()
         {
             this.MessageCode = (int)WampMessageCode.ERROR;
         }

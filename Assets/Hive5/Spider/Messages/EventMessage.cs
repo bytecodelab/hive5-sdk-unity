@@ -18,7 +18,7 @@ namespace Hive5
 
         public Dictionary<string, string> ArgumentsKw { get; set; }
 
-        public EventMessage()
+        public EventMessage() : base()
         {
             this.MessageCode = (int)WampMessageCode.EVENT;
         }

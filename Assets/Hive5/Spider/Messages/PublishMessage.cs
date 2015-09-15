@@ -16,7 +16,7 @@ namespace Hive5
 
         public string TopicUri { get; set; }
 
-        public PublishMessage()
+        public PublishMessage() : base()
         {
             this.MessageCode = (int)WampMessageCode.PUBLISH;
             this.Arguments = new List<object>();

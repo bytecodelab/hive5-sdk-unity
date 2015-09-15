@@ -9,7 +9,7 @@ namespace Hive5
     {
         public string ReasonUri { get; set; }
 
-        public GoodbyeMessage()
+        public GoodbyeMessage() : base()
         {
             this.MessageCode = (int)WampMessageCode.GOODBYE;
         }

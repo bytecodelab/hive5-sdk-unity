@@ -39,6 +39,8 @@ namespace Hive5
 
         public SpiderServer SpiderServer { get; private set;  }
 
+        public CallbackManager CallbackManager { get; private set; }
+
         public string Realm { get; private set; }
 
         public long SessionId { get; set; }
@@ -67,7 +69,7 @@ namespace Hive5
 
         public Hive5Spider()
         {
-            
+            CallbackManager = new CallbackManager();
         }
 
         public void Initialize(string kiterHost)

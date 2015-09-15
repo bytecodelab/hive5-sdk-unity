@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace Hive5
 {
@@ -25,11 +26,10 @@ namespace Hive5
 
         private static Random _Random = new Random();
 
+        private static long _Counter = 0;
+
         private static long GetNextId() {
-            var tickString = DateTime.UtcNow.Ticks.ToString() + DateTime.UtcNow.Millisecond.ToString();
-            var prefix = tickString.Substring(9);
-            var prefixLong = long.Parse(prefix) * 1000000;
-            return prefixLong + _Random.Next(0, 1000000); 
+            return Interlocked.Increment(ref _Counter);
         }
     }
 }

@@ -5,18 +5,18 @@ using System.Text;
 
 namespace Hive5
 {
-    public static class CallbackManager
+    public class CallbackManager
     {
-        public static Dictionary<long, SubscribeCallback> SubscribeRequestIdToCallback { get; private set; }
+        public Dictionary<long, SubscribeCallback> SubscribeRequestIdToCallback { get; private set; }
 
-        public static Dictionary<long, SpiderCallback> UnsubscribeRequestIdToCallback { get; private set; }
+        public Dictionary<long, SpiderCallback> UnsubscribeRequestIdToCallback { get; private set; }
 
-        public static Dictionary<long, SendMessageCallback> PublishRequestIdToCallback { get; private set; }
+        public Dictionary<long, SendMessageCallback> PublishRequestIdToCallback { get; private set; }
 
-        public static Dictionary<long, CallResultCallbackNode> CallRequestIdToCallbackNode { get; private set; }
+        public Dictionary<long, CallResultCallbackNode> CallRequestIdToCallbackNode { get; private set; }
 
 
-        static CallbackManager()
+        public CallbackManager()
         {
             SubscribeRequestIdToCallback = new Dictionary<long, SubscribeCallback>();
             UnsubscribeRequestIdToCallback = new Dictionary<long, SpiderCallback>();

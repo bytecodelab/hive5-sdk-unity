@@ -10,6 +10,7 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+		ReleaseUnitTest|Any CPU = ReleaseUnitTest|Any CPU
 		UnitTest|Any CPU = UnitTest|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
@@ -17,12 +18,16 @@ Global
 		{D6EA1B8D-CD1F-47A3-AEE5-5BCE3069FDB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6EA1B8D-CD1F-47A3-AEE5-5BCE3069FDB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6EA1B8D-CD1F-47A3-AEE5-5BCE3069FDB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6EA1B8D-CD1F-47A3-AEE5-5BCE3069FDB9}.ReleaseUnitTest|Any CPU.ActiveCfg = ReleaseUnitTest|Any CPU
+		{D6EA1B8D-CD1F-47A3-AEE5-5BCE3069FDB9}.ReleaseUnitTest|Any CPU.Build.0 = ReleaseUnitTest|Any CPU
 		{D6EA1B8D-CD1F-47A3-AEE5-5BCE3069FDB9}.UnitTest|Any CPU.ActiveCfg = UnitTest|Any CPU
 		{D6EA1B8D-CD1F-47A3-AEE5-5BCE3069FDB9}.UnitTest|Any CPU.Build.0 = UnitTest|Any CPU
 		{29B91E10-D0E6-73B9-A265-FAEF72D31B26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{29B91E10-D0E6-73B9-A265-FAEF72D31B26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29B91E10-D0E6-73B9-A265-FAEF72D31B26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29B91E10-D0E6-73B9-A265-FAEF72D31B26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29B91E10-D0E6-73B9-A265-FAEF72D31B26}.ReleaseUnitTest|Any CPU.ActiveCfg = ReleaseUnitTest|Any CPU
+		{29B91E10-D0E6-73B9-A265-FAEF72D31B26}.ReleaseUnitTest|Any CPU.Build.0 = ReleaseUnitTest|Any CPU
 		{29B91E10-D0E6-73B9-A265-FAEF72D31B26}.UnitTest|Any CPU.ActiveCfg = Release|Any CPU
 		{29B91E10-D0E6-73B9-A265-FAEF72D31B26}.UnitTest|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

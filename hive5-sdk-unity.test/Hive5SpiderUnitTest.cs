@@ -17,10 +17,16 @@ namespace hive5_sdk_unity.test
     {
         public static TestConfig TestValues { get; set; }
         public const string ZoneTopicUri = "io.hive5.spider.topic.zone.7.name1"; // "io.hive5.spider.topic.zone.7.testzone"
+        private Hive5Spider _Spider;
 
         [TestInitialize]
         public void InitTest()
         {
+            if (_Spider == null)
+            {
+
+            }
+
             TestValues = TestConfig.Default;
              
             Hive5Config.AppKey = TestValues.AppKey;
@@ -30,7 +36,7 @@ namespace hive5_sdk_unity.test
             Hive5Client.Initialize(TestValues.Uuid);                
             Login();
 
-            Hive5Spider.Instance.Initialize(TestValues.KiterHost);
+            _Spider.Initialize(TestValues.KiterHost);
         }
 
 
@@ -61,7 +67,7 @@ namespace hive5_sdk_unity.test
             var completion = new ManualResetEvent(false);
             
             bool connected = false;
-            Hive5Spider.Instance.Connect((success) =>
+            _Spider.Connect((success) =>
                 {
                     connected = success;
                     completion.Set();
@@ -123,7 +129,7 @@ namespace hive5_sdk_unity.test
 
             long zoneTopicSubscriptionId = -1;
 
-            Hive5Spider.Instance.EnterZone(zoneTopicUri, (success, sid) =>
+            _Spider.EnterZone(zoneTopicUri, (success, sid) =>
                 {
                     if (success == true)
                     {
@@ -149,7 +155,7 @@ namespace hive5_sdk_unity.test
             var sid = EnterZone(ZoneTopicUri);
             Assert.IsTrue(sid > 0);
 
-            Hive5Spider.Instance.SendToZone("UnitTester", "I'm testing a unit-test.", ZoneTopicUri, (success, pid) => 
+            _Spider.SendToZone("UnitTester", "I'm testing a unit-test.", ZoneTopicUri, (success, pid) => 
             {
                 Assert.IsTrue(success);
                 Assert.IsTrue(pid > 0);
@@ -170,7 +176,7 @@ namespace hive5_sdk_unity.test
             var sid = EnterZone(ZoneTopicUri);
             Assert.IsTrue(sid > 0);
 
-            Hive5Spider.Instance.SendToUser("UnitTester", "Hi, there!", new User() { platform = "none", id = "515" }, (success, pid) =>
+            _Spider.SendToUser("UnitTester", "Hi, there!", new User() { platform = "none", id = "515" }, (success, pid) =>
             {
                 Assert.IsTrue(success);
                 Assert.IsTrue(pid > 0);

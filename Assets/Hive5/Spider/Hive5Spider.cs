@@ -25,13 +25,9 @@ namespace Hive5
     public delegate void MessageReceivedEventHandler(object sender, SpiderTopic topic, Dictionary<string, string> mesageContents);
 
     /// <summary>
-    /// Hive5의 Spider API에 대응하는 클래스
+    /// Hive5의 실시간 서버인 Spider API에 대응하는 클래스
     /// </summary>
-#if UNITTEST
-    public class Hive5Spider : MockMonoSingleton<Hive5Spider> 
-#else
-	public class Hive5Spider : MonoSingleton<Hive5Spider> 
-#endif
+    public class Hive5Spider
     {
         #region 프로퍼티들
         /// <summary>
@@ -442,7 +438,7 @@ namespace Hive5
 	                        WelcomeMessage welcomeMessage = message as WelcomeMessage;
 	                        this.SessionId = welcomeMessage.SessionId;
 	                        
-                            _ConnectingSubscribeReserver = new SubscribeReserver(welcomeMessage.Topics, _ConnectedCallback);
+                            _ConnectingSubscribeReserver = new SubscribeReserver(this, welcomeMessage.Topics, _ConnectedCallback);
                             foreach (var topic in welcomeMessage.Topics)
                             {
                                 this.Subscribe(topic, (success, sid) => {

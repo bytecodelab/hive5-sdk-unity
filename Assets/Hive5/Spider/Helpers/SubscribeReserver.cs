@@ -9,9 +9,11 @@ namespace Hive5
     {
         private SpiderCallback _DoneCallback;
         private Dictionary<string, bool> _SubscriptionResults = new Dictionary<string, bool>();
+        private Hive5Spider _Spider;
 
-        public SubscribeReserver (List<SpiderTopic> topics, SpiderCallback doneCallback)
+        public SubscribeReserver (Hive5Spider spider, List<SpiderTopic> topics, SpiderCallback doneCallback)
 	    {
+            _Spider = spider;
             _DoneCallback = doneCallback;
 
             foreach (var topic in topics)
@@ -34,7 +36,7 @@ namespace Hive5
 
             if (_SubscriptionResults.Count == 0)
             {
-                Hive5Spider.Instance.IsConnected = true;
+                _Spider.IsConnected = true;
 
                 if (_DoneCallback != null)
                 {

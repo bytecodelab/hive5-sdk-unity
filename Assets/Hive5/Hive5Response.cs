@@ -25,17 +25,8 @@ namespace Hive5
 		{
 			JsonData response = JsonMapper.ToObject (json);
 
-			Hive5ErrorCode resultCode 	= (Hive5ErrorCode) ((int)response[ResponseKey.ResultCode]);
-			string resultMessage;
-
-			try
-			{
-				resultMessage = (string)response[ResponseKey.ResultMessage];
-			}
-			catch(Exception)
-			{
-				resultMessage = "";
-			}
+			Hive5ErrorCode resultCode 	= (Hive5ErrorCode) ((int)response["result_code"]);
+			string resultMessage = response.ContainsKey("result_message") == false ? string.Empty : (string)response["result_message"];
 
 			IResponseBody resultData = null;
 			if (resultCode == 0) {

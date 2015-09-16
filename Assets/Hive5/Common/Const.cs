@@ -119,16 +119,6 @@ namespace Hive5
     }
 
     /// <summary>
-    /// Hive5 response key.
-    /// </summary>
-    public class ResponseKey
-    {
-        public static string ResultCode = "result_code";
-        public static string ResultMessage = "result_message";
-        public static string AccessToken = "access_token";
-    }
-
-    /// <summary>
     /// Hive5 header key.
     /// </summary>
     public class HeaderKey

@@ -26,8 +26,8 @@ namespace Hive5
             if (parts.Count != 3)
                 return null;
 
-            if (parts[1].IsLong == false ||
-                parts[2].IsLong == false)
+            if ((parts[1].IsInt == false && parts[1].IsLong == false) ||
+                (parts[2].IsInt == false && parts[2].IsLong == false))
                 return null;
 
             long requestId = JsonHelper.ToLong(parts[1], -1);

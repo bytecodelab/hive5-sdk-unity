@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -29,7 +30,9 @@ namespace Hive5
         private static long _Counter = 0;
 
         private static long GetNextId() {
-            return Interlocked.Increment(ref _Counter);
+            long id = Interlocked.Increment(ref _Counter);
+            Debug.WriteLine("id: " + id);
+            return id;
         }
     }
 }

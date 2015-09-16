@@ -35,9 +35,9 @@ namespace Hive5
         /// </summary>
         public const string Version = "v1";
 
-        public string KiterHost { get; private set;  }
+        public string KiterHost { get; private set; }
 
-        public SpiderServer SpiderServer { get; private set;  }
+        public SpiderServer SpiderServer { get; private set; }
 
         public CallbackManager CallbackManager { get; private set; }
 
@@ -113,7 +113,8 @@ namespace Hive5
                 Logger.Log("Spider Hello 전송 성공 in HelloCompleted");
             }
 
-            if (connectedToWebSocketCallback != null) { 
+            if (connectedToWebSocketCallback != null)
+            {
                 connectedToWebSocketCallback(success);
             }
         }
@@ -122,14 +123,22 @@ namespace Hive5
 
         private void PickServers(SpiderCallback callback)
         {
-            string requestUrl = System.IO.Path.Combine(this.KiterHost,  string.Format("{0}/servers/pick", Hive5Spider.Version));
+            string requestUrl = System.IO.Path.Combine(this.KiterHost, string.Format("{0}/servers/pick", Hive5Spider.Version));
 
             Hive5Http.Instance.GetHttpAsync(requestUrl, null, PickServerResponseBody.Load, (response) =>
                 {
                     var body = response.ResultData as PickServerResponseBody;
-                    this.SpiderServer = body.Server;
-                    this.Realm = body.Realm;
-                    callback(true);
+
+                    if (body == null || body.Server == null)
+                    {
+                        callback(false);
+                    }
+                    else
+                    {
+                        this.SpiderServer = body.Server;
+                        this.Realm = body.Realm;
+                        callback(true);
+                    }
                 });
         }
 
@@ -141,14 +150,17 @@ namespace Hive5
 
         public void Connect(SpiderCallback callback)
         {
+            if (this.mySocket != null)
+                this.mySocket.CloseAsync();
+
             _ConnectedCallback = callback;
             PickServers((result) =>
             {
                 if (result == false)
+                {
+                    callback(false);
                     return;
-
-                if (this.mySocket != null)
-                    this.mySocket.CloseAsync();
+                }
 
                 this.mySocket = new WebSocket(this.SpiderServer.ToEndPoint());
                 LinkEvents(this.mySocket);
@@ -181,7 +193,7 @@ namespace Hive5
             ws.OnMessage += mySocket_OnMessage;
             ws.OnClose += mySocket_OnClose;
         }
-       
+
         public void Subscribe(SpiderTopic topic, SubscribeCallback callback)
         {
             SubscribeMessage message = new SubscribeMessage()
@@ -193,7 +205,7 @@ namespace Hive5
             {
                 CallbackManager.SubscribeRequestIdToCallback.Add(message.RequestId, callback);
             }
-        
+
             // RequestId를 TopicKind와 등록
             SubscriptionManager.ReportSubscribe(message.RequestId, topic);
 
@@ -302,7 +314,7 @@ namespace Hive5
 
             CallbackManager.PublishRequestIdToCallback.Add(message.RequestId, callback);
 
-             Logger.Log("Spider Publish: " + message.ToMessageString());
+            Logger.Log("Spider Publish: " + message.ToMessageString());
             this.SendAsync(message, (success) =>
                 {
                     if (success == false)
@@ -368,7 +380,7 @@ namespace Hive5
         public void SendToZone(string nickname, string message, string zoneTopicUri, SendMessageCallback callback)
         {
             var zoneTopic = new SpiderTopic(zoneTopicUri);
-            var content = new Dictionary<string,string>();
+            var content = new Dictionary<string, string>();
             content.Add("nick", nickname);
             content.Add("content", message);
             this.Publish(zoneTopic, new NoticePublishOptions(), content, callback);
@@ -377,7 +389,7 @@ namespace Hive5
         public void SendToUser(string nickname, string message, User user, SendMessageCallback callback)
         {
             var userTopic = SpiderTopic.CreateUserTopic(user);
-            var content = new Dictionary<string,string>();
+            var content = new Dictionary<string, string>();
             content.Add("nick", nickname);
             content.Add("content", message);
             this.Publish(userTopic, new PrivatePublishOptions(), content, callback);
@@ -385,11 +397,14 @@ namespace Hive5
 
         #region Disconnect(GoodBye)
 
-        public void Disconnect(SpiderCallback callback)
+        public void AddDisconnectCallback(SpiderCallback callback)
+        {
+            disconnectedCallback = callback;
+        }
+
+        public void Disconnect()
         {
             GoodbyeMessage message = new GoodbyeMessage();
-          
-            disconnectedCallback = callback;
             this.SendAsync(message, goodbyeCompleted);
         }
 
@@ -415,230 +430,239 @@ namespace Hive5
 
         void mySocket_OnClose(object sender, CloseEventArgs e)
         {
-			Logger.Log ("[OnClose]");
+            Logger.Log("[OnClose]");
             OnClosed();
         }
 
 
         void mySocket_OnMessage(object sender, MessageEventArgs e)
         {
-			Loom.RunAsync(new Action(()=> {
-	            Logger.Log("◀ Message received.\tRaw message = " + e.Data);
-	            SpiderMessage message = MessageParser.Parse(e.Data);
-	            if (message == null)
-				{
-					Logger.Log("Message couldn't be parsed.");
-	                return;
-				}
+#if !UNITTEST
+            Loom.RunAsync(new Action(() =>
+            {
+#endif
+                Logger.Log("◀ Message received.\tRaw message = " + e.Data);
+                SpiderMessage message = MessageParser.Parse(e.Data);
+                if (message == null)
+                {
+                    Logger.Log("Message couldn't be parsed. " + e.Data);
+                    return;
+                }
 
-	            switch ((WampMessageCode)message.MessageCode)
-	            {
-	                case WampMessageCode.HELLO:
-	                    break;
-	                case WampMessageCode.WELCOME:
-	                    {
-	                        WelcomeMessage welcomeMessage = message as WelcomeMessage;
-	                        this.SessionId = welcomeMessage.SessionId;
-	                        
+                switch ((WampMessageCode)message.MessageCode)
+                {
+                    case WampMessageCode.HELLO:
+                        break;
+                    case WampMessageCode.WELCOME:
+                        {
+                            WelcomeMessage welcomeMessage = message as WelcomeMessage;
+                            this.SessionId = welcomeMessage.SessionId;
+
                             _ConnectingSubscribeReserver = new SubscribeReserver(this, welcomeMessage.Topics, _ConnectedCallback);
                             foreach (var topic in welcomeMessage.Topics)
                             {
-                                this.Subscribe(topic, (success, sid) => {
-                                    if (success == true) {
+                                this.Subscribe(topic, (success, sid) =>
+                                {
+                                    if (success == true)
+                                    {
                                         var subscribedTopic = SubscriptionManager.GetTopicBySubscriptionId(sid);
-                                        _ConnectingSubscribeReserver.Confirm(subscribedTopic); 
+                                        _ConnectingSubscribeReserver.Confirm(subscribedTopic);
                                     }
                                 });
                             }
-	                    }
-	                    break;
-	                case WampMessageCode.ABORT:
-	                    this.IsConnected = false;
-	                    break;
-	                case WampMessageCode.CHALLENGE:
-	                    break;
-	                case WampMessageCode.AUTHENTICATE:
-	                    break;
-	                case WampMessageCode.GOODBYE:
-	                    {
-	                        GoodbyeMessage goodbyeMessage = message as GoodbyeMessage;
+                        }
+                        break;
+                    case WampMessageCode.ABORT:
+                        this.IsConnected = false;
+                        break;
+                    case WampMessageCode.CHALLENGE:
+                        break;
+                    case WampMessageCode.AUTHENTICATE:
+                        break;
+                    case WampMessageCode.GOODBYE:
+                        {
+                            GoodbyeMessage goodbyeMessage = message as GoodbyeMessage;
 
-	                        this.IsConnected = false;
+                            this.IsConnected = false;
 
-	                        if (disconnectedCallback != null)
-	                        {
-	                            disconnectedCallback(true);
-	                            mySocket.CloseAsync(); // Close
-	                        }
-	                    }
-	                    break;
-	                case WampMessageCode.HEARTBEAT:
-	                    break;
-	                case WampMessageCode.ERROR:
-	                    {
-	                        ErrorMessage castedMessage = message as ErrorMessage;
+                            if (disconnectedCallback != null)
+                            {
+                                disconnectedCallback(true);
+                                mySocket.CloseAsync(); // Close
+                            }
+                        }
+                        break;
+                    case WampMessageCode.HEARTBEAT:
+                        break;
+                    case WampMessageCode.ERROR:
+                        {
+                            ErrorMessage castedMessage = message as ErrorMessage;
 
-	                        switch ((WampMessageCode)castedMessage.MessageCodeOfError)
-	                        {
-	                            case WampMessageCode.SUBSCRIBE:
-	                                {
-	                                    SubscribeCallback foundCallback = null;
-	                                    if (CallbackManager.SubscribeRequestIdToCallback.TryGetValue(castedMessage.RequestId, out foundCallback) == true)
-	                                    {
-	                                        foundCallback(false, -1);
-	                                    }
-	                                }
-	                                break;
-	                            case WampMessageCode.UNSUBSCRIBE:
-	                                {
-	                                    SpiderCallback foundCallback = null;
-	                                    if (CallbackManager.UnsubscribeRequestIdToCallback.TryGetValue(castedMessage.RequestId, out foundCallback) == true)
-	                                    {
-	                                        foundCallback(false);
-	                                    }
-	                                }
-	                                break;
-	                            case WampMessageCode.PUBLISH:
-	                                {
-	                                    SendMessageCallback foundCallback = null;
-	                                    if (CallbackManager.PublishRequestIdToCallback.TryGetValue(castedMessage.RequestId, out foundCallback) == true)
-	                                    {
-	                                        foundCallback(false, -1);
-	                                    }
-	                                }
-	                                break;
-	                            case WampMessageCode.CALL:
-	                                {
-	                                    CallResultCallbackNode node = null;
-	                                    if (CallbackManager.CallRequestIdToCallbackNode.TryGetValue(castedMessage.RequestId, out node) == true)
-	                                    {
-	                                        node.Callback(false, new CallErrorResult()
-	                                            {
-	                                                 Error =  castedMessage,
-	                                            });
-	                                    }
-	                                }
-	                                break;
-	                        }
+                            switch ((WampMessageCode)castedMessage.MessageCodeOfError)
+                            {
+                                case WampMessageCode.SUBSCRIBE:
+                                    {
+                                        SubscribeCallback foundCallback = null;
+                                        if (CallbackManager.SubscribeRequestIdToCallback.TryGetValue(castedMessage.RequestId, out foundCallback) == true)
+                                        {
+                                            foundCallback(false, -1);
+                                        }
+                                    }
+                                    break;
+                                case WampMessageCode.UNSUBSCRIBE:
+                                    {
+                                        SpiderCallback foundCallback = null;
+                                        if (CallbackManager.UnsubscribeRequestIdToCallback.TryGetValue(castedMessage.RequestId, out foundCallback) == true)
+                                        {
+                                            foundCallback(false);
+                                        }
+                                    }
+                                    break;
+                                case WampMessageCode.PUBLISH:
+                                    {
+                                        SendMessageCallback foundCallback = null;
+                                        if (CallbackManager.PublishRequestIdToCallback.TryGetValue(castedMessage.RequestId, out foundCallback) == true)
+                                        {
+                                            foundCallback(false, -1);
+                                        }
+                                    }
+                                    break;
+                                case WampMessageCode.CALL:
+                                    {
+                                        CallResultCallbackNode node = null;
+                                        if (CallbackManager.CallRequestIdToCallbackNode.TryGetValue(castedMessage.RequestId, out node) == true)
+                                        {
+                                            node.Callback(false, new CallErrorResult()
+                                                {
+                                                    Error = castedMessage,
+                                                });
+                                        }
+                                    }
+                                    break;
+                            }
 
 
-	                        OnError(castedMessage);
-	                    }
-	                    break;
-	                case WampMessageCode.PUBLISH:
-	                    break;
-	                case WampMessageCode.PUBLISHED:
-	                    {
-	                        PublishedMessage publishedMessage = message as PublishedMessage;
+                            OnError(castedMessage);
+                        }
+                        break;
+                    case WampMessageCode.PUBLISH:
+                        break;
+                    case WampMessageCode.PUBLISHED:
+                        {
+#if LOADTEST
+                            return;
+#endif
+                            PublishedMessage publishedMessage = message as PublishedMessage;
 
-	                        SendMessageCallback registeredCallback = null;
-	                        if (CallbackManager.PublishRequestIdToCallback.TryGetValue(publishedMessage.RequestId, out registeredCallback) == true)
-	                        {
-	                            CallbackManager.PublishRequestIdToCallback.Remove(publishedMessage.RequestId);
-	                            registeredCallback(true, publishedMessage.PublicationId);
-	                        }
-	                    }
-	                    break;
-	                case WampMessageCode.SUBSCRIBE:
-	                    break;
-	                case WampMessageCode.SUBSCRIBED:
-	                    {
-	                        SubscribedMessage castedMessage = message as SubscribedMessage;
+                            SendMessageCallback registeredCallback = null;
+                            if (CallbackManager.PublishRequestIdToCallback.TryGetValue(publishedMessage.RequestId, out registeredCallback) == true)
+                            {
+                                CallbackManager.PublishRequestIdToCallback.Remove(publishedMessage.RequestId);
+                                registeredCallback(true, publishedMessage.PublicationId);
+                            }
+                        }
+                        break;
+                    case WampMessageCode.SUBSCRIBE:
+                        break;
+                    case WampMessageCode.SUBSCRIBED:
+                        {
+                            SubscribedMessage castedMessage = message as SubscribedMessage;
 
-	                        SubscribeCallback registeredCallback = null;
-	                        //SendMessageCallback registeredCallbackTemp = null;
+                            SubscribeCallback registeredCallback = null;
+                            //SendMessageCallback registeredCallbackTemp = null;
 
-	                        if (CallbackManager.SubscribeRequestIdToCallback.TryGetValue(castedMessage.RequestId, out registeredCallback) == true)
-	                        {
-	                            // RequestId를 통해 SubscriptionId와 TopicKind 연결
-	                            SubscriptionManager.ReportSubscribed(castedMessage.RequestId, castedMessage.SubscriptionId);
+                            if (CallbackManager.SubscribeRequestIdToCallback.TryGetValue(castedMessage.RequestId, out registeredCallback) == true)
+                            {
+                                // RequestId를 통해 SubscriptionId와 TopicKind 연결
+                                SubscriptionManager.ReportSubscribed(castedMessage.RequestId, castedMessage.SubscriptionId);
 
-	                            CallbackManager.SubscribeRequestIdToCallback.Remove(castedMessage.RequestId);
-	                            registeredCallback(true, castedMessage.SubscriptionId);
-	                        }
-	                        //// 임시코드 Publish를 호출해도 Subscribed가 와서 구현한 임시 루틴
-	                        //else if (CallbackManager.PublishRequestIdToCallback.TryGetValue(castedMessage.RequestId, out registeredCallbackTemp) == true)
-	                        //{
-	                        //    CallbackManager.PublishRequestIdToCallback.Remove(castedMessage.RequestId);
-	                        //    registeredCallbackTemp(true, castedMessage.SubscriptionId);
-	                        //}
-	                    }
-	                    break;
-	                case WampMessageCode.UNSUBSCRIBE:
-	                    break;
-	                case WampMessageCode.UNSUBSCRIBED:
-	                    {
-	                        UnsubscribedMessage castedMessage = message as UnsubscribedMessage;
-	                        SpiderCallback registeredCallback = null;
-	                        if (CallbackManager.UnsubscribeRequestIdToCallback.TryGetValue(castedMessage.RequestId, out registeredCallback) == true)
-	                        {
-	                            CallbackManager.UnsubscribeRequestIdToCallback.Remove(castedMessage.RequestId);
-	                            registeredCallback(true);
-	                        }
-	                    }
-	                    break;
-	                case WampMessageCode.EVENT:
-	                    {
-	                        EventMessage castedMessage = message as EventMessage;
-	                        // subscriptionId를 통해 TopicKind 찾아오기
-	                        var topic = SubscriptionManager.GetTopicBySubscriptionId(castedMessage.SubscriptionId);
+                                CallbackManager.SubscribeRequestIdToCallback.Remove(castedMessage.RequestId);
+                                registeredCallback(true, castedMessage.SubscriptionId);
+                            }
+                            //// 임시코드 Publish를 호출해도 Subscribed가 와서 구현한 임시 루틴
+                            //else if (CallbackManager.PublishRequestIdToCallback.TryGetValue(castedMessage.RequestId, out registeredCallbackTemp) == true)
+                            //{
+                            //    CallbackManager.PublishRequestIdToCallback.Remove(castedMessage.RequestId);
+                            //    registeredCallbackTemp(true, castedMessage.SubscriptionId);
+                            //}
+                        }
+                        break;
+                    case WampMessageCode.UNSUBSCRIBE:
+                        break;
+                    case WampMessageCode.UNSUBSCRIBED:
+                        {
+                            UnsubscribedMessage castedMessage = message as UnsubscribedMessage;
+                            SpiderCallback registeredCallback = null;
+                            if (CallbackManager.UnsubscribeRequestIdToCallback.TryGetValue(castedMessage.RequestId, out registeredCallback) == true)
+                            {
+                                CallbackManager.UnsubscribeRequestIdToCallback.Remove(castedMessage.RequestId);
+                                registeredCallback(true);
+                            }
+                        }
+                        break;
+                    case WampMessageCode.EVENT:
+                        {
+                            EventMessage castedMessage = message as EventMessage;
+                            // subscriptionId를 통해 TopicKind 찾아오기
+                            var topic = SubscriptionManager.GetTopicBySubscriptionId(castedMessage.SubscriptionId);
                             OnMessageReceived(topic, castedMessage.ArgumentsKw);
-	                    }
-	                    break;
-	                case WampMessageCode.CALL:
-	                    break;
-	                case WampMessageCode.CANCEL:
-	                    break;
-	                case WampMessageCode.RESULT:
-	                    {
-	                        ResultMessage resultMessage = message as ResultMessage;
+                        }
+                        break;
+                    case WampMessageCode.CALL:
+                        break;
+                    case WampMessageCode.CANCEL:
+                        break;
+                    case WampMessageCode.RESULT:
+                        {
+                            ResultMessage resultMessage = message as ResultMessage;
 
-	                        CallResultCallbackNode registeredCallbackNode = null;
-	                        if (CallbackManager.CallRequestIdToCallbackNode.TryGetValue(resultMessage.RequestId, out registeredCallbackNode) == true)
-	                        {
-	                            CallbackManager.CallRequestIdToCallbackNode.Remove(resultMessage.RequestId);
+                            CallResultCallbackNode registeredCallbackNode = null;
+                            if (CallbackManager.CallRequestIdToCallbackNode.TryGetValue(resultMessage.RequestId, out registeredCallbackNode) == true)
+                            {
+                                CallbackManager.CallRequestIdToCallbackNode.Remove(resultMessage.RequestId);
 
-	                            switch (registeredCallbackNode.Kind)
-	                            {
-	                                default:
-	                                case CallResultKind.Unknown:
-	                                    registeredCallbackNode.Callback(true, null);
-	                                    break;
-	                                case CallResultKind.GetChannelsResult:
-	                                    {
-	                                        GetChannelsResult result = new GetChannelsResult(resultMessage);
-	                                        registeredCallbackNode.Callback(true, result);
-	                                    }
-	                                    break;
-	                                case CallResultKind.GetPlayersResult:
-	                                    {
-	                                        GetPlayersResult result = new GetPlayersResult(resultMessage);
-	                                        registeredCallbackNode.Callback(true, result);
-	                                    }
-	                                    break;
-	                            }
-	                        }
-	                    }
-	                    break;
-	                case WampMessageCode.REGISTER:
-	                    break;
-	                case WampMessageCode.REGISTERED:
-	                    break;
-	                case WampMessageCode.UNREGISTER:
-	                    break;
-	                case WampMessageCode.UNREGISTERED:
-	                    break;
-	                case WampMessageCode.INVOCATION:
-	                    break;
-	                case WampMessageCode.INTERRUPT:
-	                    break;
-	                case WampMessageCode.YIELD:
-	                    break;
-	                default:
-	                    break;
-	            }
-
-			}));
+                                switch (registeredCallbackNode.Kind)
+                                {
+                                    default:
+                                    case CallResultKind.Unknown:
+                                        registeredCallbackNode.Callback(true, null);
+                                        break;
+                                    case CallResultKind.GetChannelsResult:
+                                        {
+                                            GetChannelsResult result = new GetChannelsResult(resultMessage);
+                                            registeredCallbackNode.Callback(true, result);
+                                        }
+                                        break;
+                                    case CallResultKind.GetPlayersResult:
+                                        {
+                                            GetPlayersResult result = new GetPlayersResult(resultMessage);
+                                            registeredCallbackNode.Callback(true, result);
+                                        }
+                                        break;
+                                }
+                            }
+                        }
+                        break;
+                    case WampMessageCode.REGISTER:
+                        break;
+                    case WampMessageCode.REGISTERED:
+                        break;
+                    case WampMessageCode.UNREGISTER:
+                        break;
+                    case WampMessageCode.UNREGISTERED:
+                        break;
+                    case WampMessageCode.INVOCATION:
+                        break;
+                    case WampMessageCode.INTERRUPT:
+                        break;
+                    case WampMessageCode.YIELD:
+                        break;
+                    default:
+                        break;
+                }
+#if !UNITTEST
+            }));
+#endif
         }
 
         //private void SubscribeAll()

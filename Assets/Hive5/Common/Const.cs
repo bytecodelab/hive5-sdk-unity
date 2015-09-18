@@ -142,17 +142,7 @@ namespace Hive5
         public static string Gzip = "gzip";
     }
 
-
-    /// <summary>
-    /// OS type.
-    /// </summary>
-    public class OSType
-    {
-        public static string Android = "android";
-        public static string Ios = "ios";
-    }
-
-    /// <summary>
+/// <summary>
     /// Platform type.
     /// </summary>
     public class PlatformType

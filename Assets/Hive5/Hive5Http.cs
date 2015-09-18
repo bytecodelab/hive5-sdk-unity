@@ -10,6 +10,9 @@ using UnityEngine;
 
 namespace Hive5
 {
+    /// <summary>
+    /// HTTP 요청을 위한 HTTP Verb 열거형
+    /// </summary>
     public enum HttpVerbs
     {
         GET = 0,
@@ -18,22 +21,34 @@ namespace Hive5
         DELETE = 3
     }
 
-#if UNITTEST
+#if DOTNET
     public class Hive5Http : MockMonoSingleton<Hive5Http> {
 #else
 	public class Hive5Http : MonoSingleton<Hive5Http> {
 #endif
-        public string BuildResponseWith(Hive5ErrorCode code)
+        /// <summary>
+        /// Error Code를 이용하여 반환용 Json 문자열을 만들어 반환합니다.
+        /// </summary>
+        /// <param name="errorCode">에러코드</param>
+        /// <returns>에러코드를 포함한 기본적 반환용 Json 문자열</returns>
+        private string BuildResponseWith(Hive5ErrorCode errorCode)
         {
-            return string.Format("{{\"result_code\":{0}}}", (int)code);
+            return string.Format("{{\"result_code\":{0}}}", (int)errorCode);
         }
-        private void RaiseClientError(Hive5ErrorCode resultCode, Hive5Response.dataLoader loader, Callback callback)
+
+        /// <summary>
+        /// 에러를 반환시킵니다.
+        /// </summary>
+        /// <param name="errorCode">에러코드</param>
+        /// <param name="loader">로더</param>
+        /// <param name="callback">콜백 함수</param>
+        private void RaiseClientError(Hive5ErrorCode errorCode, Hive5Response.dataLoader loader, Callback callback)
         {
-            callback(Hive5Response.Load(loader, BuildResponseWith(resultCode)));
+            callback(Hive5Response.Load(loader, BuildResponseWith(errorCode)));
         }
 
 
-#if UNITTEST
+#if DOTNET
 
          /// <summary>
         /// Https the get.
@@ -42,7 +57,7 @@ namespace Hive5
         /// <param name="url">URL.</param>
         /// <param name="parameters">Parameters.</param>
         /// <param name="callback">Callback.</param>
-        private void GetHttp(string url, List<KeyValuePair<string, string>> parameters, Hive5Response.dataLoader loader, Callback callback)
+        private void GetHttp(string url, Dictionary<string, string> parameters, Hive5Response.dataLoader loader, Callback callback)
         {
             string queryString = GetQueryString(parameters);
             var rid = new Rid(url, queryString, "");
@@ -146,7 +161,7 @@ namespace Hive5
         /// <returns>The post.</returns>
         /// <param name="url">URL.</param>
         /// <param name="parameters">Parameters.</param>
-        private void PostHttp(string url, List<KeyValuePair<string, string>> parameters, object requestBody, Hive5Response.dataLoader loader, Callback callback, HttpVerbs verb = HttpVerbs.POST)
+        private void PostHttp(string url, Dictionary<string, string> parameters, object requestBody, Hive5Response.dataLoader loader, Callback callback, HttpVerbs verb = HttpVerbs.POST)
         {
             string queryString = GetQueryString(parameters);
 
@@ -167,7 +182,7 @@ namespace Hive5
         /// <param name="url">URL.</param>
         /// <param name="parameters">Parameters.</param>
         /// <param name="callback">Callback.</param>
-        private IEnumerator GetHttp(string url, List<KeyValuePair<string, string>> parameters, Hive5Response.dataLoader loader, Callback callback)
+        private IEnumerator GetHttp(string url, Dictionary<string, string> parameters, Hive5Response.dataLoader loader, Callback callback)
         {
             string queryString = GetQueryString(parameters);
             var rid = new Rid(url, queryString, "");
@@ -319,7 +334,7 @@ namespace Hive5
         /// <returns>The post.</returns>
         /// <param name="url">URL.</param>
         /// <param name="parameters">Parameters.</param>
-        private IEnumerator PostHttp(string url, List<KeyValuePair<string, string>> parameters, object requestBody, Hive5Response.dataLoader loader, Callback callback, HttpVerbs verb = HttpVerbs.POST)
+        private IEnumerator PostHttp(string url, Dictionary<string, string> parameters, object requestBody, Hive5Response.dataLoader loader, Callback callback, HttpVerbs verb = HttpVerbs.POST)
         {
             string queryString = GetQueryString(parameters);
 
@@ -335,9 +350,9 @@ namespace Hive5
 #endif
 
 
-        internal void GetHttpAsync(string url, List<KeyValuePair<string, string>> parameters, Hive5Response.dataLoader loader, Callback callback)
+        internal void GetHttpAsync(string url, Dictionary<string, string> parameters, Hive5Response.dataLoader loader, Callback callback)
         {
-#if UNITTEST
+#if DOTNET
             GetHttp(url, parameters, loader, callback);
 #else
             StartCoroutine(
@@ -351,7 +366,7 @@ namespace Hive5
             if (!Hive5Client.IsInitialized)
                 throw new Exception("Not initialized. Please call Init method.");
 
-#if UNITTEST
+#if DOTNET
             PostHttp(url, requestBody, loader, callback);
 #else
             StartCoroutine(
@@ -360,12 +375,12 @@ namespace Hive5
 #endif
         }
 
-        internal void PostHttpAsync(string url, List<KeyValuePair<string, string>> parameters, object requestBody, Hive5Response.dataLoader loader, Callback callback)
+        internal void PostHttpAsync(string url, Dictionary<string, string> parameters, object requestBody, Hive5Response.dataLoader loader, Callback callback)
         {
              if (!Hive5Client.IsInitialized)
                 throw new Exception("Not initialized. Please call Init method.");
 
-#if UNITTEST
+#if DOTNET
             PostHttp(url, parameters, requestBody, loader, callback);
 #else
             StartCoroutine(
@@ -379,7 +394,7 @@ namespace Hive5
             if (!Hive5Client.IsInitialized)
                 throw new Exception("Not initialized. Please call Init method.");
 
-#if UNITTEST
+#if DOTNET
             PostHttp(url, requestBody, loader, callback, HttpVerbs.PUT);
 #else
             StartCoroutine(
@@ -393,7 +408,7 @@ namespace Hive5
             if (!Hive5Client.IsInitialized)
                 throw new Exception("Not initialized. Please call Init method.");
 
-#if UNITTEST
+#if DOTNET
             PostHttp(url, requestBody, loader, callback, HttpVerbs.DELETE);
 #else
             StartCoroutine(
@@ -407,7 +422,7 @@ namespace Hive5
 		/// </summary>
 		/// <returns>The query string.</returns>
 		/// <param name="parameters">Parameters.</param>
-		public static string GetQueryString(List<KeyValuePair<string, string>> parameters)
+		public static string GetQueryString(Dictionary<string, string> parameters)
 		{
 			if (parameters == null)
 			    return string.Empty;
@@ -429,7 +444,7 @@ namespace Hive5
 
         public static string EscapeData(string data)
         {
-#if UNITTEST
+#if DOTNET
             return Uri.EscapeDataString(data);
 #else
             return WWW.EscapeURL(data);

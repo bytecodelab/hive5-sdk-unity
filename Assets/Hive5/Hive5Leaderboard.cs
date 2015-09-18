@@ -13,28 +13,18 @@ using Hive5.Util;
 
 namespace Hive5
 {
-	/// <summary>
-	/// Hive5 Leaderboard features
-	/// </summary>
+    /// <summary>
+    /// Leaderboard에 대한 모든 기능을 포함하는 클래스
+    /// </summary>
     public class Hive5Leaderboard
     {
-       /** 
-        * @api {POST} SubmitScore 점수 기록
-        * @apiVersion 0.3.11-beta
-        * @apiName SubmitScore
-        * @apiGroup Leaderboard
-        *
-        * @apiParam {string} leaderboardKey 리더보드 Key
-        * @apiParam {long} score 기록 점수
-        * @apiParam {string} extrasJson 보조데이터 (JSON)
-        * @apiParam {Callback} callback 콜백 함수
-        *
-        * @apiSuccess {string} resultCode Error Code 참고
-        * @apiSuccess {string} resultMessage 요청 실패시 메시지
-        * @apiExample Example usage:
-        * Hive5Client hive5 = Hive5Client.Instance;
-        * hive5.SubmitScore(leaderboardKey, score, callback);
-        */
+        /// <summary>
+        /// 점수를 리더보드에 제출합니다.
+        /// </summary>
+        /// <param name="leaderboardKey">리더보드 키</param>
+        /// <param name="score">기록 점수</param>
+        /// <param name="extrasJson">추가데이터 (JSON)</param>
+        /// <param name="callback">콜백 함수</param>
         public void SubmitScore(string leaderboardKey, int score, string extrasJson, Callback callback)
         {
 			var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Leaderboard.SubmitScore, leaderboardKey));
@@ -47,40 +37,27 @@ namespace Hive5
 
             Hive5Http.Instance.PostHttpAsync(url, requestBody, SubmitScoreResponseBody.Load, callback);
         }
-
-        /** 
-        * @api {GET} ListScores 랭킹 가져오기
-        * @apiVersion 0.3.11-beta
-        * @apiName ListScores
-        * @apiGroup Leaderboard
-        *
-        * @apiParam {string} leaderboardKey 리더보드 Key
-        * @apiParam {long} rankMin 랭킹 최저
-        * @apiParam {long} rankMax 랭킹 최고
-        * @apiParam {long} rangeMin 점수 범위 최저
-        * @apiParam {long} rangeMax 점수 범위 최고
-        * @apiParam {Callback} callback 콜백 함수
-        *
-        * @apiSuccess {string} resultCode Error Code 참고
-        * @apiSuccess {string} resultMessage 요청 실패시 메시지
-        * @apiExample Example usage:
-        * Hive5Client hive5 = Hive5Client.Instance;
-        * hive5.ListScores(leaderboardKey, rankMin, rankMax, rangeMin, rangeMax, callback);
-        */
-        public void ListScores(string leaderboardKey, List<string> objectClasses, long rankMin, long rankMax, long? rangeMin, long? rangeMax, Callback callback)
+        
+        /// <summary>
+        /// 랭킹 가져오기
+        /// </summary>
+        /// <param name="leaderboardKey">리더보드 키</param>
+        /// <param name="objectKeys">HObject 키들</param>
+        /// <param name="rankMin">랭킹 최저</param>
+        /// <param name="rankMax">랭킹 최고</param>
+        /// <param name="rangeMin">점수 범위 최저</param>
+        /// <param name="rangeMax">점수 범위 최고</param>
+        /// <param name="callback">콜백 함수</param>
+        public void ListScores(string leaderboardKey, List<string> objectKeys, long rankMin, long rankMax, long? rangeMin, long? rangeMax, Callback callback)
         {
             var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Leaderboard.ListScores, leaderboardKey));
 
-            // Hive5 API 파라미터 셋팅
-            TupleList<string, string> parameters = new TupleList<string, string>();
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
             parameters.Add("leaderboard_key", leaderboardKey);
 
-            if (objectClasses != null)
+            if (objectKeys != null)
             {
-                foreach (var objectClass in objectClasses)
-                {
-                    parameters.Add("object_class", objectClass);
-                }
+                parameters.Add("object_key", string.Join(",", objectKeys.ToArray()));
             }
 
 
@@ -91,74 +68,47 @@ namespace Hive5
             if (rangeMax != null)
                 parameters.Add("range_max", rangeMax.ToString());
 
-            // WWW 호출
-            Hive5Http.Instance.GetHttpAsync(url, parameters.data, ListScoresResponseBody.Load, callback);
+            Hive5Http.Instance.GetHttpAsync(url, parameters, ListScoresResponseBody.Load, callback);
         }
 
-        /** 
-        * @api {GET} GetMyScore 내 랭킹 확인
-        * @apiVersion 0.3.11-beta
-        * @apiName GetMyScore
-        * @apiGroup Leaderboard
-        *
-        * @apiParam {string} leaderboardKey 리더보드 Key
-        * @apiParam {long} rankMin 랭킹 최저
-        * @apiParam {long} rankMax 랭킹 최고
-        * @apiParam {long} rangeMin 점수 범위 최저
-        * @apiParam {long} rangeMax 점수 범위 최고
-        * @apiParam {Callback} callback 콜백 함수
-        *
-        * @apiSuccess {string} resultCode Error Code 참고
-        * @apiSuccess {string} resultMessage 요청 실패시 메시지
-        * @apiExample Example usage:
-        * Hive5Client hive5 = Hive5Client.Instance;
-        * hive5.GetMyScore(leaderboardKey, rangeMin, rangeMax, callback);
-        */
+        /// <summary>
+        /// 내 랭킹을 얻어옵니다.
+        /// </summary>
+        /// <param name="leaderboardKey">리더보드 키</param>
+        /// <param name="rangeMin">랭킹 최저</param>
+        /// <param name="rangeMax">랭킹 최고</param>
+        /// <param name="callback">콜백 함수</param>
         public void GetMyScore(string leaderboardKey, long rangeMin, long rangeMax, Callback callback)
         {
             var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Leaderboard.GetMyScore, leaderboardKey));
 
-            // Hive5 API 파라미터 셋팅
-            TupleList<string, string> parameters = new TupleList<string, string>();
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
             parameters.Add("leaderboard_key", leaderboardKey);
             parameters.Add("range_min", rangeMin.ToString());
             parameters.Add("range_max", rangeMax.ToString());
 
-            // WWW 호출
-            Hive5Http.Instance.GetHttpAsync(url, parameters.data, GetMyScoreResponseBody.Load, callback);
+            Hive5Http.Instance.GetHttpAsync(url, parameters, GetMyScoreResponseBody.Load, callback);
         }
 
-        /** 
-        * @api {GET} ListSocialScores 친구 랭킹 가져오기
-        * @apiVersion 0.3.11-beta
-        * @apiName ListSocialScores
-        * @apiGroup Leaderboard
-        *
-        * @apiParam {string} leaderboardKey 리더보드 Key
-        * @apiParam {Callback} callback 콜백 함수
-        *
-        * @apiSuccess {string} resultCode Error Code 참고
-        * @apiSuccess {string} resultMessage 요청 실패시 메시지
-        * @apiExample Example usage:
-        * Hive5Client hive5 = Hive5Client.Instance;
-        * hive5.ListSocialScores(leaderboardKey, CallBack callback);
-        */
-        public void ListSocialScores(string leaderboardKey, List<string> objectClasses, Callback callback)
+        /// <summary>
+        /// 친구들의 랭킹을 반환합니다.
+        /// </summary>
+        /// <param name="leaderboardKey">리더보드 키</param>
+        /// <param name="objectKeys">HObject 키들</param>
+        /// <param name="callback">콜백 함수</param>
+        public void ListSocialScores(string leaderboardKey, List<string> objectKeys, Callback callback)
         {
             var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Leaderboard.ListSocialScores, leaderboardKey));
 
-            TupleList<string, string> parameters = new TupleList<string, string>();
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
             parameters.Add("leaderboard_key", leaderboardKey);
 
-            if (objectClasses != null)
+            if (objectKeys != null)
             {
-                foreach (var objectClass in objectClasses)
-                {
-                    parameters.Add("object_class", objectClass);
-                }
+                parameters.Add("object_key", string.Join(",", objectKeys.ToArray()));
             }
 
-            Hive5Http.Instance.GetHttpAsync(url, parameters.data, ListScoresResponseBody.Load, callback);
+            Hive5Http.Instance.GetHttpAsync(url, parameters, ListScoresResponseBody.Load, callback);
         }
     }
 }

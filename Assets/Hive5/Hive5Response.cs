@@ -6,7 +6,7 @@ using Hive5.Models;
 namespace Hive5
 {
 	/// <summary>
-	/// Hive5 response.
+	/// Hive5 응답 모델 클래스
 	/// </summary>
 	public class Hive5Response
 	{

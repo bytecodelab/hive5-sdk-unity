@@ -3,7 +3,7 @@ using System;
 namespace Hive5
 {
 	/// <summary>
-	/// Error Code
+	/// 에러코드
 	/// </summary>
 	public enum Hive5ErrorCode
 	{

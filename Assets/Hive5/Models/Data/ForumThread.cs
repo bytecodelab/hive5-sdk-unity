@@ -24,7 +24,7 @@ namespace Hive5.Models
         /// </summary>
         public string Content { get; set; }
         /// <summary>
-        /// 보조데이터
+        /// 추가데이터
         /// </summary>
         public string Extras { get; set; }
         /// <summary>

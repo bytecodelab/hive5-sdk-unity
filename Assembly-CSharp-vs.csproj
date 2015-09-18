@@ -20,7 +20,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Temp\bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;UNITTEST;LOADTEST</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;DOTNET;LOADTEST</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
@@ -30,14 +30,14 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>Temp\bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;DOTNET</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseUnitTest|AnyCPU'">
     <OutputPath>bin\ReleaseUnitTest\</OutputPath>
-    <DefineConstants>TRACE;UNITTEST;LOADTEST</DefineConstants>
+    <DefineConstants>TRACE;DOTNET;LOADTEST</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>0169</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -62,7 +62,6 @@
     <Compile Include="Assets\Hive5\Common\Const.cs" />
     <Compile Include="Assets\Hive5\Common\Enum.cs" />
     <Compile Include="Assets\Hive5\Extensions\JsonDataExtensions.cs" />
-    <Compile Include="Assets\Hive5\Util\TupleList.cs" />
     <Compile Include="Assets\Hive5\HealthCheck\Maintenance.cs" />
     <Compile Include="Assets\Hive5\HealthCheck\Plan.cs" />
     <Compile Include="Assets\Hive5\Hive5.cs" />

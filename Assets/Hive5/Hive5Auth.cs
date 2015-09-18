@@ -42,13 +42,12 @@ namespace Hive5
         /// <param name="user">사용자</param>
         /// <param name="callback">콜백함수</param>
         /// <code language="cs">
-        /// Hive5Client.Auth.Login (OSType.Android, "1.0.0", "ko-KR", null, (response) => {
+        /// Hive5Client.Auth.Login ("android", "1.0.0", "ko-KR", null, (response) => {
         ///	  Logger.Log ("response = "+ response.ResultData);
         ///	}
         /// </code>
         public void LogIn(string os, string build, string locale, User user, Callback callback)
         {
-            // Hive5 API URL 초기화
             var url = Hive5Client.ComposeRequestUrl(ApiPath.Auth.LogIn);
 
             Logger.Log("login LoginState=" + this.IsLoggedIn);
@@ -92,22 +91,15 @@ namespace Hive5
             Hive5Http.Instance.PostHttpAsync(url, null, CommonResponseBody.Load, callback);
         }
 
-        /** 
-        * @api {POST} SwitchPlatform 로그인 플랫폼 바꾸기
-        * @apiVersion 0.3.11-beta
-        * @apiName SwitchPlatform
-        * @apiGroup Auth
-        *
-        * @apiParam {string} platform 플랫폼타입 PlatformType.Kakao 등
-        * @apiParam {string} userId 플랫폼 사용자 아이디
-        * @apiParam {Callback} callback 콜백 함수
-        *
-        * @apiSuccess {string} resultCode Error Code 참고
-        * @apiSuccess {string} resultMessage 요청 실패시 메시지
-        * @apiExample Example usage:
-        * Hive5Client hive5 = Hive5Client.Instance;
-        * hive5.SwitchPlatform(PlatformType.Kakao, platformUserId, callback);
-        */
+        /// <summary>
+        /// SwitchPlatform 로그인 플랫폼 바꾸기
+        /// </summary>
+        /// <param name="platform">플랫폼 종류 예) "facebook" 등</param>
+        /// <param name="userId">플랫폼 사용자 고유아이디</param>
+        /// <param name="callback">콜백 함수</param>
+        /// <code language="cs">Hive5Client.Auth.SwitchPlatform("facebook", userId, (response) => {
+        ///     Logger.Log ("response = "+ response.ResultData);
+        /// });</code>
         public void SwitchPlatform(string platform, string userId, Callback callback)
         {
             Logger.Log("SwitchPlatform called");
@@ -128,6 +120,17 @@ namespace Hive5
             Hive5Http.Instance.PostHttpAsync(url, requestBody, SwitchPlatformResponseBody.Load, callback);
         }
 
+        /// <summary>
+        /// 사용자정의 Platform에 계정을 생성합니다.
+        /// </summary>
+        /// <param name="name">이름</param>
+        /// <param name="password">패스워드</param>
+        /// <param name="callback">콜백 함수</param>
+        /// <param name="displayName">표시이름</param>
+        /// <param name="email">이메일</param>
+        /// <code language="cs">Hive5Client.Auth.CreatePlatformAccount("johndoe", "password", (response) => {
+        ///     Logger.Log ("response = "+ response.ResultData);
+        /// }, "John Doe", "johndoe@bytecodelab.com");</code>
         public void CreatePlatformAccount(string name, string password, Callback callback, string displayName = "", string email = "")
         {
             Logger.Log("CreatePlatformAccount called");
@@ -150,6 +153,12 @@ namespace Hive5
             Hive5Http.Instance.PostHttpAsync(url, requestBody, CreatePlatformAccountResponseBody.Load, callback);
         }
 
+        /// <summary>
+        /// 사용자정의 플랫폼 계정시스템에게 해당 이름의 사용가능 여부를 확인합니다.
+        /// </summary>
+        /// <remarks>이미 존재하는 이름이거나, 입력한 이름이 금지어인 경우 사용불가</remarks>
+        /// <param name="name">이름</param>
+        /// <param name="callback">콜백 함수</param>
         public void CheckPlatformNameAvailability(string name, Callback callback)
         {
             Logger.Log("CheckPlatformNameAvailability called");
@@ -164,6 +173,12 @@ namespace Hive5
             Hive5Http.Instance.GetHttpAsync(url, null, CheckPlatformNameAvailabilityResponseBody.Load, callback);
         }
 
+        /// <summary>
+        /// 사용자정의 플랫폼 계정시스템에게 해당 이메일의 사용가능 여부를 확인합니다.
+        /// </summary>
+        /// <remarks>이미 존재하는 이메일인 경우 사용불가</remarks>
+        /// <param name="email">이메일</param>
+        /// <param name="callback">콜백 함수</param>
         public void CheckPlatformEmailAvailablity(string email, Callback callback)
         {
             Logger.Log("CheckPlatformEmailAvailablity called");
@@ -178,6 +193,13 @@ namespace Hive5
             Hive5Http.Instance.GetHttpAsync(url, null, CheckPlatformEmailAvailabilityResponseBody.Load, callback);
         }
 
+        /// <summary>
+        /// 사용자정의 플랫폼으로 로그인합니다.
+        /// </summary>
+        /// <remarks>이름과 패스워드를 이용한 2-pass authentication</remarks>
+        /// <param name="name">이름</param>
+        /// <param name="password">패스워드</param>
+        /// <param name="callback">콜백 함수</param>
         public void AuthenticatePlatformAccount(string name, string password, Callback callback)
         {
             Logger.Log("AuthenticatePlatformAccount called");
@@ -199,9 +221,10 @@ namespace Hive5
         }
 
         /// <summary>
-        /// Sets the access token.
+        /// accessToken과 sessionKey를 수동으로 설정합니다.
         /// </summary>
-        /// <param name="accessToken">Access token.</param>
+        /// <param name="accessToken">인증 시스템에서 발급하는 접근토큰</param>
+        /// <param name="sessionKey">인증 시스템에서 발급하는 세션키</param>
         public void SetAccessToken(string accessToken, string sessionKey)
         {
             this.AccessToken = accessToken;

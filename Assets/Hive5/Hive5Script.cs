@@ -12,9 +12,9 @@ using Hive5.Util;
 
 namespace Hive5
 {
-	/// <summary>
-	/// Hive5 클라우드스크립트에 대한 모든 것을 포함한 클래스
-	/// </summary>
+    /// <summary>
+    /// 클라우드 스크립트에 대한 모든 기능을 포함하는 클래스
+    /// </summary>
     public class Hive5Script
     {
         /// <summary>

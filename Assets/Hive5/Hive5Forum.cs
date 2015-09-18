@@ -12,87 +12,66 @@ using Hive5.Util;
 
 namespace Hive5
 {
-	/// <summary>
-	/// Hive5 Forum features
-	/// </summary>
+    /// <summary>
+    /// Forum에 대한 모든 기능을 포함하는 클래스
+    /// </summary>
     public class Hive5Forum
     {
-        /** 
-		* @api {POST} ListThreads 포럼쓰레드 목록 얻어오기
-		* @apiVersion 0.3.11-beta
-		* @apiName ListThreads
-		* @apiGroup Forum
-		*
-		* @apiParam {string} forumKey 포럼 키
-        * @apiParam {integer?} offset 옵셋
-        * @apiParam {integer?} limit 개수제한
-		* @apiParam {Callback} callback 콜백 함수
-		*
-		* @apiSuccess {string} resultCode Error Code 참고
-		* @apiSuccess {string} resultMessage 요청 실패시 메시지
-		* @apiExample Example usage:
-		* Hive5Client hive5 = Hive5Client.Instance;
-		* hive5.ListThreads("your-forum-key", callback);
-		*/
+        /// <summary>
+        /// 포럼 내 쓰레드 목록 얻어오기
+        /// </summary>
+        /// <param name="forumKey">포럼 키</param>
+        /// <param name="offset">옵셋</param>
+        /// <param name="limit">개수제한</param>
+        /// <param name="callback">콜백 함수</param>
+        /// <code language="cs">Hive5Client.Forum.ListThreads("your-forum-key", 0, 20, (response) => {
+        ///     // your code here
+        /// });
 		public void ListThreads(string forumKey, int? offset, int? limit, Callback callback)
 		{
             var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Forum.ListThreads, forumKey));
 
-            var parameter = new List<KeyValuePair<string, string>>();
+            var parameter = new Dictionary<string, string>();
             if (offset != null)
             {
-                parameter.Add(new KeyValuePair<string, string>("offset", offset.ToString()));
+                parameter.Add("offset", offset.ToString());
             }
 
             if (limit != null)
             {
-                parameter.Add(new KeyValuePair<string, string>("limit", limit.ToString()));
+                parameter.Add("limit", limit.ToString());
             }
          
             Hive5Http.Instance.GetHttpAsync(url, parameter, ListThreadsResponseBody.Load, callback);
-		}	
+        }
 
-        /** 
-		* @api {POST} CountThreads 포럼쓰레드 개수
-		* @apiVersion 0.3.11-beta
-		* @apiName CountThreads
-		* @apiGroup Forum
-		*
-		* @apiParam {string} forumKey 포럼 키
-		* @apiParam {Callback} callback 콜백 함수
-		*
-		* @apiSuccess {string} resultCode Error Code 참고
-		* @apiSuccess {string} resultMessage 요청 실패시 메시지
-		* @apiExample Example usage:
-		* Hive5Client hive5 = Hive5Client.Instance;
-		* hive5.CountThreads("your-forum-key", callback);
-		*/
-		public void CountThreads(string forumKey, Callback callback)
+        /// <summary>
+        /// 포럼 내 쓰레드의 개수를 반환합니다.
+        /// </summary>
+        /// <param name="forumKey">포럼 키</param>
+        /// <param name="callback">콜백 함수</param>
+        /// <code language="cs">Hive5Client.Forum.CountThreads("your-forum-key", (response) => {
+        ///     // your code here
+        /// });
+        /// </code>
+        public void CountThreads(string forumKey, Callback callback)
 		{
             var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Forum.CountThreads, forumKey));
 
             Hive5Http.Instance.GetHttpAsync(url, null, CountThreadsResponseBody.Load, callback);
-		}	
-
-       /** 
-		* @api {POST} CreateThread 포럼쓰레드 쓰기
-		* @apiVersion 0.3.11-beta
-		* @apiName CreateThread
-		* @apiGroup Forum
-		*
-		* @apiParam {string} forumKey 포럼 키
-		* @apiParam {string} title 쓰레드 제목
-		* @apiParam {string} content 쓰레드 내용
-		* @apiParam {string} extrasJson 보조 데이터 (Json 형식)
-		* @apiParam {Callback} callback 콜백 함수
-		*
-		* @apiSuccess {string} resultCode Error Code 참고
-		* @apiSuccess {string} resultMessage 요청 실패시 메시지
-		* @apiExample Example usage:
-		* Hive5Client hive5 = Hive5Client.Instance;
-		* hive5.CreateThread("your-forum-key", "thead-title", "thread-content", "{ heart: 2}", callback);
-		*/
-		public void CreateThread(string forumKey, string title, string content, string extrasJson, Callback callback)
+		}
+        
+        /// <summary>
+        /// 포럼에 쓰레드를 생성합니다.
+        /// </summary>
+        /// <param name="forumKey">포럼 키</param>
+        /// <param name="title">쓰레드 제목</param>
+        /// <param name="content">쓰레드 내용</param>
+        /// <param name="extrasJson">보조 데이터 (Json 형식)</param>
+        /// <param name="callback">콜백 함수</param>
+        /// <code language="cs">Hive5Client.Forum.CreateThread("your-forum-key", "thead-title", "thread-content", "{ heart: 2}", callback);
+        /// </code>
+        public void CreateThread(string forumKey, string title, string content, string extrasJson, Callback callback)
 		{
             var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Forum.CreateThread, forumKey));
 
@@ -104,28 +83,20 @@ namespace Hive5
             };
 
             Hive5Http.Instance.PostHttpAsync(url, requestBody, CreateThreadResponseBody.Load, callback);
-		}	
+		}
 
-        /** 
-		* @api {POST} UpdateThread 포럼쓰레드 쓰기
-		* @apiVersion 0.3.11-beta
-		* @apiName UpdateThread
-		* @apiGroup Forum
-		*
-		* @apiParam {string} forumKey 포럼 키
-        * @apiParam {long} threadId 쓰레드 고유아이디
-        * @apiParam {string} title 쓰레드 제목
-		* @apiParam {string} content 쓰레드 내용
-		* @apiParam {string} extrasJson 보조 데이터 (Json 형식)
-		* @apiParam {Callback} callback 콜백 함수
-		*
-		* @apiSuccess {string} resultCode Error Code 참고
-		* @apiSuccess {string} resultMessage 요청 실패시 메시지
-		* @apiExample Example usage:
-		* Hive5Client hive5 = Hive5Client.Instance;
-		* hive5.CreateThread("your-forum-key", "thead-title", "thread-content", "{ heart: 2}", callback);
-		*/
-		public void UpdateThread(string forumKey, long threadId, string title, string content, string extrasJson, Callback callback)
+        /// <summary>
+        /// 포럼 쓰레드를 업데이트합니다.
+        /// </summary>
+        /// <param name="forumKey">포럼 키</param>
+        /// <param name="threadId">쓰레드 고유아이디</param>
+        /// <param name="title">쓰레드 제목</param>
+        /// <param name="content">쓰레드 내용</param>
+        /// <param name="extrasJson">보조 데이터 (Json 형식)</param>
+        /// <param name="callback">콜백 함수</param>
+        /// <code language="cs">Hive5Client.Forum.UpdateThread("your-forum-key", "thead-id", "thead-title", "thread-content", "{ heart: 2}", callback);
+        /// </code>
+        public void UpdateThread(string forumKey, long threadId, string title, string content, string extrasJson, Callback callback)
 		{
             var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Forum.UpdateThread, forumKey, threadId));
 
@@ -137,25 +108,17 @@ namespace Hive5
             };
 
             Hive5Http.Instance.PutHttpAsync(url, requestBody, UpdateThreadResponseBody.Load, callback);
-		}	
+		}
 
-        /** 
-		* @api {POST} DeleteThread 포럼쓰레드 삭제
-		* @apiVersion 0.3.11-beta
-		* @apiName DeleteThread
-		* @apiGroup Forum
-		*
-		* @apiParam {string} forumKey 포럼 키
-		* @apiParam {long} threadId 쓰레드 고유아이디
-		* @apiParam {Callback} callback 콜백 함수
-		*
-		* @apiSuccess {string} resultCode Error Code 참고
-		* @apiSuccess {string} resultMessage 요청 실패시 메시지
-		* @apiExample Example usage:
-		* Hive5Client hive5 = Hive5Client.Instance;
-		* hive5.DeleteThread("your-forum-key", deletingThreadId, callback);
-		*/
-		public void DeleteThread(string forumKey, long threadId, Callback callback)
+        /// <summary>
+        /// 포럼 내 쓰레드 삭제
+        /// </summary>
+        /// <param name="forumKey">포럼 키</param>
+        /// <param name="threadId">쓰레드 고유아이디</param>
+        /// <param name="callback">콜백 함수</param>
+        /// <code language="cs">Hive5Client.Forum.DeleteThread("your-forum-key", "thead-id", callback);
+        /// </code>
+        public void DeleteThread(string forumKey, long threadId, Callback callback)
 		{
             var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Forum.DeleteThread, forumKey));
 

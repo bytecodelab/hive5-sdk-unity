@@ -438,7 +438,7 @@ namespace Hive5.Spider
 
         void mySocket_OnMessage(object sender, MessageEventArgs e)
         {
-#if !UNITTEST
+#if !DOTNET
             Loom.RunAsync(new Action(() =>
             {
 #endif
@@ -661,7 +661,7 @@ namespace Hive5.Spider
                     default:
                         break;
                 }
-#if !UNITTEST
+#if !DOTNET
             }));
 #endif
         }

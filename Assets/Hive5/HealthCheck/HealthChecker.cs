@@ -28,7 +28,7 @@ namespace Hive5
     /// <summary>
     /// 서버 건상 상태를 일시적/주기적으로 확인할 수 있는 클래스
     /// </summary>
-#if UNITTEST
+#if DOTNET
     public class HealthChecker : MockMonoSingleton<Hive5Http> {
 #else
 	public class HealthChecker : MonoSingleton<Hive5Http> {
@@ -113,7 +113,7 @@ namespace Hive5
             return maintenance;
         }
 
-#if UNITTEST
+#if DOTNET
         /// <summary>
         /// Url로 웹 문자열 컨텐츠 내려받기
         /// </summary>

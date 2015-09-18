@@ -12,35 +12,25 @@ using Hive5.Util;
 
 namespace Hive5
 {
-	/// <summary>
-	/// Hive5 DataTable features
-	/// </summary>
+    /// <summary>
+    /// DataTable에 대한 모든 기능을 포함하는 클래스
+    /// </summary>
     public class Hive5DataTable
     {
-        /** 
-		* @api {POST} Get 데이터 테이블 가져오기
-		* @apiVersion 0.3.11-beta
-		* @apiName Get
-		* @apiGroup DataTable
-		*
-		* @apiParam {string} name 데이터 테이블 이름
-        * @apiParam {integer} revision 리비전
-		* @apiParam {Callback} callback 콜백 함수
-		*
-		* @apiSuccess {string} resultCode Error Code 참고
-		* @apiSuccess {string} resultMessage 요청 실패시 메시지
-		* @apiExample Example usage:
-		* Hive5Client hive5 = Hive5Client.Instance;
-		* hive5.GetDataTable(code callback);
-		*/
+        /// <summary>
+        /// DataTable 내용 가져오기
+        /// </summary>
+        /// <param name="name">DataTable 이름</param>
+        /// <param name="revision">리비전</param>
+        /// <param name="callback"></param>
 		public void Get(string name, int? revision, Callback callback)
 		{
             var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.DataTable.GetDataTable, name));
 
-            var parameter = new List<KeyValuePair<string, string>>();
+            var parameter = new Dictionary<string, string>();
             if (revision != null)
             {
-                parameter.Add(new KeyValuePair<string, string>("revision", revision.ToString()));
+                parameter.Add("revision", revision.ToString());
             }
          
             Hive5Http.Instance.GetHttpAsync(url, parameter, GetDataTableResponseBody.Load, callback);

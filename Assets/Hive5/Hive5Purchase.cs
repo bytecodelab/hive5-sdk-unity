@@ -38,7 +38,6 @@ namespace Hive5
 		*/
 		public void CreateNaverPurchase(string productCode, string paymentSequence, string receiverPlatform, long receiverId, Callback callback)
 		{
-			// Hive5 API URL 초기화
 			var url = Hive5Client.ComposeRequestUrl(ApiPath.Purchase.CreateNaverPurchase);
 			
 			var requestBody = new {
@@ -51,7 +50,6 @@ namespace Hive5
                 }
 			};
 			
-			// WWW 호출
             Hive5Http.Instance.PostHttpAsync(url, requestBody, CreateNaverPurchaseResponseBody.Load, callback);
 		}
 		
@@ -77,16 +75,14 @@ namespace Hive5
 		public void CompleteNaverPurchase(long id, long listPrice, long purchasedPrice, string currency, string paramsJson, Callback callback)
 		{
 			var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Purchase.CompleteNaverPurchase, id));
-			
+
             // params 란 predefined 를 사용하기 힘들기 때문에
-            // List<KeyValuePair<string, string>>를 쓸 수 밖에 없음
-            List<KeyValuePair<string, string>> requestBody = new List<KeyValuePair<string,string>>()
-            {
-                new KeyValuePair<string, string>("list_price", listPrice.ToString()),
-                new KeyValuePair<string, string>("purchased_price", purchasedPrice.ToString()),
-                new KeyValuePair<string, string>("currency", currency.ToString()),
-                new KeyValuePair<string, string>("params", paramsJson.ToString()),
-            };
+            // Dictionary<string, string>를 쓸 수 밖에 없음
+            Dictionary<string, string> requestBody = new Dictionary<string, string>();
+            requestBody.Add("list_price", listPrice.ToString());
+            requestBody.Add("purchased_price", purchasedPrice.ToString());
+            requestBody.Add("currency", currency.ToString());
+            requestBody.Add("params", paramsJson.ToString());
 
             Hive5Http.Instance.PostHttpAsync(url, requestBody, CompleteNaverPurchaseResponseBody.Load, callback);
 		}
@@ -136,7 +132,7 @@ namespace Hive5
 			var requestBody = new {
 				product_code = productCode,
 				receiver = receiver,
-#if UNITTEST
+#if DOTNET
                 test = true,
 #endif
 			};
@@ -167,18 +163,16 @@ namespace Hive5
 		public void CompleteGooglePurchase(string id, long listPrice, long purchasedPrice, string currency, string purchaseData, string signature, string paramsJson, Callback callback)
 		{
 			var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Purchase.CompleteGooglePurchase, id));
-			
+
             // params 란 predefined 를 사용하기 힘들기 때문에
-            // List<KeyValuePair<string, string>>를 쓸 수 밖에 없음
-            List<KeyValuePair<string, string>> requestBody = new List<KeyValuePair<string,string>>()
-            {
-                new KeyValuePair<string, string>("list_price", listPrice.ToString()),
-                new KeyValuePair<string, string>("purchased_price", purchasedPrice.ToString()),
-                new KeyValuePair<string, string>("currency", currency.ToString()),
-                new KeyValuePair<string, string>("purchase_data", purchaseData.ToString()),
-                new KeyValuePair<string, string>("signature", signature.ToString()),
-                new KeyValuePair<string, string>("params", paramsJson.ToString()),
-            };
+            // Dictionary<string, string>를 쓸 수 밖에 없음
+            Dictionary<string, string> requestBody = new Dictionary<string, string>();
+            requestBody.Add("list_price", listPrice.ToString());
+            requestBody.Add("purchased_price", purchasedPrice.ToString());
+            requestBody.Add("currency", currency.ToString());
+            requestBody.Add("purchase_data", purchaseData.ToString());
+            requestBody.Add("signature", signature.ToString());
+            requestBody.Add("params", paramsJson.ToString());
 			
             Hive5Http.Instance.PostHttpAsync(url, requestBody, CompleteGooglePurchaseResponseBody.Load, callback);
 		}
@@ -261,18 +255,16 @@ namespace Hive5
 		public void CompleteApplePurchase(long id, long listPrice, long purchasedPrice, string currency, string receipt, bool isSandbox, string paramsJson, Callback callback)
 		{
 			var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Purchase.CompleteApplePurchase, id));
-			
+
             // params 란 predefined 를 사용하기 힘들기 때문에
-            // List<KeyValuePair<string, string>>를 쓸 수 밖에 없음
-            List<KeyValuePair<string, string>> requestBody = new List<KeyValuePair<string,string>>()
-            {
-                new KeyValuePair<string, string>("list_price", listPrice.ToString()),
-                new KeyValuePair<string, string>("purchased_price", purchasedPrice.ToString()),
-                new KeyValuePair<string, string>("currency", currency.ToString()),
-                new KeyValuePair<string, string>("receipt", receipt.ToString()),
-                new KeyValuePair<string, string>("is_sandbox", isSandbox.ToString()),
-                new KeyValuePair<string, string>("params", paramsJson.ToString()),
-            };
+            // Dictionary<string, string>를 쓸 수 밖에 없음
+            Dictionary<string, string> requestBody = new Dictionary<string, string>();
+            requestBody.Add("list_price", listPrice.ToString());
+            requestBody.Add("purchased_price", purchasedPrice.ToString());
+            requestBody.Add("currency", currency.ToString());
+            requestBody.Add("receipt", receipt.ToString());
+            requestBody.Add("is_sandbox", isSandbox.ToString());
+            requestBody.Add("params", paramsJson.ToString());
 			
             Hive5Http.Instance.PostHttpAsync(url, requestBody, CompleteApplePurchaseResponseBody.Load, callback);
 		}

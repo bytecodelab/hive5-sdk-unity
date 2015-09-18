@@ -102,6 +102,9 @@ namespace Hive5
         /// </summary>
         public static Hive5SocialGraph SocialGraph { get; private set; }
         
+        /// <summary>
+        /// 정적 생성자
+        /// </summary>
         static Hive5Client()
         {
             ApiRequestManager.Instance.Ttl = Hive5Config.DuplicationApiCallExpirationPeriod;

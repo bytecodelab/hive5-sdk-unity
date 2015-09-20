@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using LitJson;
 using Hive5.Util;
 using System.Diagnostics;
+using Hive5.Spider.Models;
 
 namespace hive5_sdk_unity.test
 {
@@ -39,7 +40,7 @@ namespace hive5_sdk_unity.test
             {
                 var completion = new ManualResetEvent(false);
 
-                Hive5Client.Auth.LogIn(OSType.Android, "1.0", "ko-KR", user, (response) =>
+                Hive5Client.Auth.LogIn("android", "1.0", "ko-KR", user, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -681,7 +682,7 @@ namespace hive5_sdk_unity.test
 
                 string sampleTag = "reward";
 
-                Hive5Client.Mail.CountMail(DataOrder.DESC, "0", sampleTag, (response) =>
+                Hive5Client.Mail.CountMail(sampleTag, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -714,7 +715,7 @@ namespace hive5_sdk_unity.test
 
                 string sampleTag = "reward";
 
-                Hive5Client.Mail.List(10, sampleTag, DataOrder.DESC, 0, (response) =>
+                Hive5Client.Mail.List(DataOrder.DESC, 0, 10, sampleTag, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -1535,7 +1536,7 @@ namespace hive5_sdk_unity.test
         [TestMethod]
         public void TestJsonSerializeTupleList()
         {
-            var parameters = new TupleList<string, string>();
+            var parameters = new Dictionary<string, string>();
             parameters.Add("echo", "gilbok");
             var serialized = LitJson.JsonMapper.ToJson(parameters);
         }

@@ -127,5 +127,43 @@ namespace LitJson
             }
             return result;
         }
+
+        public static Dictionary<string, JsonData> ToDictionary(this JsonData data)
+        {
+            var defaultDict = new Dictionary<string, JsonData>(); 
+
+            if (data == null)
+                return defaultDict;
+
+            var dict = (data as System.Collections.IDictionary);
+            if (dict == null)
+                return defaultDict;
+
+            foreach (string key in dict.Keys)
+            {
+                defaultDict.Add(key, data[key]);
+            }
+
+            return defaultDict;
+        }
+
+        public static Dictionary<string, string> ToStringDictionary(this JsonData data)
+        {
+            var defaultDict = new Dictionary<string, string>(); 
+
+            if (data == null)
+                return defaultDict;
+
+            var dict = (data as System.Collections.IDictionary);
+            if (dict == null)
+                return defaultDict;
+
+            foreach (string key in dict.Keys)
+            {
+                defaultDict.Add(key, (string)data[key]);
+            }
+
+            return defaultDict;
+        }
     }
 }

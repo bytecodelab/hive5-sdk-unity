@@ -1,4 +1,5 @@
 ﻿using Hive5;
+using Hive5.HealthChecker;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;

@@ -34,13 +34,12 @@ namespace Hive5.Spider.Models
                 parts.Count > 6)
                 return null;
 
-            long subscriptionId = JsonHelper.ToLong(parts[1], -1);
-            long publicationId = JsonHelper.ToLong(parts[2], -1);
-            Dictionary<string, JsonData> details = JsonHelper.GetDictionary(parts[3]);
+            long subscriptionId = parts[1].ToLong();
+            long publicationId = parts[2].ToLong();
+            Dictionary<string, JsonData> details = parts[3] != null ? parts[3].ToDictionary() : new Dictionary<string, JsonData>();
 			List<JsonData> arguments = null; //JsonHelper.GetList(parts[4]);
-            Dictionary<string, string> argumentsKw  = JsonHelper.GetStringDictionary(parts[5]);
+            Dictionary<string, string> argumentsKw  = parts[5] != null ? parts[5].ToStringDictionary() : new Dictionary<string, string>();
             
-
             return new EventMessage()
             {
                 SubscriptionId = subscriptionId,

@@ -21,7 +21,7 @@ namespace Hive5.Spider.Models
             if (string.IsNullOrEmpty(s) == true)
                 return null;
 
-			var jsonData = LitJson.JsonMapper.ToObject(s);
+			var jsonData = LitJson.JsonMapper.ToObject<LitJson.JsonData>(s);
 
             if (jsonData.Count != 3)
                 return null;

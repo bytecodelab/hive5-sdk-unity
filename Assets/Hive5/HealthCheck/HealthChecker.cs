@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using UnityEngine;
 
-namespace Hive5
+namespace Hive5.HealthChecker
 {
     /// <summary>
     /// 서버 상태 열거형

@@ -50,8 +50,8 @@ namespace Hive5.Models
                 },
                 value = jsonData["value"].ToLong(),
                 rank = jsonData["rank"].ToLong(),
-                extras = jsonData["extras"].ToJson(),
-                objects = jsonData["objects"].ToJson(),
+                extras = jsonData["extras"] == null ? string.Empty : jsonData["extras"].ToJson(),
+                objects = jsonData["objects"] == null ? string.Empty : jsonData["objects"].ToJson(),
             };
         }
 

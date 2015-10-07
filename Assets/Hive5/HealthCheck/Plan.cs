@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Hive5
+namespace Hive5.HealthChecker
 {
     /// <summary>
     /// 서버점검 계획 모델 클래스

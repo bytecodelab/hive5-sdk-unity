@@ -36,8 +36,8 @@ namespace Hive5.Spider.Models
                 parts[4].IsString == false)
                 return null;
 
-            int messageCodeOfError = JsonHelper.ToInt(parts[1], -1);
-            long requestId = JsonHelper.ToLong(parts[2], -1);
+            int messageCodeOfError = parts[1].ToInt();
+            long requestId = parts[2].ToLong();
             string errorUri = (string)parts[4];
 
             return new ErrorMessage()
@@ -45,7 +45,7 @@ namespace Hive5.Spider.Models
                 MessageCodeOfError = messageCodeOfError,
                 RequestId = requestId,
                 ErrorUri = errorUri,
-                Details = JsonHelper.GetDictionary(parts[3]),
+                Details = parts[3] != null? parts[3].ToDictionary() : new Dictionary<string, JsonData>(),
             };
         }
     }

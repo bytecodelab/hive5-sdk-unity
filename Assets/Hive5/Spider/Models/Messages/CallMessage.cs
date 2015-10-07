@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LitJson;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,7 +26,7 @@ namespace Hive5.Spider.Models
             messageObjects.Add(this.Options);
             messageObjects.Add(this.ProcedureUri);
 
-            string jsonMessage = JsonHelper.ToJson(messageObjects);
+            string jsonMessage = JsonMapper.ToJson(messageObjects);
             return jsonMessage;
         }
     }

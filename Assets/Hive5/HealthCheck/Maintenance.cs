@@ -5,7 +5,7 @@ using System.Text;
 using LitJson;
 using System.Collections;
 
-namespace Hive5
+namespace Hive5.HealthChecker
 {
     /// <summary>
     /// 서버 유지보수 활동 모델 클래스 
@@ -40,7 +40,7 @@ namespace Hive5
 
             Maintenance maintenance = new Maintenance();
             
-            var jsonData = JsonMapper.ToObject(json);
+            var jsonData = JsonMapper.ToObject<LitJson.JsonData>(json);
 
             if (jsonData.ContainsKey("maintenance") == false)
                 return null;

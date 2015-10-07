@@ -6,6 +6,11 @@ using System.Text;
 
 namespace Hive5
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <exclude/>
     public class MockMonoSingleton<T> where T : class, new()
     {
         public static T Instance { get; private set; }

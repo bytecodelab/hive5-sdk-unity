@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LitJson;
 
 namespace Hive5.Spider.Models
 {
@@ -27,7 +28,7 @@ namespace Hive5.Spider.Models
             if ((parts[1].IsLong == false && parts[1].IsInt == false))
                 return null;
 
-            long requestId = JsonHelper.ToLong(parts[1], -1);
+            long requestId = parts[1].ToLong();
 
             var instance = new UnsubscribedMessage()
             {

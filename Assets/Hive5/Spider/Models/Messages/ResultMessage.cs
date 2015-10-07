@@ -40,20 +40,20 @@ namespace Hive5.Spider.Models
                 json[1].IsInt == false)
                 return null;
 
-            long requestId = JsonHelper.ToLong(json[1], -1); 
+            long requestId = json[1].ToLong(); 
 
-            Dictionary<string, JsonData> details = JsonHelper.GetDictionary(json[2]);
+            Dictionary<string, JsonData> details = json[2] != null ? json[2].ToDictionary() : new Dictionary<string, JsonData>();
 
             List<JsonData> arguments = new List<JsonData>();
-            if (json.Count > 3)
+            if (json.Count > 3 && json[3] != null && json[3].IsArray == true)
             {
-                arguments = JsonHelper.GetList(json[3]);
+                arguments = json[3].ToList<JsonData>();
             }
 
             Dictionary<string, JsonData> argumentsKw = new Dictionary<string,JsonData>();
-            if (json.Count > 4)
+            if (json.Count > 4 && json[4] != null)
             {
-                argumentsKw = JsonHelper.GetDictionary(json[4]);
+                argumentsKw = json[4].ToDictionary();
             }
 
             var instance = new ResultMessage()

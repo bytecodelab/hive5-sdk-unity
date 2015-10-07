@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Hive5
 {
+    /// <summary>
+    /// <exclude/>
+    /// </summary>
     public class Logger
     {
         public static bool IsDebugBuild { get; private set; }

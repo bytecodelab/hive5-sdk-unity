@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LitJson;
 
 namespace Hive5.Spider
 {
@@ -20,9 +21,9 @@ namespace Hive5.Spider
             Channels = new List<SpiderChannel>();
             foreach (var jsonData in message.Arguments)
             {
-                long appId = JsonHelper.ToLong(jsonData, "app_id", -1);
-                int channelNumber = JsonHelper.ToInt(jsonData, "channel_number", -1);
-                int sessionCount = JsonHelper.ToInt(jsonData, "session_count", 0);
+                long appId = jsonData.ContainsKey("app_id") ? jsonData.ToLong() : -1;
+                int channelNumber = jsonData.ContainsKey("channel_number") ? jsonData.ToInt() : -1;
+                int sessionCount = jsonData.ContainsKey("session_count") ? jsonData.ToInt() : 0;
 
                 var channel = new SpiderChannel()
                 {

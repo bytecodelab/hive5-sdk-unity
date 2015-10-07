@@ -949,7 +949,7 @@ namespace hive5_sdk_unity.test
                 Assert.AreEqual("{\"params\":{\"gamble_items\":[{\"Id\":1,\"Grade\":1,\"Rate\":1},{\"Id\":2,\"Grade\":2,\"Rate\":2},{\"Id\":3,\"Grade\":3,\"Rate\":3}]}}",
                     body.CallReturn);
 
-                var jsonData = LitJson.JsonMapper.ToObject(body.CallReturn);
+                var jsonData = LitJson.JsonMapper.ToObject<LitJson.JsonData>(body.CallReturn);
 
                 Assert.IsTrue(jsonData.IsObject == true);
                 Assert.IsTrue(jsonData["params"].IsObject == true);
@@ -1514,7 +1514,7 @@ namespace hive5_sdk_unity.test
         public void TestJsonDataToArray()
         {
             string testJson = "{\"result\":0,\"kakao\":{\"today_invites\":7,\"show_profile_image\":true,\"id\":null,\"total_invites\":7,\"reset\":{\"hour\":0,\"max\":1,\"nextTime\":1423699200,\"value\":0,\"period\":1},\"class\":\"kakao\",\"invited_ids\":[\"-000000016\",\"-000000084\",\"-000000065\"],\"numbers\":[1,2,3],\"bools\":[true, false, true]}}}";
-            var jsonData = LitJson.JsonMapper.ToObject(testJson);
+            var jsonData = LitJson.JsonMapper.ToObject<LitJson.JsonData>(testJson);
 
             var partJson = jsonData["kakao"]["invited_ids"];
             var idsList = partJson.ToList<string>();

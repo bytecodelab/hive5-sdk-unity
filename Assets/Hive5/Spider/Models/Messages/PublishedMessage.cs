@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LitJson;
 
 namespace Hive5.Spider.Models
 {
@@ -30,8 +31,8 @@ namespace Hive5.Spider.Models
                 (parts[2].IsInt == false && parts[2].IsLong == false))
                 return null;
 
-            long requestId = JsonHelper.ToLong(parts[1], -1);
-            long publicationId = JsonHelper.ToLong(parts[2], -1);
+            long requestId = parts[1].ToLong();
+            long publicationId = parts[2].ToLong();
 
             var instance = new PublishedMessage()
             {

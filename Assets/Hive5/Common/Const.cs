@@ -101,6 +101,7 @@ namespace Hive5
     /// <summary>
     /// Hive5 parameter key.
     /// </summary>
+    /// <exclude />
     public class ParameterKey
     {
         public static string AccessToken = "access_token";
@@ -121,6 +122,7 @@ namespace Hive5
     /// <summary>
     /// Hive5 header key.
     /// </summary>
+    /// <exclude />
     public class HeaderKey
     {
         public static string AppKey = "X-APP-KEY";		// 게임에 발급된 app key. 모든 API 호출에 필요. ex) a40e4122-XXXX-44a6-b916-68ed756f7XXX
@@ -136,13 +138,14 @@ namespace Hive5
     /// <summary>
     /// Hive5 header value.
     /// </summary>
+    /// <exclude />
     public class HeaderValue
     {
         public static string ContentType = "application/json";	// 요청 ContentType
         public static string Gzip = "gzip";
     }
 
-/// <summary>
+    /// <summary>
     /// Platform type.
     /// </summary>
     public class PlatformType
@@ -155,5 +158,4 @@ namespace Hive5
         public static string QQ = "qq";
         public static string WeChat = "wechat";
     }
-
 }

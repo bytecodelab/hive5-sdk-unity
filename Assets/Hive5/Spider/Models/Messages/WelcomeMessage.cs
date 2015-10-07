@@ -23,7 +23,7 @@ namespace Hive5.Spider.Models
             if (string.IsNullOrEmpty(s) == true)
                 return null;
 
-            var jsonRoot = JsonMapper.ToObject(s);
+            var jsonRoot = JsonMapper.ToObject<LitJson.JsonData>(s);
            
             long sessionId = jsonRoot[1].ToLong();
 

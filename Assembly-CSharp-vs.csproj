@@ -44,6 +44,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\ReleaseUnitTest\Hive5.Unity.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -86,15 +87,6 @@
     <Compile Include="Assets\Hive5\Models\Data\Purchase.cs" />
     <Compile Include="Assets\Hive5\Models\Data\Score.cs" />
     <Compile Include="Assets\Hive5\Models\Data\User.cs" />
-    <Compile Include="Assets\Hive5\Models\JsonHelper.cs" />
-    <Compile Include="Assets\Hive5\Models\ObjectFields\ObjectField.cs" />
-    <Compile Include="Assets\Hive5\Models\ObjectFields\ObjectFieldBool.cs" />
-    <Compile Include="Assets\Hive5\Models\ObjectFields\ObjectFieldDouble.cs" />
-    <Compile Include="Assets\Hive5\Models\ObjectFields\ObjectFieldHasValue.cs" />
-    <Compile Include="Assets\Hive5\Models\ObjectFields\ObjectFieldList.cs" />
-    <Compile Include="Assets\Hive5\Models\ObjectFields\ObjectFieldLong.cs" />
-    <Compile Include="Assets\Hive5\Models\ObjectFields\ObjectFieldNull.cs" />
-    <Compile Include="Assets\Hive5\Models\ObjectFields\ObjectFieldString.cs" />
     <Compile Include="Assets\Hive5\Models\RequestBody\SetUserDataRequestBody.cs" />
     <Compile Include="Assets\Hive5\Models\ResponseBody\AddFriendsResponseBody.cs" />
     <Compile Include="Assets\Hive5\Models\ResponseBody\CountThreadsResponseBody - Copy.cs" />

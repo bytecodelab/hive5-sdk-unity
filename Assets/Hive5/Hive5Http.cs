@@ -13,6 +13,7 @@ namespace Hive5
     /// <summary>
     /// HTTP 요청을 위한 HTTP Verb 열거형
     /// </summary>
+    /// <exclude />
     public enum HttpVerbs
     {
         GET = 0,
@@ -108,6 +109,7 @@ namespace Hive5
 
         private void PostHttp(string url, object requestBody, Hive5Response.dataLoader loader, Callback callback, HttpVerbs verb = HttpVerbs.POST)
         {
+            System.Diagnostics.Debug.WriteLine("Hive5Http" + this.GetHashCode());
             // Hive5 API json body 변환
             string jsonString = ObjectToJson(requestBody);
             var rid = new Rid(url, "", jsonString);
@@ -118,7 +120,7 @@ namespace Hive5
                 return;
             }
 
-            // Hive5 API Header fi설정
+            // Hive5 API Header 설정
             var headers = new WebHeaderCollection();
             headers.Add(HeaderKey.AppKey, Hive5Client.AppKey);
             headers.Add(HeaderKey.Uuid, Hive5Client.Uuid);
@@ -152,7 +154,7 @@ namespace Hive5
                     callback(Hive5Response.Load(loader, responseText));
                 };
 
-                wc.UploadDataAsync(new Uri(url, UriKind.RelativeOrAbsolute), verb.ToString(), Encoding.UTF8.GetBytes(jsonString), rid.RequestId);
+            wc.UploadDataAsync(new Uri(url, UriKind.RelativeOrAbsolute), verb.ToString(), Encoding.UTF8.GetBytes(jsonString), rid.RequestId);
         }
 
          /// <summary>

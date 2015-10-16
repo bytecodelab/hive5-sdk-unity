@@ -4,7 +4,8 @@ using System;
 using System.Threading;
 using System.Linq;
 
-namespace Hive5 {
+namespace Hive5.Spider
+{
 	public class Loom : MonoBehaviour
 	{
 		void OnApplicationQuit()

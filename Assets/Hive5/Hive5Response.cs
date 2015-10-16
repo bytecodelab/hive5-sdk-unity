@@ -1,18 +1,18 @@
 using System;
 using LitJson;
 using Hive5;
-using Hive5.Model;
+using Hive5.Models;
 
 namespace Hive5
 {
 	/// <summary>
-	/// Hive5 response.
+	/// Hive5 응답 모델 클래스
 	/// </summary>
 	public class Hive5Response
 	{
 		public delegate IResponseBody dataLoader (JsonData response);
 
-		public Hive5ResultCode 	ResultCode { set; get; }
+		public Hive5ErrorCode 	ResultCode { set; get; }
 		public string 			ResultMessage { set; get; }
 		public IResponseBody	ResultData { set; get; }
 
@@ -25,17 +25,8 @@ namespace Hive5
 		{
 			JsonData response = JsonMapper.ToObject (json);
 
-			Hive5ResultCode resultCode 	= (Hive5ResultCode) ((int)response[ResponseKey.ResultCode]);
-			string resultMessage;
-
-			try
-			{
-				resultMessage = (string)response[ResponseKey.ResultMessage];
-			}
-			catch(Exception)
-			{
-				resultMessage = "";
-			}
+			Hive5ErrorCode resultCode 	= (Hive5ErrorCode) ((int)response["result_code"]);
+			string resultMessage = response.ContainsKey("result_message") == false ? string.Empty : (string)response["result_message"];
 
 			IResponseBody resultData = null;
 			if (resultCode == 0) {

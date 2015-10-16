@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Hive5
+namespace Hive5.Spider
 {
     public class CallUris
     {
@@ -12,4 +12,5 @@ namespace Hive5
         public static string GetChannels = BaseUri + "." + "list_channels";
         public static string GetPlayers = BaseUri + "." + "list_players";
     }
+
 }

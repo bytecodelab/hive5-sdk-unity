@@ -7,8 +7,16 @@ using System.Text;
 
 namespace LitJson
 {
+    /// <summary>
+    /// JsonData 클래스의 확장메서드를 포함하는 클래스
+    /// </summary>
     public static class JsonDataExtensions
     {
+        /// <summary>
+        /// JsonData를 안전하게 long타입으로 변환
+        /// </summary>
+        /// <param name="jsonData">데이터 원본</param>
+        /// <returns>long 타입 값</returns>
         public static long ToLong(this JsonData jsonData)
         {
             if (jsonData.IsLong)
@@ -29,6 +37,11 @@ namespace LitJson
             throw new InvalidCastException();
         }
 
+        /// <summary>
+        /// JsonData를 안전하게 int타입으로 변환
+        /// </summary>
+        /// <param name="jsonData">데이터 원본</param>
+        /// <returns>int 타입 값</returns>
         public static int ToInt(this JsonData jsonData)
         {
             if (jsonData.IsInt)
@@ -45,15 +58,12 @@ namespace LitJson
             throw new InvalidCastException();
         }
 
-        public static int ToDateTime(this JsonData jsonData)
-        {
-            if (jsonData == null ||
-                jsonData.IsString != false)
-                return 0;
-
-            return ParseDateTime(jsonData.ToString());
-        }
-
+        /// <summary>
+        /// JsonData를 안전하게 List&lt;T&gt;타입으로 변환
+        /// </summary>
+        /// <typeparam name="T">타입</typeparam>
+        /// <param name="jsonData">데이터 원본</param>
+        /// <returns>List&lt;T&gt;타입 값</returns>
         public static List<T> ToList<T>(this JsonData jsonData)
         {
             List<T> list = new List<T>();
@@ -82,23 +92,23 @@ namespace LitJson
             return tempList.OfType<T>().ToList();
         }
 
+        /// <summary>
+        /// JsonData를 안전하게 T[] 타입으로 변환
+        /// </summary>
+        /// <typeparam name="T">타입</typeparam>
+        /// <param name="jsonData">데이터원본</param>
+        /// <returns>T[] 타입 값</returns>
         public static T[] ToArray<T>(this JsonData jsonData)
         {
             return jsonData.ToList<T>().ToArray<T>();
         }
 
-
-        public static int ParseDateTime(string dateTimeString)
-        {
-            if (string.IsNullOrEmpty(dateTimeString) == true)
-                return 0;
-
-            int intValue = 0;
-            int.TryParse(dateTimeString, out intValue);
-
-            return intValue;
-        }
-
+        /// <summary>
+        /// 키(key)의 존재 여부를 반환
+        /// </summary>
+        /// <param name="data">확장메서드 숙주</param>
+        /// <param name="key">키</param>
+        /// <returns>존재 여부</returns>
         public static bool ContainsKey(this JsonData data,string key)
         {
             bool result = false;
@@ -116,6 +126,44 @@ namespace LitJson
                 result = true;
             }
             return result;
+        }
+
+        public static Dictionary<string, JsonData> ToDictionary(this JsonData data)
+        {
+            var defaultDict = new Dictionary<string, JsonData>(); 
+
+            if (data == null)
+                return defaultDict;
+
+            var dict = (data as System.Collections.IDictionary);
+            if (dict == null)
+                return defaultDict;
+
+            foreach (string key in dict.Keys)
+            {
+                defaultDict.Add(key, data[key]);
+            }
+
+            return defaultDict;
+        }
+
+        public static Dictionary<string, string> ToStringDictionary(this JsonData data)
+        {
+            var defaultDict = new Dictionary<string, string>(); 
+
+            if (data == null)
+                return defaultDict;
+
+            var dict = (data as System.Collections.IDictionary);
+            if (dict == null)
+                return defaultDict;
+
+            foreach (string key in dict.Keys)
+            {
+                defaultDict.Add(key, (string)data[key]);
+            }
+
+            return defaultDict;
         }
     }
 }

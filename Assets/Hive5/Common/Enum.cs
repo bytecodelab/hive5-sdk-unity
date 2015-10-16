@@ -2,35 +2,19 @@ using System;
 
 namespace Hive5
 {
-	/// <summary>
-	/// Hive5 API zone.
-	/// </summary>
-	public enum Hive5APIZone
+    /// <summary>
+    /// 데이터 정렬
+    /// </summary>
+    public enum DataOrder
 	{
-        Alpha = 0,
-		Beta = 1,
-		Production = 2,
-	}
-
-	public enum Hive5TimeZone
-	{
-		UTC = 0,
-		KST = 9,
-	}
-
-	public enum CommandType
-	{
-		SET = 0,
-		INC = 1,
-		DEC = -1,
-	}
-
-	public enum OrderType
-	{
+        /// <summary>
+        /// 오름차순
+        /// </summary>
 		ASC = 0,
+        /// <summary>
+        /// 내림차순
+        /// </summary>
 		DESC = 1,
 	}
-
-
 }
 

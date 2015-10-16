@@ -5,8 +5,11 @@ using System.Text;
 using LitJson;
 using System.Collections;
 
-namespace Hive5
+namespace Hive5.HealthChecker
 {
+    /// <summary>
+    /// 서버 유지보수 활동 모델 클래스 
+    /// </summary>
     public class Maintenance
     {
         /// <summary>
@@ -18,10 +21,18 @@ namespace Hive5
         /// </summary>
         public List<Plan> PendingPlans { get; set; }
 
+        /// <summary>
+        /// 기본생성자
+        /// </summary>
         public Maintenance()
         {
         }
 
+        /// <summary>
+        /// json문자열을 파싱하여 Maintenance 인스턴스를 생성한다.
+        /// </summary>
+        /// <param name="json">Json 데이터</param>
+        /// <returns>Maintenance 인스턴스</returns>
         public static Maintenance Parse(string json)
         {
             if (string.IsNullOrEmpty(json) == true)
@@ -29,7 +40,7 @@ namespace Hive5
 
             Maintenance maintenance = new Maintenance();
             
-            var jsonData = JsonMapper.ToObject(json);
+            var jsonData = JsonMapper.ToObject<LitJson.JsonData>(json);
 
             if (jsonData.ContainsKey("maintenance") == false)
                 return null;
@@ -68,6 +79,11 @@ namespace Hive5
             return maintenance;
         }
 
+        /// <summary>
+        /// JsonData를 Plan으로 변환한다.
+        /// </summary>
+        /// <param name="jsonData">데이터 원본</param>
+        /// <returns>변환된 Plan 인스턴스</returns>
         private static Plan ConvertToPlan(JsonData jsonData)
         {
             if (jsonData == null)

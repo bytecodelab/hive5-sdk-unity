@@ -1,74 +1,72 @@
-﻿using System;
+﻿using Hive5.Spider.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Hive5
+namespace Hive5.Spider.Helpers
 {
     public class SubscriptionManager
     {
-        private static Dictionary<long, TopicKind> requestIdToTopicKind { get; set; }
-        private static Dictionary<long, TopicKind> subscriptionIdToTopicKind { get; set; }
+        private static Dictionary<long, SpiderTopic> requestIdToTopic { get; set; }
+        private static Dictionary<long, SpiderTopic> subscriptionIdToTopic { get; set; }
 
         static SubscriptionManager()
         {
-            requestIdToTopicKind = new Dictionary<long, TopicKind>();
-            subscriptionIdToTopicKind = new Dictionary<long, TopicKind>();
+            requestIdToTopic = new Dictionary<long, SpiderTopic>();
+            subscriptionIdToTopic = new Dictionary<long, SpiderTopic>();
         }
 
-        public static void ReportSubscribe(long requestId, TopicKind topicKind)
+        public static void ReportSubscribe(long requestId, SpiderTopic topic)
         {
-            if (requestIdToTopicKind.ContainsKey(requestId) == true)
+            if (requestIdToTopic.ContainsKey(requestId) == true)
             {
-                requestIdToTopicKind[requestId] = topicKind;
+                requestIdToTopic[requestId] = topic;
             }
             else
             {
-                requestIdToTopicKind.Add(requestId, topicKind);
+                requestIdToTopic.Add(requestId, topic);
             }
         }
 
         public static void ReportSubscribed(long requestId, long subscriptionId)
         {
-            TopicKind topicKind = GetTopicKindByRequestId(requestId);
+            SpiderTopic topic = GetTopicByRequestId(requestId);
 
             // RequestId 사전에서 삭제
-            requestIdToTopicKind.Remove(requestId);
+            requestIdToTopic.Remove(requestId);
 
-            if (subscriptionIdToTopicKind.ContainsKey(subscriptionId) == true)
+            if (subscriptionIdToTopic.ContainsKey(subscriptionId) == true)
             {
-                subscriptionIdToTopicKind[subscriptionId] = topicKind;
+                subscriptionIdToTopic[subscriptionId] = topic;
             }
             else
             {
-                subscriptionIdToTopicKind.Add(subscriptionId, topicKind);
+                subscriptionIdToTopic.Add(subscriptionId, topic);
             }
         }
 
-        private static TopicKind GetTopicKindByRequestId(long requestId)
+        private static SpiderTopic GetTopicByRequestId(long requestId)
         {
-            // 기본값 Channel
-            TopicKind topicKind = TopicKind.Channel;
+            SpiderTopic topic = null;
+            requestIdToTopic.TryGetValue(requestId, out topic);
 
-            requestIdToTopicKind.TryGetValue(requestId, out topicKind);
-
-            return topicKind;
+            return topic;
         }
 
-        public static TopicKind GetTopicKindBySubscriptionId(long subscriptionId)
+        public static SpiderTopic GetTopicBySubscriptionId(long subscriptionId)
         {
-            // 기본값 Channel
-            TopicKind topicKind = TopicKind.Channel;
+            SpiderTopic topic = null;
 
-            subscriptionIdToTopicKind.TryGetValue(subscriptionId, out topicKind);
+            subscriptionIdToTopic.TryGetValue(subscriptionId, out topic);
 
-            return topicKind;
+            return topic;
         }
 
         public static void Clear()
         {
-            requestIdToTopicKind.Clear();
-            subscriptionIdToTopicKind.Clear();
+            requestIdToTopic.Clear();
+            subscriptionIdToTopic.Clear();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Assets.Hive5;
+﻿using Hive5.HealthChecker;
 using System;
 using System.Collections.Generic;
 using System.Linq;

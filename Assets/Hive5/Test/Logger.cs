@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Hive5
 {
+    /// <summary>
+    /// <exclude/>
+    /// </summary>
     public class Logger
     {
         public static bool IsDebugBuild { get; private set; }
@@ -32,7 +35,7 @@ namespace Hive5
         public static void WriteLine(string s)
         {
             string log = string.Format("{0}: {1}", DateTime.Now.ToString(), s);
-#if UNITTEST
+#if DOTNET
             System.Diagnostics.Debug.WriteLine(log);
 #else
             UnityEngine.Debug.Log(log);            

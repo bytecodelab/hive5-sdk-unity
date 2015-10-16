@@ -1206,7 +1206,7 @@ namespace hive5_sdk_unity.test
         #region SOCIALGRAPH
 
         [TestMethod, TestCategory("Social Graph")]
-        public void Test친구목록가져오기GetFriends()
+        public void Test친구목록가져오기ListFriends()
         {
             try
             {
@@ -1241,12 +1241,14 @@ namespace hive5_sdk_unity.test
         {
             try
             {
+                Login(null);
+                var newFriend = LoggedInUser;
+
                 Login(CurrentConfig.TestUser);
 
                 var friends = new List<User>()
                 { 
-                    new User() { platform = "anonymous", id = "14" }, 
-                    new User() { platform = "kakao", id = "-881979482072261765" },
+                    newFriend
                 };
 
                 var response = AddFriends("default", friends);

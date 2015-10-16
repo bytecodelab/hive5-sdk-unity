@@ -23,11 +23,21 @@ namespace Hive5.Models
 			if (json == null)
 				return null;
 
-			List<Friend> friends;
+			List<Friend> friends = new List<Friend>();
 
 			try
 			{
-				friends = JsonMapper.ToObject<List<Friend>>( json["friends"].ToJson());
+                for (int i = 0; i < json["friends"].Count; i++)
+                {
+                    var userJson = json["friends"][i]["user"];
+                    friends.Add(new Friend()
+                    {
+                         id = (string)userJson["id"],
+                         platform = (string)userJson["platform"]
+                    });
+                }
+
+				
 			}
 			catch (KeyNotFoundException)
 			{

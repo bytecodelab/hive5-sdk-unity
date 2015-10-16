@@ -53,7 +53,7 @@ namespace Hive5.Models
 			var userPlatform = (string)json["user"]["platform"];
 			var userId = (string)json ["user"]["id"];
             var nickname = json["nickname"] ==null ? string.Empty : (string)json["nickname"];
-            var extras = json.ContainsKey("extras") == true ? (string)json["extras"] : string.Empty;
+            var extras = (json.ContainsKey("extras") == false || json["extras"] == null) ? string.Empty : (string)json["extras"];
 			
 			return new LoginResponseBody ()
 			{

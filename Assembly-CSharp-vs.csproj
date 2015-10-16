@@ -91,6 +91,7 @@
     <Compile Include="Assets\Hive5\Models\ResponseBody\AddFriendsResponseBody.cs" />
     <Compile Include="Assets\Hive5\Models\ResponseBody\CountThreadsResponseBody - Copy.cs" />
     <Compile Include="Assets\Hive5\Models\ResponseBody\DeleteThreadResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Models\ResponseBody\GetPlayerExtrasResponseBody.cs" />
     <Compile Include="Assets\Hive5\Models\ResponseBody\UpdateThreadResponseBody.cs" />
     <Compile Include="Assets\Hive5\Models\ResponseBody\CreateThreadResponseBody.cs" />
     <Compile Include="Assets\Hive5\Models\ResponseBody\GetPurchaseStatusResponseBody.cs" />
@@ -103,13 +104,9 @@
     <Compile Include="Assets\Hive5\Models\ResponseBody\CheckPlatformEmailAvailablityResponseBody.cs" />
     <Compile Include="Assets\Hive5\Models\ResponseBody\CheckPlatformNameAvailabilityResponseBody.cs" />
     <Compile Include="Assets\Hive5\Models\ResponseBody\CommonResponseBody.cs" />
-    <Compile Include="Assets\Hive5\Models\ResponseBody\CompleteApplePurchaseResponseBody.cs" />
-    <Compile Include="Assets\Hive5\Models\ResponseBody\CompleteGooglePurchaseResponseBody.cs" />
-    <Compile Include="Assets\Hive5\Models\ResponseBody\CompleteNaverPurchaseResponseBody.cs" />
-    <Compile Include="Assets\Hive5\Models\ResponseBody\CreateApplePurchaseResponseBody.cs" />
-    <Compile Include="Assets\Hive5\Models\ResponseBody\CreateGooglePurchaseResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Models\ResponseBody\CompletePurchaseResponseBody.cs" />
+    <Compile Include="Assets\Hive5\Models\ResponseBody\CreatePurchaseResponseBody.cs" />
     <Compile Include="Assets\Hive5\Models\ResponseBody\CreateMailResponseBody.cs" />
-    <Compile Include="Assets\Hive5\Models\ResponseBody\CreateNaverPurchaseResponseBody.cs" />
     <Compile Include="Assets\Hive5\Models\ResponseBody\CreatePlatformAccountResponseBody.cs" />
     <Compile Include="Assets\Hive5\Models\ResponseBody\RemoveMailTagsResponseBody.cs" />
     <Compile Include="Assets\Hive5\Models\ResponseBody\GetDataTableResponseBody.cs" />

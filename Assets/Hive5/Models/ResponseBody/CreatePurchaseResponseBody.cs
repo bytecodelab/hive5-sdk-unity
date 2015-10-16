@@ -10,10 +10,10 @@ namespace Hive5.Models
 	/// <summary>
 	/// Login data.
 	/// </summary>
-	public class CreateApplePurchaseResponseBody : IResponseBody
+	public class CreatePurchaseResponseBody : IResponseBody
 	{
-		public long		Id { set; get; }
-		
+		public string Id { set; get; }
+
 		/// <summary>
 		/// Load the specified json.
 		/// </summary>
@@ -22,14 +22,12 @@ namespace Hive5.Models
 		{
 			if (json == null)
 				return null;
-			
-			long id = (long)json["id"];
-			
-			return new CreateApplePurchaseResponseBody() {
-				Id = id
+
+			return new CreatePurchaseResponseBody() {
+				Id =  (string)json["id"],
 			};
 		}
-		
+
 	}
 }
 

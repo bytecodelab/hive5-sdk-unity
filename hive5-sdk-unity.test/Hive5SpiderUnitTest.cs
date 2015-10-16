@@ -86,7 +86,7 @@ namespace hive5_sdk_unity.test
             {
                 var completion = new ManualResetEvent(false);
 
-                Hive5Client.Auth.LogIn("android", "1.0", "ko-KR", TestValues.TestUser, (response) =>
+                Hive5Client.Auth.LogIn("android", "1.0", "ko-KR", TestValues.TestUser, TestValues.PlatformParams, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공

@@ -28,6 +28,12 @@ namespace Hive5.Models
         /// 보상이 있는지의 여부
         /// </summary>
 		public bool reward { set; get; }
+
+        /// <summary>
+        /// 보상을 수락한 시점
+        /// </summary>
+        public DateTime? reward_accepted_at { get; set; }
+
         /// <summary>
         /// 태그 목록
         /// </summary>
@@ -45,8 +51,14 @@ namespace Hive5.Models
 				content = (string)jsonData["content"],
                 extras = jsonData["extras"] == null ? string.Empty : jsonData["extras"].ToJson(),
 				reward = (bool)jsonData["reward"],
-				tags = JsonMapper.ToObject<string[]> (jsonData ["tags"].ToJson ())
+				tags = JsonMapper.ToObject<string[]> (jsonData ["tags"].ToJson ()),
+                //reward_accepted_at = jsonData.ContainsKey("reward_accepted_at") == true ? DateTime.Parse((string)jsonData["reward_accepted_at"]) : null,
 			};
+
+            if (jsonData.ContainsKey("reward_accepted_at") == true)
+            {
+                mail.reward_accepted_at = DateTime.Parse((string)jsonData["reward_accepted_at"]);
+            }
             return mail;
 		}
 

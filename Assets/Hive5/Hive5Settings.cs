@@ -47,6 +47,40 @@ namespace Hive5
 		}
 
         /// <summary>
+        /// 플레이어 추가 데이터 세팅하기
+        /// </summary>
+        /// <remarks>
+        /// 플레이어의 추가 데이터를 세팅합니다. 약관동의 내역이나, 이메일 등의 정보를 자유로운 형식으로 저장할 수 있으며, 로그인 결과에 이 데이터가 포함됩니다.
+        /// </remarks>
+        /// <param name="extras">추가 데이터(JSON)</param>
+        /// <param name="callback">콜백 함수</param>
+		public void SetExtras(string extras, Callback callback)
+		{
+			var url = Hive5Client.ComposeRequestUrl (ApiPath.Player.SetExtras);
+			
+			var requestBody = new {
+				extras = extras,
+			};
+
+            Hive5Http.Instance.PostHttpAsync(url, requestBody, CommonResponseBody.Load, callback);
+		}
+
+        /// <summary>
+        /// 플레이어 추가 데이터 가져오기
+        /// </summary>
+        /// <remarks>
+        /// 세팅된 플레이어 추가데이터를 가져옵니다.
+        /// </remarks>
+        /// <param name="callback">콜백 함수</param>
+		public void SetExtras(Callback callback)
+		{
+			var url = Hive5Client.ComposeRequestUrl (ApiPath.Player.SetExtras);
+			
+            Hive5Http.Instance.GetHttpAsync(url, null, GetPlayerExtrasResponseBody.Load, callback);
+		}
+        
+        
+        /// <summary>
         /// 푸시 알림 받기를 활성화합니다.
         /// </summary>
         /// <param name="callback"></param>
@@ -69,7 +103,7 @@ namespace Hive5
         /// <summary>
         /// 푸시 토큰을 업데이트합니다.
         /// </summary>
-        /// <param name="platform">플랫폼</param>
+        /// <param name="platform">플랫폼 (gcm, apns 등)</param>
         /// <param name="token">토큰</param>
         /// <param name="callback">콜백함수</param>
 		public void UpdatePushToken(string platform, string token, Callback callback)
@@ -77,8 +111,8 @@ namespace Hive5
 			var url = Hive5Client.ComposeRequestUrl(ApiPath.Settings.UpdatePushToken);
 			
 			var requestBody = new {
-				push_platform 	= platform,
-				push_token = token
+				platform = platform,
+				token = token
 			};
 			
 			Hive5Http.Instance.PostHttpAsync(url, requestBody, UpdatePushTokenResponseBody.Load, callback);

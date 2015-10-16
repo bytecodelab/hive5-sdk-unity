@@ -101,17 +101,9 @@ namespace Hive5
         /// </summary>
 		InvalidGoogleSignature = 2205, 
         /// <summary>
-        /// No google iap public key is registered
-        /// </summary>
-		NoGoogleIapPublicKey = 2206, 
-        /// <summary>
         /// Invalid google iap public key
         /// </summary>
 		InvalidGoogleIapPublicKey 	= 2207, 
-        /// <summary>
-        /// No kakao app auth info
-        /// </summary>
-        NoKakaoAppAuthInfo = 2208,
         /// <summary>
         /// No iap conversion
         /// </summary>
@@ -210,6 +202,18 @@ namespace Hive5
         /// Invalid name or password
         /// </summary>
         InvalidNameOrPassword = 4003,
+        /// <summary>
+        /// Unsupported platform
+        /// </summary>
+        Unsupported_Platform = 4100,
+        /// <summary>
+        /// Auth failed
+        /// </summary>
+        Auth_Failed = 4101,
+        /// <summary>
+        /// No external platform info
+        /// </summary>
+        No_External_Platform_Info = 4200,
 
         /// <summary>
         /// Invalid push payload

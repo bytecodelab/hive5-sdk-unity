@@ -80,7 +80,7 @@ namespace Hive5
         /// </summary>
         /// <param name="tag">메일 Tag</param>
         /// <param name="callback">콜백 함수</param>
-        public void CountMail(string tag, Callback callback)
+        public void Count(string tag, Callback callback)
         {
             var url = Hive5Client.ComposeRequestUrl(ApiPath.Mail.Count);
 
@@ -98,7 +98,7 @@ namespace Hive5
         /// <param name="content">메일의 내용</param>
         /// <param name="extrasJson">추가데이터 (JSON)</param>
         /// <param name="callback">콜백 함수</param>
-        public void UpdateMail(string mailId, string content, string extrasJson, Callback callback)
+        public void Update(string mailId, string content, string extrasJson, Callback callback)
         {
             var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Mail.Update, mailId));
 
@@ -116,7 +116,7 @@ namespace Hive5
         /// </summary>
         /// <param name="mailId">메일의 고유아이디</param>
         /// <param name="callback">콜백 함수</param>
-        public void DeleteMail(string mailId, Callback callback)
+        public void Delete(string mailId, Callback callback)
         {
             var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Mail.Delete, mailId));
 
@@ -128,7 +128,7 @@ namespace Hive5
         /// </summary>
         /// <param name="limit">메일 개수 제한</param>
         /// <param name="callback">콜백 함수</param>
-        public void DeleteMailOverLimit(int limit, Callback callback)
+        public void DeleteOverLimit(int limit, Callback callback)
         {
             var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Mail.DeleteOverLimit, limit));
 
@@ -140,7 +140,7 @@ namespace Hive5
         /// </summary>
         /// <param name="days">일수를 지정합니다. 1이라면 1일 이전의 메일을 모두 삭제합니다.</param>
         /// <param name="callback">콜백 함수</param>
-        public void DeleteMailOlderThan(int days, Callback callback)
+        public void DeleteOlderThan(int days, Callback callback)
         {
             var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Mail.DeleteOlderThan, days));
 
@@ -182,5 +182,22 @@ namespace Hive5
 
             Hive5Http.Instance.PostHttpAsync(url, requestBody, RemoveMailTagsResponseBody.Load, callback);
         }
+
+        /// <summary>
+        /// 메일에서 보상받기
+        /// </summary>
+        /// <param name="mailId">메일 고유아이디</param>
+        /// <param name="deleteMail">보상을 받은 후 해당 메일을 삭제할 지 여부</param>
+        /// <param name="callback"></param>
+        public void AcceptReward(string mailId, bool deleteMail, Callback callback)
+		{
+			var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Mail.AcceptReward, mailId));
+			
+			var requestBody = new {
+				delete_mail = deleteMail,
+			};
+			
+			Hive5Http.Instance.PostHttpAsync(url, requestBody, RunScriptResponseBody.Load, callback);
+		}
     }
 }

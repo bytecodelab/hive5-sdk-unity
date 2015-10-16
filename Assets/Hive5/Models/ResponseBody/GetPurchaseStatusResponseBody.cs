@@ -18,14 +18,21 @@ namespace Hive5.Models
             if (json == null)
                 return null;
 
+            Purchase purchase = null;
+            if (json.ContainsKey("purchase"))
+            {
+                var purchaseJson = json["purchase"];
+                purchase = new Purchase()
+                {
+                    Id = purchaseJson["id"].ToString(),
+                    ProductCode = purchaseJson["product_code"].ToString(),
+                    Status = purchaseJson["status"].ToString(),
+                };
+            }
+
             GetPurchaseStatusResponseBody body = new GetPurchaseStatusResponseBody()
             {
-                Purchase = new Purchase()
-                {
-                    Id = json["id"].ToString(),
-                    ProductCode = json["product_code"].ToString(),
-                    Status = json["status"].ToString(),
-                },
+                Purchase = purchase,
             };
 
             return body;

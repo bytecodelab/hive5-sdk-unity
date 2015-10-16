@@ -40,7 +40,7 @@ namespace hive5_sdk_unity.test
             {
                 var completion = new ManualResetEvent(false);
 
-                Hive5Client.Auth.LogIn("android", "1.0", "ko-KR", user, (response) =>
+                Hive5Client.Auth.LogIn("android", "1.0", "ko-KR", user, "", (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -231,198 +231,198 @@ namespace hive5_sdk_unity.test
             }
         }
 
-        [TestMethod, TestCategory("Auth")]
-        public void Test플랫폼계정생성CreatePlatformAccount()
-        {
-            var completion = new ManualResetEvent(false);
+        //[TestMethod, TestCategory("Auth")]
+        //public void Test플랫폼계정생성CreatePlatformAccount()
+        //{
+        //    var completion = new ManualResetEvent(false);
 
-            string name = DateTime.Now.Ticks.ToString().ToString();
-            string email = string.Format("{0}@example.com", name);
-            Hive5Client.Auth.CreatePlatformAccount(name, "12345678", (response) =>
-            {
-                // 1. 기본 반환값 검증
-                Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
-                Assert.IsTrue(string.IsNullOrEmpty(response.ResultMessage));
-                Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                Assert.IsTrue(response.ResultData is CreatePlatformAccountResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+        //    string name = DateTime.Now.Ticks.ToString().ToString();
+        //    string email = string.Format("{0}@example.com", name);
+        //    Hive5Client.Auth.CreatePlatformAccount(name, "12345678", (response) =>
+        //    {
+        //        // 1. 기본 반환값 검증
+        //        Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
+        //        Assert.IsTrue(string.IsNullOrEmpty(response.ResultMessage));
+        //        Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+        //        Assert.IsTrue(response.ResultData is CreatePlatformAccountResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
 
-                // 2. 프로퍼티 검증
-                CreatePlatformAccountResponseBody body = response.ResultData as CreatePlatformAccountResponseBody;
-                Assert.IsTrue(string.IsNullOrEmpty(body.User.id) == false);
-                Assert.IsTrue(string.IsNullOrEmpty(body.User.platform) == false);
-                completion.Set();
-            }, "tester", email);
+        //        // 2. 프로퍼티 검증
+        //        CreatePlatformAccountResponseBody body = response.ResultData as CreatePlatformAccountResponseBody;
+        //        Assert.IsTrue(string.IsNullOrEmpty(body.User.id) == false);
+        //        Assert.IsTrue(string.IsNullOrEmpty(body.User.platform) == false);
+        //        completion.Set();
+        //    }, "tester", email);
 
-            completion.WaitOne();
-        }
+        //    completion.WaitOne();
+        //}
 
-        [TestMethod, TestCategory("Auth")]
-        public void Test플랫폼계정이름중복확인CheckPlatformNameAvailability()
-        {
-            string name = DateTime.Now.Ticks.ToString().ToString();
-            string email = string.Format("{0}@example.com", name);
+        //[TestMethod, TestCategory("Auth")]
+        //public void Test플랫폼계정이름중복확인CheckPlatformNameAvailability()
+        //{
+        //    string name = DateTime.Now.Ticks.ToString().ToString();
+        //    string email = string.Format("{0}@example.com", name);
 
-            var completion1 = new ManualResetEvent(false);
-            Hive5Client.Auth.CheckPlatformNameAvailability(name, (response) =>
-                {
-                    // 1. 기본 반환값 검증
-                    Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
-                    Assert.IsTrue(string.IsNullOrEmpty(response.ResultMessage));
+        //    var completion1 = new ManualResetEvent(false);
+        //    Hive5Client.Auth.CheckPlatformNameAvailability(name, (response) =>
+        //        {
+        //            // 1. 기본 반환값 검증
+        //            Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
+        //            Assert.IsTrue(string.IsNullOrEmpty(response.ResultMessage));
                     
-                    // 2. 프로퍼티 검증
+        //            // 2. 프로퍼티 검증
 
-                    completion1.Set();
-                });
-            completion1.WaitOne();
+        //            completion1.Set();
+        //        });
+        //    completion1.WaitOne();
 
-            var completion2 = new ManualResetEvent(false);
-            Hive5Client.Auth.CreatePlatformAccount(name, "12345678", (response) =>
-            {
-                // 1. 기본 반환값 검증
-                Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
-                Assert.IsTrue(string.IsNullOrEmpty(response.ResultMessage));
-                Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                Assert.IsTrue(response.ResultData is CreatePlatformAccountResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+        //    var completion2 = new ManualResetEvent(false);
+        //    Hive5Client.Auth.CreatePlatformAccount(name, "12345678", (response) =>
+        //    {
+        //        // 1. 기본 반환값 검증
+        //        Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
+        //        Assert.IsTrue(string.IsNullOrEmpty(response.ResultMessage));
+        //        Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+        //        Assert.IsTrue(response.ResultData is CreatePlatformAccountResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
 
-                // 2. 프로퍼티 검증
-                CreatePlatformAccountResponseBody body = response.ResultData as CreatePlatformAccountResponseBody;
-                Assert.IsTrue(string.IsNullOrEmpty(body.User.id) == false);
-                Assert.IsTrue(string.IsNullOrEmpty(body.User.platform) == false);
-                completion2.Set();
-            }, "tester", email);
+        //        // 2. 프로퍼티 검증
+        //        CreatePlatformAccountResponseBody body = response.ResultData as CreatePlatformAccountResponseBody;
+        //        Assert.IsTrue(string.IsNullOrEmpty(body.User.id) == false);
+        //        Assert.IsTrue(string.IsNullOrEmpty(body.User.platform) == false);
+        //        completion2.Set();
+        //    }, "tester", email);
 
 
-            completion2.WaitOne();
+        //    completion2.WaitOne();
 
-            var completion3 = new ManualResetEvent(false);
-            Hive5Client.Auth.CheckPlatformNameAvailability(name, (response) =>
-            {
-                // 1. 기본 반환값 검증
-                Assert.IsTrue(response.ResultCode == Hive5ErrorCode.AlreadyExistingPlatformUserName); // 일단 반환성공
-                Assert.IsFalse(string.IsNullOrEmpty(response.ResultMessage));
+        //    var completion3 = new ManualResetEvent(false);
+        //    Hive5Client.Auth.CheckPlatformNameAvailability(name, (response) =>
+        //    {
+        //        // 1. 기본 반환값 검증
+        //        Assert.IsTrue(response.ResultCode == Hive5ErrorCode.AlreadyExistingPlatformUserName); // 일단 반환성공
+        //        Assert.IsFalse(string.IsNullOrEmpty(response.ResultMessage));
                
-                // 2. 프로퍼티 검증
+        //        // 2. 프로퍼티 검증
 
-                completion3.Set();
-            });
-            completion3.WaitOne();
-        }
+        //        completion3.Set();
+        //    });
+        //    completion3.WaitOne();
+        //}
 
-        [TestMethod, TestCategory("Auth")]
-        public void Test플랫폼계정이메일중복확인CheckPlatformEmailAvailability()
-        {
-            string name = DateTime.Now.Ticks.ToString().ToString();
-            string email = string.Format("{0}@example.com", name);
+        //[TestMethod, TestCategory("Auth")]
+        //public void Test플랫폼계정이메일중복확인CheckPlatformEmailAvailability()
+        //{
+        //    string name = DateTime.Now.Ticks.ToString().ToString();
+        //    string email = string.Format("{0}@example.com", name);
 
-            var completion1 = new ManualResetEvent(false);
-            Hive5Client.Auth.CheckPlatformEmailAvailablity(email, (response) =>
-            {
-                // 1. 기본 반환값 검증
-                Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
-                Assert.IsTrue(string.IsNullOrEmpty(response.ResultMessage));
+        //    var completion1 = new ManualResetEvent(false);
+        //    Hive5Client.Auth.CheckPlatformEmailAvailablity(email, (response) =>
+        //    {
+        //        // 1. 기본 반환값 검증
+        //        Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
+        //        Assert.IsTrue(string.IsNullOrEmpty(response.ResultMessage));
 
-                // 2. 프로퍼티 검증
+        //        // 2. 프로퍼티 검증
 
-                completion1.Set();
-            });
-            completion1.WaitOne();
+        //        completion1.Set();
+        //    });
+        //    completion1.WaitOne();
 
-            var completion2 = new ManualResetEvent(false);
-            Hive5Client.Auth.CreatePlatformAccount(name, "12345678", (response) =>
-            {
-                // 1. 기본 반환값 검증
-                Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
-                Assert.IsTrue(string.IsNullOrEmpty(response.ResultMessage));
-                Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                Assert.IsTrue(response.ResultData is CreatePlatformAccountResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+        //    var completion2 = new ManualResetEvent(false);
+        //    Hive5Client.Auth.CreatePlatformAccount(name, "12345678", (response) =>
+        //    {
+        //        // 1. 기본 반환값 검증
+        //        Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
+        //        Assert.IsTrue(string.IsNullOrEmpty(response.ResultMessage));
+        //        Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+        //        Assert.IsTrue(response.ResultData is CreatePlatformAccountResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
 
-                // 2. 프로퍼티 검증
-                CreatePlatformAccountResponseBody body = response.ResultData as CreatePlatformAccountResponseBody;
-                Assert.IsTrue(string.IsNullOrEmpty(body.User.id) == false);
-                Assert.IsTrue(string.IsNullOrEmpty(body.User.platform) == false);
-                completion2.Set();
-            }, "tester", email);
+        //        // 2. 프로퍼티 검증
+        //        CreatePlatformAccountResponseBody body = response.ResultData as CreatePlatformAccountResponseBody;
+        //        Assert.IsTrue(string.IsNullOrEmpty(body.User.id) == false);
+        //        Assert.IsTrue(string.IsNullOrEmpty(body.User.platform) == false);
+        //        completion2.Set();
+        //    }, "tester", email);
 
 
-            completion2.WaitOne();
+        //    completion2.WaitOne();
 
-            var completion3 = new ManualResetEvent(false);
-            Hive5Client.Auth.CheckPlatformEmailAvailablity(email, (response) =>
-            {
-                // 1. 기본 반환값 검증
-                Assert.IsTrue(response.ResultCode == Hive5ErrorCode.AlreadyExistingPlatformUserEmail); // 일단 반환성공
-                Assert.IsFalse(string.IsNullOrEmpty(response.ResultMessage));
+        //    var completion3 = new ManualResetEvent(false);
+        //    Hive5Client.Auth.CheckPlatformEmailAvailablity(email, (response) =>
+        //    {
+        //        // 1. 기본 반환값 검증
+        //        Assert.IsTrue(response.ResultCode == Hive5ErrorCode.AlreadyExistingPlatformUserEmail); // 일단 반환성공
+        //        Assert.IsFalse(string.IsNullOrEmpty(response.ResultMessage));
 
-                // 2. 프로퍼티 검증
+        //        // 2. 프로퍼티 검증
 
-                completion3.Set();
-            });
-            completion3.WaitOne();
-        }
+        //        completion3.Set();
+        //    });
+        //    completion3.WaitOne();
+        //}
 
-        [TestMethod, TestCategory("Auth")]
-        public void Test플랫폼계정인증AuthenticatePlatformAccount()
-        {
-            string name = DateTime.Now.Ticks.ToString().ToString();
-            string email = string.Format("{0}@example.com", name);
-            string password = "12345678";
-            string wrongPassword = "00000000";
+        //[TestMethod, TestCategory("Auth")]
+        //public void Test플랫폼계정인증AuthenticatePlatformAccount()
+        //{
+        //    string name = DateTime.Now.Ticks.ToString().ToString();
+        //    string email = string.Format("{0}@example.com", name);
+        //    string password = "12345678";
+        //    string wrongPassword = "00000000";
 
-            string platformUserId = "";
+        //    string platformUserId = "";
 
-            var completion1 = new ManualResetEvent(false);
-            Hive5Client.Auth.CreatePlatformAccount(name, password, (response) =>
-            {
-                // 1. 기본 반환값 검증
-                Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
-                Assert.IsTrue(string.IsNullOrEmpty(response.ResultMessage));
-                Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                Assert.IsTrue(response.ResultData is CreatePlatformAccountResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+        //    var completion1 = new ManualResetEvent(false);
+        //    Hive5Client.Auth.CreatePlatformAccount(name, password, (response) =>
+        //    {
+        //        // 1. 기본 반환값 검증
+        //        Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
+        //        Assert.IsTrue(string.IsNullOrEmpty(response.ResultMessage));
+        //        Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+        //        Assert.IsTrue(response.ResultData is CreatePlatformAccountResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
 
-                // 2. 프로퍼티 검증
-                CreatePlatformAccountResponseBody body = response.ResultData as CreatePlatformAccountResponseBody;
-                Assert.IsTrue(string.IsNullOrEmpty(body.User.id) == false);
-                Assert.IsTrue(string.IsNullOrEmpty(body.User.platform) == false);
-                platformUserId = body.User.id;
+        //        // 2. 프로퍼티 검증
+        //        CreatePlatformAccountResponseBody body = response.ResultData as CreatePlatformAccountResponseBody;
+        //        Assert.IsTrue(string.IsNullOrEmpty(body.User.id) == false);
+        //        Assert.IsTrue(string.IsNullOrEmpty(body.User.platform) == false);
+        //        platformUserId = body.User.id;
 
-                completion1.Set();
-            }, "tester", email);
+        //        completion1.Set();
+        //    }, "tester", email);
 
-            completion1.WaitOne();
+        //    completion1.WaitOne();
 
-            var completion2 = new ManualResetEvent(false);
-            Hive5Client.Auth.AuthenticatePlatformAccount(name, password, (response) =>
-            {
-                // 1. 기본 반환값 검증
-                Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
-                Assert.IsTrue(string.IsNullOrEmpty(response.ResultMessage));
-                Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                Assert.IsTrue(response.ResultData is AuthenticatePlatformAccountResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+        //    var completion2 = new ManualResetEvent(false);
+        //    Hive5Client.Auth.AuthenticatePlatformAccount(name, password, (response) =>
+        //    {
+        //        // 1. 기본 반환값 검증
+        //        Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
+        //        Assert.IsTrue(string.IsNullOrEmpty(response.ResultMessage));
+        //        Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+        //        Assert.IsTrue(response.ResultData is AuthenticatePlatformAccountResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
 
-                // 2. 프로퍼티 검증
-                AuthenticatePlatformAccountResponseBody body = response.ResultData as AuthenticatePlatformAccountResponseBody;
-                Assert.IsTrue(body.User.id == platformUserId);
+        //        // 2. 프로퍼티 검증
+        //        AuthenticatePlatformAccountResponseBody body = response.ResultData as AuthenticatePlatformAccountResponseBody;
+        //        Assert.IsTrue(body.User.id == platformUserId);
 
-                completion2.Set();
-            });
+        //        completion2.Set();
+        //    });
 
-            completion2.WaitOne();
+        //    completion2.WaitOne();
 
-            var completion3 = new ManualResetEvent(false);
-            Hive5Client.Auth.AuthenticatePlatformAccount(name, wrongPassword, (response) =>
-            {
-                // 1. 기본 반환값 검증
-                Assert.IsTrue(response.ResultCode == Hive5ErrorCode.InvalidNameOrPassword); // 일단 반환성공
-                Assert.IsFalse(string.IsNullOrEmpty(response.ResultMessage));
-                Assert.IsTrue(response.ResultData == null); // 반환데이터는 null이면 안 됨
+        //    var completion3 = new ManualResetEvent(false);
+        //    Hive5Client.Auth.AuthenticatePlatformAccount(name, wrongPassword, (response) =>
+        //    {
+        //        // 1. 기본 반환값 검증
+        //        Assert.IsTrue(response.ResultCode == Hive5ErrorCode.InvalidNameOrPassword); // 일단 반환성공
+        //        Assert.IsFalse(string.IsNullOrEmpty(response.ResultMessage));
+        //        Assert.IsTrue(response.ResultData == null); // 반환데이터는 null이면 안 됨
               
-                // 2. 프로퍼티 검증
+        //        // 2. 프로퍼티 검증
 
-                completion3.Set();
-            });
+        //        completion3.Set();
+        //    });
 
-            completion3.WaitOne();
-        }
+        //    completion3.WaitOne();
+        //}
 
         #endregion AUTH
 
@@ -682,7 +682,7 @@ namespace hive5_sdk_unity.test
 
                 string sampleTag = "reward";
 
-                Hive5Client.Mail.CountMail(sampleTag, (response) =>
+                Hive5Client.Mail.Count(sampleTag, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -751,7 +751,7 @@ namespace hive5_sdk_unity.test
                 string createMailId = CreateMail("메일삭제 테스트메일입니다.", CurrentConfig.TestUser, "", null);
 
                 // 그 다음 삭제
-                Hive5Client.Mail.DeleteMail(createMailId, (response) =>
+                Hive5Client.Mail.Delete(createMailId, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -825,7 +825,7 @@ namespace hive5_sdk_unity.test
 
                 string createMailId = CreateMail("메일수정 테스트메일입니다.", CurrentConfig.TestUser, "", null);
 
-                Hive5Client.Mail.UpdateMail(createMailId, "수정된 메일수정 테스트메일입니다.", "", (response) =>
+                Hive5Client.Mail.Update(createMailId, "수정된 메일수정 테스트메일입니다.", "", (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -970,7 +970,7 @@ namespace hive5_sdk_unity.test
         #region PURCHASE
 
         [TestMethod, TestCategory("Purchase")]
-        public void Test구글결제시작CreateGooglePurchase()
+        public void Test구글결제시작CreatePurchase()
         {
             try
             {
@@ -978,7 +978,7 @@ namespace hive5_sdk_unity.test
                 List<User> friends = new List<User>() {CurrentConfig.Friend};
                 AddFriends("default", friends);
 
-                var body = CreateGooglePurchase();
+                var body = CreatePurchase();
 
                 Assert.IsNotNull(body);
                 Assert.IsTrue(string.IsNullOrEmpty(body.Id) == false);
@@ -989,25 +989,23 @@ namespace hive5_sdk_unity.test
             }
         }
 
-        public CreateGooglePurchaseResponseBody CreateGooglePurchase()
+        private CreatePurchaseResponseBody CreatePurchase()
         {
             var completion = new ManualResetEvent(false);
 
             string productCode = "google_product_100";
 
-            CreateGooglePurchaseResponseBody body = null;
+            CreatePurchaseResponseBody body = null;
 
-            
-
-            Hive5Client.Purchase.CreateGooglePurchase(productCode, CurrentConfig.Friend, (response) =>
+            Hive5Client.Purchase.CreatePurchase("google", "", productCode, CurrentConfig.Friend, (response) =>
             {
                 // 1. 기본 반환값 검증
                 Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
                 Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                Assert.IsTrue(response.ResultData is CreateGooglePurchaseResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+                Assert.IsTrue(response.ResultData is CreatePurchaseResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
 
                 // 2. 프로퍼티 검증
-                body = response.ResultData as CreateGooglePurchaseResponseBody;
+                body = response.ResultData as CreatePurchaseResponseBody;
                 Assert.IsTrue(string.IsNullOrEmpty(body.Id)== false);
 
                 completion.Set();
@@ -1019,7 +1017,7 @@ namespace hive5_sdk_unity.test
 
 
         [TestMethod, TestCategory("Purchase")]
-        public void Test구글결제완료CompleteGooglePurchase()
+        public void Test구글결제완료CompletePurchase()
         {
             Assert.Inconclusive("signature 값을 제대로 채울 수가 없음");
             return;
@@ -1028,7 +1026,7 @@ namespace hive5_sdk_unity.test
             {
                 Login(CurrentConfig.TestUser);
 
-                var googlePurchaseBody = CreateGooglePurchase();
+                var googlePurchaseBody = CreatePurchase();
 
                 var completion = new ManualResetEvent(false);
 
@@ -1039,188 +1037,15 @@ namespace hive5_sdk_unity.test
                 string purchaseData = "{\"purchaseToken\":\"\",\"developerPayload\":\"\",\"packageName\":\"\",\"purchaseState\":,\"orderId\":\"\",\"purchaseTime\":,\"productId\":\"\"}";
                 string signature = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx==";
 
-                Hive5Client.Purchase.CompleteGooglePurchase(id, listPrice, purchasePrice, currency, purchaseData, signature, "", (response) =>
+                Hive5Client.Purchase.CompletePurchase(id, "google", "", listPrice, purchasePrice, currency, "", (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
                     Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                    Assert.IsTrue(response.ResultData is CompleteGooglePurchaseResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
+                    Assert.IsTrue(response.ResultData is CompletePurchaseResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
 
                     // 2. 프로퍼티 검증
-                    CompleteGooglePurchaseResponseBody body = response.ResultData as CompleteGooglePurchaseResponseBody;
-                    completion.Set();
-                });
-
-                completion.WaitOne();
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
-            }
-        }
-
-        [TestMethod, TestCategory("Purchase")]
-        public void Test네이버결제시작CreateNaverPurchase()
-        {
-            Assert.Inconclusive("payement_sequence 값을 제대로 채울 수가 없음");
-            return;
-
-            try
-            {
-                Login(CurrentConfig.TestUser);
-
-                var body = CreateNaverPurchase();
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
-            }
-        }
-
-        public CreateNaverPurchaseResponseBody CreateNaverPurchase()
-        {
-            var completion = new ManualResetEvent(false);
-
-            string productCode = "naver_product_100";
-            string payement_sequence = null;
-
-            CreateNaverPurchaseResponseBody body = null;
-
-            Hive5Client.Purchase.CreateNaverPurchase(productCode, payement_sequence, "hive5", 1, (response) =>
-            {
-                // 1. 기본 반환값 검증
-                Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
-                Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                Assert.IsTrue(response.ResultData is CreateNaverPurchaseResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
-
-                // 2. 프로퍼티 검증
-                body = response.ResultData as CreateNaverPurchaseResponseBody;
-                Assert.IsTrue(body.Id >= 0);
-
-                completion.Set();
-            });
-
-            completion.WaitOne();
-            return body;
-        }
-
-
-        [TestMethod, TestCategory("Purchase")]
-        public void Test네이버결제완료CompleteNaverPurchase()
-        {
-            Assert.Inconclusive("payement_sequence 값을 제대로 채울 수가 없음");
-            return;
-
-            try
-            {
-                Login(CurrentConfig.TestUser);
-
-                var purchaseBody = CreateNaverPurchase();
-
-                var completion = new ManualResetEvent(false);
-
-                long id = purchaseBody.Id;
-                long listPrice = 1100;
-                long purchasePrice = 1100;
-                string currency = null;
-
-                Hive5Client.Purchase.CompleteNaverPurchase(id, listPrice, purchasePrice, currency, "", (response) =>
-                {
-                    // 1. 기본 반환값 검증
-                    Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
-                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                    Assert.IsTrue(response.ResultData is CompleteNaverPurchaseResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
-
-                    // 2. 프로퍼티 검증
-                    CompleteNaverPurchaseResponseBody body = response.ResultData as CompleteNaverPurchaseResponseBody;
-                    completion.Set();
-                });
-
-                completion.WaitOne();
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
-            }
-        }
-
-        [TestMethod, TestCategory("Purchase")]
-        public void Test애플결제시작CreateApplePurchase()
-        {
-            Assert.Inconclusive("호출성공조건을 아직 모름");
-            return;
-
-            try
-            {
-                Login(CurrentConfig.TestUser);
-
-                var body = CreateApplePurchase();
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
-            }
-        }
-
-        public CreateApplePurchaseResponseBody CreateApplePurchase()
-        {
-            var completion = new ManualResetEvent(false);
-
-            string productCode = "apple_product_100";
-
-            CreateApplePurchaseResponseBody body = null;
-
-            Hive5Client.Purchase.CreateGooglePurchase(productCode, CurrentConfig.Friend, (response) =>
-            {
-                // 1. 기본 반환값 검증
-                Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
-                Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                Assert.IsTrue(response.ResultData is CreateApplePurchaseResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
-
-                // 2. 프로퍼티 검증
-                body = response.ResultData as CreateApplePurchaseResponseBody;
-                Assert.IsTrue(body.Id >= 0);
-
-                completion.Set();
-            });
-
-            completion.WaitOne();
-            return body;
-        }
-
-
-        [TestMethod, TestCategory("Purchase")]
-        public void Test애플결제완료CompleteApplePurchase()
-        {
-            Assert.Inconclusive("receipt 값을 제대로 채울 수 없음");
-            return;
-
-            try
-            {
-                Login(CurrentConfig.TestUser);
-
-                var purchaseBody = CreateApplePurchase();
-
-                var completion = new ManualResetEvent(false);
-
-                long id = purchaseBody.Id;
-                long listPrice = 1100;
-                long purchasePrice = 1100;
-                string currency = null;
-                string receipt = "{\"purchaseToken\":\"\",\"developerPayload\":\"\",\"packageName\":\"\",\"purchaseState\":,\"orderId\":\"\",\"purchaseTime\":,\"productId\":\"\"}";
-                bool isSandbox = false;
-
-                Hive5Client.Purchase.CompleteApplePurchase(id, listPrice, purchasePrice, currency, receipt, isSandbox, "", (response) =>
-                {
-                    // 1. 기본 반환값 검증
-                    Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
-                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
-                    Assert.IsTrue(response.ResultData is CreateApplePurchaseResponseBody); // 제대로 된 반환데이터가 오는지 타입체크
-
-                    // 2. 프로퍼티 검증
-                    CreateApplePurchaseResponseBody body = response.ResultData as CreateApplePurchaseResponseBody;
-                    Assert.IsTrue(body.Id >= 0);
-
+                    CompletePurchaseResponseBody body = response.ResultData as CompletePurchaseResponseBody;
                     completion.Set();
                 });
 

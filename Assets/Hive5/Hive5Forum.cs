@@ -27,7 +27,7 @@ namespace Hive5
         /// <code language="cs">Hive5Client.Forum.ListThreads("your-forum-key", 0, 20, (response) => {
         ///     // your code here
         /// });
-		public void ListThreads(string forumKey, int? offset, int? limit, Callback callback)
+		public void ListThreads(string forumKey, DataOrder order, int? offset, int? limit, Callback callback)
 		{
             var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Forum.ListThreads, forumKey));
 
@@ -40,6 +40,17 @@ namespace Hive5
             if (limit != null)
             {
                 parameter.Add("limit", limit.ToString());
+            }
+
+            switch (order)
+            {
+                case DataOrder.ASC:
+                     parameter.Add("order", "asc");
+                    break;
+                default:
+                case DataOrder.DESC:
+                     parameter.Add("order", "dec");
+                    break;
             }
          
             Hive5Http.Instance.GetHttpAsync(url, parameter, ListThreadsResponseBody.Load, callback);

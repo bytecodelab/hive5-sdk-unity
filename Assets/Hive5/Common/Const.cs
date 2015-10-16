@@ -64,18 +64,14 @@ namespace Hive5
         {
             public static string CheckNicknameAvailability = "players/me/nickname/is_available/{0}";
             public static string SetNickname = "players/me/nickname";
+            public static string SetExtras = "players/me/extras";
+            public static string GetExtras = "players/me/extras";
         }
 
         public static class Purchase {
-            public static string CreateNaverPurchase = "naver_purchases";
-            public static string CompleteNaverPurchase = "naver_purchases/complete/{0}";
-            public static string GetNaverPurchaseStatus = "naver_purchases/{0}";
-            public static string CreateGooglePurchase = "google_purchases";
-            public static string CompleteGooglePurchase = "google_purchases/complete/{0}";
-            public static string GetGooglePurchaseStatus = "google_purchases/{0}";
-            public static string CreateApplePurchase = "apple_purchases";
-            public static string CompleteApplePurchase = "apple_purchases/complete/{0}";
-            public static string GetApplePurchaseStatus = "apple_purchases/{0}";
+            public static string CreatePurchase = "purchases";
+            public static string CompletePurchase = "purchases/complete/{0}";
+            public static string GetPurchaseStatus = "purchases/{0}";
         }
 
         public static class Settings

@@ -10,10 +10,10 @@ namespace Hive5.Models
 	/// <summary>
 	/// Login data.
 	/// </summary>
-	public class CompleteApplePurchaseResponseBody : IResponseBody
+	public class CompletePurchaseResponseBody : IResponseBody
 	{
-		public string CallReturn { get; set; }	
-		
+		public string CallReturn { get; set; }
+
 		/// <summary>
 		/// Load the specified json.
 		/// </summary>
@@ -22,10 +22,10 @@ namespace Hive5.Models
 		{
 			if (json == null)
 				return null;
-			
-		    string callReturn = string.Empty;
 
-            try
+			string callReturn = string.Empty;
+
+			try
 			{
 				callReturn =  json["call_return"].ToJson();
 			}
@@ -33,11 +33,11 @@ namespace Hive5.Models
 			{
 			}
 
-			return new CompleteApplePurchaseResponseBody() {
-                CallReturn = callReturn,
+			return new CompletePurchaseResponseBody() {
+				CallReturn = callReturn,
 			};
 		}
-		
+
 	}
 }
 

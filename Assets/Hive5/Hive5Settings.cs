@@ -72,7 +72,7 @@ namespace Hive5
         /// 세팅된 플레이어 추가데이터를 가져옵니다.
         /// </remarks>
         /// <param name="callback">콜백 함수</param>
-		public void SetExtras(Callback callback)
+		public void GetExtras(Callback callback)
 		{
 			var url = Hive5Client.ComposeRequestUrl (ApiPath.Player.SetExtras);
 			

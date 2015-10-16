@@ -147,7 +147,55 @@ namespace hive5_sdk_unity.test
         //    }
         //}
 
-        [TestMethod, TestCategory("Auth")]
+        [TestMethod, TestCategory("Settings")]
+        public void Test플레이어추가데이터설정및가져오기()
+        {
+            Login(CurrentConfig.TestUser);
+
+            // 기존 내용 지우기
+            var completion1 = new ManualResetEvent(false);
+            Hive5Client.Settings.SetExtras("", (response) => {
+                completion1.Set();
+            });
+            completion1.WaitOne();
+
+            // 내용 확인
+            var completion2 = new ManualResetEvent(false);
+            Hive5Client.Settings.GetExtras((response) => {
+                var castedResult = response.ResultData as GetPlayerExtrasResponseBody;
+                Assert.IsTrue(string.IsNullOrEmpty(castedResult.Extras) == true);
+                completion2.Set();
+            });
+            completion2.WaitOne();
+
+
+            // 뭘좀 적기
+            var completion3 = new ManualResetEvent(false);
+            var extras = new {
+                company = "bytecodelab",
+                age = 23
+            };
+            Hive5Client.Settings.SetExtras(JsonMapper.ToJson(extras), (response) => {
+                completion3.Set();
+            });
+            completion3.WaitOne();
+
+            // 내용 확인
+            var completion4 = new ManualResetEvent(false);
+            Hive5Client.Settings.GetExtras((response) => {
+                var castedResult = response.ResultData as GetPlayerExtrasResponseBody;
+                Assert.IsTrue(string.IsNullOrEmpty(castedResult.Extras) == false);
+
+                var extrasJson = JsonMapper.ToObject<JsonData>(castedResult.Extras);
+                Assert.AreEqual((string)extrasJson["company"], extras.company);
+                Assert.AreEqual(extrasJson["age"].ToInt(), extras.age);
+
+                completion4.Set();
+            });
+            completion4.WaitOne();
+        }
+
+        [TestMethod, TestCategory("Settings")]
         public void TestSessionKey()
         {
             try
@@ -970,7 +1018,7 @@ namespace hive5_sdk_unity.test
         #region PURCHASE
 
         [TestMethod, TestCategory("Purchase")]
-        public void Test구글결제시작CreatePurchase()
+        public void Test결제시작CreatePurchase()
         {
             try
             {
@@ -1017,7 +1065,7 @@ namespace hive5_sdk_unity.test
 
 
         [TestMethod, TestCategory("Purchase")]
-        public void Test구글결제완료CompletePurchase()
+        public void Test결제완료CompletePurchase()
         {
             Assert.Inconclusive("signature 값을 제대로 채울 수가 없음");
             return;

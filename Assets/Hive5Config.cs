@@ -36,7 +36,7 @@ namespace Hive5
         /// <summary>
         /// 헬스체크 자동업데이트 주기 (단위: ms)
         /// </summary>
-        public static int AutoHealthCheckInterval = 3000000;
+        public static int AutoHealthCheckInterval = 300000;
     }
 }
 

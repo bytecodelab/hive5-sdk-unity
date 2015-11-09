@@ -1026,7 +1026,7 @@ namespace hive5_sdk_unity.test
                 List<User> friends = new List<User>() {CurrentConfig.Friend};
                 AddFriends("default", friends);
 
-                var body = CreatePurchase();
+                var body = CreatePurchase("product_100", "tester", "");
 
                 Assert.IsNotNull(body);
                 Assert.IsTrue(string.IsNullOrEmpty(body.Id) == false);
@@ -1037,15 +1037,13 @@ namespace hive5_sdk_unity.test
             }
         }
 
-        private CreatePurchaseResponseBody CreatePurchase()
+        private CreatePurchaseResponseBody CreatePurchase(string productCode, string platform, object platformParams)
         {
             var completion = new ManualResetEvent(false);
 
-            string productCode = "google_product_100";
-
             CreatePurchaseResponseBody body = null;
 
-            Hive5Client.Purchase.CreatePurchase("google", "", productCode, CurrentConfig.Friend, (response) =>
+            Hive5Client.Purchase.CreatePurchase(platform, platformParams, productCode, null, (response) =>
             {
                 // 1. 기본 반환값 검증
                 Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -1067,25 +1065,43 @@ namespace hive5_sdk_unity.test
         [TestMethod, TestCategory("Purchase")]
         public void Test결제완료CompletePurchase()
         {
-            Assert.Inconclusive("signature 값을 제대로 채울 수가 없음");
-            return;
-
             try
             {
                 Login(CurrentConfig.TestUser);
 
-                var googlePurchaseBody = CreatePurchase();
+                string productCode = "product_100";
+                string platform = "tester";
+                string platformParams = "";
+
+                var purchaseBody = CreatePurchase(productCode, platform, platformParams);
+                string purchaseId = purchaseBody.Id;
+
+                 var completion0 = new ManualResetEvent(false);
+
+                Hive5Client.Purchase.GetPurchaseStatus(purchaseBody.Id, (response) =>
+                {
+                    GetPurchaseStatusResponseBody body = response.ResultData as GetPurchaseStatusResponseBody;
+                    Assert.AreEqual(body.Purchase.Id, purchaseId);
+                    Assert.AreEqual(body.Purchase.ProductCode, productCode);
+                    Assert.AreEqual(body.Purchase.Status, "created");
+                    completion0.Set();
+                });
+                completion0.WaitOne();
 
                 var completion = new ManualResetEvent(false);
 
-                string id = googlePurchaseBody.Id;
+                string id = purchaseBody.Id;
                 long listPrice = 1100;
                 long purchasePrice = 1100;
-                string currency = null;
+                string currency = "KRW";
                 string purchaseData = "{\"purchaseToken\":\"\",\"developerPayload\":\"\",\"packageName\":\"\",\"purchaseState\":,\"orderId\":\"\",\"purchaseTime\":,\"productId\":\"\"}";
                 string signature = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx==";
+                var platformParams2 = new
+                {
+                    auth_key = "test_key"
+                };
 
-                Hive5Client.Purchase.CompletePurchase(id, "google", "", listPrice, purchasePrice, currency, "", (response) =>
+                Hive5Client.Purchase.CompletePurchase(id, platform, platformParams2, listPrice, purchasePrice, currency, null, (response) =>
                 {
                     // 1. 기본 반환값 검증
                     Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
@@ -1094,6 +1110,7 @@ namespace hive5_sdk_unity.test
 
                     // 2. 프로퍼티 검증
                     CompletePurchaseResponseBody body = response.ResultData as CompletePurchaseResponseBody;
+                    Assert.IsTrue(body.CallReturn == "\"gilbok\"");
                     completion.Set();
                 });
 

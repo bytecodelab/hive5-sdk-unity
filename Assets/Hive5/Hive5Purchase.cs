@@ -19,7 +19,7 @@ namespace Hive5
     public class Hive5Purchase
     {
 		
-		public void CreatePurchase(string platform, string platformParams, string productCode, User receiver, Callback callback)
+		public void CreatePurchase(string platform, object platformParams, string productCode, User receiver, Callback callback)
 		{
 			var url = Hive5Client.ComposeRequestUrl(ApiPath.Purchase.CreatePurchase);
 			
@@ -34,24 +34,24 @@ namespace Hive5
 		}
 		
 		
-		public void CompletePurchase(string id, string platform, string platformParams, long listPrice, long purchasedPrice, string currency, string paramsJson, Callback callback)
+		public void CompletePurchase(string id, string platform, object platformParams, long listPrice, long purchasedPrice, string currency, object scriptParams, Callback callback)
 		{
 			var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Purchase.CompletePurchase, id));
 
             // params 란 predefined 를 사용하기 힘들기 때문에
             // Dictionary<string, string>를 쓸 수 밖에 없음
-            Dictionary<string, string> requestBody = new Dictionary<string, string>();
+            Dictionary<string, object> requestBody = new Dictionary<string, object>();
             requestBody.Add("platform", platform);
             requestBody.Add("platform_params", platformParams);
-            requestBody.Add("list_price", listPrice.ToString());
-            requestBody.Add("purchased_price", purchasedPrice.ToString());
+            requestBody.Add("list_price", listPrice);
+            requestBody.Add("purchased_price", purchasedPrice);
             requestBody.Add("currency", currency);
-            requestBody.Add("params", paramsJson);
-			
+            requestBody.Add("script_params", scriptParams);
+            
             Hive5Http.Instance.PostHttpAsync(url, requestBody, CompletePurchaseResponseBody.Load, callback);
 		}
         
-        public void GetPurchaseStatus(long id, Callback callback)
+        public void GetPurchaseStatus(string id, Callback callback)
         {
             var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Purchase.GetPurchaseStatus, id));
 

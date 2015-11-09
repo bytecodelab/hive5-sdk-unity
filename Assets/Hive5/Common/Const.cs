@@ -66,6 +66,7 @@ namespace Hive5
             public static string SetNickname = "players/me/nickname";
             public static string SetExtras = "players/me/extras";
             public static string GetExtras = "players/me/extras";
+            public static string UpdateMetadata = "players/me/metadata";
         }
 
         public static class Purchase {

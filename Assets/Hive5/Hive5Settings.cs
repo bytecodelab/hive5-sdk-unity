@@ -117,5 +117,20 @@ namespace Hive5
 			
 			Hive5Http.Instance.PostHttpAsync(url, requestBody, UpdatePushTokenResponseBody.Load, callback);
 		}
+
+        /// <summary>
+        /// 플레이어 메타데이터 업데이트하기
+        /// </summary>
+        /// <remarks>
+        /// 플레이어의 메타데이터를 세팅합니다. 
+        /// </remarks>
+        /// <param name="metadata">메타데이터</param>
+        /// <param name="callback">콜백 함수</param>
+		public void UpdateMetadata(PlayerMetadata metadata, Callback callback)
+		{
+			var url = Hive5Client.ComposeRequestUrl (ApiPath.Player.UpdateMetadata);
+
+            Hive5Http.Instance.PostHttpAsync(url, metadata, CommonResponseBody.Load, callback);
+		}
 	}
 }

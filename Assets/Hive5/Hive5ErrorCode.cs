@@ -136,6 +136,10 @@ namespace Hive5
         /// Forbidden nickname
         /// </summary>
 		ForbiddenNickname = 2802,
+        /// <summary>
+        /// Already existing user
+        /// </summary>
+        AlreadyExistingUser = 2901,
 
         /// <summary>
         /// Javascript Exception: Script(javascript) 실행 때 예외 발생. 내용은 result_message를 참조

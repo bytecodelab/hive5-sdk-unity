@@ -19,7 +19,7 @@ namespace Hive5
     public class Hive5Purchase
     {
 		
-		public void CreatePurchase(string platform, string platformParams, string productCode, User receiver, Callback callback)
+		public void CreatePurchase(string platform, object platformParams, string productCode, User receiver, Callback callback)
 		{
 			var url = Hive5Client.ComposeRequestUrl(ApiPath.Purchase.CreatePurchase);
 			
@@ -34,7 +34,7 @@ namespace Hive5
 		}
 		
 		
-		public void CompletePurchase(string id, string platform, object platformParams, long listPrice, long purchasedPrice, string currency, object extraParams, Callback callback)
+		public void CompletePurchase(string id, string platform, object platformParams, long listPrice, long purchasedPrice, string currency, object scriptParams, Callback callback)
 		{
 			var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Purchase.CompletePurchase, id));
 
@@ -46,12 +46,12 @@ namespace Hive5
             requestBody.Add("list_price", listPrice);
             requestBody.Add("purchased_price", purchasedPrice);
             requestBody.Add("currency", currency);
-            requestBody.Add("params", extraParams);
+            requestBody.Add("script_params", scriptParams);
             
             Hive5Http.Instance.PostHttpAsync(url, requestBody, CompletePurchaseResponseBody.Load, callback);
 		}
         
-        public void GetPurchaseStatus(long id, Callback callback)
+        public void GetPurchaseStatus(string id, Callback callback)
         {
             var url = Hive5Client.ComposeRequestUrl(string.Format(ApiPath.Purchase.GetPurchaseStatus, id));
 

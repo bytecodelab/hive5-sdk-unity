@@ -1266,6 +1266,41 @@ namespace hive5_sdk_unity.test
                 Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
             }
         }
+
+        [TestMethod, TestCategory("Settings")]
+        public void TestUpdateMetadata()
+        {
+            try
+            {
+                Login(CurrentConfig.TestUser);
+
+                var completion = new ManualResetEvent(false);
+
+                var metadata = new PlayerMetadata()
+                {
+                    Level = 1,
+                    Exp = 100,
+                    Stage = 10
+                };
+
+                Hive5Client.Settings.UpdateMetadata(metadata, (response) =>
+                {
+                    // 1. 기본 반환값 검증
+                    Assert.IsTrue(response.ResultCode == Hive5ErrorCode.Success); // 일단 반환성공
+                    Assert.IsTrue(response.ResultData != null); // 반환데이터는 null이면 안 됨
+                    
+
+                    completion.Set();
+                });
+
+                completion.WaitOne();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message + ex.InnerException != null ? "\n" + ex.InnerException : "");
+            }
+        }
+
         #endregion SETTINGS
 
         #region SOCIALGRAPH

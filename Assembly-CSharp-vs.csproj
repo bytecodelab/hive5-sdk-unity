@@ -84,6 +84,7 @@
     <Compile Include="Assets\Hive5\Models\Data\ForumThread.cs" />
     <Compile Include="Assets\Hive5\Models\Data\Friend.cs" />
     <Compile Include="Assets\Hive5\Models\Data\Mail.cs" />
+    <Compile Include="Assets\Hive5\Models\Data\PlayerMetadata.cs" />
     <Compile Include="Assets\Hive5\Models\Data\Purchase.cs" />
     <Compile Include="Assets\Hive5\Models\Data\Score.cs" />
     <Compile Include="Assets\Hive5\Models\Data\User.cs" />

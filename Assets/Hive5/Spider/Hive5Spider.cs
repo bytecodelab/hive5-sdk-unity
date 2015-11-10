@@ -378,22 +378,16 @@ namespace Hive5.Spider
             this.Subscribe(zoneTopic, callback);
         }
 
-        public void SendToZone(string nickname, string message, string zoneTopicUri, SendMessageCallback callback)
+        public void SendToZone(Dictionary<string, string> messagePairs, string zoneTopicUri, SendMessageCallback callback)
         {
             var zoneTopic = new SpiderTopic(zoneTopicUri);
-            var content = new Dictionary<string, string>();
-            content.Add("nick", nickname);
-            content.Add("content", message);
-            this.Publish(zoneTopic, new NoticePublishOptions(), content, callback);
+            this.Publish(zoneTopic, new NoticePublishOptions(), messagePairs, callback);
         }
 
-        public void SendToUser(string nickname, string message, User user, SendMessageCallback callback)
+        public void SendToUser(Dictionary<string, string> messagePairs, User user, SendMessageCallback callback)
         {
             var userTopic = SpiderTopic.CreateUserTopic(user);
-            var content = new Dictionary<string, string>();
-            content.Add("nick", nickname);
-            content.Add("content", message);
-            this.Publish(userTopic, new PrivatePublishOptions(), content, callback);
+            this.Publish(userTopic, new PrivatePublishOptions(), messagePairs, callback);
         }
 
         #region Disconnect(GoodBye)

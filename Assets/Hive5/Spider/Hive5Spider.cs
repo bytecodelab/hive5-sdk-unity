@@ -23,7 +23,7 @@ namespace Hive5.Spider
     public delegate void CallResultCallback(bool success, CallResult result);
 
     public delegate void ErrorMessageEventHandler(object sender, ErrorMessage error);
-    public delegate void MessageReceivedEventHandler(object sender, SpiderTopic topic, Dictionary<string, string> mesageContents);
+    public delegate void MessageReceivedEventHandler(object sender, SpiderTopic topic, Dictionary<string, string> messageContents);
 
     /// <summary>
     /// Hive5의 실시간 서버인 Spider API에 대응하는 클래스
@@ -50,6 +50,8 @@ namespace Hive5.Spider
 
         private SubscribeReserver _ConnectingSubscribeReserver;
 
+        public SubscriptionManager SubscriptionManager { get; private set; }
+
         #endregion 프로퍼티들
 
 
@@ -61,8 +63,6 @@ namespace Hive5.Spider
 
         private WebSocket mySocket { get; set; }
 
-        public bool Initialized { get; private set; }
-
         #endregion 멤버들
 
         #region 생성자들
@@ -70,13 +70,13 @@ namespace Hive5.Spider
 
         public Hive5Spider()
         {
-            CallbackManager = new CallbackManager();
-        }
+            if (string.IsNullOrEmpty(Hive5Config.KiterHost) == true)
+                throw new NullReferenceException("Hive5Config.cs에 KiterHost를 올바로 설정해 주세요.");
 
-        public void Initialize(string kiterHost)
-        {
-            this.KiterHost = kiterHost;
-            this.Initialized = true;
+            this.KiterHost = Hive5Config.KiterHost;
+
+            CallbackManager = new CallbackManager();
+            SubscriptionManager = new SubscriptionManager();
         }
 
         #endregion 생성자들
@@ -260,6 +260,7 @@ namespace Hive5.Spider
                 }
                 else
                 {
+                    this.SubscriptionManager.ReportUnsubscribe(message.RequestId, message.SubscriptionId);
                     Logger.Log("Spider Unsubscribe 전송 성공 in unsubscribeCompleted");
                 }
             });
@@ -333,15 +334,9 @@ namespace Hive5.Spider
 
         #endregion Publish
 
-        public void GetChannels(CallResultCallback callback)
+        public void CreateRoom(CallResultCallback callback)
         {
-            this.call(CallUris.GetChannels, null, CallResultKind.GetChannelsResult, callback);
-        }
-
-
-        public void GetPlayers(CallResultCallback callback)
-        {
-            this.call(CallUris.GetPlayers, null, CallResultKind.GetPlayersResult, callback);
+            this.call(CallUris.CreateRoom, null, CallResultKind.CreateRoom, callback);
         }
 
         private void call(string callUri, CallOptions options, CallResultKind resultKind, CallResultCallback callback)
@@ -378,6 +373,13 @@ namespace Hive5.Spider
             this.Subscribe(zoneTopic, callback);
         }
 
+        public void LeaveZone(string zoneTopicUri, SpiderCallback callback)
+        {
+            SpiderTopic zoneTopic = new SpiderTopic(zoneTopicUri);
+            long subscriptionId = this.SubscriptionManager.GetSubscriptionId(zoneTopic);
+            this.Unsubscribe(subscriptionId, callback);
+        }
+
         public void SendToZone(Dictionary<string, string> messagePairs, string zoneTopicUri, SendMessageCallback callback)
         {
             var zoneTopic = new SpiderTopic(zoneTopicUri);
@@ -412,6 +414,7 @@ namespace Hive5.Spider
             else
             {
                 Logger.Log("Spider Goodbye 전송 성공 in goodbyeCompleted");
+                this.SubscriptionManager.Clear();
             }
         }
 
@@ -427,6 +430,7 @@ namespace Hive5.Spider
         {
             Logger.Log("[OnClose]");
             OnClosed();
+            this.SubscriptionManager.Clear();this.SubscriptionManager.Clear();
         }
 
 
@@ -469,6 +473,8 @@ namespace Hive5.Spider
                         break;
                     case WampMessageCode.ABORT:
                         this.IsConnected = false;
+                        this.SubscriptionManager.Clear();
+                        OnClosed();
                         break;
                     case WampMessageCode.CHALLENGE:
                         break;
@@ -590,6 +596,7 @@ namespace Hive5.Spider
                             SpiderCallback registeredCallback = null;
                             if (CallbackManager.UnsubscribeRequestIdToCallback.TryGetValue(castedMessage.RequestId, out registeredCallback) == true)
                             {
+                                this.SubscriptionManager.ReportUnsubscribed(castedMessage.RequestId);
                                 CallbackManager.UnsubscribeRequestIdToCallback.Remove(castedMessage.RequestId);
                                 registeredCallback(true);
                             }
@@ -600,7 +607,29 @@ namespace Hive5.Spider
                             EventMessage castedMessage = message as EventMessage;
                             // subscriptionId를 통해 TopicKind 찾아오기
                             var topic = SubscriptionManager.GetTopicBySubscriptionId(castedMessage.SubscriptionId);
-                            OnMessageReceived(topic, castedMessage.ArgumentsKw);
+                            switch (topic.TopicKind)
+                            {
+                                case TopicKind.App:
+                                    OnAppMessageReceived(topic, castedMessage.ArgumentsKw);
+                                    break;
+                                case TopicKind.User:
+                                    OnUserMessageReceived(topic, castedMessage.ArgumentsKw);
+                                    break;
+                                case TopicKind.Zone:
+                                    OnZoneMessageReceived(topic, castedMessage.ArgumentsKw);
+                                    break;
+                                case TopicKind.Room:
+                                    OnRoomMessageReceived(topic, castedMessage.ArgumentsKw);
+                                    break;
+                                case TopicKind.Temp:
+                                    OnTempMessageReceived(topic, castedMessage.ArgumentsKw);
+                                    break;
+                                case TopicKind.NotTopic:
+                                    Logger.Log("Message received from Unidentified Topic" + message.MessageCode);
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                         break;
                     case WampMessageCode.CALL:
@@ -622,18 +651,7 @@ namespace Hive5.Spider
                                     case CallResultKind.Unknown:
                                         registeredCallbackNode.Callback(true, null);
                                         break;
-                                    case CallResultKind.GetChannelsResult:
-                                        {
-                                            GetChannelsResult result = new GetChannelsResult(resultMessage);
-                                            registeredCallbackNode.Callback(true, result);
-                                        }
-                                        break;
-                                    case CallResultKind.GetPlayersResult:
-                                        {
-                                            GetPlayersResult result = new GetPlayersResult(resultMessage);
-                                            registeredCallbackNode.Callback(true, result);
-                                        }
-                                        break;
+                                    // TODO: more cases
                                 }
                             }
                         }
@@ -700,14 +718,54 @@ namespace Hive5.Spider
 
         #region MessageReceived
 
-        public event MessageReceivedEventHandler MessageReceived;
+        public event MessageReceivedEventHandler AppMessageReceived;
 
-        private void OnMessageReceived(SpiderTopic topic, Dictionary<string, string> messageContents)
+        private void OnAppMessageReceived(SpiderTopic topic, Dictionary<string, string> messagePairs)
         {
-            if (MessageReceived == null)
+            if (AppMessageReceived == null)
                 return;
 
-            MessageReceived(this, topic, messageContents);
+            AppMessageReceived(this, topic, messagePairs);
+        }
+
+        public event MessageReceivedEventHandler ZoneMessageReceived;
+
+        private void OnZoneMessageReceived(SpiderTopic topic, Dictionary<string, string> messagePairs)
+        {
+            if (ZoneMessageReceived == null)
+                return;
+
+            ZoneMessageReceived(this, topic, messagePairs);
+        }
+
+        public event MessageReceivedEventHandler RoomMessageReceived;
+
+        private void OnRoomMessageReceived(SpiderTopic topic, Dictionary<string, string> messagePairs)
+        {
+            if (RoomMessageReceived == null)
+                return;
+
+            RoomMessageReceived(this, topic, messagePairs);
+        }
+
+        public event MessageReceivedEventHandler UserMessageReceived;
+
+        private void OnUserMessageReceived(SpiderTopic topic, Dictionary<string, string> messagePairs)
+        {
+            if (UserMessageReceived == null)
+                return;
+
+            UserMessageReceived(this, topic, messagePairs);
+        }
+
+        public event MessageReceivedEventHandler TempMessageReceived;
+
+        private void OnTempMessageReceived(SpiderTopic topic, Dictionary<string, string> messagePairs)
+        {
+            if (TempMessageReceived == null)
+                return;
+
+            TempMessageReceived(this, topic, messagePairs);
         }
 
         #endregion MessageReceived

@@ -49,12 +49,5 @@ namespace Hive5.Spider.Models
                 ArgumentsKw = argumentsKw,
             };
         }
-
-        public TopicKind GetTopicKind()
-        {
-            // TODO: 종류를 판별할 방법이 없음
-
-            return TopicKind.Channel;
-        }
     }
 }

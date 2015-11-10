@@ -7,9 +7,9 @@ namespace Hive5.Models
 {
     public class PlayerMetadata
     {
-        public long Level { get; set; }
-        public long Exp { get; set; }
-        public long Stage { get; set; }
+        public long? Level { get; set; }
+        public long? Exp { get; set; }
+        public long? Stage { get; set; }
 
         public object Hero { get; set; }
         public object Play { get; set; }
@@ -20,7 +20,7 @@ namespace Hive5.Models
 
         }
 
-        public PlayerMetadata(long level, long exp, long stage, object hero, object play, object extras)
+        public PlayerMetadata(long? level, long? exp, long? stage, object hero, object play, object extras)
         {
             this.Level = level;
             this.Exp = exp;
@@ -30,9 +30,28 @@ namespace Hive5.Models
             this.Extras = extras;
         }
 
-        public string ToJson()
+        public object ToRequestBody()
         {
-            return LitJson.JsonMapper.ToJson(this);
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            if (this.Level != null)
+                dict.Add("level", (long)this.Level);
+
+            if (this.Exp != null)
+                dict.Add("exp", (long)this.Exp);
+
+            if (this.Stage != null)
+                dict.Add("stage", (long)this.Stage);
+
+            if (this.Hero != null)
+                dict.Add("hero", this.Hero);
+
+            if (this.Play != null)
+                dict.Add("play", this.Play);
+
+            if (this.Extras != null)
+                dict.Add("extras", this.Extras);
+
+            return dict;
         }
     }
 }

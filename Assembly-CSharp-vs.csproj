@@ -170,7 +170,6 @@
     <Compile Include="Assets\Hive5\Spider\Models\Results\CallResult.cs" />
     <Compile Include="Assets\Hive5\Spider\Models\Results\GetChannelsResult.cs" />
     <Compile Include="Assets\Hive5\Spider\Models\Results\GetPlayersResult.cs" />
-    <Compile Include="Assets\Hive5\Spider\TopicUris.cs" />
     <Compile Include="Assets\Hive5\Test\Logger.cs" />
     <Compile Include="Assets\Hive5\Test\MockMonoSingleton.cs" />
     <Compile Include="Assets\Hive5\HealthCheck\HealthChecker.cs" />

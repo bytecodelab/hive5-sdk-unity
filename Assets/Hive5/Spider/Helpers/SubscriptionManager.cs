@@ -8,65 +8,139 @@ namespace Hive5.Spider.Helpers
 {
     public class SubscriptionManager
     {
-        private static Dictionary<long, SpiderTopic> requestIdToTopic { get; set; }
-        private static Dictionary<long, SpiderTopic> subscriptionIdToTopic { get; set; }
+        private Dictionary<long, SpiderTopic> _SubscribeRequestIdToTopic { get; set; }
+        private Dictionary<long, SpiderTopic> _SubscriptionIdToTopic { get; set; }
+        private Dictionary<SpiderTopic, long> _TopicToSubscriptionId { get; set; }
 
-        static SubscriptionManager()
+        private Dictionary<long, long> _UnsubscribeRequestIdToSubscriptionId { get; set;  }
+
+        public SubscriptionManager()
         {
-            requestIdToTopic = new Dictionary<long, SpiderTopic>();
-            subscriptionIdToTopic = new Dictionary<long, SpiderTopic>();
+            _SubscribeRequestIdToTopic = new Dictionary<long, SpiderTopic>();
+            _SubscriptionIdToTopic = new Dictionary<long, SpiderTopic>();
+            _TopicToSubscriptionId = new Dictionary<SpiderTopic, long>();
+
+            _UnsubscribeRequestIdToSubscriptionId = new Dictionary<long, long>();
         }
 
-        public static void ReportSubscribe(long requestId, SpiderTopic topic)
+        public void ReportSubscribe(long requestId, SpiderTopic topic)
         {
-            if (requestIdToTopic.ContainsKey(requestId) == true)
+            if (_SubscribeRequestIdToTopic.ContainsKey(requestId) == true)
             {
-                requestIdToTopic[requestId] = topic;
+                _SubscribeRequestIdToTopic[requestId] = topic;
             }
             else
             {
-                requestIdToTopic.Add(requestId, topic);
+                _SubscribeRequestIdToTopic.Add(requestId, topic);
             }
         }
 
-        public static void ReportSubscribed(long requestId, long subscriptionId)
+        public void ReportUnsubscribe(long requestId, long subscriptionId)
+        {
+            if (_UnsubscribeRequestIdToSubscriptionId.ContainsKey(requestId) == true)
+            {
+                _UnsubscribeRequestIdToSubscriptionId[requestId] = subscriptionId;
+            }
+            else
+            {
+                _UnsubscribeRequestIdToSubscriptionId.Add(requestId, subscriptionId);
+            }
+        }
+
+        public void ReportUnsubscribed(long requestId)
+        {
+            long subscriptionId = 0;
+
+            if (_UnsubscribeRequestIdToSubscriptionId.TryGetValue(requestId, out subscriptionId) == false)
+                return;
+
+            _UnsubscribeRequestIdToSubscriptionId.Remove(requestId);
+            CancelSubscription(subscriptionId);
+        }
+
+        private void CancelSubscription(long subscriptionId)
+        {
+            SpiderTopic topic = null;
+            if (_SubscriptionIdToTopic.TryGetValue(subscriptionId, out topic) == false)
+                return;
+
+            _SubscriptionIdToTopic.Remove(subscriptionId);
+            _TopicToSubscriptionId.Remove(topic);
+        }
+
+        public void ReportSubscribed(long requestId, long subscriptionId)
         {
             SpiderTopic topic = GetTopicByRequestId(requestId);
 
             // RequestId 사전에서 삭제
-            requestIdToTopic.Remove(requestId);
+            _SubscribeRequestIdToTopic.Remove(requestId);
 
-            if (subscriptionIdToTopic.ContainsKey(subscriptionId) == true)
+            if (_SubscriptionIdToTopic.ContainsKey(subscriptionId) == true)
             {
-                subscriptionIdToTopic[subscriptionId] = topic;
+                _SubscriptionIdToTopic[subscriptionId] = topic; 
             }
             else
             {
-                subscriptionIdToTopic.Add(subscriptionId, topic);
+                _SubscriptionIdToTopic.Add(subscriptionId, topic);
+            }
+
+            if (_TopicToSubscriptionId.ContainsKey(topic) == true)
+            {
+                _TopicToSubscriptionId[topic] = subscriptionId;
+            }
+            else
+            {
+                _TopicToSubscriptionId.Add(topic, subscriptionId);
             }
         }
 
-        private static SpiderTopic GetTopicByRequestId(long requestId)
+        private SpiderTopic GetTopicByRequestId(long requestId)
         {
             SpiderTopic topic = null;
-            requestIdToTopic.TryGetValue(requestId, out topic);
+            _SubscribeRequestIdToTopic.TryGetValue(requestId, out topic);
 
             return topic;
         }
 
-        public static SpiderTopic GetTopicBySubscriptionId(long subscriptionId)
+        /// <summary>
+        /// subscriptionId를 조회하여 SpiderTopic을 반환합니다.
+        /// </summary>
+        /// <param name="subscriptionId">Subscription Id</param>
+        /// <returns>SpiderTopic</returns>
+        public SpiderTopic GetTopicBySubscriptionId(long subscriptionId)
         {
             SpiderTopic topic = null;
 
-            subscriptionIdToTopic.TryGetValue(subscriptionId, out topic);
+            _SubscriptionIdToTopic.TryGetValue(subscriptionId, out topic);
 
             return topic;
         }
 
-        public static void Clear()
+        /// <summary>
+        /// 토픽을 조회하여 subscriptionId를 반환합니다.
+        /// </summary>
+        /// <param name="topic">토픽</param>
+        /// <returns>찾을 수 없는 경우 -1을 반환</returns>
+        public long GetSubscriptionId(SpiderTopic topic)
         {
-            requestIdToTopic.Clear();
-            subscriptionIdToTopic.Clear();
+            if (topic == null)
+                throw new NullReferenceException("topic should not be null!");
+
+            long subscriptionId = -1;
+
+            _TopicToSubscriptionId.TryGetValue(topic, out subscriptionId);
+
+            return subscriptionId;
+        }
+
+        /// <summary>
+        /// 모든 데이터를 비웁니다.
+        /// </summary>
+        public void Clear()
+        {
+            _SubscribeRequestIdToTopic.Clear();
+            _SubscriptionIdToTopic.Clear();
+            _TopicToSubscriptionId.Clear();
         }
     }
 }

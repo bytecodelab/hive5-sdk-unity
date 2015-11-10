@@ -130,7 +130,7 @@ namespace Hive5
 		{
 			var url = Hive5Client.ComposeRequestUrl (ApiPath.Player.UpdateMetadata);
 
-            Hive5Http.Instance.PostHttpAsync(url, metadata, CommonResponseBody.Load, callback);
+            Hive5Http.Instance.PostHttpAsync(url, metadata.ToRequestBody(), CommonResponseBody.Load, callback);
 		}
 	}
 }

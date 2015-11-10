@@ -36,8 +36,6 @@ namespace hive5_sdk_unity.test
 
             Hive5Client.Initialize(TestValues.Uuid);                
             Login();
-
-            _Spider.Initialize(TestValues.KiterHost);
         }
 
 
@@ -76,6 +74,17 @@ namespace hive5_sdk_unity.test
 
             completion.WaitOne();
             return connected;
+        }
+
+        [TestMethod]
+        public void TestSpiderTopicTryGetUser()
+        {
+            var topic = new SpiderTopic("io.hive5.spider.topic.user.none.23304330107154");
+
+            var user = topic.TryGetUser();
+
+            Assert.AreEqual(user.platform, "none");
+            Assert.AreEqual(user.id, "23304330107154");
         }
 
         private void Login()
@@ -156,7 +165,11 @@ namespace hive5_sdk_unity.test
             var sid = EnterZone(ZoneTopicUri);
             Assert.IsTrue(sid > 0);
 
-            _Spider.SendToZone("UnitTester", "I'm testing a unit-test.", ZoneTopicUri, (success, pid) => 
+            Dictionary<string, string> messagePairs = new Dictionary<string, string>();
+            messagePairs.Add("nickname", "UnitTester");
+            messagePairs.Add("content", "I'm testing a unit-test.");
+
+            _Spider.SendToZone(messagePairs, ZoneTopicUri, (success, pid) => 
             {
                 Assert.IsTrue(success);
                 Assert.IsTrue(pid > 0);
@@ -177,7 +190,10 @@ namespace hive5_sdk_unity.test
             var sid = EnterZone(ZoneTopicUri);
             Assert.IsTrue(sid > 0);
 
-            _Spider.SendToUser("UnitTester", "Hi, there!", new User() { platform = "none", id = "515" }, (success, pid) =>
+            Dictionary<string, string> messagePairs = new Dictionary<string, string>();
+            messagePairs.Add("nickname", "UnitTester");
+            messagePairs.Add("content", "Hi, there!");
+            _Spider.SendToUser(messagePairs, new User() { platform = "none", id = "515" }, (success, pid) =>
             {
                 Assert.IsTrue(success);
                 Assert.IsTrue(pid > 0);

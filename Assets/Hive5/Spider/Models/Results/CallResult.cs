@@ -9,8 +9,12 @@ namespace Hive5.Spider
     public enum CallResultKind
     {
         Unknown,
-        GetChannelsResult,
-        GetPlayersResult,
+        CreateRoom,
+        JoinRoom,
+        JoinRandomRoom,
+        LeaveRoom,
+        ListRooms,
+        ListMembers
     }
 
     public abstract class CallResult

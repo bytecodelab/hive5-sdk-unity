@@ -9,8 +9,11 @@ namespace Hive5.Spider
     {
         private const string BaseUri = "io.hive5.spider.rpc";
 
-        public static string GetChannels = BaseUri + "." + "list_channels";
-        public static string GetPlayers = BaseUri + "." + "list_players";
+        public const string CreateRoom = BaseUri + "." + "room.create";
+        public const string JoinRoom = BaseUri + "." + "room.join";
+        public const string JoinRandomRoom = BaseUri + "." + "room.join.random";
+        public const string LeaveRoom = BaseUri + "." + "room.leave";
+        public const string ListRooms = BaseUri + "." + "rooms.list";
+        public const string ListMembers = BaseUri + "." + "room.members.list";
     }
-
 }

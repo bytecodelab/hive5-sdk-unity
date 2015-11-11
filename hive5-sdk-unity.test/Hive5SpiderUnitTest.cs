@@ -87,6 +87,25 @@ namespace hive5_sdk_unity.test
             Assert.AreEqual(user.id, "23304330107154");
         }
 
+        [TestMethod]
+        public void TestSpiderTopicIdentifyingTopicKind()
+        {
+            var appTopic = new SpiderTopic("io.hive5.spider.topic.app.55");
+            Assert.AreEqual(appTopic.TopicKind, TopicKind.App);
+
+            var userTopic = new SpiderTopic("io.hive5.spider.topic.user.none.23304330107154");
+            Assert.AreEqual(userTopic.TopicKind, TopicKind.User);
+
+            var zoneTopic = new SpiderTopic("io.hive5.spider.topic.zone.7.name1");
+            Assert.IsTrue(zoneTopic.TopicKind == TopicKind.Zone);
+
+            var tempTopic = new SpiderTopic("io.hive5.spider.topic.gilbok");
+            Assert.IsTrue(tempTopic.TopicKind == TopicKind.Temp);
+
+            var notTopic = new SpiderTopic("io.hive5.spider.rpc");
+            Assert.IsTrue(notTopic.TopicKind == TopicKind.NotTopic);
+        }
+
         private void Login()
         {
             string userId = TestValues.TestUser.id;
